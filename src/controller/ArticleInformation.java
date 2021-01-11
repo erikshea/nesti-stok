@@ -20,16 +20,17 @@ public class ArticleInformation extends JPanel {
 	
 
 		/**
-		 * create Page End
+		 * create Page_End
 		 */
 		var buttonBottomBar = new JPanel();
 		var buttonCancel = new JButton();
 		var buttonValidate = new JButton();
 
-		// on ajoute un layout
+		// add layout to the button group
 		var buttonBottomBarLayout = new GroupLayout(buttonBottomBar);
 		buttonBottomBar.setLayout(buttonBottomBarLayout);
 
+		// specify horizontal dispatch into the layout
 		buttonBottomBarLayout.setHorizontalGroup(buttonBottomBarLayout.createSequentialGroup()
 				.addGroup(buttonBottomBarLayout.createParallelGroup().addComponent(buttonCancel))
 				.addGroup(buttonBottomBarLayout.createParallelGroup().addComponent(buttonValidate)));
