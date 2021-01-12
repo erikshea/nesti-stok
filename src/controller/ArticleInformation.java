@@ -1,128 +1,71 @@
 package controller;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.util.List;
 
-import javax.swing.GroupLayout;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle;
 
-public class ArticleInformation extends JPanel {
+import form.FieldContainer;
+import form.ListFieldContainer;
+
+public class ArticleInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
 
-	public ArticleInformation() {
-		this.setLayout(new BorderLayout());
-		var testLabelLeft = new JLabel("Label de test pour la section gauche!");
-		var testLabelRight = new JLabel("Label de test pour la section droite!");
-		var testLabelBotton = new JLabel("Label de test pour la section du BAS");
+	public ArticleInformation(MainWindowControl c) {
+		super(c);
 
-		this.add(testLabelRight, BorderLayout.LINE_END);
 
-		/**
-		 * create Page_End
-		 */
-		var buttonBottomBar = new JPanel();
-		var buttonCancel = new JButton("Annuler");
-		var buttonValidate = new JButton("Envoyer");
-
-		// add layout to the button group
-		var buttonBottomBarLayout = new GroupLayout(buttonBottomBar);
-		buttonBottomBar.setLayout(buttonBottomBarLayout);
-
-		// specify horizontal dispatch into the layout
-		// on précise la colonne (chaque bouton a une colonne)
-		buttonBottomBarLayout.setHorizontalGroup(buttonBottomBarLayout.createSequentialGroup()
-				// allows to push button on the right
-				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addGroup(buttonBottomBarLayout.createParallelGroup().addComponent(buttonCancel))
-				.addGroup(buttonBottomBarLayout.createParallelGroup().addComponent(buttonValidate)));
-
-		// on précise la ligne (une seule puisqu'ils sont sur la meme ligne)
-		buttonBottomBarLayout.setVerticalGroup(buttonBottomBarLayout.createSequentialGroup().addGroup(
-				buttonBottomBarLayout.createParallelGroup().addComponent(buttonCancel).addComponent(buttonValidate)));
-
-		this.add(buttonBottomBar, BorderLayout.PAGE_END);
-
-		/**
-		 * Create Line_Start, left of the screen
-		 */
-
-		var infoArticleLeft = new JPanel();
+		var articleForm = new JPanel();
+		articleForm.setPreferredSize(new Dimension(500, 0));
+		articleForm.setLayout(new BoxLayout(articleForm, BoxLayout.Y_AXIS));
 		
-		var addBasketTextfield = new JTextField("0");
-		var quantityAddBasket = new JButton("Ajouter");
+		
+		
+		var addToCart = new JPanel();
+		addToCart.setLayout(new BoxLayout(addToCart, BoxLayout.X_AXIS));
+		var addToCartField = new JTextField();
+		addToCartField.setMaximumSize(new Dimension(40,30));
+		addToCart.add(addToCartField);
+		var addToCartButton = new JButton("Ajouter au panier");
+		addToCart.add(addToCartButton);
+		
+		addToCart.setAlignmentX(Component.LEFT_ALIGNMENT);
+		articleForm.add(addToCart);
 
-		var titleInformationList = new JLabel("Articles dsq ssq  qsd ssqsd qs sqdqs dsqd s qdsqd sq dsq d");
+		var descriptionFieldContainer = new FieldContainer("Description");
+		descriptionFieldContainer.getField().setText("Boîte d'oeufs");
+		articleForm.add(descriptionFieldContainer);
+		
+		var codeFieldContainer = new FieldContainer("Code Article");
+		codeFieldContainer.getField().setText("AAA3");
+		articleForm.add(codeFieldContainer);
+		
+		var eanFieldContainer = new FieldContainer("EAN");
+		eanFieldContainer.getField().setText("4654456456654");
+		articleForm.add(eanFieldContainer);
+		
+		var ingredientListContainer = new ListFieldContainer("Ingrédient:");
+		ingredientListContainer.populateList( List.of("Oeuf", "Lait", "Sucre", "Farine", "blaSSDh", "blah3", "blah", "blargh","SSSSS","DDDDD22D") );
 
-		var articleCodeLabel = new JLabel("Code article");
-		var articleCodetextfield = new JTextField("AAA1");
+		articleForm.add(ingredientListContainer);
+		
+		var quantityFieldContainer = new FieldContainer("Quantité");
+		quantityFieldContainer.getField().setText("12 unités");
+		articleForm.add(quantityFieldContainer);
 
-		var eanLabel = new JLabel("EAN");
-		var eanTextfield = new JTextField("12345678910");
+		
+		var weightFieldContainer = new FieldContainer("Poids");
+		weightFieldContainer.getField().setText("0.95");
+		articleForm.add(weightFieldContainer);
 
-		var ingredientLabel = new JLabel("Ingrédient");
-		var ingredientTextfield = new JTextField("Oeuf");
-
-		var descriptionLabel = new JLabel("Description article");
-		var descriptionTextfield = new JTextField("1 boite d'oeuf de poule élevée en plein air");
-
-		var packingLabel = new JLabel("Contenance");
-		var packingTextfield = new JTextField("12");
-
-		var weightLabel = new JLabel("Poids unitaire");
-		var weightTextfield = new JTextField("0.95");
-
-		var infoArticleLeftLayout = new GroupLayout(infoArticleLeft);
-		infoArticleLeft.setLayout(infoArticleLeftLayout);
-
-		infoArticleLeftLayout.setHorizontalGroup(infoArticleLeftLayout.createSequentialGroup()
-				//.addGroup(infoArticleLeftLayout.createParallelGroup()	)
-				
-				.addGroup(infoArticleLeftLayout.createParallelGroup()	.addComponent(addBasketTextfield)
-																		.addComponent(quantityAddBasket)
-																		.addComponent(articleCodeLabel)
-																		.addComponent(eanLabel)
-																		.addComponent(ingredientLabel)
-																		.addComponent(descriptionLabel)
-																		.addComponent(packingLabel)
-																		.addComponent(weightLabel))
-				.addGroup(infoArticleLeftLayout.createParallelGroup()	
-																		.addComponent(articleCodetextfield)
-																		.addComponent(eanTextfield)
-																		.addComponent(ingredientTextfield)
-																		.addComponent(descriptionTextfield)
-																		.addComponent(packingTextfield)
-																		.addComponent(weightTextfield))
-																		
-				
-				);
-
-		infoArticleLeftLayout.setVerticalGroup(infoArticleLeftLayout.createSequentialGroup()
-				.addGroup(infoArticleLeftLayout.createParallelGroup().addComponent(addBasketTextfield))
-				.addGroup(infoArticleLeftLayout.createParallelGroup().addComponent(quantityAddBasket))
-				
-				.addGroup(infoArticleLeftLayout.createParallelGroup()	.addComponent(articleCodeLabel)
-																		.addComponent(articleCodetextfield))
-				
-				.addGroup(infoArticleLeftLayout.createParallelGroup()	.addComponent(eanLabel)
-																		.addComponent(eanTextfield))
-				
-				.addGroup(infoArticleLeftLayout.createParallelGroup()	.addComponent(ingredientLabel)
-																		.addComponent(ingredientTextfield))
-				
-				.addGroup(infoArticleLeftLayout.createParallelGroup()	.addComponent(descriptionLabel)
-																		.addComponent(descriptionTextfield))
-				
-				.addGroup(infoArticleLeftLayout.createParallelGroup()	.addComponent(packingLabel)
-																		.addComponent(packingTextfield))
-				
-				.addGroup(infoArticleLeftLayout.createParallelGroup()	.addComponent(weightLabel)
-																		.addComponent(weightTextfield))
-				);
-
-		this.add(infoArticleLeft, BorderLayout.LINE_START);
-
+		articleForm.add(Box.createVerticalGlue());
+		
+		this.add(articleForm, BorderLayout.WEST);
 	}
 }
