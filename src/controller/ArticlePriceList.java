@@ -8,9 +8,9 @@ public class ArticlePriceList extends BasePriceList {
 	public ArticlePriceList() {
 		super();
 
-		this.addRowData(new Object[] {"Couteaux", "8", new JButton("-") });
-		this.addRowData(new Object[] {"Fouet", "9", new JButton("-") });
-		this.addRowData(new Object[] {"Robot", "6", new JButton("-") });
+		this.addRowData(new Object[] {"Couteaux", "8"});
+		this.addRowData(new Object[] {"Fouet", "9"});
+		this.addRowData(new Object[] {"Robot", "6" });
 	};
 
 	@Override

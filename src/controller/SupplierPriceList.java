@@ -26,11 +26,11 @@ public class SupplierPriceList extends BasePriceList{
 		this.table.getColumn("Par défaut").setCellRenderer(new RadioButtonRenderer());
 		this.table.getColumn("Par défaut").setCellEditor(new RadioButtonEditor(new JCheckBox()));
 		
-		this.addRowData(new Object[]{ new JRadioButton("", true), "Tout pour la cuisine", "8", new JButton("-") });
-		this.addRowData(new Object[]{ new JRadioButton(""), "JeanBon Grossiste", "69", new JButton("-") });
-		this.addRowData(new Object[]{ new JRadioButton(""), "O'sel fin", "42", new JButton("-") });
-		this.addRowData(new Object[]{ new JRadioButton(""), "Blabla", "41", new JButton("-") });
-		this.addRowData(new Object[]{new JRadioButton(""), "Jean Charles Farine", "49", new JButton("-") });
+		this.addRowData(new Object[]{ new JRadioButton("", true), "Tout pour la cuisine", "8" });
+		this.addRowData(new Object[]{ new JRadioButton(""), "JeanBon Grossiste", "69" });
+		this.addRowData(new Object[]{ new JRadioButton(""), "O'sel fin", "42"});
+		this.addRowData(new Object[]{ new JRadioButton(""), "Blabla", "41"});
+		this.addRowData(new Object[]{new JRadioButton(""), "Jean Charles Farine", "49" });
 	
 	}
 	

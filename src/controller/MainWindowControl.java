@@ -12,6 +12,10 @@ public class MainWindowControl extends JTabbedPane {
 				(int) (Toolkit.getDefaultToolkit().getScreenSize().width*0.8),
 				(int) (Toolkit.getDefaultToolkit().getScreenSize().height*0.8)		
 		));
+		
+	    var listPaneArticle = new ArticleDirectory(this);
+	    this.addTab("Articles", listPaneArticle);
+	    
 		var infoPaneArticle = new ArticleInformation(this);
 	    this.addTab("Détail article", infoPaneArticle);
 	    
@@ -20,9 +24,6 @@ public class MainWindowControl extends JTabbedPane {
 	    
 	    var infoPaneIngredient = new IngredientInformation(this);
 	    this.addTab("Détail ingrédient", infoPaneIngredient);
-	    
-	 //   var listPaneArticle = new ArticleList(this);
-	   // this.addTab("Articles", listPaneArticle);
 	    
 	}
 }

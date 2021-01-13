@@ -55,7 +55,7 @@ public class ArticleInformation extends BaseInformation {
 		articleForm.add(eanFieldContainer);
 		
 		var ingredientListContainer = new ListFieldContainer("Ingrédient:");
-		ingredientListContainer.populateList( List.of("Oeuf", "Lait", "Sucre", "Farine", "blaSSDh", "blah3", "blah", "blargh","SSSSS","DDDDD22D") );
+		ingredientListContainer.populateList( List.of("Oeuf", "Lait", "Sucre", "Farine", "blaSSDh", "blah3", "blah", "blargh","SSSSS","DDDDD22D"));
 
 		articleForm.add(ingredientListContainer);
 		

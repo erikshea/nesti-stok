@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.Box;
@@ -40,7 +41,7 @@ public class BasePriceList extends JPanel {
 
 	@SuppressWarnings("serial")
 	public JTable getPriceTable() {
-		// define button radio
+		
 		this.tableModel = new DefaultTableModel();
 		tableModel.setColumnIdentifiers(getTableModelColumns());
 	
@@ -52,7 +53,7 @@ public class BasePriceList extends JPanel {
 		};
 
 		this.table.getColumn("Suppression").setCellRenderer(new JTableButtonRenderer(null));
-		// warning manque la partie pour éditer quand on clique sur le bouton!!!! a ajouter 
+		//!!!!!!!!!!!!!!!!!!! manque la partie pour éditer quand on clique sur le bouton!!!! a ajouter 
 		
 		return this.table;
 	}
@@ -62,7 +63,9 @@ public class BasePriceList extends JPanel {
 	}
 
 	public void addRowData(Object[] data) {
-		this.tableModel.addRow(data);
+		var newData = Arrays.copyOf(data, data.length+1);
+		newData [newData.length-1] = new JButton("-");
+		this.tableModel.addRow(newData);
 
 	}
 
@@ -73,7 +76,6 @@ public class BasePriceList extends JPanel {
 	public BasePriceList() {
 
 		// right of the screen, price's and supplier's informations
-
 		this.setPreferredSize(new Dimension(800, 0));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
