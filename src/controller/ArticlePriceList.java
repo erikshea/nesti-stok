@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SingleSelectionModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
@@ -31,8 +32,7 @@ import javax.swing.table.TableCellRenderer;
 
 import form.ListFieldContainer;
 
-
- // display radio button
+// display radio button
 class RadioButtonRenderer implements TableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
@@ -42,8 +42,7 @@ class RadioButtonRenderer implements TableCellRenderer {
 	}
 }
 
-
- // click radio button
+// click radio button
 
 @SuppressWarnings("serial")
 class RadioButtonEditor extends DefaultCellEditor implements ItemListener {
@@ -71,20 +70,21 @@ class RadioButtonEditor extends DefaultCellEditor implements ItemListener {
 	}
 }
 
- // display classic button
+// display classic button
 class JTableButtonRenderer implements TableCellRenderer {
-	   private TableCellRenderer defaultRenderer;
-	   public JTableButtonRenderer(TableCellRenderer renderer) {
-	      defaultRenderer = renderer;
-	   }
-	   public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-	      if(value instanceof Component)
-	         return (Component)value;
-	         return defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-	   }
+	private TableCellRenderer defaultRenderer;
+
+	public JTableButtonRenderer(TableCellRenderer renderer) {
+		defaultRenderer = renderer;
 	}
 
-
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+		if (value instanceof Component)
+			return (Component) value;
+		return defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+	}
+}
 
 public class ArticlePriceList extends JPanel {
 
@@ -94,7 +94,7 @@ public class ArticlePriceList extends JPanel {
 
 		// right of the screen, price's and supplier's informations
 
-		this.setPreferredSize(new Dimension(500, 0));
+		this.setPreferredSize(new Dimension(800, 0));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		var titlePriceList = new JLabel("Liste de prix");
@@ -104,9 +104,10 @@ public class ArticlePriceList extends JPanel {
 		DefaultTableModel dm = new DefaultTableModel();
 		dm.setDataVector(
 				new Object[][] { { new JRadioButton("", true), "TOUT POUR LA CUISINE", "50", new JButton("-") },
-						{ new JRadioButton(""), "ACME", "35", new JButton("-") }, { new JRadioButton(""), "O'sel fin", "42", new JButton("-") },
+						{ new JRadioButton(""), "ACME", "35", new JButton("-") },
+						{ new JRadioButton(""), "O'sel fin", "42", new JButton("-") },
 						{ new JRadioButton(""), "Blabla", "41", new JButton("-") },
-						{ new JRadioButton(""), "Jean Charles Farine", "49", new JButton("-")} },
+						{ new JRadioButton(""), "Jean Charles Farine", "49", new JButton("-") } },
 
 				new Object[] { "Par défaut", "Fournisseur", "Prix", "Suppression" });
 
@@ -128,8 +129,9 @@ public class ArticlePriceList extends JPanel {
 		 * 
 		 */
 
-		// change all the table when select one button to another (deselct all the other)
-		
+		// change all the table when select one button to another (deselct all the
+		// other)
+
 		@SuppressWarnings("serial")
 		var listPrice = new JTable(dm) {
 			public void tableChanged(TableModelEvent e) {
@@ -140,10 +142,10 @@ public class ArticlePriceList extends JPanel {
 
 		listPrice.getColumn("Par défaut").setCellRenderer(new RadioButtonRenderer());
 		listPrice.getColumn("Par défaut").setCellEditor(new RadioButtonEditor(new JCheckBox()));
-		
+
 		listPrice.getColumn("Suppression").setCellRenderer(new JTableButtonRenderer(null));
 //		listPrice.getColumn("Suppression").setCellEditor(new JTableButtonRenderer(null));
-		
+
 		// var listPrice = new JTable(data,columnNames);
 		// listPrice.setSelectionMode(1);
 
@@ -162,10 +164,15 @@ public class ArticlePriceList extends JPanel {
 
 		var addPriceContainer = new JPanel();
 		addPriceContainer.setPreferredSize(new Dimension(500, 0));
+		addPriceContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, 2000));
 		addPriceContainer.setLayout(new BoxLayout(addPriceContainer, BoxLayout.X_AXIS));
 
 		var listModel = new DefaultListModel<>();
 		var list = new JList<>(listModel);
+		list.setPreferredSize(new Dimension(500, 0));
+
+		// allows to select only one supplier
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listModel.addElement("O'Sel fin");
 		listModel.addElement("Tout pour la cuine");
 		listModel.addElement("Jean Bon Grossiste");

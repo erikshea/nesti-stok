@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -38,6 +39,9 @@ public class ArticleInformation extends BaseInformation {
 		addToCart.setAlignmentX(Component.LEFT_ALIGNMENT);
 		articleForm.add(addToCart);
 
+		var titleArticleInformation = new JLabel("Article");
+		articleForm.add(titleArticleInformation);
+		
 		var descriptionFieldContainer = new FieldContainer("Description");
 		descriptionFieldContainer.getField().setText("Boîte d'oeufs");
 		articleForm.add(descriptionFieldContainer);
