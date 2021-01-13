@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import form.EditableListFieldContainer;
 import form.FieldContainer;
 import form.ListFieldContainer;
 
@@ -38,7 +39,7 @@ public class IngredientInformation extends BaseInformation {
 		codeFieldContainer.getField().setText("III3");
 		ingredientForm.add(codeFieldContainer);
 		
-		var unitFieldContainer = new ListFieldContainer("Unité");
+		var unitFieldContainer = new EditableListFieldContainer("Unité");
 		unitFieldContainer.populateList(List.of("kg","pièce","litre"));
 		ingredientForm.add(unitFieldContainer);
 
@@ -50,7 +51,8 @@ public class IngredientInformation extends BaseInformation {
 		
 		this.add(ingredientForm, BorderLayout.WEST);
 		
+		/*
 		var articlePriceList = new ArticlePriceList();
-		this.add(articlePriceList, BorderLayout.EAST);
+		this.add(articlePriceList, BorderLayout.EAST);*/
 	}
 }

@@ -21,5 +21,8 @@ public class MainWindowControl extends JTabbedPane {
 	    var infoPaneIngredient = new IngredientInformation(this);
 	    this.addTab("Détail ingrédient", infoPaneIngredient);
 	    
+	 //   var listPaneArticle = new ArticleList(this);
+	   // this.addTab("Articles", listPaneArticle);
+	    
 	}
 }
