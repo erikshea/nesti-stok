@@ -91,13 +91,13 @@ public class BasePriceList extends JPanel {
 	private static final long serialVersionUID = -1997250030218950222L;
 
 	public Object[][] getModelData() {
-var result =  { { new JRadioButton("", true), "TOUT POUR LA CUISINE", "50", new JButton("-") },
+return { { new JRadioButton("", true), "TOUT POUR LA CUISINE", "50", new JButton("-") },
 	{ new JRadioButton(""), "ACME", "35", new JButton("-") },
 	{ new JRadioButton(""), "O'sel fin", "42", new JButton("-") },
 	{ new JRadioButton(""), "Blabla", "41", new JButton("-") },
 	{ new JRadioButton(""), "Jean Charles Farine", "49", new JButton("-") } },
 
-new Object[] { "Par défaut", "Fournisseur", "Prix", "Suppression" };
+new Object[] { "Par défaut", "Fournisseur", "Prix", "Suppression" }
 	}
 
 	public JTable getPriceTable() {
