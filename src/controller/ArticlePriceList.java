@@ -12,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -20,20 +21,18 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SingleSelectionModel;
 import javax.swing.event.TableModelEvent;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import form.ListFieldContainer;
 
-/** 
- * display
- * @author Manu
- *
- */
 
+ // display radio button
 class RadioButtonRenderer implements TableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
@@ -43,11 +42,10 @@ class RadioButtonRenderer implements TableCellRenderer {
 	}
 }
 
-/**
- * click radion button
- * @author Manu
- *
- */
+
+ // click radio button
+
+@SuppressWarnings("serial")
 class RadioButtonEditor extends DefaultCellEditor implements ItemListener {
 	private JRadioButton button;
 
@@ -73,11 +71,23 @@ class RadioButtonEditor extends DefaultCellEditor implements ItemListener {
 	}
 }
 
+ // display classic button
+class JTableButtonRenderer implements TableCellRenderer {
+	   private TableCellRenderer defaultRenderer;
+	   public JTableButtonRenderer(TableCellRenderer renderer) {
+	      defaultRenderer = renderer;
+	   }
+	   public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+	      if(value instanceof Component)
+	         return (Component)value;
+	         return defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+	   }
+	}
+
+
+
 public class ArticlePriceList extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1997250030218950222L;
 
 	public ArticlePriceList() {
@@ -93,18 +103,14 @@ public class ArticlePriceList extends JPanel {
 		// define button radio
 		DefaultTableModel dm = new DefaultTableModel();
 		dm.setDataVector(
-				new Object[][] { { new JRadioButton("",true), "TOUT POUR LA CUISINE", "50", "Snowboarding", 10, false },
-						{ new JRadioButton(""), "ACME", "35", "Rowing", 3, true },
-						{ new JRadioButton(""), "O'sel fin", "42", "Knitting", 2, false },
-						{ new JRadioButton(""), "Blabla", "41", "Speed reading", 20, true },
-						{ new JRadioButton(""), "Jean Charles Farine", "49", "Pool", 10, false } },
+				new Object[][] { { new JRadioButton("", true), "TOUT POUR LA CUISINE", "50", new JButton("-") },
+						{ new JRadioButton(""), "ACME", "35", new JButton("-") }, { new JRadioButton(""), "O'sel fin", "42", new JButton("-") },
+						{ new JRadioButton(""), "Blabla", "41", new JButton("-") },
+						{ new JRadioButton(""), "Jean Charles Farine", "49", new JButton("-")} },
 
-				new Object[] { "Par défaut", "First Name", "Last Name", "Sport", "# of Years", "Vegetarian"
+				new Object[] { "Par défaut", "Fournisseur", "Prix", "Suppression" });
 
-				});
-
-		// on précise que tous les boutons radio sont dans le gpe radio pour que quand
-		// on sélectionne 1 bouton , tous les autres sont déselectionnés
+		// add radio button into a group
 		ButtonGroup radioGroup = new ButtonGroup();
 		radioGroup.add((JRadioButton) dm.getValueAt(0, 0));
 		radioGroup.add((JRadioButton) dm.getValueAt(1, 0));
@@ -122,13 +128,8 @@ public class ArticlePriceList extends JPanel {
 		 * 
 		 */
 
-		/**
-		 * we have to change all the table when deselectionne
-		 * 
-		 */
-
-		// fonction anonyme => on redéfini une méthode de table, on réécrit dans la table
-
+		// change all the table when select one button to another (deselct all the other)
+		
 		@SuppressWarnings("serial")
 		var listPrice = new JTable(dm) {
 			public void tableChanged(TableModelEvent e) {
@@ -139,7 +140,10 @@ public class ArticlePriceList extends JPanel {
 
 		listPrice.getColumn("Par défaut").setCellRenderer(new RadioButtonRenderer());
 		listPrice.getColumn("Par défaut").setCellEditor(new RadioButtonEditor(new JCheckBox()));
-
+		
+		listPrice.getColumn("Suppression").setCellRenderer(new JTableButtonRenderer(null));
+//		listPrice.getColumn("Suppression").setCellEditor(new JTableButtonRenderer(null));
+		
 		// var listPrice = new JTable(data,columnNames);
 		// listPrice.setSelectionMode(1);
 
@@ -148,39 +152,36 @@ public class ArticlePriceList extends JPanel {
 
 		// entre () on met ce qui doit scroller
 		var scrollPriceList = new JScrollPane(listPrice);
-	
+
 		scrollPriceList.setPreferredSize(new Dimension(0, 150));
 		scrollPriceList.setMaximumSize(new Dimension(Short.MAX_VALUE, 150));
 
 		this.add(scrollPriceList);
-		
-			
-		/**
-		 * define add price design
-		 */
 
-		var addPrice = new JPanel();
-		addPrice.setPreferredSize(new Dimension(500, 0));
-		addPrice.setLayout(new BoxLayout(addPrice, BoxLayout.X_AXIS));
-		
+		// define add price design
+
+		var addPriceContainer = new JPanel();
+		addPriceContainer.setPreferredSize(new Dimension(500, 0));
+		addPriceContainer.setLayout(new BoxLayout(addPriceContainer, BoxLayout.X_AXIS));
 
 		var listModel = new DefaultListModel<>();
 		var list = new JList<>(listModel);
-		listModel.addElement("coucou");
-		listModel.addElement("salut");
-		listModel.addElement("ola");
-		
-		var scrollPane = new JScrollPane(list);
-		
-	//	var supplierListContainer = new ListFieldContainer("fournisseur");
-//		supplierListContainer.populateList(
-	//			List.of("ACME", "Tout pour la cuisine", "O'Sel fin", "blaSSDh", "blah3", "blah", "blargh"));
+		listModel.addElement("O'Sel fin");
+		listModel.addElement("Tout pour la cuine");
+		listModel.addElement("Jean Bon Grossiste");
 
-		addPrice.add(scrollPane);
-		
-		this.add(addPrice);
-		
-		
+		var scrollPane = new JScrollPane(list);
+		addPriceContainer.add(scrollPane);
+
+		var priceSupplier = new JTextField("25");
+		addPriceContainer.add(priceSupplier);
+
+		var buttonAddPrice = new JButton("+");
+		addPriceContainer.add(buttonAddPrice);
+
+		this.add(addPriceContainer);
+
+		// allows to reduce the windows
 		this.add(Box.createVerticalGlue());
 
 	}
