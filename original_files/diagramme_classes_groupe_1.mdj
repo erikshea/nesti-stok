@@ -5382,7 +5382,7 @@
 											"top": 975,
 											"width": 151,
 											"height": 13,
-											"text": "orders_article"
+											"text": "OrdersArticle"
 										},
 										{
 											"_type": "LabelView",
@@ -9388,7 +9388,7 @@
 											"top": 687,
 											"width": 63.2353515625,
 											"height": 13,
-											"text": "unit"
+											"text": "Unit"
 										},
 										{
 											"_type": "LabelView",
@@ -10133,7 +10133,7 @@
 											"top": 1095,
 											"width": 63.2353515625,
 											"height": 13,
-											"text": "package"
+											"text": "Package"
 										},
 										{
 											"_type": "LabelView",
@@ -10603,7 +10603,7 @@
 											"top": 1087,
 											"width": 143,
 											"height": 13,
-											"text": "orders"
+											"text": "Orders"
 										},
 										{
 											"_type": "LabelView",
@@ -11951,7 +11951,7 @@
 											"top": 751,
 											"width": 89.2734375,
 											"height": 13,
-											"text": "offers"
+											"text": "Offers"
 										},
 										{
 											"_type": "LabelView",
@@ -14671,7 +14671,7 @@
 					"_parent": {
 						"$ref": "AAAAAAF22ECNLfy0UZ0="
 					},
-					"name": "orders_article",
+					"name": "OrdersArticle",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -15233,7 +15233,7 @@
 					"_parent": {
 						"$ref": "AAAAAAF22ECNLfy0UZ0="
 					},
-					"name": "unit",
+					"name": "Unit",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -15312,7 +15312,7 @@
 					"_parent": {
 						"$ref": "AAAAAAF22ECNLfy0UZ0="
 					},
-					"name": "package",
+					"name": "Package",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -15362,7 +15362,7 @@
 					"_parent": {
 						"$ref": "AAAAAAF22ECNLfy0UZ0="
 					},
-					"name": "orders",
+					"name": "Orders",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -15498,7 +15498,7 @@
 					"_parent": {
 						"$ref": "AAAAAAF22ECNLfy0UZ0="
 					},
-					"name": "offers",
+					"name": "Offers",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
