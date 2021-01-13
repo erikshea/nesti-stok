@@ -72,7 +72,7 @@ public class ArticleInformation extends BaseInformation {
 		this.add(articleForm, BorderLayout.WEST);
 		
 	
-		var articlePriceList = new SupplierPriceList();
-		this.add(articlePriceList, BorderLayout.EAST);
+		var supplierPriceList = new SupplierPriceList();
+		this.add(supplierPriceList, BorderLayout.EAST);
 	}
 }

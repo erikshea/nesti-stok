@@ -51,8 +51,5 @@ public class IngredientInformation extends BaseInformation {
 		
 		this.add(ingredientForm, BorderLayout.WEST);
 		
-		/*
-		var articlePriceList = new ArticlePriceList();
-		this.add(articlePriceList, BorderLayout.EAST);*/
 	}
 }

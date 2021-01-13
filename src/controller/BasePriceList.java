@@ -32,106 +32,48 @@ import javax.swing.table.TableCellRenderer;
 
 import form.ListFieldContainer;
 
-// display radio button
-class RadioButtonRenderer implements TableCellRenderer {
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
-		if (value == null)
-			return null;
-		return (Component) value;
-	}
-}
-
-// click radio button
-
-@SuppressWarnings("serial")
-class RadioButtonEditor extends DefaultCellEditor implements ItemListener {
-	private JRadioButton button;
-
-	public RadioButtonEditor(JCheckBox checkBox) {
-		super(checkBox);
-	}
-
-	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-		if (value == null)
-			return null;
-		button = (JRadioButton) value;
-		button.addItemListener(this);
-		return (Component) value;
-	}
-
-	public Object getCellEditorValue() {
-		button.removeItemListener(this);
-		return button;
-	}
-
-	public void itemStateChanged(ItemEvent e) {
-		super.fireEditingStopped();
-	}
-}
-
-// display classic button
-class JTableButtonRenderer implements TableCellRenderer {
-	private TableCellRenderer defaultRenderer;
-
-	public JTableButtonRenderer(TableCellRenderer renderer) {
-		defaultRenderer = renderer;
-	}
-
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
-		if (value instanceof Component)
-			return (Component) value;
-		return defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-	}
-}
-
 public class BasePriceList extends JPanel {
 
 	private static final long serialVersionUID = -1997250030218950222L;
-
-	public Object[][] getModelData() {
-return { { new JRadioButton("", true), "TOUT POUR LA CUISINE", "50", new JButton("-") },
-	{ new JRadioButton(""), "ACME", "35", new JButton("-") },
-	{ new JRadioButton(""), "O'sel fin", "42", new JButton("-") },
-	{ new JRadioButton(""), "Blabla", "41", new JButton("-") },
-	{ new JRadioButton(""), "Jean Charles Farine", "49", new JButton("-") } },
-
-new Object[] { "Par défaut", "Fournisseur", "Prix", "Suppression" }
-	}
+	protected DefaultTableModel tableModel;
+	protected JTable table;
 
 	public JTable getPriceTable() {
 		// define button radio
-		DefaultTableModel dm = new DefaultTableModel();
-		dm.setDataVector(
-				new Object[][] );
+		this.tableModel = new DefaultTableModel();
+		tableModel.setDataVector(getTableModelData(), getTableModelColumns());
 
-		// add radio button into a group
-		ButtonGroup radioGroup = new ButtonGroup();
-		radioGroup.add((JRadioButton) dm.getValueAt(0, 0));
-		radioGroup.add((JRadioButton) dm.getValueAt(1, 0));
-		radioGroup.add((JRadioButton) dm.getValueAt(2, 0));
-		radioGroup.add((JRadioButton) dm.getValueAt(3, 0));
-		radioGroup.add((JRadioButton) dm.getValueAt(4, 0));
-
-		// change all the table when select one button to another (deselct all the
+		// change all the table when select one button to another (deselect all the
 		// other)
-
 		@SuppressWarnings("serial")
-		var listPrice = new JTable(dm) {
+		var listPrice = new JTable(tableModel) {
 			public void tableChanged(TableModelEvent e) {
 				super.tableChanged(e);
 				repaint();
 			}
 		};
 
-		listPrice.getColumn("Par défaut").setCellRenderer(new RadioButtonRenderer());
-		listPrice.getColumn("Par défaut").setCellEditor(new RadioButtonEditor(new JCheckBox()));
-
 		listPrice.getColumn("Suppression").setCellRenderer(new JTableButtonRenderer(null));
-//				listPrice.getColumn("Suppression").setCellEditor(new JTableButtonRenderer(null));
+// warning manque la partie pour éditer quand on clique sur le bouton!!!! a ajouter 
 
 		return listPrice;
+	}
+
+	public Object[][] getTableModelData() {
+		return new Object[][] { {} };
+	}
+
+	public Object[] getTableModelColumns() {
+		return new Object[] {};
+	}
+
+	public void addRowData(Object[] data) {
+		this.tableModel.addRow(data);
+
+	}
+
+	public String getTitle() {
+		return "";
 	}
 
 	public BasePriceList() {
@@ -141,10 +83,13 @@ new Object[] { "Par défaut", "Fournisseur", "Prix", "Suppression" }
 		this.setPreferredSize(new Dimension(800, 0));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		var priceTable = this.getPriceTable();
+		var titlePriceList = new JLabel(this.getTitle());
+		this.add(titlePriceList);
+
+		this.table = this.getPriceTable();
 
 		// entre () on met ce qui doit scroller
-		var scrollPriceList = new JScrollPane(priceTable);
+		var scrollPriceList = new JScrollPane(table);
 
 		scrollPriceList.setPreferredSize(new Dimension(0, 150));
 		scrollPriceList.setMaximumSize(new Dimension(Short.MAX_VALUE, 150));
@@ -183,4 +128,20 @@ new Object[] { "Par défaut", "Fournisseur", "Prix", "Suppression" }
 
 	}
 
+}
+
+//display classic button
+class JTableButtonRenderer implements TableCellRenderer {
+	private TableCellRenderer defaultRenderer;
+
+	public JTableButtonRenderer(TableCellRenderer renderer) {
+		defaultRenderer = renderer;
+	}
+
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+		if (value instanceof Component)
+			return (Component) value;
+		return defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+	}
 }

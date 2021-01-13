@@ -71,10 +71,9 @@ public class SupplierInformation extends BaseInformation {
 		
 		this.add(supplierForm, BorderLayout.WEST);
 		
-	/* IL FAUDRA AJOUTER LA LISTE DES ARTICLES
-		var supplierPriceList = new ArticlePriceList();
-		this.add(supplierPriceList, BorderLayout.EAST);
+
+		var articlePriceList = new ArticlePriceList();
+		this.add(articlePriceList, BorderLayout.EAST);
 		
-	*/
 	}
 }
