@@ -86,30 +86,25 @@ class JTableButtonRenderer implements TableCellRenderer {
 	}
 }
 
-public class ArticlePriceList extends JPanel {
+public class BasePriceList extends JPanel {
 
 	private static final long serialVersionUID = -1997250030218950222L;
 
-	public ArticlePriceList() {
+	public Object[][] getModelData() {
+var result =  { { new JRadioButton("", true), "TOUT POUR LA CUISINE", "50", new JButton("-") },
+	{ new JRadioButton(""), "ACME", "35", new JButton("-") },
+	{ new JRadioButton(""), "O'sel fin", "42", new JButton("-") },
+	{ new JRadioButton(""), "Blabla", "41", new JButton("-") },
+	{ new JRadioButton(""), "Jean Charles Farine", "49", new JButton("-") } },
 
-		// right of the screen, price's and supplier's informations
+new Object[] { "Par défaut", "Fournisseur", "Prix", "Suppression" };
+	}
 
-		this.setPreferredSize(new Dimension(800, 0));
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-		var titlePriceList = new JLabel("Liste de prix");
-		this.add(titlePriceList);
-
+	public JTable getPriceTable() {
 		// define button radio
 		DefaultTableModel dm = new DefaultTableModel();
 		dm.setDataVector(
-				new Object[][] { { new JRadioButton("", true), "TOUT POUR LA CUISINE", "50", new JButton("-") },
-						{ new JRadioButton(""), "ACME", "35", new JButton("-") },
-						{ new JRadioButton(""), "O'sel fin", "42", new JButton("-") },
-						{ new JRadioButton(""), "Blabla", "41", new JButton("-") },
-						{ new JRadioButton(""), "Jean Charles Farine", "49", new JButton("-") } },
-
-				new Object[] { "Par défaut", "Fournisseur", "Prix", "Suppression" });
+				new Object[][] );
 
 		// add radio button into a group
 		ButtonGroup radioGroup = new ButtonGroup();
@@ -118,16 +113,6 @@ public class ArticlePriceList extends JPanel {
 		radioGroup.add((JRadioButton) dm.getValueAt(2, 0));
 		radioGroup.add((JRadioButton) dm.getValueAt(3, 0));
 		radioGroup.add((JRadioButton) dm.getValueAt(4, 0));
-
-		// define name of the column tab
-		/*
-		 * Object[][] data = { {new Boolean(false), "TOUT POUR LA CUISINE", "25", new
-		 * Integer(5)}, {new Boolean(false), "ACME", "29", new Integer(3)}, {new
-		 * Boolean(false), "Blabla", "25", new Integer(2)}, {new Boolean(false),
-		 * "Le moins cher", "41", new Integer(20)}, };
-		 * 
-		 * 
-		 */
 
 		// change all the table when select one button to another (deselct all the
 		// other)
@@ -144,16 +129,22 @@ public class ArticlePriceList extends JPanel {
 		listPrice.getColumn("Par défaut").setCellEditor(new RadioButtonEditor(new JCheckBox()));
 
 		listPrice.getColumn("Suppression").setCellRenderer(new JTableButtonRenderer(null));
-//		listPrice.getColumn("Suppression").setCellEditor(new JTableButtonRenderer(null));
+//				listPrice.getColumn("Suppression").setCellEditor(new JTableButtonRenderer(null));
 
-		// var listPrice = new JTable(data,columnNames);
-		// listPrice.setSelectionMode(1);
+		return listPrice;
+	}
 
-		// listPrice.setPreferredScrollableViewportSize(new Dimension(500, 70));
-		// listPrice.setFillsViewportHeight(true);
+	public BasePriceList() {
+
+		// right of the screen, price's and supplier's informations
+
+		this.setPreferredSize(new Dimension(800, 0));
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+		var priceTable = this.getPriceTable();
 
 		// entre () on met ce qui doit scroller
-		var scrollPriceList = new JScrollPane(listPrice);
+		var scrollPriceList = new JScrollPane(priceTable);
 
 		scrollPriceList.setPreferredSize(new Dimension(0, 150));
 		scrollPriceList.setMaximumSize(new Dimension(Short.MAX_VALUE, 150));
@@ -161,7 +152,6 @@ public class ArticlePriceList extends JPanel {
 		this.add(scrollPriceList);
 
 		// define add price design
-
 		var addPriceContainer = new JPanel();
 		addPriceContainer.setPreferredSize(new Dimension(500, 0));
 		addPriceContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, 2000));
