@@ -38,29 +38,23 @@ public class BasePriceList extends JPanel {
 	protected DefaultTableModel tableModel;
 	protected JTable table;
 
+	@SuppressWarnings("serial")
 	public JTable getPriceTable() {
 		// define button radio
 		this.tableModel = new DefaultTableModel();
-		tableModel.setDataVector(getTableModelData(), getTableModelColumns());
-
-		// change all the table when select one button to another (deselect all the
-		// other)
-		@SuppressWarnings("serial")
-		var listPrice = new JTable(tableModel) {
+		tableModel.setColumnIdentifiers(getTableModelColumns());
+	
+		this.table = new JTable(tableModel) {
 			public void tableChanged(TableModelEvent e) {
 				super.tableChanged(e);
 				repaint();
 			}
 		};
 
-		listPrice.getColumn("Suppression").setCellRenderer(new JTableButtonRenderer(null));
-// warning manque la partie pour éditer quand on clique sur le bouton!!!! a ajouter 
-
-		return listPrice;
-	}
-
-	public Object[][] getTableModelData() {
-		return new Object[][] { {} };
+		this.table.getColumn("Suppression").setCellRenderer(new JTableButtonRenderer(null));
+		// warning manque la partie pour éditer quand on clique sur le bouton!!!! a ajouter 
+		
+		return this.table;
 	}
 
 	public Object[] getTableModelColumns() {

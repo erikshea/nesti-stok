@@ -70,7 +70,6 @@ public class SupplierInformation extends BaseInformation {
 		supplierForm.add(Box.createVerticalGlue());
 		
 		this.add(supplierForm, BorderLayout.WEST);
-		
 
 		var articlePriceList = new ArticlePriceList();
 		this.add(articlePriceList, BorderLayout.EAST);

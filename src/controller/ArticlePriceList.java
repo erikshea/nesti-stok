@@ -1,33 +1,34 @@
 package controller;
 
 import javax.swing.JButton;
-import javax.swing.JRadioButton;
 
+@SuppressWarnings("serial")
 public class ArticlePriceList extends BasePriceList {
 
 	public ArticlePriceList() {
 		super();
 
-	}
+		this.addRowData(new Object[] {"Couteaux", "8", new JButton("-") });
+		this.addRowData(new Object[] {"Fouet", "9", new JButton("-") });
+		this.addRowData(new Object[] {"Robot", "6", new JButton("-") });
+	};
 
 	@Override
 	public String getTitle() {
-		return "Articles proposés";
-	}
-
-	@Override
-	public Object[][] getTableModelData() {
-		return new Object[][] { { "Couteaux", "8", new JButton("-")},
-				{ "Fouet", "9", new JButton("-")}, 
-				{ "Robot", "6", new JButton("-")}, 
-				{ "Blabla", "9", new JButton("-")}, 
-				{ "Article test", "29", new JButton("-")}, 
-				{ "Article bis", "42", new JButton("-")} };
+		return "Liste de prix";
 	}
 
 	@Override
 	public Object[] getTableModelColumns() {
-		return new Object[] { "Article", "Prix de vente", ""};
+		return new Object[] {"Article", "Prix de vente", "Suppression" };
+	}
+
+	/**
+	 * add a row in the list
+	 */
+	@Override
+	public void addRowData(Object[] data) {
+		super.addRowData(data);
 	}
 
 }

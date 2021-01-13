@@ -31,6 +31,7 @@ public class SupplierPriceList extends BasePriceList{
 		this.addRowData(new Object[]{ new JRadioButton(""), "O'sel fin", "42", new JButton("-") });
 		this.addRowData(new Object[]{ new JRadioButton(""), "Blabla", "41", new JButton("-") });
 		this.addRowData(new Object[]{new JRadioButton(""), "Jean Charles Farine", "49", new JButton("-") });
+	
 	}
 	
 	@Override
@@ -50,7 +51,7 @@ public class SupplierPriceList extends BasePriceList{
 	@Override
 	  public void addRowData(Object[] data){
 	  super.addRowData(data);
-	  radioGroup.add((JRadioButton) data[data.length-1]);
+	  radioGroup.add((JRadioButton) data[0]);
 	  }
 	 
 
