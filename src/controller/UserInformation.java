@@ -1,18 +1,12 @@
 package controller;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import form.EditableListFieldContainer;
 import form.FieldContainer;
 import form.ListFieldContainer;
 
