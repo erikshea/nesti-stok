@@ -21,9 +21,8 @@ public class ArticleList extends BaseList {
 		addToCart.setLayout(new BoxLayout(addToCart, BoxLayout.X_AXIS));
 		var addToCartField = new JTextField();
 
-		// !!!!!!!!!!!!!!! NON FONCTIONNEL taille pas ok!!!!!!!!!!!!!!!!!!
-		addToCartField.setMaximumSize(new Dimension(90, 60));
-		addToCartField.setMinimumSize(new Dimension(90, 40));
+		addToCartField.setMaximumSize(new Dimension(100, 30));
+        addToCartField.setPreferredSize(new Dimension(100, 0));
 
 		addToCart.add(addToCartField);
 		var addToCartButton = new JButton("Ajouter au panier");
@@ -37,7 +36,6 @@ public class ArticleList extends BaseList {
 		this.addRowData(new Object[] {"fouet en plastique","Tout pour la cuisine","3.30","Ustensil","451","11.60"});
 	}
 
-	// Title of the article List
 	@Override
 	public String getTitle() {
 		return "Liste d'article";

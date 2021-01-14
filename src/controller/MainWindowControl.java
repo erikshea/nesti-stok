@@ -16,14 +16,14 @@ public class MainWindowControl extends JTabbedPane {
 	    var listPaneArticle = new ArticleDirectory(this);
 	    this.addTab("Article", listPaneArticle);
 	    
-	    var listPaneSupplier = new ArticleDirectory(this);
+	    var listPaneSupplier = new SupplierDirectory(this);
 	    this.addTab("Fournisseur", listPaneSupplier);
 	    
-	    var listPaneIngredient = new ArticleDirectory(this);
+	    var listPaneIngredient = new IngredientDirectory(this);
 	    this.addTab("Ingrédient", listPaneIngredient);
 	    
-	    var listPaneAdministrator = new ArticleDirectory(this);
-	    this.addTab("Administrateur", listPaneAdministrator);
+	    var listPaneAdministrator = new UserDirectory(this);
+	    this.addTab("Utilisateur", listPaneAdministrator);
 	    
 		var infoPaneArticle = new ArticleInformation(this);
 	    this.addTab("Détail article", infoPaneArticle);
@@ -34,5 +34,8 @@ public class MainWindowControl extends JTabbedPane {
 	    var infoPaneIngredient = new IngredientInformation(this);
 	    this.addTab("Détail ingrédient", infoPaneIngredient);
 	    
+	    var infoPaneUser = new UserInformation(this);
+	    this.addTab("Détail utilisateur", infoPaneUser);
+
 	}
 }

@@ -14,12 +14,6 @@ public class BaseDirectory extends JPanel {
 		this.mainControl = c;
 
 		this.setLayout(new BorderLayout());
-		
-	//	var displayListPanel = new JPanel();
-	//	displayListPanel.setLayout(new BoxLayout(displayListPanel,BoxLayout.X_AXIS));
-		
-		
-		
-		
+
 	}
 }
