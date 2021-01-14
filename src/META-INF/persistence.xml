@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	<persistence-unit name="nesti_stok">
+		<class>model.Article</class>
+		<class>model.Ingredient</class>
+		<class>model.Offer</class>
+		<class>model.OfferPK</class>
+		<class>model.Order</class>
+		<class>model.OrdersArticle</class>
+		<class>model.OrdersArticlePK</class>
+		<class>model.Packaging</class>
+		<class>model.Product</class>
+		<class>model.Supplier</class>
+		<class>model.Unit</class>
+		<class>model.User</class>
+		<class>model.Utensil</class>
+	</persistence-unit>
+</persistence>
