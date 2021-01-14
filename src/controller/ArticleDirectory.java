@@ -11,5 +11,6 @@ public class ArticleDirectory extends BaseDirectory {
 		var articleList = new ArticleList();
 		this.add(articleList, BorderLayout.CENTER);
 
+		
 	}
 }
