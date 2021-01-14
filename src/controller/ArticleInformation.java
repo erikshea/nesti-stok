@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -20,12 +21,12 @@ public class ArticleInformation extends BaseInformation {
 	public ArticleInformation(MainWindowControl c) {
 		super(c);
 
-
+// left of the screen, article's information
+		
 		var articleForm = new JPanel();
 		articleForm.setPreferredSize(new Dimension(500, 0));
+		// on spécifie l'axe d'empillement
 		articleForm.setLayout(new BoxLayout(articleForm, BoxLayout.Y_AXIS));
-		
-		
 		
 		var addToCart = new JPanel();
 		addToCart.setLayout(new BoxLayout(addToCart, BoxLayout.X_AXIS));
@@ -38,6 +39,9 @@ public class ArticleInformation extends BaseInformation {
 		addToCart.setAlignmentX(Component.LEFT_ALIGNMENT);
 		articleForm.add(addToCart);
 
+		var titleArticleInformation = new JLabel("Article");
+		articleForm.add(titleArticleInformation);
+		
 		var descriptionFieldContainer = new FieldContainer("Description");
 		descriptionFieldContainer.getField().setText("Boîte d'oeufs");
 		articleForm.add(descriptionFieldContainer);
@@ -51,15 +55,13 @@ public class ArticleInformation extends BaseInformation {
 		articleForm.add(eanFieldContainer);
 		
 		var ingredientListContainer = new ListFieldContainer("Ingrédient:");
-		ingredientListContainer.populateList( List.of("Oeuf", "Lait", "Sucre", "Farine", "blaSSDh", "blah3", "blah", "blargh","SSSSS","DDDDD22D") );
-
+		ingredientListContainer.populateList( List.of("Oeuf", "Lait", "Sucre", "Farine", "blaSSDh", "blah3", "blah", "blargh","SSSSS","DDDDD22D"));
 		articleForm.add(ingredientListContainer);
 		
 		var quantityFieldContainer = new FieldContainer("Quantité");
 		quantityFieldContainer.getField().setText("12 unités");
 		articleForm.add(quantityFieldContainer);
 
-		
 		var weightFieldContainer = new FieldContainer("Poids");
 		weightFieldContainer.getField().setText("0.95");
 		articleForm.add(weightFieldContainer);
@@ -67,5 +69,9 @@ public class ArticleInformation extends BaseInformation {
 		articleForm.add(Box.createVerticalGlue());
 		
 		this.add(articleForm, BorderLayout.WEST);
+		
+	
+		var supplierPriceList = new SupplierPriceList();
+		this.add(supplierPriceList, BorderLayout.EAST);
 	}
 }
