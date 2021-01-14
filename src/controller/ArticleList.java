@@ -17,6 +17,7 @@ public class ArticleList extends BaseList {
 	public ArticleList() {
 		super();
 
+		
 		var addToCart = new JPanel();
 		addToCart.setLayout(new BoxLayout(addToCart, BoxLayout.X_AXIS));
 		var addToCartField = new JTextField();
