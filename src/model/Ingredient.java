@@ -15,13 +15,9 @@ public class Ingredient implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_product")
 	private int idProduct;
-
-	private String name;
-
-	private int reference;
 
 	//bi-directional one-to-one association to Product
 	@OneToOne
@@ -41,22 +37,6 @@ public class Ingredient implements Serializable {
 
 	public void setIdProduct(int idProduct) {
 		this.idProduct = idProduct;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getReference() {
-		return this.reference;
-	}
-
-	public void setReference(int reference) {
-		this.reference = reference;
 	}
 
 	public Product getProduct() {

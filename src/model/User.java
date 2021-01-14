@@ -18,7 +18,7 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_user")
 	private int idUser;
 
@@ -30,6 +30,8 @@ public class User implements Serializable {
 	private Date dateCreation;
 
 	private String login;
+
+	private String name;
 
 	@Column(name="password_hash")
 	private String passwordHash;
@@ -78,6 +80,14 @@ public class User implements Serializable {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPasswordHash() {

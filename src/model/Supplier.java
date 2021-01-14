@@ -15,13 +15,13 @@ public class Supplier implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_supplier")
 	private int idSupplier;
 
-	private String adress1;
+	private String address1;
 
-	private String adress2;
+	private String address2;
 
 	private String city;
 
@@ -31,6 +31,9 @@ public class Supplier implements Serializable {
 	private String country;
 
 	private String name;
+
+	@Column(name="phone_number")
+	private String phoneNumber;
 
 	@Column(name="zip_code")
 	private String zipCode;
@@ -54,20 +57,20 @@ public class Supplier implements Serializable {
 		this.idSupplier = idSupplier;
 	}
 
-	public String getAdress1() {
-		return this.adress1;
+	public String getAddress1() {
+		return this.address1;
 	}
 
-	public void setAdress1(String adress1) {
-		this.adress1 = adress1;
+	public void setAddress1(String address1) {
+		this.address1 = address1;
 	}
 
-	public String getAdress2() {
-		return this.adress2;
+	public String getAddress2() {
+		return this.address2;
 	}
 
-	public void setAdress2(String adress2) {
-		this.adress2 = adress2;
+	public void setAddress2(String address2) {
+		this.address2 = address2;
 	}
 
 	public String getCity() {
@@ -100,6 +103,14 @@ public class Supplier implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getPhoneNumber() {
+		return this.phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	public String getZipCode() {
