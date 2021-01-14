@@ -41,6 +41,7 @@ public class UserInformation extends BaseInformation {
 		roleFieldContainer.populateList( List.of("Super administrateur","administrateur"));
 		userForm.add(roleFieldContainer);
 		
+		
 		userForm.add(Box.createVerticalGlue());
 		
 		this.add(userForm, BorderLayout.WEST);
