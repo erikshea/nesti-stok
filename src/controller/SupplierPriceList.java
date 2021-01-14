@@ -3,6 +3,8 @@ package controller;
 import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
@@ -14,47 +16,61 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
 @SuppressWarnings("serial")
-public class SupplierPriceList extends BasePriceList{
+public class SupplierPriceList extends BasePriceList {
 
 	protected ButtonGroup radioGroup;
-	
+
 	public SupplierPriceList() {
 		super();
 		this.radioGroup = new ButtonGroup();
 
-		
 		this.table.getColumn("Par défaut").setCellRenderer(new RadioButtonRenderer());
 		this.table.getColumn("Par défaut").setCellEditor(new RadioButtonEditor(new JCheckBox()));
-		
-		this.addRowData(new Object[]{ new JRadioButton("", true), "Tout pour la cuisine", "8" });
-		this.addRowData(new Object[]{ new JRadioButton(""), "JeanBon Grossiste", "69" });
-		this.addRowData(new Object[]{ new JRadioButton(""), "O'sel fin", "42"});
-		this.addRowData(new Object[]{ new JRadioButton(""), "Blabla", "41"});
-		this.addRowData(new Object[]{new JRadioButton(""), "Jean Charles Farine", "49" });
-	
+
+		this.addRowData(new Object[] { "Tout pour la cuisine", "8" });
+		this.addRowData(new Object[] { "JeanBon Grossiste", "69" });
+		this.addRowData(new Object[] { "O'sel fin", "42" });
+		this.addRowData(new Object[] { "Blabla", "41" });
+		this.addRowData(new Object[] { "Jean Charles Farine", "49" });
+
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return "Liste de prix";
 	}
-	
-	
+
 	@Override
 	public Object[] getTableModelColumns() {
 		return new Object[] { "Par défaut", "Prix", "Prix d'achat", "Suppression" };
 	}
-	
+
 	/**
-	 * add a row and radio button into a group
+	 * add a row, data and radio button and put it into a group
 	 */
 	@Override
-	  public void addRowData(Object[] data){
-	  super.addRowData(data);
-	  radioGroup.add((JRadioButton) data[0]);
-	  }
-	 
+	public void addRowData(Object[] data) {
+		var tabData = Arrays.asList(data);
+		tabData.add(0, new JRadioButton(""));
+		tabData.add(new JButton("-"));
 
+		this.tableModel.addRow(tabData.toArray());
+
+		radioGroup.add((JRadioButton) tabData.get(tabData.size() - 1));
+
+	}
+
+	/**
+	 * used to
+	 * 
+	 * @param data
+	 * @param isDefault
+	 */
+	public void addRowData(Object[] data, boolean isDefault) {
+		this.addRowData(data);
+		var radioButton = (JRadioButton) this.table.getValueAt(this.tableModel.getRowCount() - 1, 0);
+		radioButton.setSelected(isDefault);
+	}
 }
 
 //display radio button
