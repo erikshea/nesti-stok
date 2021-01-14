@@ -16,13 +16,13 @@ public class ArticleDirectory extends BaseDirectory {
 		super(c);
 
 		var articleList = new ArticleList();
-		this.add(articleList, BorderLayout.WEST);
+		this.add(articleList, BorderLayout.CENTER);
 		
 		
-		this.setPreferredSize(new Dimension(2000, 0));
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+	//	this.setPreferredSize(new Dimension(1500, 0));
+	//	this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-	
+	/*
 
 		var addToCart = new JPanel();
 		addToCart.setLayout(new BoxLayout(addToCart, BoxLayout.X_AXIS));
@@ -38,11 +38,7 @@ public class ArticleDirectory extends BaseDirectory {
 
 	//	barHeadButton.add(addToCart);
 
-	
 
-		
-
-		
 		
 		// Title of the article List		
 		var titleLabel = new JLabel("Liste d'article");
@@ -51,6 +47,9 @@ public class ArticleDirectory extends BaseDirectory {
 		// Detail of the article List
 		var articleDirectoryList = new ArticleDirectoryList();
 		this.add(articleDirectoryList);
+		
 		this.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		*/
 	}
 }
