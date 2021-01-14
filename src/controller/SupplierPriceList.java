@@ -27,7 +27,7 @@ public class SupplierPriceList extends BasePriceList {
 		this.table.getColumn("Par défaut").setCellRenderer(new RadioButtonRenderer());
 		this.table.getColumn("Par défaut").setCellEditor(new RadioButtonEditor(new JCheckBox()));
 
-		this.addRowData(new Object[] { "Tout pour la cuisine", "8" });
+		this.addRowData(new Object[] { "Tout pour la cuisine", "8" },true);
 		this.addRowData(new Object[] { "JeanBon Grossiste", "69" });
 		this.addRowData(new Object[] { "O'sel fin", "42" });
 		this.addRowData(new Object[] { "Blabla", "41" });
@@ -45,23 +45,21 @@ public class SupplierPriceList extends BasePriceList {
 		return new Object[] { "Par défaut", "Prix", "Prix d'achat", "Suppression" };
 	}
 
-	/**
-	 * add a row, data and radio button and put it into a group
-	 */
+
 	@Override
 	public void addRowData(Object[] data) {
-		var tabData = Arrays.asList(data);
+		var tabData = new ArrayList<Object>(Arrays.asList(data));
 		tabData.add(0, new JRadioButton(""));
 		tabData.add(new JButton("-"));
 
 		this.tableModel.addRow(tabData.toArray());
 
-		radioGroup.add((JRadioButton) tabData.get(tabData.size() - 1));
+		radioGroup.add((JRadioButton) tabData.get(0));
 
 	}
 
 	/**
-	 * used to
+	 * used to choose a supplier by default
 	 * 
 	 * @param data
 	 * @param isDefault
@@ -84,7 +82,6 @@ class RadioButtonRenderer implements TableCellRenderer {
 }
 
 //click radio button
-
 @SuppressWarnings("serial")
 class RadioButtonEditor extends DefaultCellEditor implements ItemListener {
 	private JRadioButton button;

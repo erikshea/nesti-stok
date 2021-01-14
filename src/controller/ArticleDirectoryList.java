@@ -6,9 +6,9 @@ public class ArticleDirectoryList extends BaseDirectoryList{
 	public ArticleDirectoryList() {
 		super();
 
-		this.addRowData(new Object[] {"", "Couteau de cuisine en inox","ACME","12","Ustensil","50","18"});
-		this.addRowData(new Object[] {"", "1 boite d'oeuf de poule","Poulen'Herbe","2.5","Ingrédient","18","4"});
-		this.addRowData(new Object[] {"", "fouet en plastique","Tout pour la cuisine","3.30","Ustensil","451","11.60"});
+		this.addRowData(new Object[] {"Couteau de cuisine en inox","ACME","12","Ustensil","50","18"});
+		this.addRowData(new Object[] {"1 boite d'oeuf de poule","Poulen'Herbe","2.5","Ingrédient","18","4"});
+		this.addRowData(new Object[] {"fouet en plastique","Tout pour la cuisine","3.30","Ustensil","451","11.60"});
 	};
 
 	@Override
@@ -18,7 +18,7 @@ public class ArticleDirectoryList extends BaseDirectoryList{
 
 	@Override
 	public Object[] getTableModelColumns() {
-		return new Object[] {"", "Description", "Fournisseur par défaut", "Prix d'achat","Type","Stock","PV Conseillé" };
+		return new Object[] {"Description", "Fournisseur par défaut", "Prix d'achat","Type","Stock","PV Conseillé" };
 	}
 
 	/**

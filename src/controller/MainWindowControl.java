@@ -14,7 +14,16 @@ public class MainWindowControl extends JTabbedPane {
 		));
 		
 	    var listPaneArticle = new ArticleDirectory(this);
-	    this.addTab("Articles", listPaneArticle);
+	    this.addTab("Article", listPaneArticle);
+	    
+	    var listPaneSupplier = new ArticleDirectory(this);
+	    this.addTab("Fournisseur", listPaneSupplier);
+	    
+	    var listPaneIngredient = new ArticleDirectory(this);
+	    this.addTab("Ingrédient", listPaneIngredient);
+	    
+	    var listPaneAdministrator = new ArticleDirectory(this);
+	    this.addTab("Administrateur", listPaneAdministrator);
 	    
 		var infoPaneArticle = new ArticleInformation(this);
 	    this.addTab("Détail article", infoPaneArticle);
