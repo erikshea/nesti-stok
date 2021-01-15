@@ -3,6 +3,7 @@ package controller;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -11,11 +12,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import dao.ArticleDao;
+import model.Article;
+import util.HibernateUtil;
+
 @SuppressWarnings("serial")
 public class ArticleList extends BaseList {
 
-	public ArticleList() {
-		super();
+	public ArticleList(MainWindowControl c) {
+		super(c);
 
 		var addToCart = new JPanel();
 		addToCart.setLayout(new BoxLayout(addToCart, BoxLayout.X_AXIS));
@@ -31,9 +36,13 @@ public class ArticleList extends BaseList {
 		this.buttonBar.add(addToCart, 4);
 
 		// Detail of the article List
-		this.addRowData(new Object[] {"Couteau de cuisine en inox","ACME","12","Ustensil","50","18"});
-		this.addRowData(new Object[] {"1 boite d'oeuf de poule","Poulen'Herbe","2.5","Ingrédient","18","4"});
-		this.addRowData(new Object[] {"fouet en plastique","Tout pour la cuisine","3.30","Ustensil","451","11.60"});
+		
+		var session = HibernateUtil.getSessionFactory().openSession();
+        List<Article> articles = session.createQuery("from Article").list();
+        articles.forEach( a->{
+    		this.addRowData(new Object[] {a.getName(),a.getCode(),"", 0,a.getStock(),0});
+        });
+        session.close();
 	}
 
 	@Override
@@ -43,7 +52,21 @@ public class ArticleList extends BaseList {
 
 	@Override
 	public Object[] getTableModelColumns() {
-		return new Object[] {"Description", "Fournisseur par défaut", "Prix d'achat","Type","Stock","PV Conseillé" };
+		return new Object[] {"Description", "Code", "Fournisseur par défaut", "Prix d'achat","Stock","PV Conseillé" };
 	}
 	
+	@Override
+	public void setUpButtonListeners()  {
+		this.buttonModify.addActionListener( e->{
+			var code = this.table.getValueAt(this.table.getSelectedRow(), 1);
+
+			var a = (new ArticleDao()).findOneBy("code",code);
+
+			this.mainController.addCloseableTab(
+					"Article: " + a.getName(),
+					new ArticleInformation(this.mainController,null)
+			);
+
+		});
+	}
 }

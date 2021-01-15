@@ -19,8 +19,8 @@ import form.ListFieldContainer;
 public class UserInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
 
-	public UserInformation(MainWindowControl c) {
-		super(c);
+	public UserInformation(MainWindowControl c, Object i) {
+		super(c, i);
 	
 		var userForm = new JPanel();
 		userForm.setPreferredSize(new Dimension(500, 0));
@@ -41,10 +41,8 @@ public class UserInformation extends BaseInformation {
 		roleFieldContainer.populateList( List.of("Super administrateur","administrateur"));
 		userForm.add(roleFieldContainer);
 		
-		
 		userForm.add(Box.createVerticalGlue());
 		
 		this.add(userForm, BorderLayout.WEST);
-		
 	}
 }

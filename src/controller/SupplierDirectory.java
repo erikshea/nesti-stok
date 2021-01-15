@@ -8,7 +8,7 @@ public class SupplierDirectory extends BaseDirectory {
 	public SupplierDirectory(MainWindowControl c) {
 		super(c);
 
-		var supplierList = new SupplierList();
+		var supplierList = new SupplierList(c);
 		this.add(supplierList, BorderLayout.CENTER);
 
 	}

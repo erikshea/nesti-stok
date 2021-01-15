@@ -8,7 +8,7 @@ public class IngredientDirectory extends BaseDirectory {
 	public IngredientDirectory(MainWindowControl c) {
 		super(c);
 
-		var ingredientList = new IngredientList();
+		var ingredientList = new IngredientList(c);
 		this.add(ingredientList, BorderLayout.CENTER);
 
 	}

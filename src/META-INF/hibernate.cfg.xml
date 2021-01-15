@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory>
+  <property name ="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+  <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/nesti_stok?serverTimezone=UTC</property>
+  <property name="hibernate.connection.username">root</property>
+  <property name="hibernate.current_session_context_class">thread</property>
+  <mapping class="model.Article"/>
+  <mapping class="model.Ingredient"/>
+  <mapping class="model.Offer"/>
+  <mapping class="model.OfferPK"/>
+  <mapping class="model.Order"/>
+  <mapping class="model.OrdersArticle"/>
+  <mapping class="model.OrdersArticlePK"/>
+  <mapping class="model.Packaging"/>
+  <mapping class="model.Product"/>
+  <mapping class="model.Supplier"/>
+  <mapping class="model.Unit"/>
+  <mapping class="model.User"/>
+  <mapping class="model.Utensil"/>
+ </session-factory>
+</hibernate-configuration>

@@ -19,8 +19,8 @@ import form.ListFieldContainer;
 public class IngredientInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
 
-	public IngredientInformation(MainWindowControl c) {
-		super(c);
+	public IngredientInformation(MainWindowControl c, Object i) {
+		super(c, i);
 
 // left of the screen, ingredient's information
 		
