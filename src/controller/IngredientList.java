@@ -1,5 +1,9 @@
 package controller;
 
+import java.util.List;
+
+import model.Ingredient;
+import util.HibernateUtil;
 
 @SuppressWarnings("serial")
 public class IngredientList extends BaseList {
@@ -7,9 +11,13 @@ public class IngredientList extends BaseList {
 	public IngredientList(MainWindowControl c) {
 		super(c);
 
-		this.addRowData(new Object[] {"I452","sucre","gramme"});
-		this.addRowData(new Object[] {"PO984P","oeuf","pièce"});
-		this.addRowData(new Object[] {"AZE7","chocolat","gramme"});
+		var session = HibernateUtil.getSessionFactory().openSession();
+        
+        List<Ingredient> queryIngredient = session.createQuery("from Ingredient").list();
+        
+        queryIngredient.forEach( v->{
+        	this.addRowData(new Object[] { v.getProduct(),"",v.getUnits()});
+ 		});
 	}
 
 	// Title of the article List
@@ -22,5 +30,4 @@ public class IngredientList extends BaseList {
 	public Object[] getTableModelColumns() {
 		return new Object[] {"Réf","Nom","Unité"};
 	}
-	
 }

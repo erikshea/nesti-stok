@@ -1,13 +1,22 @@
 package controller;
 
+import java.util.List;
+
+import model.Supplier;
+import util.HibernateUtil;
+
 @SuppressWarnings("serial")
 public class SupplierList extends BaseList {
 
 	public SupplierList(MainWindowControl c) {
 		super(c);
-		this.addRowData(new Object[] {"ACME","jean Paul","Marseille","04 68 45 78 96"});
-		this.addRowData(new Object[] {"Tout pour la cuisine","Martine Martin","Gap", "0604859785"});
-		this.addRowData(new Object[] {"O'Sel Fin","James Bond","Londres","04 87 65 47 96"});
+		var session = HibernateUtil.getSessionFactory().openSession();
+        List<Supplier> querySupplier = session.createQuery("from Supplier").list();
+        
+        // ex ici on affiche les id des supplier, on pourrait faire un addrowData
+        querySupplier.forEach( v->{
+        	this.addRowData(new Object[] { v.getName(), v.getContactName(), v.getCity(), v.getPhoneNumber()});
+ 		});
 		
 	}
 

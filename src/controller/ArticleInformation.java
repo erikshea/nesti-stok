@@ -22,6 +22,7 @@ public class ArticleInformation extends BaseInformation {
 
 // left of the screen, article's information
 		
+
 		var articleForm = new JPanel();
 		articleForm.setPreferredSize(new Dimension(500, 0));
 		// on spécifie l'axe d'empillement
