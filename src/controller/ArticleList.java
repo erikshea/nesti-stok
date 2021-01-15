@@ -3,13 +3,14 @@ package controller;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import util.HibernateUtil;
+import model.*;
 
 @SuppressWarnings("serial")
 public class ArticleList extends BaseList {
@@ -30,11 +31,21 @@ public class ArticleList extends BaseList {
 		addToCart.add(addToCartButton);
 
 		this.buttonBar.add(addToCart, 4);
+		
 
-		// Detail of the article List
-		this.addRowData(new Object[] {"Couteau de cuisine en inox","ACME","12","Ustensil","50","18"});
-		this.addRowData(new Object[] {"1 boite d'oeuf de poule","Poulen'Herbe","2.5","Ingrédient","18","4"});
-		this.addRowData(new Object[] {"fouet en plastique","Tout pour la cuisine","3.30","Ustensil","451","11.60"});
+		var session = HibernateUtil.getSessionFactory().openSession();
+        var transaction = session.beginTransaction();
+        
+        List<Article> queryArticle = session.createQuery("from Article").list();
+        
+        queryArticle.forEach( v->{
+        	this.addRowData(new Object[] { v.getName(),"", "", "",v.getStock(),""});
+ 		});
+
+		transaction.commit();
+		
+		
+		
 	}
 
 	@Override
