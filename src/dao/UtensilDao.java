@@ -4,7 +4,7 @@ import model.*;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
 
-public class UtensilDao extends BaseDao<Article> {
+public class UtensilDao extends BaseDao<Utensil> {
 
 	
 }

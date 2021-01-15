@@ -2,17 +2,21 @@ package controller;
 
 import javax.swing.JButton;
 
+import dao.OfferDao;
+
 @SuppressWarnings("serial")
 public class ArticlePriceList extends BasePriceList {
 
 	public ArticlePriceList() {
 		super();
-
-		this.addRowData(new Object[] {"Couteaux", "8"});
-		this.addRowData(new Object[] {"Fouet", "9"});
-		this.addRowData(new Object[] {"Robot", "6" });
-	};
-
+		
+		var dao = new OfferDao(); 
+		var articlePrice = dao.findAll();
+		articlePrice.forEach(ap->{
+			this.addRowData(new Object[] {ap.getArticle().getName(),ap.getPrice()});
+        });
+	
+	}
 	@Override
 	public String getTitle() {
 		return "Liste de prix";

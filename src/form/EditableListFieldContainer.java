@@ -41,7 +41,7 @@ public class EditableListFieldContainer extends ListFieldContainer {
 	 */
 	public void deleteFromList() {
 		var selected = this.list.getSelectedValue();
-		listModel.removeElement(selected);
+		getListModel().removeElement(selected);
 	}
 	
 	public EditableListFieldContainer(String labelText) {
@@ -75,7 +75,7 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		buttonContainer.add(minusButton);
 
 		this.add(buttonContainer);
-		// on met les deux botons dans un panel ave cbox layout vertyical
+		// on met les deux boutons dans un panel avec box layout vertyical
 		// c'est ce conteneur qu'on ajoutera a ingredient information
 	}
 

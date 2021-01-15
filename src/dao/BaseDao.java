@@ -26,9 +26,8 @@ public abstract class BaseDao<E> {
 				.getActualTypeArguments()[0];
 	}
 
-
 	protected Session getSession() {
-		if(!this.sessionFactory.getCurrentSession().getTransaction().isActive()) {
+		if (!this.sessionFactory.getCurrentSession().getTransaction().isActive()) {
 			this.sessionFactory.getCurrentSession().getTransaction().begin();
 		}
 		return this.sessionFactory.getCurrentSession();
@@ -64,7 +63,6 @@ public abstract class BaseDao<E> {
 		return this.getSession().createQuery(cr).getResultList();
 	}
 
-
 	public void clear() {
 		getSession().clear();
 
@@ -73,15 +71,21 @@ public abstract class BaseDao<E> {
 	public void flush() {
 		getSession().flush();
 	}
-	
-	public<T> E findOneBy(String propertyName, T value) { 
-		var cr = this.getCriteriaQuery();
-		var cb =this.getSession().getCriteriaBuilder();
-		var root = cr.from(this.entityClass);
-		cr.where(cb.equal(root.get(propertyName), value));
-		return this.getSession().createQuery(cr).getSingleResult();
+
+	public <T> E findOneBy(String propertyName, T value) {
+		 var cr = this.getCriteriaQuery();
+	        var cb =this.getSession().getCriteriaBuilder();
+	        var root = cr.from(this.entityClass);
+	        cr.where(cb.equal(root.get(propertyName), value));
+	        var results = this.getSession().createQuery(cr).getResultList();
+	        E result = null;
+	        if ( results.size() != 0 ) {
+	            result = results.get(0);
+	        }
+
+	        return result;
 	}
-	
+
 	public CriteriaQuery<E> getCriteriaQuery() {
 		CriteriaBuilder cb = this.getSession().getCriteriaBuilder();
 		return cb.createQuery(this.entityClass);
