@@ -36,6 +36,11 @@ public class MainWindowControl extends JTabbedPane {
 	    
 	    var infoPaneUser = new UserInformation(this);
 	    this.addTab("Détail utilisateur", infoPaneUser);
+<<<<<<< HEAD
+=======
+	    
+//	    var shoppingCard = new 
+>>>>>>> refs/remotes/origin/Manue
 
 	}
 }

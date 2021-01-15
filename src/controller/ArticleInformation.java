@@ -12,7 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+<<<<<<< HEAD
 import form.*;
+=======
+import form.FieldContainer;
+import form.ListFieldContainer;
+>>>>>>> refs/remotes/origin/Manue
 
 public class ArticleInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
