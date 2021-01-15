@@ -1,6 +1,6 @@
 package controller;
 
-<<<<<<< HEAD
+
 import java.util.List;
 
 import model.*;
@@ -23,19 +23,6 @@ public class IngredientList extends BaseList {
 
 		transaction.commit();
 		
-		
-=======
-
-@SuppressWarnings("serial")
-public class IngredientList extends BaseList {
-
-	public IngredientList() {
-		super();
-
-		this.addRowData(new Object[] {"I452","sucre","gramme"});
-		this.addRowData(new Object[] {"PO984P","oeuf","pièce"});
-		this.addRowData(new Object[] {"AZE7","chocolat","gramme"});
->>>>>>> refs/remotes/origin/Manue
 	}
 
 	// Title of the article List

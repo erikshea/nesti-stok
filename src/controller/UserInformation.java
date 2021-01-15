@@ -1,7 +1,6 @@
 package controller;
 
 import java.awt.BorderLayout;
-<<<<<<< HEAD
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
@@ -14,14 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import form.EditableListFieldContainer;
-=======
-import java.awt.Dimension;
-import java.util.List;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
->>>>>>> refs/remotes/origin/Manue
 import form.FieldContainer;
 import form.ListFieldContainer;
 
