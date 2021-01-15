@@ -23,7 +23,7 @@ public class SupplierList extends BaseList {
         //on affiche tous les suppliers depuis la base
         List<Supplier> querySupplier = session.createQuery("from Supplier").list();
         
-        // ex ici on affiche les id des supplier, on pourrait faire un addrowData
+        // ex ici on affiche les id des suppliers, on pourrait faire un addrowData
         querySupplier.forEach( v->{
         	this.addRowData(new Object[] { v.getName(), v.getContactName(), v.getCity(), v.getPhoneNumber()});
  		});
@@ -32,7 +32,7 @@ public class SupplierList extends BaseList {
 		
 		// pr récupérer le nom d'un ingrédient(car 
 		// myIngredient.getProduct().getName
-		
+	//	myIngredient.getProduct().getName();
 	}
 
 	// Title of the article List
