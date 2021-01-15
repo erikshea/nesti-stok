@@ -29,7 +29,7 @@ public class SupplierList extends BaseList {
         // on envoie les modifs en bd
 		transaction.commit();
 		
-		// pr récupérer le nom d'un ingrédient (car 
+		// pr récupérer le nom d'un ingrédient(car 
 		// myIngredient.getProduct().getName
 		
 	}
