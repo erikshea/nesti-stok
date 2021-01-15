@@ -4,8 +4,8 @@ package controller;
 @SuppressWarnings("serial")
 public class UserList extends BaseList {
 
-	public UserList() {
-		super();
+	public UserList(MainWindowControl c) {
+		super(c);
 		this.addRowData(new Object[] {"007","administrateur","0145879645","James Bond"});
 		this.addRowData(new Object[] {"mandy","administrateur","065479896", "Mandy Moore"});
 		this.addRowData(new Object[] {"Polo","administrateur","0458796321","Paul Legrand"});

@@ -22,9 +22,6 @@ public class User implements Serializable {
 	@Column(name="id_user")
 	private int idUser;
 
-	@Column(name="CURRENT_CONNECTIONS")
-	private BigInteger currentConnections;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_creation")
 	private Date dateCreation;
@@ -38,12 +35,6 @@ public class User implements Serializable {
 
 	private String role;
 
-	@Column(name="TOTAL_CONNECTIONS")
-	private BigInteger totalConnections;
-
-	private String user;
-
-	//bi-directional many-to-one association to Order
 	@OneToMany(mappedBy="user")
 	private List<Order> orders;
 
@@ -56,14 +47,6 @@ public class User implements Serializable {
 
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
-	}
-
-	public BigInteger getCurrentConnections() {
-		return this.currentConnections;
-	}
-
-	public void setCurrentConnections(BigInteger currentConnections) {
-		this.currentConnections = currentConnections;
 	}
 
 	public Date getDateCreation() {
@@ -106,21 +89,6 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	public BigInteger getTotalConnections() {
-		return this.totalConnections;
-	}
-
-	public void setTotalConnections(BigInteger totalConnections) {
-		this.totalConnections = totalConnections;
-	}
-
-	public String getUser() {
-		return this.user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
 
 	public List<Order> getOrders() {
 		return this.orders;

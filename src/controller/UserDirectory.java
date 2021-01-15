@@ -8,7 +8,7 @@ public class UserDirectory extends BaseDirectory {
 	public UserDirectory(MainWindowControl c) {
 		super(c);
 
-		var adminstratorList = new UserList();
+		var adminstratorList = new UserList(c);
 		this.add(adminstratorList, BorderLayout.CENTER);
 
 	}

@@ -17,8 +17,8 @@ import form.*;
 public class ArticleInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
 
-	public ArticleInformation(MainWindowControl c) {
-		super(c);
+	public ArticleInformation(MainWindowControl c, Object i) {
+		super(c, i);
 
 // left of the screen, article's information
 		

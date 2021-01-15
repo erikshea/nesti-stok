@@ -8,7 +8,7 @@ public class ArticleDirectory extends BaseDirectory {
 	public ArticleDirectory(MainWindowControl c) {
 		super(c);
 
-		var articleList = new ArticleList();
+		var articleList = new ArticleList(c);
 		this.add(articleList, BorderLayout.CENTER);
 
 		

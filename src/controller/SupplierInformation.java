@@ -23,8 +23,8 @@ public class SupplierInformation extends BaseInformation {
 	 * constructor supplier information
 	 * @param c
 	 */
-	public SupplierInformation(MainWindowControl c) {
-		super(c);
+	public SupplierInformation(MainWindowControl c, Object i) {
+		super(c, i);
 
 // left of the screen, supplier's information
 		

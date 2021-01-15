@@ -4,8 +4,8 @@ package controller;
 @SuppressWarnings("serial")
 public class IngredientList extends BaseList {
 
-	public IngredientList() {
-		super();
+	public IngredientList(MainWindowControl c) {
+		super(c);
 
 		this.addRowData(new Object[] {"I452","sucre","gramme"});
 		this.addRowData(new Object[] {"PO984P","oeuf","pièce"});

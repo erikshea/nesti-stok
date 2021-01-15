@@ -11,8 +11,11 @@ import javax.swing.JPanel;
 public class BaseInformation extends JPanel {
 	private static final long serialVersionUID = -4055453327212347699L;
 	protected MainWindowControl mainControl;
-
-	public BaseInformation(MainWindowControl c) {
+	protected Object item;
+	
+	public BaseInformation(MainWindowControl c, Object i) {
+		this.item = i;
+		
 		this.mainControl = c;
 
 		this.setLayout(new BorderLayout());
