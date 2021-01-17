@@ -9,10 +9,13 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import dao.ArticleDao;
 import dao.IngredientDao;
+import dao.ProductDao;
 import form.*;
 import model.Article;
 import model.Product;
@@ -27,15 +30,14 @@ public class ArticleInformation extends BaseInformation {
 			article = new Article();
 			article.setProduct(new Product());
 		}
+		final var articleFinal= article;
+		var dao = new ArticleDao();
 		
 		var supplierPriceList = new ArticleSupplierList(article);
 		if (article.getIdArticle()==0) {
 			supplierPriceList.getAddButton().setEnabled(false);
 		}
 		this.add(supplierPriceList, BorderLayout.EAST);
-		
-		System.out.println(article.getName());
-
 // left of the screen, article's information
 		var articleForm = new JPanel();
 		articleForm.setPreferredSize(new Dimension(500, 0));
@@ -57,40 +59,69 @@ public class ArticleInformation extends BaseInformation {
 		articleForm.add(titleArticleInformation);
 
 		var descriptionFieldContainer = new FieldContainer("Description");
-		descriptionFieldContainer.getField().setText(article.getName());
+		descriptionFieldContainer.bind(
+			()-> articleFinal.getName(),
+			(s)-> articleFinal.setName(s),
+			(fieldValue)->dao.findOneBy("name", fieldValue) == null);
+		//descriptionFieldContainer.getField().setText(article.getName());
 		articleForm.add(descriptionFieldContainer);
 
 		var codeFieldContainer = new FieldContainer("Code Article");
-		codeFieldContainer.getField().setText(article.getCode());
+		codeFieldContainer.bind(
+			()->articleFinal.getCode(),
+			(s)->articleFinal.setCode(s),
+			(fieldValue)->dao.findOneBy("code", fieldValue) == null);
 		articleForm.add(codeFieldContainer);
 
 		var eanFieldContainer = new FieldContainer("EAN");
-		eanFieldContainer.getField().setText(article.getEan());
+		eanFieldContainer.bind(
+			()->articleFinal.getEan(),
+			(s)->articleFinal.setEan(s),
+			(fieldValue)->dao.findOneBy("ean", fieldValue) == null);
 		articleForm.add(eanFieldContainer);
 
 		var i = (new IngredientDao()).findOneBy("idProduct", article.getProduct().getIdProduct());
 		if (i != null) {
 			var ingredientListContainer = new ListFieldContainer("Ingrédient:");
 			var listModel = ingredientListContainer.getListModel();
-			var dao = new IngredientDao();
-			dao.findAll().forEach(ing -> {
+			var idao = new IngredientDao();
+			idao.findAll().forEach(ing -> {
 				listModel.addElement(ing.getProduct().getName());				
 			});
-			ingredientListContainer.getList().setSelectedValue(article.getProduct().getName(), true);
+			ingredientListContainer.bind(
+				()->articleFinal.getProduct().getName(),
+				(s)->articleFinal.setProduct((new ProductDao()).findOneBy("name",s)));
 			articleForm.add(ingredientListContainer);
 		}
 
 		var quantityFieldContainer = new FieldContainer("Quantité");
-		quantityFieldContainer.getField().setText(String.valueOf(article.getQuantity()));
+		quantityFieldContainer.bind(
+			()->String.valueOf(articleFinal.getQuantity()),
+			(s)->articleFinal.setQuantity(Double.parseDouble(s)));
 		articleForm.add(quantityFieldContainer);
 
 		var weightFieldContainer = new FieldContainer("Poids");
-		weightFieldContainer.getField().setText(String.valueOf(article.getWeight()));
+		weightFieldContainer.bind(
+			()->String.valueOf(articleFinal.getWeight()),
+			(s)->articleFinal.setWeight(Double.parseDouble(s)));
 		articleForm.add(weightFieldContainer);
 
 		articleForm.add(Box.createVerticalGlue());
 
 		this.add(articleForm, BorderLayout.WEST);
 
+		this.buttonValidate.addActionListener( e->{
+			try{
+				dao.saveOrUpdate(articleFinal);
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this,
+				    "Veuillez vérifier les champs en orange.",
+				    "Paramètres invalides",
+				    JOptionPane.WARNING_MESSAGE);
+			}
+			(new ProductDao()).saveOrUpdate(articleFinal.getProduct());
+			this.mainControl.getArticleDirectory().getEntityList().refresh();
+			this.mainControl.remove(this);
+		});
 	}
 }

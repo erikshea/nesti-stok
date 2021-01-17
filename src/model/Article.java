@@ -181,4 +181,8 @@ public class Article implements Serializable {
 		return ordersArticle;
 	}
 
+	public String getProductName() {
+		return this.getProduct().getName();
+	}
+
 }

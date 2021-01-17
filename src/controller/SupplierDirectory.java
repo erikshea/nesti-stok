@@ -4,12 +4,17 @@ import java.awt.BorderLayout;
 
 @SuppressWarnings("serial")
 public class SupplierDirectory extends BaseDirectory {
+	protected SupplierList entityList;
+	
+	public SupplierList getEntityList() {
+		return entityList;
+	}
 
 	public SupplierDirectory(MainWindowControl c) {
 		super(c);
 
-		var supplierList = new SupplierList(c);
-		this.add(supplierList, BorderLayout.CENTER);
+		this.entityList = new SupplierList(c);
+		this.add(this.entityList, BorderLayout.CENTER);
 
 	}
 }
