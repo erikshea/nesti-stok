@@ -16,11 +16,11 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
 @SuppressWarnings("serial")
-public class SupplierPriceList extends BasePriceList {
+public class ArticleSupplierList extends BasePriceList {
 
 	protected ButtonGroup radioGroup;
 
-	public SupplierPriceList() {
+	public ArticleSupplierList(Object listOwner) {
 		super();
 		this.radioGroup = new ButtonGroup();
 

@@ -3,8 +3,9 @@ package controller;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -36,13 +37,12 @@ public class ArticleList extends BaseList {
 		this.buttonBar.add(addToCart, 4);
 
 		// Detail of the article List
-		
-		var session = HibernateUtil.getSessionFactory().openSession();
-        List<Article> articles = session.createQuery("from Article").list();
+        var dao = new ArticleDao();
+        var articles = dao.findAll();
         articles.forEach( a->{
     		this.addRowData(new Object[] {a.getName(),a.getCode(),"", 0,a.getStock(),0});
         });
-        session.close();
+
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class ArticleList extends BaseList {
 
 			this.mainController.addCloseableTab(
 					"Article: " + a.getName(),
-					new ArticleInformation(this.mainController,null)
+					new ArticleInformation(this.mainController,a)
 			);
 
 		});

@@ -4,7 +4,9 @@ package util;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -37,13 +39,24 @@ public class HibernateUtil {
     		/* */ 
     		
     		Configuration configuration = new Configuration().configure("/META-INF/hibernate.cfg.xml");
-    		sessionFactory = configuration.buildSessionFactory(); 
     		
-    		
+			sessionFactory = configuration.buildSessionFactory();
     		//sessionFactory.getProperties().put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
     
         }
          
         return sessionFactory;
+    }
+    
+	public static Session getSession() {
+		if (!getSessionFactory().getCurrentSession().getTransaction().isActive()) {
+			getSessionFactory().getCurrentSession().getTransaction().begin();
+		}
+		return getSessionFactory().getCurrentSession();
+	}
+
+    
+    private static void showConnectionErrorMessage(){
+    	System.out.println("Erreur de connexion.");
     }
 }

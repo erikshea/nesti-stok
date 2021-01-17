@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 import form.FieldContainer;
 import form.ListFieldContainer;
+import model.Supplier;
 
 public class SupplierInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -23,8 +24,8 @@ public class SupplierInformation extends BaseInformation {
 	 * constructor supplier information
 	 * @param c
 	 */
-	public SupplierInformation(MainWindowControl c, Object i) {
-		super(c, i);
+	public SupplierInformation(MainWindowControl c, Supplier supplier) {
+		super(c, supplier);
 
 // left of the screen, supplier's information
 		
@@ -71,7 +72,7 @@ public class SupplierInformation extends BaseInformation {
 		
 		this.add(supplierForm, BorderLayout.WEST);
 
-		var articlePriceList = new ArticlePriceList();
+		var articlePriceList = new SupplierArticleList(supplier);
 		this.add(articlePriceList, BorderLayout.EAST);
 		
 	}
