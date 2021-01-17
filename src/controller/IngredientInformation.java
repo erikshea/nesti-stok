@@ -82,13 +82,13 @@ public class IngredientInformation extends BaseInformation {
 		this.buttonValidate.addActionListener( e->{
 			try{
 				ingredientDao.saveOrUpdate(ingredientFinal);
+				productDao.saveOrUpdate(ingredientFinal.getProduct());
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this,
 				    "Veuillez vérifier les champs en orange.",
 				    "Paramètres invalides",
 				    JOptionPane.WARNING_MESSAGE);
 			}
-			productDao.saveOrUpdate(ingredientFinal.getProduct());
 			this.mainControl.getIngredientDirectory().getEntityList().refresh();
 			this.mainControl.remove(this);
 		});
