@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class BaseInformation extends JPanel {
@@ -31,5 +32,10 @@ public class BaseInformation extends JPanel {
 		buttonBottomBar.add(buttonCancel);
 		buttonBottomBar.add(buttonValidate);
 		this.add(buttonBottomBar, BorderLayout.PAGE_END);
+		
+		
+		this.buttonCancel.addActionListener( e->{
+			this.mainControl.remove(this);
+		});
 	}
 }

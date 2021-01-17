@@ -21,7 +21,13 @@ import util.HibernateUtil;
 
 public class MainWindowControl extends JTabbedPane {
 	private static final long serialVersionUID = 4705253258936419615L;
-	
+	protected ArticleDirectory articleDirectory;
+	protected SupplierDirectory supplierDirectory;
+	protected IngredientDirectory ingredientDirectory;
+	protected UserDirectory userDirectory;
+
+
+
 	public MainWindowControl() {
 
 		
@@ -30,20 +36,17 @@ public class MainWindowControl extends JTabbedPane {
 				(int) (Toolkit.getDefaultToolkit().getScreenSize().height*0.8)		
 		));
 		
-	    var listPaneArticle = new ArticleDirectory(this);
-	    this.addTab("Article", listPaneArticle);
+		this.articleDirectory = new ArticleDirectory(this);
+	    this.addTab("Article", this.articleDirectory);
 	    
-	    var listPaneSupplier = new SupplierDirectory(this);
-	    this.addTab("Fournisseur", listPaneSupplier);
+	    this.supplierDirectory = new SupplierDirectory(this);
+	    this.addTab("Fournisseur", this.supplierDirectory);
 	    
-	    var listPaneIngredient = new IngredientDirectory(this);
-	    this.addTab("Ingrédient", listPaneIngredient);
+	    this.ingredientDirectory = new IngredientDirectory(this);
+	    this.addTab("Ingrédient", this.ingredientDirectory);
 	    
-	    var listPaneAdministrator = new UserDirectory(this);
-	    this.addTab("Utilisateur", listPaneAdministrator);
-	    
-		
-	    this.addTab("Article", new ArticleInformation(this,null));
+	    this.userDirectory = new UserDirectory(this);
+	    this.addTab("Utilisateur", this.userDirectory);
 	}
 
     public void addCloseableTab(String title, Icon icon, Component component, String tip) {
@@ -112,4 +115,22 @@ public class MainWindowControl extends JTabbedPane {
         @Override
         public void mouseExited(MouseEvent e) {}
     }
+    
+	
+	public ArticleDirectory getArticleDirectory() {
+		return articleDirectory;
+	}
+
+	public SupplierDirectory getSupplierDirectory() {
+		return supplierDirectory;
+	}
+
+	public IngredientDirectory getIngredientDirectory() {
+		return ingredientDirectory;
+	}
+
+
+	public UserDirectory getUserDirectory() {
+		return userDirectory;
+	}
 }

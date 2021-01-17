@@ -16,19 +16,14 @@ import model.Article;
 import util.HibernateUtil;
 
 @SuppressWarnings("unchecked")
-public abstract class BaseDao<E> {
-	private final Class<E> entityClass;
-
-	public BaseDao() {
-		this.entityClass = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-	}
+public  class BaseDao<E> {
 
 	protected Session getSession() {
 		return HibernateUtil.getSession();
 	}
 
 	public E findById(final Serializable id) {
-		return (E) getSession().get(this.entityClass, id);
+		return (E) getSession().get(this.getEntityClass(), id);
 	}
 
 	public Serializable save(E entity) {
@@ -57,7 +52,7 @@ public abstract class BaseDao<E> {
 
 	public List<E> findAll() {
 		var cr = this.getCriteriaQuery();
-		var root = cr.from(this.entityClass);
+		var root = cr.from(this.getEntityClass());
 		cr.select(root);
 		return this.getSession().createQuery(cr).getResultList();
 	}
@@ -73,7 +68,7 @@ public abstract class BaseDao<E> {
 
 	public <T> E findOneBy(String propertyName, T value) {
 			var cr = this.getCriteriaQuery();
-	        var root = cr.from(this.entityClass);
+	        var root = cr.from(this.getEntityClass());
 	        var cb =this.getSession().getCriteriaBuilder();
 	        cr.where(cb.equal(root.get(propertyName), value));
 	        return this.getSession().createQuery(cr).getResultStream()
@@ -83,6 +78,10 @@ public abstract class BaseDao<E> {
 
 	public CriteriaQuery<E> getCriteriaQuery() {
 		CriteriaBuilder cb = this.getSession().getCriteriaBuilder();
-		return cb.createQuery(this.entityClass);
+		return cb.createQuery(this.getEntityClass());
+	}
+	
+	public Class<E> getEntityClass() {
+		return (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 }

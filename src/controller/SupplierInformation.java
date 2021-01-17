@@ -9,11 +9,15 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import dao.SupplierDao;
 import form.FieldContainer;
 import form.ListFieldContainer;
+import model.Ingredient;
+import model.Product;
 import model.Supplier;
 
 public class SupplierInformation extends BaseInformation {
@@ -26,7 +30,11 @@ public class SupplierInformation extends BaseInformation {
 	 */
 	public SupplierInformation(MainWindowControl c, Supplier supplier) {
 		super(c, supplier);
-
+		if (supplier == null) {
+			supplier = new Supplier();
+		}
+		var dao = new SupplierDao();
+		final var supplierFinal = supplier;
 // left of the screen, supplier's information
 		
 		var supplierForm = new JPanel();
@@ -37,35 +45,52 @@ public class SupplierInformation extends BaseInformation {
 		supplierForm.add(titleSupplierInformation);
 		
 		var nameFieldContainer = new FieldContainer("Nom");
-		nameFieldContainer.getField().setText("Jean Bon Grossiste");
+		nameFieldContainer.bind(
+				()-> supplierFinal.getName(),
+				(s)-> supplierFinal.setName(s),
+				(fieldValue)->dao.findOneBy("name", fieldValue) == null);
 		supplierForm.add(nameFieldContainer);
 		
 		var adress1FieldContainer = new FieldContainer("Adresse 1");
-		adress1FieldContainer.getField().setText("1 rue des couteaux");
+		adress1FieldContainer.bind(
+				()-> supplierFinal.getAddress1(),
+				(s)-> supplierFinal.setAddress1(s));
 		supplierForm.add(adress1FieldContainer);
 		
 		var adresse2FieldContainer = new FieldContainer("Adresse 2");
-		adresse2FieldContainer.getField().setText("Batiment A");
+		adresse2FieldContainer.bind(
+				()-> supplierFinal.getAddress2(),
+				(s)-> supplierFinal.setAddress2(s));
 		supplierForm.add(adresse2FieldContainer);
 		
 		var zipCodeFieldContainer = new FieldContainer("Code postal");
-		zipCodeFieldContainer.getField().setText("34000");
+		zipCodeFieldContainer.bind(
+				()-> supplierFinal.getZipCode(),
+				(s)-> supplierFinal.setZipCode(s));
 		supplierForm.add(zipCodeFieldContainer);
 		
 		var cityFieldContainer = new FieldContainer("Ville");
-		cityFieldContainer.getField().setText("Montpellier");
+		cityFieldContainer.bind(
+				()-> supplierFinal.getCity(),
+				(s)-> supplierFinal.setCity(s));
 		supplierForm.add(cityFieldContainer);
 
 		var countryFieldContainer = new FieldContainer("Pays");
-		countryFieldContainer.getField().setText("France");
+		countryFieldContainer.bind(
+				()-> supplierFinal.getCountry(),
+				(s)-> supplierFinal.setCountry(s));
 		supplierForm.add(countryFieldContainer);
 
 		var phoneFieldContainer = new FieldContainer("Téléphone");
-		phoneFieldContainer.getField().setText("06 12 13 14 15");
+		phoneFieldContainer.bind(
+				()-> supplierFinal.getPhoneNumber(),
+				(s)-> supplierFinal.setPhoneNumber(s));
 		supplierForm.add(phoneFieldContainer);
 		
 		var contactNameFieldContainer = new FieldContainer("Nom du contact");
-		contactNameFieldContainer.getField().setText("Martine Martin");
+		contactNameFieldContainer.bind(
+				()-> supplierFinal.getContactName(),
+				(s)-> supplierFinal.setContactName(s));
 		supplierForm.add(contactNameFieldContainer);
 
 		supplierForm.add(Box.createVerticalGlue());
@@ -75,5 +100,17 @@ public class SupplierInformation extends BaseInformation {
 		var articlePriceList = new SupplierArticleList(supplier);
 		this.add(articlePriceList, BorderLayout.EAST);
 		
+		this.buttonValidate.addActionListener( e->{
+			try{
+				dao.saveOrUpdate(supplierFinal);
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this,
+				    "Veuillez vérifier les champs en orange.",
+				    "Paramètres invalides",
+				    JOptionPane.WARNING_MESSAGE);
+			}
+			this.mainControl.getSupplierDirectory().getEntityList().refresh();
+			this.mainControl.remove(this);
+		});
 	}
 }

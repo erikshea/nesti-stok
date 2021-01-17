@@ -4,15 +4,15 @@ import java.lang.reflect.Field;
 
 public class ReflectionProperty {
 	public static boolean set(Object object, String fieldName, Object fieldValue) {
-	    Class<?> clazz = object.getClass();
-	    while (clazz != null) {
+	    Class<?> c = object.getClass();
+	    while (c != null) {
 	        try {
-	            Field field = clazz.getDeclaredField(fieldName);
+	            Field field = c.getDeclaredField(fieldName);
 	            field.setAccessible(true);
 	            field.set(object, fieldValue);
 	            return true;
 	        } catch (NoSuchFieldException e) {
-	            clazz = clazz.getSuperclass();
+	            c = c.getSuperclass();
 	        } catch (Exception e) {
 	            throw new IllegalStateException(e);
 	        }
@@ -22,14 +22,14 @@ public class ReflectionProperty {
 	
 	@SuppressWarnings("unchecked")
 	public static <V> V get(Object object, String fieldName) {
-	    Class<?> clazz = object.getClass();
-	    while (clazz != null) {
+	    Class<?> c = object.getClass();
+	    while (c != null) {
 	        try {
-	            Field field = clazz.getDeclaredField(fieldName);
+	            Field field = c.getDeclaredField(fieldName);
 	            field.setAccessible(true);
 	            return (V) field.get(object);
 	        } catch (NoSuchFieldException e) {
-	            clazz = clazz.getSuperclass();
+	            c = c.getSuperclass();
 	        } catch (Exception e) {
 	            throw new IllegalStateException(e);
 	        }

@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 
+@SuppressWarnings("serial")
 public class BaseList extends JPanel {
 
 	protected JPanel buttonBar;
