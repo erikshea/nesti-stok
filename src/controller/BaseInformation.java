@@ -12,9 +12,10 @@ public class BaseInformation extends JPanel {
 	private static final long serialVersionUID = -4055453327212347699L;
 	protected MainWindowControl mainControl;
 	protected Object item;
+	protected JButton buttonValidate, buttonCancel;
 	
-	public BaseInformation(MainWindowControl c, Object i) {
-		this.item = i;
+	public BaseInformation(MainWindowControl c, Object o) {
+		this.item = o;
 		
 		this.mainControl = c;
 
@@ -23,8 +24,8 @@ public class BaseInformation extends JPanel {
 		var buttonBottomBar = new JPanel();
 		buttonBottomBar.setLayout(new BoxLayout(buttonBottomBar, BoxLayout.X_AXIS));
 
-		var buttonCancel = new JButton("Annuler");
-		var buttonValidate = new JButton("Envoyer");
+		this.buttonCancel = new JButton("Annuler");
+		this.buttonValidate = new JButton("Enregistrer");
 
 		buttonBottomBar.add(Box.createHorizontalGlue());
 		buttonBottomBar.add(buttonCancel);

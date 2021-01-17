@@ -5,9 +5,9 @@ import javax.swing.JButton;
 import dao.OfferDao;
 
 @SuppressWarnings("serial")
-public class ArticlePriceList extends BasePriceList {
+public class SupplierArticleList extends BasePriceList {
 
-	public ArticlePriceList() {
+	public SupplierArticleList(Object listOwner) {
 		super();
 		
 		var dao = new OfferDao(); 

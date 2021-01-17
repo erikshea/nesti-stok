@@ -17,20 +17,14 @@ import util.HibernateUtil;
 
 @SuppressWarnings("unchecked")
 public abstract class BaseDao<E> {
-	private SessionFactory sessionFactory;
 	private final Class<E> entityClass;
 
 	public BaseDao() {
-		this.sessionFactory = HibernateUtil.getSessionFactory();
-		this.entityClass = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass())
-				.getActualTypeArguments()[0];
+		this.entityClass = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
 	protected Session getSession() {
-		if (!this.sessionFactory.getCurrentSession().getTransaction().isActive()) {
-			this.sessionFactory.getCurrentSession().getTransaction().begin();
-		}
-		return this.sessionFactory.getCurrentSession();
+		return HibernateUtil.getSession();
 	}
 
 	public E findById(final Serializable id) {
@@ -38,15 +32,19 @@ public abstract class BaseDao<E> {
 	}
 
 	public Serializable save(E entity) {
-		return getSession().save(entity);
+        var result = getSession().save(entity);
+        getSession().getTransaction().commit();
+		return result;
 	}
 
 	public void saveOrUpdate(E entity) {
 		getSession().saveOrUpdate(entity);
+        getSession().getTransaction().commit();
 	}
 
 	public void delete(E entity) {
 		getSession().delete(entity);
+        getSession().getTransaction().commit();
 	}
 
 	public void deleteAll() {
@@ -54,6 +52,7 @@ public abstract class BaseDao<E> {
 		for (E entity : entities) {
 			getSession().delete(entity);
 		}
+        getSession().getTransaction().commit();
 	}
 
 	public List<E> findAll() {
@@ -73,17 +72,13 @@ public abstract class BaseDao<E> {
 	}
 
 	public <T> E findOneBy(String propertyName, T value) {
-		 var cr = this.getCriteriaQuery();
-	        var cb =this.getSession().getCriteriaBuilder();
+			var cr = this.getCriteriaQuery();
 	        var root = cr.from(this.entityClass);
+	        var cb =this.getSession().getCriteriaBuilder();
 	        cr.where(cb.equal(root.get(propertyName), value));
-	        var results = this.getSession().createQuery(cr).getResultList();
-	        E result = null;
-	        if ( results.size() != 0 ) {
-	            result = results.get(0);
-	        }
-
-	        return result;
+	        return this.getSession().createQuery(cr).getResultStream()
+        		.findFirst()
+        		.orElse(null);
 	}
 
 	public CriteriaQuery<E> getCriteriaQuery() {

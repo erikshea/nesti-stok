@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import dao.IngredientDao;
 import form.*;
 import model.Article;
+import model.Product;
 
 public class ArticleInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -22,6 +23,17 @@ public class ArticleInformation extends BaseInformation {
 	public ArticleInformation(MainWindowControl c, Article article) {
 		super(c, article);
 
+		if (article == null) {
+			article = new Article();
+			article.setProduct(new Product());
+		}
+		
+		var supplierPriceList = new ArticleSupplierList(article);
+		if (article.getIdArticle()==0) {
+			supplierPriceList.getAddButton().setEnabled(false);
+		}
+		this.add(supplierPriceList, BorderLayout.EAST);
+		
 		System.out.println(article.getName());
 
 // left of the screen, article's information
@@ -80,7 +92,5 @@ public class ArticleInformation extends BaseInformation {
 
 		this.add(articleForm, BorderLayout.WEST);
 
-		var supplierPriceList = new SupplierPriceList();
-		this.add(supplierPriceList, BorderLayout.EAST);
 	}
 }

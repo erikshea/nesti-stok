@@ -42,7 +42,8 @@ public class MainWindowControl extends JTabbedPane {
 	    var listPaneAdministrator = new UserDirectory(this);
 	    this.addTab("Utilisateur", listPaneAdministrator);
 	    
-	 
+		
+	    this.addTab("Article", new ArticleInformation(this,null));
 	}
 
     public void addCloseableTab(String title, Icon icon, Component component, String tip) {

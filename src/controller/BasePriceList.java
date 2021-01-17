@@ -38,7 +38,8 @@ public class BasePriceList extends JPanel {
 	private static final long serialVersionUID = -1997250030218950222L;
 	protected DefaultTableModel tableModel;
 	protected JTable table;
-
+	protected JButton addButton;
+	
 	@SuppressWarnings("serial")
 	public JTable getPriceTable() {
 		
@@ -74,7 +75,6 @@ public class BasePriceList extends JPanel {
 	}
 
 	public BasePriceList() {
-
 		// right of the screen, price's and supplier's informations
 		this.setPreferredSize(new Dimension(800, 0));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -114,14 +114,18 @@ public class BasePriceList extends JPanel {
 		var priceSupplier = new JTextField("25");
 		addPriceContainer.add(priceSupplier);
 
-		var buttonAddPrice = new JButton("+");
-		addPriceContainer.add(buttonAddPrice);
+		addButton = new JButton("+");
+		addPriceContainer.add(addButton);
 
 		this.add(addPriceContainer);
 
 		// allows to reduce the windows
 		this.add(Box.createVerticalGlue());
 
+	}
+	
+	public JButton getAddButton() {
+		return addButton;
 	}
 
 }
@@ -141,3 +145,4 @@ class JTableButtonRenderer implements TableCellRenderer {
 		return defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 	}
 }
+
