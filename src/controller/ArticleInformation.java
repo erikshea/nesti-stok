@@ -113,13 +113,13 @@ public class ArticleInformation extends BaseInformation {
 		this.buttonValidate.addActionListener( e->{
 			try{
 				dao.saveOrUpdate(articleFinal);
+				(new ProductDao()).saveOrUpdate(articleFinal.getProduct());
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this,
 				    "Veuillez vérifier les champs en orange.",
 				    "Paramètres invalides",
 				    JOptionPane.WARNING_MESSAGE);
 			}
-			(new ProductDao()).saveOrUpdate(articleFinal.getProduct());
 			this.mainControl.getArticleDirectory().getEntityList().refresh();
 			this.mainControl.remove(this);
 		});
