@@ -2,6 +2,10 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import dao.UnitDao;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,8 +28,18 @@ public class Ingredient implements Serializable {
 	@JoinColumn(name="id_product")
 	private Product product;
 
+
 	//bi-directional many-to-many association to Unit
-	@ManyToMany(mappedBy="ingredients")
+	@ManyToMany
+	@JoinTable(
+	name="allows"
+	, joinColumns={
+		@JoinColumn(name="id_product")
+		}
+	, inverseJoinColumns={
+		@JoinColumn(name="id_unit")
+		}
+	)
 	private List<Unit> units;
 
 	public Ingredient() {
@@ -55,4 +69,15 @@ public class Ingredient implements Serializable {
 		this.units = units;
 	}
 
+	public List<String> getUnitsNames() {
+		List<String>  names = new ArrayList<>();
+		this.units.forEach(u->names.add(u.getName()));
+		return names;
+	}
+	
+	public void setUnitsFromNames(List<String> ingredientNames) {
+		var unitDao = new UnitDao();
+		this.units = new ArrayList<>();
+		ingredientNames.forEach( n -> this.units.add( unitDao.findOneBy("name", n)));
+	}
 }

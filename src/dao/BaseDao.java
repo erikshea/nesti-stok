@@ -16,25 +16,14 @@ import model.Article;
 import util.HibernateUtil;
 
 @SuppressWarnings("unchecked")
-public abstract class BaseDao<E> {
-	private SessionFactory sessionFactory;
-	private final Class<E> entityClass;
-
-	public BaseDao() {
-		this.sessionFactory = HibernateUtil.getSessionFactory();
-		this.entityClass = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass())
-				.getActualTypeArguments()[0];
-	}
+public  class BaseDao<E> {
 
 	protected Session getSession() {
-		if (!this.sessionFactory.getCurrentSession().getTransaction().isActive()) {
-			this.sessionFactory.getCurrentSession().getTransaction().begin();
-		}
-		return this.sessionFactory.getCurrentSession();
+		return HibernateUtil.getSession();
 	}
 
 	public E findById(final Serializable id) {
-		return (E) getSession().get(this.entityClass, id);
+		return (E) getSession().get(this.getEntityClass(), id);
 	}
 
 	public Serializable save(E entity) {
@@ -58,7 +47,7 @@ public abstract class BaseDao<E> {
 
 	public List<E> findAll() {
 		var cr = this.getCriteriaQuery();
-		var root = cr.from(this.entityClass);
+		var root = cr.from(this.getEntityClass());
 		cr.select(root);
 		return this.getSession().createQuery(cr).getResultList();
 	}
@@ -73,21 +62,21 @@ public abstract class BaseDao<E> {
 	}
 
 	public <T> E findOneBy(String propertyName, T value) {
-		 var cr = this.getCriteriaQuery();
+			var cr = this.getCriteriaQuery();
+	        var root = cr.from(this.getEntityClass());
 	        var cb =this.getSession().getCriteriaBuilder();
-	        var root = cr.from(this.entityClass);
 	        cr.where(cb.equal(root.get(propertyName), value));
-	        var results = this.getSession().createQuery(cr).getResultList();
-	        E result = null;
-	        if ( results.size() != 0 ) {
-	            result = results.get(0);
-	        }
-
-	        return result;
+	        return this.getSession().createQuery(cr).getResultStream()
+        		.findFirst()
+        		.orElse(null);
 	}
 
 	public CriteriaQuery<E> getCriteriaQuery() {
 		CriteriaBuilder cb = this.getSession().getCriteriaBuilder();
-		return cb.createQuery(this.entityClass);
+		return cb.createQuery(this.getEntityClass());
+	}
+	
+	public Class<E> getEntityClass() {
+		return (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 }

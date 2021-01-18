@@ -4,12 +4,17 @@ import java.awt.BorderLayout;
 
 @SuppressWarnings("serial")
 public class ArticleDirectory extends BaseDirectory {
-
+	protected ArticleList entityList;
+	
+	public ArticleList getEntityList() {
+		return entityList;
+	}
+	
 	public ArticleDirectory(MainWindowControl c) {
 		super(c);
 
-		var articleList = new ArticleList(c);
-		this.add(articleList, BorderLayout.CENTER);
+		this.entityList = new ArticleList(c);
+		this.add(this.entityList, BorderLayout.CENTER);
 
 		
 	}

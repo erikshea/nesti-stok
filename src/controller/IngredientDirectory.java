@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 
 @SuppressWarnings("serial")
 public class IngredientDirectory extends BaseDirectory {
-
+	protected IngredientList entityList;
+	
+	public IngredientList getEntityList() {
+		return entityList;
+	}
 	public IngredientDirectory(MainWindowControl c) {
 		super(c);
 
-		var ingredientList = new IngredientList(c);
-		this.add(ingredientList, BorderLayout.CENTER);
-
+		this.entityList = new IngredientList(c);
+		this.add(this.entityList, BorderLayout.CENTER);
 	}
 }

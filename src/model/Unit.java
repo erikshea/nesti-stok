@@ -25,17 +25,8 @@ public class Unit implements Serializable {
 	@OneToMany(mappedBy="unit")
 	private List<Article> articles;
 
-	//bi-directional many-to-many association to Ingredient
-	@ManyToMany
-	@JoinTable(
-		name="allows"
-		, joinColumns={
-			@JoinColumn(name="id_unit")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="id_product")
-			}
-		)
+	//bi-directional many-to-many association to Unit
+	@ManyToMany(mappedBy="units")
 	private List<Ingredient> ingredients;
 
 	public Unit() {

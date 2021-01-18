@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 
+@SuppressWarnings("serial")
 public class BaseList extends JPanel {
 
 	protected JPanel buttonBar;
@@ -33,6 +34,7 @@ public class BaseList extends JPanel {
 		this.mainController = c;
 		
 		this.buttonAdd = new JButton("Créer");
+		
 		this.buttonDelete = new JButton("Supprimer");
 		this.buttonModify = new JButton("Modifier");
 		this.buttonDuplicate = new JButton("Dupliquer");
@@ -78,7 +80,7 @@ public class BaseList extends JPanel {
 		this.table = new JTable(tableModel);
 
 		this.table.getSelectionModel().addListSelectionListener(e->{
-			this.buttonAdd.setEnabled(this.table.getSelectedRowCount() <= 1) ;
+			this.buttonAdd.setEnabled(false);//this.table.getSelectedRowCount() <= 1) ; TODO: re-enable
 			this.buttonDelete.setEnabled(this.table.getSelectedRowCount() > 0) ;
 			this.buttonModify.setEnabled(this.table.getSelectedRowCount() == 0 || this.table.getSelectedRowCount() == 1) ;
 			this.buttonDuplicate.setEnabled(this.table.getSelectedRowCount() <= 1) ;
@@ -100,8 +102,6 @@ public class BaseList extends JPanel {
 				    null,     //do not use a custom Icon
 				    options,  //the titles of buttons
 				    options[0]); //default button title
-			
-			System.out.println(c);
 			
 			/*
 			//If a string was returned, say so.

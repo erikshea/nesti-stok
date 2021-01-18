@@ -9,12 +9,17 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import dao.ArticleDao;
 import dao.IngredientDao;
+import dao.ProductDao;
 import form.*;
 import model.Article;
+import model.Product;
+import util.HibernateUtil;
 
 public class ArticleInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -22,8 +27,18 @@ public class ArticleInformation extends BaseInformation {
 	public ArticleInformation(MainWindowControl c, Article article) {
 		super(c, article);
 
-		System.out.println(article.getName());
-
+		if (article == null) {
+			article = new Article();
+			article.setProduct(new Product());
+		}
+		final var articleFinal= article;
+		var dao = new ArticleDao();
+		
+		var supplierPriceList = new ArticleSupplierList(article);
+		if (article.getIdArticle()==0) {
+			supplierPriceList.getAddButton().setEnabled(false);
+		}
+		this.add(supplierPriceList, BorderLayout.EAST);
 // left of the screen, article's information
 		var articleForm = new JPanel();
 		articleForm.setPreferredSize(new Dimension(500, 0));
@@ -44,43 +59,76 @@ public class ArticleInformation extends BaseInformation {
 		var titleArticleInformation = new JLabel("Article");
 		articleForm.add(titleArticleInformation);
 
-		var descriptionFieldContainer = new FieldContainer("Description");
-		descriptionFieldContainer.getField().setText(article.getName());
+		var descriptionFieldContainer = new FieldContainer("Description", this);
+		descriptionFieldContainer.bind(
+			()-> articleFinal.getName(),
+			(s)-> articleFinal.setName(s),
+			(fieldValue)->dao.findOneBy("name", fieldValue) == null);
+		//descriptionFieldContainer.getField().setText(article.getName());
 		articleForm.add(descriptionFieldContainer);
 
-		var codeFieldContainer = new FieldContainer("Code Article");
-		codeFieldContainer.getField().setText(article.getCode());
+		var codeFieldContainer = new FieldContainer("Code Article", this);
+		codeFieldContainer.bind(
+			()->articleFinal.getCode(),
+			(s)->articleFinal.setCode(s),
+			(fieldValue)->dao.findOneBy("code", fieldValue) == null);
 		articleForm.add(codeFieldContainer);
 
-		var eanFieldContainer = new FieldContainer("EAN");
-		eanFieldContainer.getField().setText(article.getEan());
+		var eanFieldContainer = new FieldContainer("EAN", this);
+		eanFieldContainer.bind(
+			()->articleFinal.getEan(),
+			(s)->articleFinal.setEan(s),
+			(fieldValue)->dao.findOneBy("ean", fieldValue) == null);
 		articleForm.add(eanFieldContainer);
 
 		var i = (new IngredientDao()).findOneBy("idProduct", article.getProduct().getIdProduct());
 		if (i != null) {
-			var ingredientListContainer = new ListFieldContainer("Ingrédient:");
+			var ingredientListContainer = new ListFieldContainer("Ingrédient:", this);
 			var listModel = ingredientListContainer.getListModel();
-			var dao = new IngredientDao();
-			dao.findAll().forEach(ing -> {
+			var idao = new IngredientDao();
+			idao.findAll().forEach(ing -> {
 				listModel.addElement(ing.getProduct().getName());				
 			});
-			ingredientListContainer.getList().setSelectedValue(article.getProduct().getName(), true);
+			ingredientListContainer.bind(
+				()->articleFinal.getProduct().getName(),
+				(s)->articleFinal.setProduct((new ProductDao()).findOneBy("name",s)));
 			articleForm.add(ingredientListContainer);
 		}
 
-		var quantityFieldContainer = new FieldContainer("Quantité");
-		quantityFieldContainer.getField().setText(String.valueOf(article.getQuantity()));
+		var quantityFieldContainer = new FieldContainer("Quantité", this);
+		quantityFieldContainer.bind(
+			()->String.valueOf(articleFinal.getQuantity()),
+			(s)->articleFinal.setQuantity(Double.parseDouble(s)));
 		articleForm.add(quantityFieldContainer);
 
-		var weightFieldContainer = new FieldContainer("Poids");
-		weightFieldContainer.getField().setText(String.valueOf(article.getWeight()));
+		var weightFieldContainer = new FieldContainer("Poids", this);
+		weightFieldContainer.bind(
+			()->String.valueOf(articleFinal.getWeight()),
+			(s)->articleFinal.setWeight(Double.parseDouble(s)));
 		articleForm.add(weightFieldContainer);
 
 		articleForm.add(Box.createVerticalGlue());
 
 		this.add(articleForm, BorderLayout.WEST);
 
-		var supplierPriceList = new SupplierPriceList();
-		this.add(supplierPriceList, BorderLayout.EAST);
+		this.buttonValidate.addActionListener( e->{
+			try{
+				dao.saveOrUpdate(articleFinal);
+				(new ProductDao()).saveOrUpdate(articleFinal.getProduct());
+				HibernateUtil.getSession().getTransaction().commit();
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this,
+				    "Veuillez vérifier les champs en orange.",
+				    "Paramètres invalides",
+				    JOptionPane.WARNING_MESSAGE);
+			}
+			this.mainControl.getArticleDirectory().getEntityList().refresh();
+			this.mainControl.remove(this);
+			this.mainControl.setSelectedComponent(this.mainControl.getArticleDirectory());
+		});
+		
+		this.buttonCancel.addActionListener( e->{
+			this.mainControl.setSelectedComponent(this.mainControl.getArticleDirectory());
+		});
 	}
 }

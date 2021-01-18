@@ -6,11 +6,15 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.BaseInformation;
+
 @SuppressWarnings("serial")
 public class BaseFieldContainer extends JPanel{
 	protected JLabel label;
-	
-	public BaseFieldContainer(String labelText) {
+	protected BaseInformation infoPane; 
+	public BaseFieldContainer(String labelText, BaseInformation i) {
+		infoPane = i;
+		
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.setAlignmentX(Component.LEFT_ALIGNMENT);
 		

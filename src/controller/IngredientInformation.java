@@ -3,26 +3,44 @@ package controller;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
+import dao.ArticleDao;
+import dao.IngredientDao;
+import dao.ProductDao;
+import dao.UnitDao;
 import form.EditableListFieldContainer;
 import form.FieldContainer;
 import form.ListFieldContainer;
+import model.Article;
+import model.Ingredient;
+import model.Product;
+import util.HibernateUtil;
 
 public class IngredientInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
 
-	public IngredientInformation(MainWindowControl c, Object i) {
-		super(c, i);
-
-// left of the screen, ingredient's information
+	public IngredientInformation(MainWindowControl c, Ingredient ingredient) {
+		super(c, ingredient);
+		if (ingredient == null) {
+			ingredient = new Ingredient();
+			ingredient.setProduct(new Product());
+			ingredient.setUnits(new ArrayList<>());
+		}
+		final var ingredientFinal= ingredient;
+		var ingredientDao = new IngredientDao();
+		var productDao = new ProductDao();
+		// left of the screen, ingredient's information
 		
 		var ingredientForm = new JPanel();
 		ingredientForm.setPreferredSize(new Dimension(500, 0));
@@ -31,25 +49,61 @@ public class IngredientInformation extends BaseInformation {
 		var titleIngredientInformation = new JLabel("Ingrédient");
 		ingredientForm.add(titleIngredientInformation);
 		
-		var descriptionFieldContainer = new FieldContainer("Description");
-		descriptionFieldContainer.getField().setText("Lait");
+		var descriptionFieldContainer = new FieldContainer("Description", this);
+		descriptionFieldContainer.bind(
+				()-> ingredientFinal.getProduct().getName(),
+				(s)-> ingredientFinal.getProduct().setName(s),
+				(fieldValue)->productDao.findOneBy("name", fieldValue) == null);
 		ingredientForm.add(descriptionFieldContainer);
 		
-		var codeFieldContainer = new FieldContainer("Référence");
-		codeFieldContainer.getField().setText("III3");
+		var codeFieldContainer = new FieldContainer("Référence", this);
+		codeFieldContainer.bind(
+				()-> ingredientFinal.getProduct().getReference(),
+				(s)-> ingredientFinal.getProduct().setReference(s),
+				(fieldValue)->productDao.findOneBy("reference", fieldValue) == null);
 		ingredientForm.add(codeFieldContainer);
 		
-		var unitFieldContainer = new EditableListFieldContainer("Unité");
-		unitFieldContainer.populateList(List.of("kg","pièce","litre"));
-		ingredientForm.add(unitFieldContainer);
+		var unitListContainer = new EditableListFieldContainer("Unité", this);
+		unitListContainer.getList().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		
+		
+		var unitDao = new UnitDao();
+		unitDao.findAll().forEach(unit -> {
+			unitListContainer.getListModel().addElement(unit.getName());				
+		});
+		unitListContainer.bindMultiple(
+			()->ingredientFinal.getUnitsNames(),
+			(s)->ingredientFinal.setUnitsFromNames(s) );
+		ingredientForm.add(unitListContainer);
 
-		var weightFieldContainer = new FieldContainer("Poids unitaire");
-		weightFieldContainer.getField().setText("1140");
-		ingredientForm.add(weightFieldContainer);
+		ingredientForm.add(unitListContainer);
 
 		ingredientForm.add(Box.createVerticalGlue());
 		
 		this.add(ingredientForm, BorderLayout.WEST);
 		
+		this.buttonValidate.addActionListener( e->{
+			try{
+				productDao.saveOrUpdate(ingredientFinal.getProduct());
+				HibernateUtil.getSession().getTransaction().commit();
+				var insertedProduct = productDao.findOneBy("reference", ingredientFinal.getProduct().getReference());
+				ingredientFinal.setIdProduct(insertedProduct.getIdProduct());
+				ingredientDao.saveOrUpdate(ingredientFinal);
+				System.out.println(ingredientFinal.getIdProduct());
+				HibernateUtil.getSession().getTransaction().commit();
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this,
+				    "Veuillez vérifier les champs en orange.",
+				    "Paramètres invalides",
+				    JOptionPane.WARNING_MESSAGE);
+			}
+			this.mainControl.getIngredientDirectory().getEntityList().refresh();
+			this.mainControl.remove(this);
+			this.mainControl.setSelectedComponent(this.mainControl.getIngredientDirectory());
+		});
+		
+		this.buttonCancel.addActionListener( e->{
+			this.mainControl.setSelectedComponent(this.mainControl.getIngredientDirectory());
+		});
 	}
 }
