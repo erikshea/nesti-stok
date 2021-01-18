@@ -54,7 +54,6 @@ public class BasePriceList extends JPanel {
 
 		this.table.getColumn("Suppression").setCellRenderer(new JTableButtonRenderer(null));
 		//!!!!!!!!!!!!!!!!!!! manque la partie pour éditer quand on clique sur le bouton!!!! a ajouter 
-		
 		return this.table;
 	}
 

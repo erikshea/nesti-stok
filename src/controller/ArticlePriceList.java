@@ -10,6 +10,7 @@ public class ArticlePriceList extends BasePriceList {
 	public ArticlePriceList() {
 		super();
 		
+		//----------------- A COORIGER POUR N'AFFICHER QUE LES ARTICLE DU FOURNISSEUR
 		var dao = new OfferDao(); 
 		var articlePrice = dao.findAll();
 		articlePrice.forEach(ap->{
