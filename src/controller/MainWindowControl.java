@@ -29,12 +29,19 @@ public class MainWindowControl extends JTabbedPane {
 
 
 	public MainWindowControl() {
-
+		Integer width = (int)(Toolkit.getDefaultToolkit().getScreenSize().width*0.8);
+		if (width > 1600) {
+			width = 1600;
+		}
 		
-		this.setPreferredSize(new Dimension(
-				(int) (Toolkit.getDefaultToolkit().getScreenSize().width*0.8),
-				(int) (Toolkit.getDefaultToolkit().getScreenSize().height*0.8)		
-		));
+		Integer height = (int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.8);
+		if (height > 900) {
+			height = 900;
+		}
+		
+		this.setPreferredSize(new Dimension(width, 	height));
+		
+		this.setMaximumSize(new Dimension(600,900));;
 		
 		this.articleDirectory = new ArticleDirectory(this);
 	    this.addTab("Article", this.articleDirectory);
@@ -53,6 +60,7 @@ public class MainWindowControl extends JTabbedPane {
         super.addTab(title, icon, component, tip);
         int count = this.getTabCount() - 1;
         this.setTabComponentAt(count, new CloseButtonTab(component, title, icon));
+        this.setSelectedIndex(count);
     }
 
 

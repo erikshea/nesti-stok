@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import controller.BaseInformation;
+
 @SuppressWarnings("serial")
 public class EditableListFieldContainer extends ListFieldContainer {
 
@@ -44,8 +46,8 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		getListModel().removeElement(selected);
 	}
 	
-	public EditableListFieldContainer(String labelText) {
-		super(labelText);
+	public EditableListFieldContainer(String labelText, BaseInformation infoPane) {
+		super(labelText, infoPane);
 
 		this.setPreferredSize(new Dimension(0, 120));
 

@@ -37,12 +37,12 @@ public class ShoppingCard extends BaseInformation {
 		var tableContainer = new JScrollPane(this.table);
 		addtoCardContainer.add(tableContainer);
 		
-		var sheepingFeeFieldContainer = new FieldContainer("Frais de port");
+		var sheepingFeeFieldContainer = new FieldContainer("Frais de port", this);
 		sheepingFeeFieldContainer.getField().setText("2.50");
 		
 		addtoCardContainer.add(sheepingFeeFieldContainer);
 		
-		var totalOrderContainer = new FieldContainer("Total");
+		var totalOrderContainer = new FieldContainer("Total", this);
 		totalOrderContainer.getField().setText("452.63");
 		addtoCardContainer.add(totalOrderContainer);
 

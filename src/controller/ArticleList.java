@@ -67,7 +67,7 @@ public class ArticleList extends BaseList {
 			var code = this.table.getValueAt(this.table.getSelectedRow(), 1);
 
 			var a = (new ArticleDao()).findOneBy("code",code);
-
+			
 			this.mainController.addCloseableTab(
 					"Article: " + a.getName(),
 					new ArticleInformation(this.mainController,a)

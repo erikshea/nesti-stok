@@ -27,19 +27,15 @@ public  class BaseDao<E> {
 	}
 
 	public Serializable save(E entity) {
-        var result = getSession().save(entity);
-        getSession().getTransaction().commit();
-		return result;
+		return getSession().save(entity);
 	}
 
 	public void saveOrUpdate(E entity) {
 		getSession().saveOrUpdate(entity);
-        getSession().getTransaction().commit();
 	}
 
 	public void delete(E entity) {
 		getSession().delete(entity);
-        getSession().getTransaction().commit();
 	}
 
 	public void deleteAll() {
@@ -47,7 +43,6 @@ public  class BaseDao<E> {
 		for (E entity : entities) {
 			getSession().delete(entity);
 		}
-        getSession().getTransaction().commit();
 	}
 
 	public List<E> findAll() {
