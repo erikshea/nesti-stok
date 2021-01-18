@@ -1,20 +1,13 @@
 package form;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
 import controller.BaseInformation;
-import dao.BaseDao;
-import util.ReflectionProperty;
 
 @SuppressWarnings("serial")
 public class ListFieldContainer extends BaseFieldContainer {
@@ -45,10 +38,9 @@ public class ListFieldContainer extends BaseFieldContainer {
 	        return (DefaultListModel<String>) this.list.getModel();
     }
 	 
-	public void bind(ValueGetter v, ValueSetter s) {
+	public void bindSelection(String initialValue, ValueSetter s) {
 
-		list.setSelectedValue(v.get(), true);
-
+		list.setSelectedValue(initialValue, true);
 		
 		list.addListSelectionListener( e-> {
 			s.set(list.getSelectedValue());
@@ -56,8 +48,8 @@ public class ListFieldContainer extends BaseFieldContainer {
 	}
 	
 	
-	public void bindMultiple(ListGetter lg, ListSetter ls) {
-		setSelectedValues(lg.get());
+	public void bindMultiple(List<String> initialSelections, ListSetter ls) {
+		setSelectedValues(initialSelections);
 		list.addListSelectionListener( e-> ls.set(list.getSelectedValuesList()));
 	}
 	
@@ -75,7 +67,7 @@ public class ListFieldContainer extends BaseFieldContainer {
 	public int getIndex(String value) {
 	    if (value == null) return -1;
 	    if (this.getListModel() instanceof DefaultListModel) {
-	        return ((DefaultListModel<String>) this.getListModel()).indexOf(value);
+	        return this.getListModel().indexOf(value);
 	    }
 	    for (int i = 0; i < this.getListModel().getSize(); i++) {
 	        if (value.equals(this.getListModel().getElementAt(i))) return i;

@@ -1,7 +1,5 @@
 package controller;
 
-import javax.swing.JButton;
-
 import dao.OfferDao;
 
 @SuppressWarnings("serial")

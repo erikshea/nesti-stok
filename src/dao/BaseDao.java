@@ -6,13 +6,9 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Example;
+import org.hibernate.query.Query;
 
-import model.Article;
 import util.HibernateUtil;
 
 @SuppressWarnings("unchecked")
@@ -23,9 +19,11 @@ public  class BaseDao<E> {
 	}
 
 	public E findById(final Serializable id) {
-		return (E) getSession().get(this.getEntityClass(), id);
+		return getSession().get(this.getEntityClass(), id);
 	}
 
+	
+	
 	public Serializable save(E entity) {
 		return getSession().save(entity);
 	}
@@ -61,7 +59,20 @@ public  class BaseDao<E> {
 		getSession().flush();
 	}
 
-	public <T> E findOneBy(String propertyName, T value) {
+	public <T> E findOneBy(String propertyName, T value)  {
+		String hql = "FROM " + getEntityClass().getSimpleName() + " X WHERE X." + propertyName + " = :value";
+		Query<E> query = getSession().createQuery(hql);
+		query.setParameter("value",value);
+		var results = query.list();
+		E result = null;
+		if (results.size() > 0) {
+			result = results.get(0);
+		}
+		return result;
+	}
+	
+	
+	public <T> E findOsneBy(String propertyName, T value) {
 			var cr = this.getCriteriaQuery();
 	        var root = cr.from(this.getEntityClass());
 	        var cb =this.getSession().getCriteriaBuilder();
@@ -75,6 +86,7 @@ public  class BaseDao<E> {
 		CriteriaBuilder cb = this.getSession().getCriteriaBuilder();
 		return cb.createQuery(this.getEntityClass());
 	}
+
 	
 	public Class<E> getEntityClass() {
 		return (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];

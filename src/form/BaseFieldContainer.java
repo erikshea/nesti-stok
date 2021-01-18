@@ -12,9 +12,11 @@ import controller.BaseInformation;
 public class BaseFieldContainer extends JPanel{
 	protected JLabel label;
 	protected BaseInformation infoPane; 
+	protected boolean valid;
+	
 	public BaseFieldContainer(String labelText, BaseInformation i) {
 		infoPane = i;
-		
+		valid=true;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
@@ -23,5 +25,9 @@ public class BaseFieldContainer extends JPanel{
 		this.label = new JLabel(labelText);
 		this.label.setPreferredSize(new Dimension(120,0));
 		this.add(label);
+	}
+	
+	public boolean validates() {
+		return valid;
 	}
 }

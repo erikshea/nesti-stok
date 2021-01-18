@@ -1,37 +1,22 @@
 package controller;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.Arrays;
-import java.util.List;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.SingleSelectionModel;
 import javax.swing.event.TableModelEvent;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-
-import form.ListFieldContainer;
 
 public class BasePriceList extends JPanel {
 
@@ -47,6 +32,7 @@ public class BasePriceList extends JPanel {
 		tableModel.setColumnIdentifiers(getTableModelColumns());
 	
 		this.table = new JTable(tableModel) {
+			@Override
 			public void tableChanged(TableModelEvent e) {
 				super.tableChanged(e);
 				repaint();
@@ -138,6 +124,7 @@ class JTableButtonRenderer implements TableCellRenderer {
 		defaultRenderer = renderer;
 	}
 
+	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 		if (value instanceof Component)
