@@ -1,23 +1,14 @@
 package controller;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.util.List;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import dao.SupplierDao;
 import form.FieldContainer;
-import form.ListFieldContainer;
-import model.Ingredient;
-import model.Product;
 import model.Supplier;
 import util.HibernateUtil;
 
@@ -47,50 +38,50 @@ public class SupplierInformation extends BaseInformation {
 		
 		var nameFieldContainer = new FieldContainer("Nom", this);
 		nameFieldContainer.bind(
-				()-> supplierFinal.getName(),
+				supplierFinal.getName(),
 				(s)-> supplierFinal.setName(s),
 				(fieldValue)->dao.findOneBy("name", fieldValue) == null);
 		supplierForm.add(nameFieldContainer);
 		
 		var adress1FieldContainer = new FieldContainer("Adresse 1", this);
 		adress1FieldContainer.bind(
-				()-> supplierFinal.getAddress1(),
+				supplierFinal.getAddress1(),
 				(s)-> supplierFinal.setAddress1(s));
 		supplierForm.add(adress1FieldContainer);
 		
 		var adresse2FieldContainer = new FieldContainer("Adresse 2", this);
 		adresse2FieldContainer.bind(
-				()-> supplierFinal.getAddress2(),
+				supplierFinal.getAddress2(),
 				(s)-> supplierFinal.setAddress2(s));
 		supplierForm.add(adresse2FieldContainer);
 		
 		var zipCodeFieldContainer = new FieldContainer("Code postal", this);
 		zipCodeFieldContainer.bind(
-				()-> supplierFinal.getZipCode(),
+				supplierFinal.getZipCode(),
 				(s)-> supplierFinal.setZipCode(s));
 		supplierForm.add(zipCodeFieldContainer);
 		
 		var cityFieldContainer = new FieldContainer("Ville", this);
 		cityFieldContainer.bind(
-				()-> supplierFinal.getCity(),
+				supplierFinal.getCity(),
 				(s)-> supplierFinal.setCity(s));
 		supplierForm.add(cityFieldContainer);
 
 		var countryFieldContainer = new FieldContainer("Pays", this);
 		countryFieldContainer.bind(
-				()-> supplierFinal.getCountry(),
+				supplierFinal.getCountry(),
 				(s)-> supplierFinal.setCountry(s));
 		supplierForm.add(countryFieldContainer);
 
 		var phoneFieldContainer = new FieldContainer("Téléphone", this);
 		phoneFieldContainer.bind(
-				()-> supplierFinal.getPhoneNumber(),
+				supplierFinal.getPhoneNumber(),
 				(s)-> supplierFinal.setPhoneNumber(s));
 		supplierForm.add(phoneFieldContainer);
 		
 		var contactNameFieldContainer = new FieldContainer("Nom du contact", this);
 		contactNameFieldContainer.bind(
-				()-> supplierFinal.getContactName(),
+				supplierFinal.getContactName(),
 				(s)-> supplierFinal.setContactName(s));
 		supplierForm.add(contactNameFieldContainer);
 

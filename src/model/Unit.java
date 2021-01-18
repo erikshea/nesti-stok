@@ -73,9 +73,9 @@ public class Unit implements Serializable {
 	public List<Ingredient> getIngredients() {
 		return this.ingredients;
 	}
-
+/*
 	public void setIngredients(List<Ingredient> ingredients) {
 		this.ingredients = ingredients;
-	}
+	}*/
 
 }

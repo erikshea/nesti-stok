@@ -1,13 +1,6 @@
 package controller;
 
-import java.util.List;
-
-import dao.ArticleDao;
-import dao.IngredientDao;
 import dao.SupplierDao;
-import dao.UserDao;
-import model.Supplier;
-import util.HibernateUtil;
 
 @SuppressWarnings("serial")
 public class SupplierList extends BaseList {

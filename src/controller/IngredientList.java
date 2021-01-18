@@ -1,11 +1,6 @@
 package controller;
 
-import java.util.List;
-
 import dao.*;
-import model.Ingredient;
-import model.Product;
-import util.HibernateUtil;
 
 @SuppressWarnings("serial")
 public class IngredientList extends BaseList {
@@ -22,7 +17,7 @@ public class IngredientList extends BaseList {
 		var dao = new IngredientDao();
 		var ingredients = dao.findAll();
 		ingredients.forEach( i->{
-			this.addRowData(new Object[] {i.getProduct().getReference(),i.getProduct().getName()," "});//TODO 
+			this.addRowData(new Object[] {i.getReference(),i.getName()," "});//TODO 
 		});
 	}
 	
@@ -42,10 +37,10 @@ public class IngredientList extends BaseList {
 		super.setUpButtonListeners();
 		this.buttonModify.addActionListener( e->{
 			var ref = this.table.getValueAt(this.table.getSelectedRow(), 0);
-			var selectedIngredient = (new ProductDao()).findOneBy("reference",ref).getIngredient();
+			var selectedIngredient = (new IngredientDao()).findOneBy("reference",ref);
 
 			this.mainController.addCloseableTab(
-					"Ingrédient: " + selectedIngredient.getProduct().getName(),
+					"Ingrédient: " + selectedIngredient.getName(),
 					new IngredientInformation(this.mainController,selectedIngredient)
 			);
 		});
