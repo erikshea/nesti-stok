@@ -3,6 +3,7 @@ package controller;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -24,6 +25,7 @@ import form.ListFieldContainer;
 import model.Article;
 import model.Ingredient;
 import model.Product;
+import util.HibernateUtil;
 
 public class IngredientInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -33,6 +35,7 @@ public class IngredientInformation extends BaseInformation {
 		if (ingredient == null) {
 			ingredient = new Ingredient();
 			ingredient.setProduct(new Product());
+			ingredient.setUnits(new ArrayList<>());
 		}
 		final var ingredientFinal= ingredient;
 		var ingredientDao = new IngredientDao();
@@ -46,21 +49,21 @@ public class IngredientInformation extends BaseInformation {
 		var titleIngredientInformation = new JLabel("Ingrédient");
 		ingredientForm.add(titleIngredientInformation);
 		
-		var descriptionFieldContainer = new FieldContainer("Description");
+		var descriptionFieldContainer = new FieldContainer("Description", this);
 		descriptionFieldContainer.bind(
 				()-> ingredientFinal.getProduct().getName(),
 				(s)-> ingredientFinal.getProduct().setName(s),
 				(fieldValue)->productDao.findOneBy("name", fieldValue) == null);
 		ingredientForm.add(descriptionFieldContainer);
 		
-		var codeFieldContainer = new FieldContainer("Référence");
+		var codeFieldContainer = new FieldContainer("Référence", this);
 		codeFieldContainer.bind(
 				()-> ingredientFinal.getProduct().getReference(),
 				(s)-> ingredientFinal.getProduct().setReference(s),
 				(fieldValue)->productDao.findOneBy("reference", fieldValue) == null);
 		ingredientForm.add(codeFieldContainer);
 		
-		var unitListContainer = new EditableListFieldContainer("Unité");
+		var unitListContainer = new EditableListFieldContainer("Unité", this);
 		unitListContainer.getList().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		
@@ -81,8 +84,13 @@ public class IngredientInformation extends BaseInformation {
 		
 		this.buttonValidate.addActionListener( e->{
 			try{
-				ingredientDao.saveOrUpdate(ingredientFinal);
 				productDao.saveOrUpdate(ingredientFinal.getProduct());
+				HibernateUtil.getSession().getTransaction().commit();
+				var insertedProduct = productDao.findOneBy("reference", ingredientFinal.getProduct().getReference());
+				ingredientFinal.setIdProduct(insertedProduct.getIdProduct());
+				ingredientDao.saveOrUpdate(ingredientFinal);
+				System.out.println(ingredientFinal.getIdProduct());
+				HibernateUtil.getSession().getTransaction().commit();
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this,
 				    "Veuillez vérifier les champs en orange.",
@@ -91,6 +99,11 @@ public class IngredientInformation extends BaseInformation {
 			}
 			this.mainControl.getIngredientDirectory().getEntityList().refresh();
 			this.mainControl.remove(this);
+			this.mainControl.setSelectedComponent(this.mainControl.getIngredientDirectory());
+		});
+		
+		this.buttonCancel.addActionListener( e->{
+			this.mainControl.setSelectedComponent(this.mainControl.getIngredientDirectory());
 		});
 	}
 }

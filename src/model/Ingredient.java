@@ -29,7 +29,7 @@ public class Ingredient implements Serializable {
 	private Product product;
 
 
-	//bi-directional many-to-many association to Ingredient
+	//bi-directional many-to-many association to Unit
 	@ManyToMany
 	@JoinTable(
 	name="allows"

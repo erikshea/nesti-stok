@@ -19,6 +19,7 @@ import dao.ProductDao;
 import form.*;
 import model.Article;
 import model.Product;
+import util.HibernateUtil;
 
 public class ArticleInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -58,7 +59,7 @@ public class ArticleInformation extends BaseInformation {
 		var titleArticleInformation = new JLabel("Article");
 		articleForm.add(titleArticleInformation);
 
-		var descriptionFieldContainer = new FieldContainer("Description");
+		var descriptionFieldContainer = new FieldContainer("Description", this);
 		descriptionFieldContainer.bind(
 			()-> articleFinal.getName(),
 			(s)-> articleFinal.setName(s),
@@ -66,14 +67,14 @@ public class ArticleInformation extends BaseInformation {
 		//descriptionFieldContainer.getField().setText(article.getName());
 		articleForm.add(descriptionFieldContainer);
 
-		var codeFieldContainer = new FieldContainer("Code Article");
+		var codeFieldContainer = new FieldContainer("Code Article", this);
 		codeFieldContainer.bind(
 			()->articleFinal.getCode(),
 			(s)->articleFinal.setCode(s),
 			(fieldValue)->dao.findOneBy("code", fieldValue) == null);
 		articleForm.add(codeFieldContainer);
 
-		var eanFieldContainer = new FieldContainer("EAN");
+		var eanFieldContainer = new FieldContainer("EAN", this);
 		eanFieldContainer.bind(
 			()->articleFinal.getEan(),
 			(s)->articleFinal.setEan(s),
@@ -82,7 +83,7 @@ public class ArticleInformation extends BaseInformation {
 
 		var i = (new IngredientDao()).findOneBy("idProduct", article.getProduct().getIdProduct());
 		if (i != null) {
-			var ingredientListContainer = new ListFieldContainer("Ingrédient:");
+			var ingredientListContainer = new ListFieldContainer("Ingrédient:", this);
 			var listModel = ingredientListContainer.getListModel();
 			var idao = new IngredientDao();
 			idao.findAll().forEach(ing -> {
@@ -94,13 +95,13 @@ public class ArticleInformation extends BaseInformation {
 			articleForm.add(ingredientListContainer);
 		}
 
-		var quantityFieldContainer = new FieldContainer("Quantité");
+		var quantityFieldContainer = new FieldContainer("Quantité", this);
 		quantityFieldContainer.bind(
 			()->String.valueOf(articleFinal.getQuantity()),
 			(s)->articleFinal.setQuantity(Double.parseDouble(s)));
 		articleForm.add(quantityFieldContainer);
 
-		var weightFieldContainer = new FieldContainer("Poids");
+		var weightFieldContainer = new FieldContainer("Poids", this);
 		weightFieldContainer.bind(
 			()->String.valueOf(articleFinal.getWeight()),
 			(s)->articleFinal.setWeight(Double.parseDouble(s)));
@@ -114,6 +115,7 @@ public class ArticleInformation extends BaseInformation {
 			try{
 				dao.saveOrUpdate(articleFinal);
 				(new ProductDao()).saveOrUpdate(articleFinal.getProduct());
+				HibernateUtil.getSession().getTransaction().commit();
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this,
 				    "Veuillez vérifier les champs en orange.",
@@ -122,6 +124,11 @@ public class ArticleInformation extends BaseInformation {
 			}
 			this.mainControl.getArticleDirectory().getEntityList().refresh();
 			this.mainControl.remove(this);
+			this.mainControl.setSelectedComponent(this.mainControl.getArticleDirectory());
+		});
+		
+		this.buttonCancel.addActionListener( e->{
+			this.mainControl.setSelectedComponent(this.mainControl.getArticleDirectory());
 		});
 	}
 }

@@ -22,6 +22,7 @@ import form.ListFieldContainer;
 import model.Ingredient;
 import model.Product;
 import model.User;
+import util.HibernateUtil;
 
 public class UserInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -41,20 +42,20 @@ public class UserInformation extends BaseInformation {
 		var titleUserInformation = new JLabel("Utilisateur");
 		userForm.add(titleUserInformation);
 		
-		var nameUserFieldContainer = new FieldContainer("Nom d'utilisateur");
+		var nameUserFieldContainer = new FieldContainer("Nom d'utilisateur", this);
 		nameUserFieldContainer.bind(
 				()-> userFinal.getLogin(),
 				(s)-> userFinal.setLogin(s),
 				(fieldValue)->dao.findOneBy("login", fieldValue) == null);
 		userForm.add(nameUserFieldContainer);
 		
-		var contactNameFieldContainer = new FieldContainer("Nom de contact");
+		var contactNameFieldContainer = new FieldContainer("Nom de contact", this);
 		contactNameFieldContainer.bind(
 				()-> userFinal.getName(),
 				(s)-> userFinal.setName(s));
 		userForm.add(contactNameFieldContainer);
 		
-		var roleFieldContainer = new ListFieldContainer("Rôle:");
+		var roleFieldContainer = new ListFieldContainer("Rôle:", this);
 		roleFieldContainer.populateList( List.of("super-administrator","administrator"));
 		roleFieldContainer.bind(
 				()->userFinal.getRole(),
@@ -70,6 +71,7 @@ public class UserInformation extends BaseInformation {
 		this.buttonValidate.addActionListener( e->{
 			try{
 				dao.saveOrUpdate(userFinal);
+				HibernateUtil.getSession().getTransaction().commit();
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this,
 				    "Veuillez vérifier les champs en orange.",
@@ -79,6 +81,10 @@ public class UserInformation extends BaseInformation {
 			
 			this.mainControl.getUserDirectory().getEntityList().refresh();
 			this.mainControl.remove(this);
+			this.mainControl.setSelectedComponent(this.mainControl.getSupplierDirectory());
+		});
+		this.buttonCancel.addActionListener( e->{
+			this.mainControl.setSelectedComponent(this.mainControl.getSupplierDirectory());
 		});
 	}
 }

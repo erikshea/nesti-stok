@@ -12,6 +12,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import controller.BaseInformation;
 import dao.BaseDao;
 import util.ReflectionProperty;
 
@@ -19,8 +20,8 @@ import util.ReflectionProperty;
 public class ListFieldContainer extends BaseFieldContainer {
 	protected JList<String> list;
 
-	public ListFieldContainer(String labelText) {
-		super(labelText);
+	public ListFieldContainer(String labelText, BaseInformation infoPane) {
+		super(labelText, infoPane);
 
 		this.setPreferredSize(new Dimension(0, 80));
 		var listModel = new DefaultListModel<String>();
