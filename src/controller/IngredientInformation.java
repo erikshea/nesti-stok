@@ -55,8 +55,6 @@ public class IngredientInformation extends BaseInformation {
 		var unitListContainer = new EditableListFieldContainer("Unité", this);
 		unitListContainer.getList().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
-
-
 		unitDao.findAll().forEach(unit -> {
 			unitListContainer.getListModel().addElement(unit.getName());				
 		});
