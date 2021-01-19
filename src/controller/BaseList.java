@@ -80,7 +80,7 @@ public class BaseList extends JPanel {
 		this.table = new JTable(tableModel);
 
 		this.table.getSelectionModel().addListSelectionListener(e->{
-			this.buttonAdd.setEnabled(false);//this.table.getSelectedRowCount() <= 1) ; TODO: re-enable
+	//		this.buttonAdd.setEnabled(false);//this.table.getSelectedRowCount() <= 1) ; TODO: re-enable
 			this.buttonDelete.setEnabled(this.table.getSelectedRowCount() > 0) ;
 			this.buttonModify.setEnabled(this.table.getSelectedRowCount() == 0 || this.table.getSelectedRowCount() == 1) ;
 			this.buttonDuplicate.setEnabled(this.table.getSelectedRowCount() <= 1) ;

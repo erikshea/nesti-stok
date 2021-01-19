@@ -5,7 +5,7 @@ import javax.swing.JButton;
 import dao.OfferDao;
 
 @SuppressWarnings("serial")
-public class SupplierArticleList extends BasePriceList {
+public class SupplierArticleList extends ArticlePriceList {
 
 	public SupplierArticleList(Object listOwner) {
 		super();
@@ -13,18 +13,18 @@ public class SupplierArticleList extends BasePriceList {
 		var dao = new OfferDao(); 
 		var articlePrice = dao.findAll();
 		articlePrice.forEach(ap->{
-			this.addRowData(new Object[] {ap.getArticle().getName(),ap.getPrice()});
+			this.addRowData(new Object[] {ap.getArticle().getCode(), ap.getArticle().getName(),ap.getPrice()});
         });
 	
 	}
 	@Override
 	public String getTitle() {
-		return "Liste de prix";
+		return "Liste d'article";
 	}
 
 	@Override
 	public Object[] getTableModelColumns() {
-		return new Object[] {"Article", "Prix de vente", "Suppression" };
+		return new Object[] {"Code article", "Désignation", "Prix de vente", "Suppression" };
 	}
 
 	/**

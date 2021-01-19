@@ -33,7 +33,7 @@ import javax.swing.table.TableCellRenderer;
 
 import form.ListFieldContainer;
 
-public class BasePriceList extends JPanel {
+public class SupplierPriceList extends JPanel {
 
 	private static final long serialVersionUID = -1997250030218950222L;
 	protected DefaultTableModel tableModel;
@@ -73,7 +73,7 @@ public class BasePriceList extends JPanel {
 		return "";
 	}
 
-	public BasePriceList() {
+	public SupplierPriceList() {
 		// right of the screen, price's and supplier's informations
 		this.setPreferredSize(new Dimension(800, 0));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -103,14 +103,14 @@ public class BasePriceList extends JPanel {
 
 		// allows to select only one supplier
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listModel.addElement("O'Sel fin");
-		listModel.addElement("Tout pour la cuine");
-		listModel.addElement("Jean Bon Grossiste");
+		listModel.addElement("sucre");
+		listModel.addElement("poivre");
+		listModel.addElement("sel");
 
 		var scrollPane = new JScrollPane(list);
 		addPriceContainer.add(scrollPane);
 
-		var priceSupplier = new JTextField("25");
+		var priceSupplier = new JTextField("2.52");
 		addPriceContainer.add(priceSupplier);
 
 		addButton = new JButton("+");
@@ -127,21 +127,5 @@ public class BasePriceList extends JPanel {
 		return addButton;
 	}
 
-}
-
-//display classic button
-class JTableButtonRenderer implements TableCellRenderer {
-	private TableCellRenderer defaultRenderer;
-
-	public JTableButtonRenderer(TableCellRenderer renderer) {
-		defaultRenderer = renderer;
-	}
-
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
-		if (value instanceof Component)
-			return (Component) value;
-		return defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-	}
 }
 

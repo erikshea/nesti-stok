@@ -15,8 +15,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+import dao.ArticleDao;
+import dao.OfferDao;
+
 @SuppressWarnings("serial")
-public class ArticleSupplierList extends BasePriceList {
+public class ArticleSupplierList extends ArticlePriceList {
 
 	protected ButtonGroup radioGroup;
 
@@ -26,12 +29,17 @@ public class ArticleSupplierList extends BasePriceList {
 
 		this.table.getColumn("Par défaut").setCellRenderer(new RadioButtonRenderer());
 		this.table.getColumn("Par défaut").setCellEditor(new RadioButtonEditor(new JCheckBox()));
-
-		this.addRowData(new Object[] { "Tout pour la cuisine", "8" },true);
-		this.addRowData(new Object[] { "JeanBon Grossiste", "69" });
-		this.addRowData(new Object[] { "O'sel fin", "42" });
-		this.addRowData(new Object[] { "Blabla", "41" });
-		this.addRowData(new Object[] { "Jean Charles Farine", "49" });
+		
+		// -----------------A CORRIGER POUR AFFICHER QUE LES FOURNISSEURS DE L'ARTICLE CONCERNE--------
+		
+		var dao = new OfferDao(); 
+		var supplierPrice = dao.findAll();
+		supplierPrice.forEach(sp->{
+			//-----------------A CORRIGER NON FONCTIONNEL AVEC LE TRUE QUI DOIT ETRE PAR DEFAUT-------------
+	//		this.addRowData(new Object[] {sp.getSupplier().getName(),sp.getPrice()},true);
+			this.addRowData(new Object[] {sp.getSupplier().getName(),sp.getPrice()});
+        });
+		
 
 	}
 
@@ -42,7 +50,7 @@ public class ArticleSupplierList extends BasePriceList {
 
 	@Override
 	public Object[] getTableModelColumns() {
-		return new Object[] { "Par défaut", "Prix", "Prix d'achat", "Suppression" };
+		return new Object[] { "Par défaut", "Fournisseur", "Prix d'achat", "Suppression" };
 	}
 
 
