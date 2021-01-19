@@ -1,26 +1,17 @@
 package controller;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import dao.IngredientDao;
-import dao.ProductDao;
 import dao.UserDao;
-import form.EditableListFieldContainer;
 import form.FieldContainer;
 import form.ListFieldContainer;
-import model.Ingredient;
-import model.Product;
 import model.User;
 import util.HibernateUtil;
 
@@ -44,23 +35,23 @@ public class UserInformation extends BaseInformation {
 		
 		var nameUserFieldContainer = new FieldContainer("Nom d'utilisateur", this);
 		nameUserFieldContainer.bind(
-				()-> userFinal.getLogin(),
+				userFinal.getLogin(),
 				(s)-> userFinal.setLogin(s),
 				(fieldValue)->dao.findOneBy("login", fieldValue) == null);
 		userForm.add(nameUserFieldContainer);
 		
 		var contactNameFieldContainer = new FieldContainer("Nom de contact", this);
 		contactNameFieldContainer.bind(
-				()-> userFinal.getName(),
+				userFinal.getName(),
 				(s)-> userFinal.setName(s));
 		userForm.add(contactNameFieldContainer);
 		
 		var roleFieldContainer = new ListFieldContainer("Rôle:", this);
 		roleFieldContainer.populateList( List.of("super-administrator","administrator"));
-		roleFieldContainer.bind(
-				()->userFinal.getRole(),
+		roleFieldContainer.bindSelection(
+				userFinal.getRole(),
 				(s)->userFinal.setRole(s));
-		
+	
 		
 		userForm.add(roleFieldContainer);
 		
@@ -70,6 +61,7 @@ public class UserInformation extends BaseInformation {
 		
 		this.buttonValidate.addActionListener( e->{
 			try{
+				userFinal.setPasswordHash("FFF"); // TODO
 				dao.saveOrUpdate(userFinal);
 				HibernateUtil.getSession().getTransaction().commit();
 			} catch (Exception ex) {

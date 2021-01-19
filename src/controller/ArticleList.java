@@ -1,22 +1,12 @@
 package controller;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dao.ArticleDao;
-import dao.SupplierDao;
-import model.Article;
-import util.HibernateUtil;
 
 @SuppressWarnings("serial")
 public class ArticleList extends BaseList {
@@ -74,11 +64,11 @@ public class ArticleList extends BaseList {
 			);
 		});
 		
-		this.buttonAdd.addActionListener( e->{
-			this.mainController.addCloseableTab(
+		this.buttonAdd.addActionListener( e->{ // TODO
+			/*this.mainController.addCloseableTab(
 					"Nouvel Article",
 					new ArticleInformation(this.mainController,null)
-			);
+			);*/
 		});
 		/*
 		this.buttonDelete.addActionListener( e->{

@@ -7,17 +7,12 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.List;
-
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.plaf.metal.MetalIconFactory;
-
-import model.*;
-import util.HibernateUtil;
 
 public class MainWindowControl extends JTabbedPane {
 	private static final long serialVersionUID = 4705253258936419615L;
@@ -77,6 +72,7 @@ public class MainWindowControl extends JTabbedPane {
     /* Button */
     public class CloseButtonTab extends JPanel {
 		private static final long serialVersionUID = 1L;
+		@SuppressWarnings("unused")
 		private Component tab;
 
         public CloseButtonTab(final Component tab, String title, Icon icon) {

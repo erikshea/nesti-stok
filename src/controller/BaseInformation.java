@@ -2,9 +2,8 @@
 package controller;
 
 import java.awt.BorderLayout;
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,12 +15,12 @@ public class BaseInformation extends JPanel {
 	protected MainWindowControl mainControl;
 	protected Object item;
 	protected JButton buttonValidate, buttonCancel;
-	protected Map<FieldContainer,Boolean> validatedFieldsStates;
+	protected List<FieldContainer> validatedFields;
 	
 	
 	public BaseInformation(MainWindowControl c, Object o) {
 		this.item = o;
-		validatedFieldsStates = new HashMap<>();
+		validatedFields = new ArrayList<>();
 		this.mainControl = c;
 
 		this.setLayout(new BorderLayout());
@@ -43,17 +42,16 @@ public class BaseInformation extends JPanel {
 		});
 	}
 	
-	public void setValidatedFieldsState(FieldContainer fieldContainer, boolean isValid) {
-		validatedFieldsStates.put(fieldContainer, isValid);
-		checkValidatedFields();
+	public void addValidatedField(FieldContainer fieldContainer) {
+		validatedFields.add(fieldContainer);
 	}
 	
 	public void checkValidatedFields() {
 		var formValid = true;
-		for ( var fieldState : validatedFieldsStates.entrySet() ) {
-			formValid = formValid && fieldState.getValue();
+
+		for ( var fieldContainer : validatedFields ) {
+			formValid &= fieldContainer.validates();
 		}
-		
 		this.buttonValidate.setEnabled(formValid);
 	}
 }

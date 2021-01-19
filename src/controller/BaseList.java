@@ -1,9 +1,7 @@
 package controller;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.Arrays;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -13,8 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
@@ -80,7 +76,7 @@ public class BaseList extends JPanel {
 		this.table = new JTable(tableModel);
 
 		this.table.getSelectionModel().addListSelectionListener(e->{
-	//		this.buttonAdd.setEnabled(false);//this.table.getSelectedRowCount() <= 1) ; TODO: re-enable
+			this.buttonAdd.setEnabled(this.table.getSelectedRowCount() <= 1) ; //TODO: re-enable
 			this.buttonDelete.setEnabled(this.table.getSelectedRowCount() > 0) ;
 			this.buttonModify.setEnabled(this.table.getSelectedRowCount() == 0 || this.table.getSelectedRowCount() == 1) ;
 			this.buttonDuplicate.setEnabled(this.table.getSelectedRowCount() <= 1) ;
@@ -92,16 +88,16 @@ public class BaseList extends JPanel {
 
 			var options = new String[] {"Annuler", "Confirmer"};
 			
-			int c = JOptionPane.showOptionDialog(this,
-					"Êtes-vous certain de vouloir supprimer "
-							+ (this.table.getSelectedRowCount()==1?"cet élément?":"ces " + this.table.getSelectedRowCount() + " éléments?")
-							+ "\nCeci est irréversible.",
-					"Supprimer",
-				    JOptionPane.YES_NO_OPTION,
-				    JOptionPane.WARNING_MESSAGE,
-				    null,     //do not use a custom Icon
-				    options,  //the titles of buttons
-				    options[0]); //default button title
+			JOptionPane.showOptionDialog(this,
+				"Êtes-vous certain de vouloir supprimer "
+						+ (this.table.getSelectedRowCount()==1?"cet élément?":"ces " + this.table.getSelectedRowCount() + " éléments?")
+						+ "\nCeci est irréversible.",
+				"Supprimer",
+			    JOptionPane.YES_NO_OPTION,
+			    JOptionPane.WARNING_MESSAGE,
+			    null,     //do not use a custom Icon
+			    options,  //the titles of buttons
+			    options[0]); //default button title
 			
 			/*
 			//If a string was returned, say so.

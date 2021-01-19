@@ -3,7 +3,6 @@ package controller;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,7 +17,7 @@ import dao.IngredientDao;
 import dao.ProductDao;
 import form.*;
 import model.Article;
-import model.Product;
+import model.Ingredient;
 import util.HibernateUtil;
 
 public class ArticleInformation extends BaseInformation {
@@ -29,10 +28,10 @@ public class ArticleInformation extends BaseInformation {
 
 		if (article == null) {
 			article = new Article();
-			article.setProduct(new Product());
 		}
 		final var articleFinal= article;
 		var dao = new ArticleDao();
+		var ingredientDao = new IngredientDao();
 		
 		var supplierPriceList = new ArticleSupplierList(article);
 		if (article.getIdArticle()==0) {
@@ -61,7 +60,7 @@ public class ArticleInformation extends BaseInformation {
 
 		var descriptionFieldContainer = new FieldContainer("Description", this);
 		descriptionFieldContainer.bind(
-			()-> articleFinal.getName(),
+			articleFinal.getName(),
 			(s)-> articleFinal.setName(s),
 			(fieldValue)->dao.findOneBy("name", fieldValue) == null);
 		//descriptionFieldContainer.getField().setText(article.getName());
@@ -69,41 +68,39 @@ public class ArticleInformation extends BaseInformation {
 
 		var codeFieldContainer = new FieldContainer("Code Article", this);
 		codeFieldContainer.bind(
-			()->articleFinal.getCode(),
+			articleFinal.getCode(),
 			(s)->articleFinal.setCode(s),
 			(fieldValue)->dao.findOneBy("code", fieldValue) == null);
 		articleForm.add(codeFieldContainer);
 
 		var eanFieldContainer = new FieldContainer("EAN", this);
 		eanFieldContainer.bind(
-			()->articleFinal.getEan(),
+			articleFinal.getEan(),
 			(s)->articleFinal.setEan(s),
 			(fieldValue)->dao.findOneBy("ean", fieldValue) == null);
 		articleForm.add(eanFieldContainer);
-
-		var i = (new IngredientDao()).findOneBy("idProduct", article.getProduct().getIdProduct());
-		if (i != null) {
+		
+		if (article.getProduct() instanceof Ingredient) {
 			var ingredientListContainer = new ListFieldContainer("Ingrédient:", this);
 			var listModel = ingredientListContainer.getListModel();
-			var idao = new IngredientDao();
-			idao.findAll().forEach(ing -> {
-				listModel.addElement(ing.getProduct().getName());				
+			ingredientDao.findAll().forEach(ing -> {
+				listModel.addElement(ing.getName());				
 			});
-			ingredientListContainer.bind(
-				()->articleFinal.getProduct().getName(),
-				(s)->articleFinal.setProduct((new ProductDao()).findOneBy("name",s)));
+			ingredientListContainer.bindSelection(
+				articleFinal.getProduct().getName(),
+				(s)->articleFinal.setProduct(ingredientDao.findOneBy("name",s)));
 			articleForm.add(ingredientListContainer);
 		}
 
 		var quantityFieldContainer = new FieldContainer("Quantité", this);
 		quantityFieldContainer.bind(
-			()->String.valueOf(articleFinal.getQuantity()),
+			String.valueOf(articleFinal.getQuantity()),
 			(s)->articleFinal.setQuantity(Double.parseDouble(s)));
 		articleForm.add(quantityFieldContainer);
 
 		var weightFieldContainer = new FieldContainer("Poids", this);
 		weightFieldContainer.bind(
-			()->String.valueOf(articleFinal.getWeight()),
+			String.valueOf(articleFinal.getWeight()),
 			(s)->articleFinal.setWeight(Double.parseDouble(s)));
 		articleForm.add(weightFieldContainer);
 

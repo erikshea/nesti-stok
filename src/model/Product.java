@@ -10,6 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -26,15 +27,17 @@ public class Product implements Serializable {
 	//bi-directional many-to-one association to Article
 	@OneToMany(mappedBy="product")
 	private List<Article> articles;
-
+	
+/*
 	//bi-directional one-to-one association to Ingredient
 	@OneToOne(mappedBy="product")
 	private Ingredient ingredient;
-
+*/
+	/*
 	//bi-directional one-to-one association to Utensil
 	@OneToOne(mappedBy="product")
 	private Utensil utensil;
-
+*/
 	public Product() {
 	}
 
@@ -83,21 +86,21 @@ public class Product implements Serializable {
 
 		return article;
 	}
-
+/*
 	public Ingredient getIngredient() {
 		return this.ingredient;
 	}
 
 	public void setIngredient(Ingredient ingredient) {
 		this.ingredient = ingredient;
-	}
-
+	}*/
+/*
 	public Utensil getUtensil() {
 		return this.utensil;
 	}
 
 	public void setUtensil(Utensil utensil) {
 		this.utensil = utensil;
-	}
+	}*/
 
 }

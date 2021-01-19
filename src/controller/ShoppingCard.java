@@ -1,9 +1,6 @@
 package controller;
 
 import java.awt.Component;
-import java.awt.Dimension;
-
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,7 +12,7 @@ import form.*;
 import model.*;
 
 public class ShoppingCard extends BaseInformation {
-
+	private static final long serialVersionUID = 1L;
 	protected DefaultTableModel tableModel;
 	protected JTable table;
 

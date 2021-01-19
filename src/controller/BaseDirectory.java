@@ -1,8 +1,6 @@
 package controller;
 
 import java.awt.BorderLayout;
-
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")

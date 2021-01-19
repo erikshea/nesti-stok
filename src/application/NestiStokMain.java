@@ -1,14 +1,9 @@
 package application;
 
 
-import java.util.List;
-
 import javax.swing.JFrame;
 
 import controller.MainWindowControl;
-import dao.ArticleDao;
-import model.*;
-import util.HibernateUtil;
 
 public class NestiStokMain {
 	public static void createAndShowGUI() {
