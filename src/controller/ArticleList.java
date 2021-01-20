@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dao.ArticleDao;
+import dao.OfferDao;
+import model.Article;
+
 
 @SuppressWarnings("serial")
 public class ArticleList extends BaseList {
@@ -30,7 +33,19 @@ public class ArticleList extends BaseList {
 		refresh();
 	}
 
+
 	public void refresh() {
+		
+		var daoOffer = new OfferDao();
+		
+		
+		int highestOffer = 0;
+		var sellingPrice = highestOffer*1.2;
+		
+		
+		
+		
+		
 		this.tableModel.getDataVector().removeAllElements();
 		// Detail of the article List
         var dao = new ArticleDao();
