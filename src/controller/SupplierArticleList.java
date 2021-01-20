@@ -1,6 +1,7 @@
 package controller;
 
 import java.awt.Dimension;
+import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -13,7 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import model.*;
-
+import dao.ArticleDao;
 import dao.OfferDao;
 import dao.SupplierDao;
 
@@ -25,13 +26,18 @@ public class SupplierArticleList extends BasePriceList {
 		
 		this.table = this.getPriceTable();
 	
-
-		var daoOffer = new OfferDao();
-		var articlePrice = daoOffer.findAll();
-		articlePrice.forEach(ap -> {
-			this.addRowData(new Object[] { ap.getArticle().getCode(), ap.getArticle().getName(), ap.getPrice() });
+		var uniqueArticle = new HashMap<Article,Offer>();
+		var offerSupplier = supplier.getOffers();
+		
+		
+		offerSupplier.forEach(os -> {
+			uniqueArticle.put(os.getArticle(), os);
 		});
 
+		uniqueArticle.forEach((ua,o)->{
+			this.addRowData(new Object[] {ua.getCode(), ua.getName(), o.getPrice()});
+		});
+		
 		// FOOTER OF THE SCREEN, ADD A SUPPLIER
 		var scrollPriceList = new JScrollPane(table);
 		scrollPriceList.setPreferredSize(new Dimension(0, 150));
@@ -47,7 +53,7 @@ public class SupplierArticleList extends BasePriceList {
 		var list = new JList<>(listModel);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		var daoArticle = new SupplierDao();
+		var daoArticle = new ArticleDao();
 		var articles = daoArticle.findAll();
 		articles.forEach(a -> listModel.addElement(a.getName()));
 

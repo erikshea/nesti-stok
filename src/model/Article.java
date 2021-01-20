@@ -2,21 +2,23 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
+import util.HibernateUtil;
+
+import java.util.List;
 
 /**
  * The persistent class for the article database table.
  * 
  */
 @Entity
-@NamedQuery(name="Article.findAll", query="SELECT a FROM Article a")
+@NamedQuery(name = "Article.findAll", query = "SELECT a FROM Article a")
 public class Article implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_article")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_article")
 	private int idArticle;
 
 	private String code;
@@ -31,30 +33,43 @@ public class Article implements Serializable {
 
 	private double weight;
 
-	//bi-directional many-to-one association to Packaging
+	// bi-directional many-to-one association to Packaging
 	@ManyToOne
-	@JoinColumn(name="id_packaging")
+	@JoinColumn(name = "id_packaging")
 	private Packaging packaging;
 
-	//bi-directional many-to-one association to Product
+	// bi-directional many-to-one association to Product
 	@ManyToOne
-	@JoinColumn(name="id_product")
+	@JoinColumn(name = "id_product")
 	private Product product;
 
-	//bi-directional many-to-one association to Unit
+	// bi-directional many-to-one association to Unit
 	@ManyToOne
-	@JoinColumn(name="id_unit")
+	@JoinColumn(name = "id_unit")
 	private Unit unit;
 
-	//bi-directional many-to-one association to Offer
-	@OneToMany(mappedBy="article")
+	// bi-directional many-to-one association to Offer
+	@OneToMany(mappedBy = "article")
 	private List<Offer> offers;
 
-	//bi-directional many-to-one association to OrdersArticle
-	@OneToMany(mappedBy="article")
+	// bi-directional many-to-one association to OrdersArticle
+	@OneToMany(mappedBy = "article")
 	private List<OrdersArticle> ordersArticles;
 
 	public Article() {
+	}
+
+	public Offer getLowestOffer() {
+		var hql = "Select o from Offer o "
+				+ "WHERE o.price = (SELECT MIN(oo.price) FROM Offer oo WHERE oo.id.idArticle = :id_article) ";
+		var query = HibernateUtil.getSession().createQuery(hql);
+		query.setParameter("id_article", this.getIdArticle());
+		var results = query.list();
+		Offer result = null;
+		if (results.size() > 0) {
+			result = (Offer) results.get(0);
+		}
+		return result;
 	}
 
 	public int getIdArticle() {
