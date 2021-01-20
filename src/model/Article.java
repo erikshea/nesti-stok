@@ -54,6 +54,10 @@ public class Article implements Serializable {
 	@OneToMany(mappedBy="article")
 	private List<OrdersArticle> ordersArticles;
 
+	//bi-directional many-to-one association to Default
+	@OneToMany(mappedBy="article")
+	private List<Default> defaults;
+	
 	public Article() {
 	}
 
@@ -184,5 +188,26 @@ public class Article implements Serializable {
 	public String getProductName() {
 		return this.getProduct().getName();
 	}
+	
+	public List<Default> getDefaults() {
+		return this.defaults;
+	}
 
+	public void setDefaults(List<Default> defaults) {
+		this.defaults = defaults;
+	}
+
+	public Default addDefault(Default d) {
+		getDefaults().add(d);
+		d.setArticle(this);
+
+		return d;
+	}
+
+	public Default removeDefault(Default d) {
+		getDefaults().remove(d);
+		d.setArticle(null);
+
+		return d;
+	}
 }

@@ -2,27 +2,22 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
 
 
 /**
- * The persistent class for the offers database table.
+ * The persistent class for the default database table.
  * 
  */
 @Entity
-@Table(name="offers")
-@NamedQuery(name="Offer.findAll", query="SELECT o FROM Offer o")
-public class Offer implements Serializable {
+@NamedQuery(name="Default.findAll", query="SELECT d FROM Default d")
+public class Default implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private OfferPK id;
+	private DefaultPK id;
 
-	private double price;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="start_date", insertable=false, updatable=false)
-	private Date startDate;
+	@Column(name="is_default")
+	private byte isDefault;
 
 	//bi-directional many-to-one association to Article
 	@ManyToOne
@@ -34,31 +29,23 @@ public class Offer implements Serializable {
 	@JoinColumn(name="id_supplier", insertable=false, updatable=false)
 	private Supplier supplier;
 
-	public Offer() {
+	public Default() {
 	}
 
-	public OfferPK getId() {
+	public DefaultPK getId() {
 		return this.id;
 	}
 
-	public void setId(OfferPK id) {
+	public void setId(DefaultPK id) {
 		this.id = id;
 	}
 
-	public double getPrice() {
-		return this.price;
+	public byte getIsDefault() {
+		return this.isDefault;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public Date getStartDate() {
-		return this.startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setIsDefault(byte isDefault) {
+		this.isDefault = isDefault;
 	}
 
 	public Article getArticle() {

@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.plaf.metal.MetalIconFactory;
 
+import util.HibernateUtil;
+
 public class MainWindowControl extends JTabbedPane {
 	private static final long serialVersionUID = 4705253258936419615L;
 	protected ArticleDirectory articleDirectory;
@@ -51,7 +53,18 @@ public class MainWindowControl extends JTabbedPane {
 	    this.addTab("Utilisateur", this.userDirectory);
 	}
 
-    public void addCloseableTab(String title, Icon icon, Component component, String tip) {
+	
+	
+    @Override
+	public void addTab(String title, Icon icon, Component component, String tip) {
+		// TODO Auto-generated method stub
+		super.addTab(title, icon, component, tip);
+		HibernateUtil.getSession().clear();
+	}
+
+
+
+	public void addCloseableTab(String title, Icon icon, Component component, String tip) {
         super.addTab(title, icon, component, tip);
         int count = this.getTabCount() - 1;
         this.setTabComponentAt(count, new CloseButtonTab(component, title, icon));
