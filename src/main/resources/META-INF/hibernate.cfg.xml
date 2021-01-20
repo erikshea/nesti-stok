@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory>
+  <property name ="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+  <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/nesti_stok?serverTimezone=UTC</property>
+  <property name="hibernate.connection.username">root</property>
+  <property name="hibernate.current_session_context_class">thread</property>
+  <mapping class="com.nesti.stock_manager.model.Article"/>
+  <mapping class="com.nesti.stock_manager.model.Ingredient"/>
+  <mapping class="com.nesti.stock_manager.model.IsDefault"/>
+  <mapping class="com.nesti.stock_manager.model.IsDefaultPK"/>
+  <mapping class="com.nesti.stock_manager.model.Offer"/>
+  <mapping class="com.nesti.stock_manager.model.OfferPK"/>
+  <mapping class="com.nesti.stock_manager.model.Order"/>
+  <mapping class="com.nesti.stock_manager.model.OrdersArticle"/>
+  <mapping class="com.nesti.stock_manager.model.OrdersArticlePK"/>
+  <mapping class="com.nesti.stock_manager.model.Packaging"/>
+  <mapping class="com.nesti.stock_manager.model.Product"/>
+  <mapping class="com.nesti.stock_manager.model.Supplier"/>
+  <mapping class="com.nesti.stock_manager.model.Unit"/>
+  <mapping class="com.nesti.stock_manager.model.User"/>
+  <mapping class="com.nesti.stock_manager.model.Utensil"/>
+ </session-factory>
+</hibernate-configuration>
