@@ -9,6 +9,8 @@
   <property name="hibernate.current_session_context_class">thread</property>
   <mapping class="model.Article"/>
   <mapping class="model.Ingredient"/>
+  <mapping class="model.IsDefault"/>
+  <mapping class="model.IsDefaultPK"/>
   <mapping class="model.Offer"/>
   <mapping class="model.OfferPK"/>
   <mapping class="model.Order"/>

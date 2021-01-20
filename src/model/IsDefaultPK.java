@@ -4,11 +4,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * The primary key class for the offers database table.
+ * The primary key class for the default database table.
  * 
  */
 @Embeddable
-public class OfferPK implements Serializable {
+public class IsDefaultPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
@@ -18,11 +18,7 @@ public class OfferPK implements Serializable {
 	@Column(name="id_supplier", insertable=false, updatable=false)
 	private int idSupplier;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="start_date")
-	private java.util.Date startDate;
-	
-	public OfferPK() {
+	public IsDefaultPK() {
 	}
 	public int getIdArticle() {
 		return this.idArticle;
@@ -37,21 +33,19 @@ public class OfferPK implements Serializable {
 		this.idSupplier = idSupplier;
 	}
 
-	@Override
 	public boolean equals(Object other) {
 		if (this == other) {
 			return true;
 		}
-		if (!(other instanceof OfferPK)) {
+		if (!(other instanceof IsDefaultPK)) {
 			return false;
 		}
-		OfferPK castOther = (OfferPK)other;
+		IsDefaultPK castOther = (IsDefaultPK)other;
 		return 
 			(this.idArticle == castOther.idArticle)
 			&& (this.idSupplier == castOther.idSupplier);
 	}
 
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;

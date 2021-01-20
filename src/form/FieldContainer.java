@@ -53,7 +53,6 @@ public class FieldContainer extends BaseFieldContainer{
 			  }
 
 			  public void change() {
-				 HibernateUtil.getSession().clear();
 				 field.setBackground(COLOR_VALID);
 				 valid = true;
 				 try {
