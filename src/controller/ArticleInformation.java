@@ -23,6 +23,8 @@ import util.HibernateUtil;
 public class ArticleInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
 
+	// left of the screen, article's information
+	
 	public ArticleInformation(MainWindowControl c, Article article) {
 		super(c, article);
 
@@ -38,10 +40,9 @@ public class ArticleInformation extends BaseInformation {
 			supplierPriceList.getAddButton().setEnabled(false);
 		}
 		this.add(supplierPriceList, BorderLayout.EAST);
-// left of the screen, article's information
+
 		var articleForm = new JPanel();
 		articleForm.setPreferredSize(new Dimension(500, 0));
-		// on spécifie l'axe d'empillement
 		articleForm.setLayout(new BoxLayout(articleForm, BoxLayout.Y_AXIS));
 
 		var addToCart = new JPanel();
@@ -63,7 +64,6 @@ public class ArticleInformation extends BaseInformation {
 			articleFinal.getName(),
 			(s)-> articleFinal.setName(s),
 			(fieldValue)->dao.findOneBy("name", fieldValue) == null);
-		//descriptionFieldContainer.getField().setText(article.getName());
 		articleForm.add(descriptionFieldContainer);
 
 		var codeFieldContainer = new FieldContainer("Code Article", this);

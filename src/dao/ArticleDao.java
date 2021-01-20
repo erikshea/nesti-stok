@@ -1,6 +1,7 @@
 package dao;
 
 import model.*;
+import util.HibernateUtil;
 
 public class ArticleDao extends BaseDao<Article> {
 
@@ -9,5 +10,4 @@ public class ArticleDao extends BaseDao<Article> {
 		return null;
 	}
 
-	
 }
