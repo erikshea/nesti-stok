@@ -4,7 +4,8 @@
 		<class>model.Article</class>
 		<class>model.Ingredient</class>
 		<class>model.Offer</class>
-		<class>model.Default</class>
+		<class>model.IsDefault</class>
+		<class>model.IsDefaultPK</class>
 		<class>model.OfferPK</class>
 		<class>model.Order</class>
 		<class>model.OrdersArticle</class>

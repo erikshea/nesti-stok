@@ -48,7 +48,7 @@ public class Supplier implements Serializable {
 
 	//bi-directional many-to-one association to Default
 	@OneToMany(mappedBy="supplier")
-	private List<Default> defaults;
+	private List<IsDefault> isDefault;
 	
 	public Supplier() {
 	}
@@ -169,22 +169,22 @@ public class Supplier implements Serializable {
 		return order;
 	}
 
-	public List<Default> getDefaults() {
-		return this.defaults;
+	public List<IsDefault> getDefaults() {
+		return this.isDefault;
 	}
 
-	public void setDefaults(List<Default> defaults) {
-		this.defaults = defaults;
+	public void setDefaults(List<IsDefault> defaults) {
+		this.isDefault = defaults;
 	}
 
-	public Default addDefault(Default d) {
+	public IsDefault addDefault(IsDefault d) {
 		getDefaults().add(d);
 		d.setSupplier(this);
 
 		return d;
 	}
 
-	public Default removeDefault(Default d) {
+	public IsDefault removeDefault(IsDefault d) {
 		getDefaults().remove(d);
 		d.setSupplier(null);
 

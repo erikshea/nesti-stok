@@ -9,12 +9,13 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@NamedQuery(name="Default.findAll", query="SELECT d FROM Default d")
-public class Default implements Serializable {
+@Table(name="is_default")
+@NamedQuery(name="IsDefault.findAll", query="SELECT d FROM IsDefault d")
+public class IsDefault implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private DefaultPK id;
+	private IsDefaultPK id;
 
 	@Column(name="is_default")
 	private byte isDefault;
@@ -29,14 +30,14 @@ public class Default implements Serializable {
 	@JoinColumn(name="id_supplier", insertable=false, updatable=false)
 	private Supplier supplier;
 
-	public Default() {
+	public IsDefault() {
 	}
 
-	public DefaultPK getId() {
+	public IsDefaultPK getId() {
 		return this.id;
 	}
 
-	public void setId(DefaultPK id) {
+	public void setId(IsDefaultPK id) {
 		this.id = id;
 	}
 

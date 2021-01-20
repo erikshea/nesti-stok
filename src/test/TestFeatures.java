@@ -11,8 +11,8 @@ import util.HibernateUtil;
 
 public class TestFeatures {
 	public static void main(String[] args) {
-		var t = lastestOffer(1);
-		System.out.println(t.size());
+		var test = (new ArticleDao()).findById(2);
+		System.out.println(test.getIsDefaults());
 	}
 
 
