@@ -38,7 +38,6 @@ public class SupplierList extends BaseList {
 		super.setUpButtonListeners();
 		this.buttonModify.addActionListener( e->{
 			var name = this.table.getValueAt(this.table.getSelectedRow(),0);
-			System.out.println(name);
 			var a = (new SupplierDao()).findOneBy("name",name);
 
 			this.mainController.addCloseableTab(

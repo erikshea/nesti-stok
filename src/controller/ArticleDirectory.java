@@ -18,4 +18,6 @@ public class ArticleDirectory extends BaseDirectory {
 
 		
 	}
+	
+	
 }
