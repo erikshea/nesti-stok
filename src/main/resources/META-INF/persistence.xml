@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+  <persistence-unit name="nesti_stok">
+    <class>com.nesti.stock_manager.model.Article</class>
+    <class>com.nesti.stock_manager.model.Ingredient</class>
+    <class>com.nesti.stock_manager.model.Offer</class>
+    <class>com.nesti.stock_manager.model.IsDefault</class>
+    <class>com.nesti.stock_manager.model.IsDefaultPK</class>
+    <class>com.nesti.stock_manager.model.OfferPK</class>
+    <class>com.nesti.stock_manager.model.Order</class>
+    <class>com.nesti.stock_manager.model.OrdersArticle</class>
+    <class>com.nesti.stock_manager.model.OrdersArticlePK</class>
+    <class>com.nesti.stock_manager.model.Packaging</class>
+    <class>com.nesti.stock_manager.model.Product</class>
+    <class>com.nesti.stock_manager.model.Supplier</class>
+    <class>com.nesti.stock_manager.model.Unit</class>
+    <class>com.nesti.stock_manager.model.User</class>
+    <class>com.nesti.stock_manager.model.Utensil</class>
+  </persistence-unit>
+</persistence>

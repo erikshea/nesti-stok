@@ -1,0 +1,77 @@
+package com.nesti.stock_manager.controller;
+
+import com.nesti.stock_manager.dao.IngredientDao;
+
+@SuppressWarnings("serial")
+public class IngredientList extends BaseList {
+
+	public IngredientList(MainWindowControl c) {
+		super(c);
+		
+		refresh();
+	}
+
+	public void refresh() {
+		this.tableModel.getDataVector().removeAllElements();
+		// Detail of the article List
+		var dao = new IngredientDao();
+		var ingredients = dao.findAll();
+		ingredients.forEach( i->{
+			this.addRowData(new Object[] {i.getReference(),i.getName()," "});//TODO 
+		});
+	}
+	
+	// Title of the article List
+	@Override
+	public String getTitle() {
+		return "Liste des ingr�dients";
+	}
+
+	@Override
+	public Object[] getTableModelColumns() {
+		return new Object[] {"R�f","Nom","Unit�"};
+	}
+	
+	@Override
+	public void setUpButtonListeners()  {
+		super.setUpButtonListeners();
+		this.buttonModify.addActionListener( e->{
+			var ref = this.table.getValueAt(this.table.getSelectedRow(), 0);
+			var selectedIngredient = (new IngredientDao()).findOneBy("reference",ref);
+
+			this.mainController.addCloseableTab(
+					"Ingr�dient: " + selectedIngredient.getName(),
+					new IngredientInformation(this.mainController,selectedIngredient)
+			);
+		});
+		
+		this.buttonAdd.addActionListener( e->{
+			this.mainController.addCloseableTab(
+					"Nouvel Ingr�dient",
+					new IngredientInformation(this.mainController,null)
+			);
+		});
+		/*
+		this.buttonDelete.addActionListener( e->{
+			var dao = new IngredientDao();
+			
+			for ( var rowIndex : this.table.getSelectedRows()) {
+				var ingredient = dao.findOneBy("reference", this.table.getValueAt(rowIndex, 0));
+				dao.delete(ingredient);
+			}
+			
+			refresh();
+		});
+		
+		this.buttonDuplicate.addActionListener( e->{
+			var ref = this.table.getValueAt(this.table.getSelectedRow(), 0);
+			var selectedIngredient = (new ProductDao()).findOneBy("reference",ref).getIngredient();
+			var product = selectedIngredient.getProduct();
+			product.setIdProduct(0);
+			this.mainController.addCloseableTab(
+					"Nouvel Ingr�dient",
+					new IngredientInformation(this.mainController,selectedIngredient)
+			);
+		});*/
+	}
+}
