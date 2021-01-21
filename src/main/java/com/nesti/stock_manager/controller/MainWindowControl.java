@@ -54,10 +54,10 @@ public class MainWindowControl extends JTabbedPane {
 		this.addTab("Ingrédient", this.ingredientDirectory);
 
 		var user = getConnectedUser();
-		if (user.isSuperAdmin()) {
+		//if (user.isSuperAdmin()) {
 			this.userDirectory = new UserDirectory(this);
 			this.addTab("Utilisateur", this.userDirectory);
-		}
+		//}
 	}
 
 	@Override
