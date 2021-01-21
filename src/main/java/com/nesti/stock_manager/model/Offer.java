@@ -17,7 +17,17 @@ import java.util.Date;
 @NamedQuery(name = "Offer.findAll", query = "SELECT o FROM Offer o")
 public class Offer implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+   @PrePersist
+   private void prePersist() {
+       if (getId() == null) {
+    	   OfferPK pk = new OfferPK();
+           pk.setIdArticle(getArticle().getIdArticle());
+           pk.setIdSupplier(getSupplier().getIdSupplier());
+           pk.setStartDate(getStartDate());
+           setId(pk);
+       }
+   }
+	   
 	@EmbeddedId
 	private OfferPK id;
 

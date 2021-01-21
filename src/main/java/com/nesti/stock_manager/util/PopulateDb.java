@@ -104,13 +104,17 @@ public class PopulateDb {
 		SupplierDao.saveOrUpdate(new Supplier("O'Sel Fin","12 rue des lilas", "Bat E", "34000", "Montpellier","Jean Jacques","FRANCE","0492546547"));
 		SupplierDao.saveOrUpdate(new Supplier("Oeufs en folie","125 avenue Martin", "", "13013", "Marseille","Martine Martin","FRANCE","0491546978"));
 		SupplierDao.saveOrUpdate(new Supplier("Perfect cooking","Eight Avenue", "", "35240", "NYC","Edward","USA","0084 564 874"));
-		
+
+		HibernateUtil.getSession().getTransaction().commit();
+	
 		var offerDao = new OfferDao();
 		var dateTest = new Date();
-		var offer = new Offer(12.55);
+		var offer = new Offer();
+		offer.setPrice(1.1);
 		offer.setStartDate(dateTest);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("OEUF6");
+		System.out.println(offer.getId());
 		System.out.println(offer.getSupplier());
 		System.out.println(offer.getArticle());
 		offerDao.saveOrUpdate(offer);
