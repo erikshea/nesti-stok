@@ -34,7 +34,7 @@ import com.nesti.stock_manager.dao.SupplierDao;
 
 @SuppressWarnings("serial")
 public class ArticleSupplierList extends BasePriceList {
-
+	HashMap<Supplier,Offer> suppliers;
 	// right of the screen, price's and supplier's informations
 
 	public ArticleSupplierList(Article article) {
@@ -48,22 +48,8 @@ public class ArticleSupplierList extends BasePriceList {
 		this.table.getColumn("Par défaut").setCellRenderer(new RadioButtonRenderer());
 		this.table.getColumn("Par défaut").setCellEditor(new RadioButtonEditor(new JCheckBox()));
 
-		var uniqueSuppliers = new HashMap<Supplier,Offer>();
-		var offerArticle = article.getOffers();
-		
-		if ( offerArticle != null ) {
-			offerArticle.forEach(oa->{
-				uniqueSuppliers.put(oa.getSupplier(), oa);
-			});
-		}
 
-		
-		uniqueSuppliers.forEach((us,o) -> {
-			// allows to select the suppliers which has the lowest price
-			var isLowest = o.equals(article.getLowestOffer());
-			this.addRowData(new Object[] { us.getName(), o.getPrice() },isLowest );
-		});
-		
+		refreshSuppliers(article);
 	
 		// FOOTER OF THE SCREEN, ADD A SUPPLIER
 		var scrollPriceList = new JScrollPane(table);
@@ -91,12 +77,32 @@ public class ArticleSupplierList extends BasePriceList {
 		addPriceContainer.add(priceSupplier);
 
 		addButton = new JButton("+");
+		addButton.addActionListener(e->{
+			var supplier = (new SupplierDao()).findOneBy("name", list.getSelectedValue());
+			var offer = new Offer();
+			offer.setSupplier(supplier);
+			offer.setPrice(Double.parseDouble(priceSupplier.getText()));
+			article.addOffer(offer);
+			refreshSuppliers(article);
+		});
 		addPriceContainer.add(addButton);
 
 		this.add(addPriceContainer);
 
 		this.add(Box.createVerticalGlue());
 
+	}
+	
+	private void refreshSuppliers(Article article) {
+		suppliers = new HashMap<>();
+		this.tableModel.getDataVector().removeAllElements();
+		var latestOffers = article.getLatestOffers();
+		var lowestOffer = article.getLowestOffer();
+		latestOffers.forEach( o->{
+			if (o.getPrice() != -1) {
+				this.addRowData(new Object[] { o.getSupplier().getName(), o.getPrice() }, o.equals(lowestOffer) );
+			}
+		});
 	}
 
 	@Override
@@ -112,13 +118,17 @@ public class ArticleSupplierList extends BasePriceList {
 	@Override
 	public void addRowData(Object[] data) {
 		var tabData = new ArrayList<Object>(Arrays.asList(data));
+		var radioButton = new JRadioButton("");
 		tabData.add(0, new JRadioButton(""));
 		tabData.add(new JButton("-"));
 
 		this.tableModel.addRow(tabData.toArray());
 
 		radioGroup.add((JRadioButton) tabData.get(0));
-
+		
+		radioButton.addActionListener(e->{
+			System.out.println("qsdsqdqsd");
+		});
 	}
 
 //display radio button

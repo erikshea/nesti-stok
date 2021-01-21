@@ -11,14 +11,13 @@ public class NestiStokMain {
         //Create and set up the window.
         JFrame frame = new JFrame("Nesti Stok");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	var mainWindow = new MainWindowControl();
-		var formConnexion = new ConnexionForm(mainWindow,frame);
+    //	var mainWindow = new MainWindowControl();
+		//var formConnexion = new ConnexionForm(frame);
 		
-        frame.getContentPane().add(formConnexion);
+        frame.getContentPane().add(new MainWindowControl());
         frame.pack();
         frame.setVisible(true);
-        
-
+       
 	}
    public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:

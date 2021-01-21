@@ -44,6 +44,10 @@ public class Ingredient extends Product  {
 	
 	public Ingredient() {
 	}
+	
+	public Ingredient(String r, String n) {
+		super(r,n);
+	}
 
 	public List<Unit> getUnits() {
 		return this.units;
@@ -63,8 +67,8 @@ public class Ingredient extends Product  {
 	
 	public void setUnitsFromNames(List<String> ingredientNames) {
 		var unitDao = new UnitDao();
-		this.units = new ArrayList<>();
-		ingredientNames.forEach( n -> this.units.add( unitDao.findOneBy("name", n)));
+		setUnits(new ArrayList<>());
+		ingredientNames.forEach( n -> addUnit( unitDao.findOneBy("name", n)));
 	}
 	
 	

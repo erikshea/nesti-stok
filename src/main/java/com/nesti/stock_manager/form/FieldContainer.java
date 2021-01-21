@@ -34,7 +34,8 @@ public class FieldContainer extends BaseFieldContainer{
 		this.bind(initialFieldValue, s, null);
 	}
 	
-	public<E> void bind(String initialFieldValue, ValueSetter s, Predicate<String> validator) {
+	public<E> void bind(String i, ValueSetter s, Predicate<String> validator) {
+		initialFieldValue = i;
 		getField().setText(initialFieldValue);
 		validateField(s, validator);
 		
@@ -58,12 +59,14 @@ public class FieldContainer extends BaseFieldContainer{
 		 getField().setBackground(COLOR_VALID);
 		 valid = true;
 		 try {
+			 
 			 if ( validator != null ) {
 				 valid =		getField().getText().equals(initialFieldValue) 	// always valid if text is same as initial value
 						 	||	validator.test(getField().getText()); 			// valid if validator passes
 
 				 valid &= getField().getText().length()>0;
 			 }
+			 
 			 
 			 if (valid) {
 				 s.set(getField().getText());

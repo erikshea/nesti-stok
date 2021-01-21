@@ -37,6 +37,10 @@ public class Unit extends BaseEntity implements Serializable {
 	
 	public Unit() {
 	}
+	
+	public Unit(String n) {
+		setName(n);
+	}
 
 	public int getIdUnit() {
 		return this.idUnit;

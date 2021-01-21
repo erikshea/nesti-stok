@@ -4,8 +4,6 @@
     <class>com.nesti.stock_manager.model.Article</class>
     <class>com.nesti.stock_manager.model.Ingredient</class>
     <class>com.nesti.stock_manager.model.Offer</class>
-    <class>com.nesti.stock_manager.model.IsDefault</class>
-    <class>com.nesti.stock_manager.model.IsDefaultPK</class>
     <class>com.nesti.stock_manager.model.OfferPK</class>
     <class>com.nesti.stock_manager.model.Order</class>
     <class>com.nesti.stock_manager.model.OrdersArticle</class>

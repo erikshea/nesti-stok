@@ -50,6 +50,13 @@ public class User extends BaseEntity implements Serializable {
 	public User() {
 	}
 
+	public User(String l, String n, Date d, String r) {
+		setLogin(l);
+		setName(n);
+		setDateCreation(d);
+		setRole(r);
+	}
+
 	public int getIdUser() {
 		return this.idUser;
 	}
@@ -153,7 +160,6 @@ public class User extends BaseEntity implements Serializable {
 	}
 
 	public boolean isSuperAdmin() {
-		return true;
-//		return this.getRole().equals("super-administrator");
+		return this.getRole().equals("super-administrator");
 	}
 }
