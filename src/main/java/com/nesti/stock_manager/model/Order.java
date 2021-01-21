@@ -2,6 +2,10 @@ package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.nesti.stock_manager.dao.SupplierDao;
+import com.nesti.stock_manager.dao.UserDao;
+
 import java.util.Date;
 import java.util.List;
 
@@ -48,6 +52,12 @@ public class Order implements Serializable {
 	public Order() {
 	}
 
+	public Order(String n, Date o, Date d) {
+		setNumber(n);
+		setDateOrder(o);
+		setDateDelivery(d);
+	}
+	
 	public int getIdOrders() {
 		return this.idOrders;
 	}
@@ -117,5 +127,17 @@ public class Order implements Serializable {
 
 		return ordersArticle;
 	}
+	
+	public void setSupplierFromName(String n) {
+		var supplierDao = new SupplierDao();
+		var supplier = supplierDao.findOneBy("name", n);
+		setSupplier(supplier);
+	}
 
+	public void setUserFromLogin(String l) {
+		var userDao = new UserDao();
+		var user = userDao.findOneBy("login", l);
+		setUser(user);
+	}
+	
 }
