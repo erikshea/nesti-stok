@@ -66,6 +66,15 @@ public class Article extends BaseEntity implements Serializable {
 	public Article() {
 	}
 
+	public Article(String code, String name, String ean, double weight, double quantity, int stock) {
+		setCode(code);
+		setName(name);
+		setEan(ean);
+		setWeight(weight);
+		setQuantity(quantity);
+		setStock(stock);
+	}
+
 	public Offer getLowestOffer() {
 		var hql = "Select o from Offer o "
 				+ "WHERE o.price = (SELECT MIN(oo.price) FROM Offer oo WHERE oo.id.idArticle = :id_article) ";
@@ -183,6 +192,12 @@ public class Article extends BaseEntity implements Serializable {
 		var packagingDao = new PackagingDao();
 		var packaging = packagingDao.findOneBy("name", n);
 		setPackaging(packaging);
+	}
+	
+	public void setProductFromReference(String r) {
+		var productDao = new ProductDao();
+		var product = productDao.findOneBy("reference", r);
+		setProduct(product);
 	}
 
 	public List<Offer> getOffers() {

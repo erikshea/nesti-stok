@@ -35,7 +35,7 @@ public class PopulateDb {
 		ingredient.setUnitsFromNames(List.of("pièce"));
 		ingredientDao.saveOrUpdate(ingredient);
 		
-		ingredient = new Ingredient("CHOCCHOC4", "Chocolat au lait");
+		ingredient = new Ingredient("CHOCHOC4", "Chocolat au lait");
 		ingredient.setUnitsFromNames(List.of("gramme", "kilos"));
 		ingredientDao.saveOrUpdate(ingredient);
 		
@@ -45,7 +45,25 @@ public class PopulateDb {
 
 		
 		var articleDao = new ArticleDao();
-	//	var article = new Article("CASS125", "Casserole en inox", "")
+		var article = new Article("CASS125", "Casserole en inox", "3262154569874",550,1,25);
+		article.setUnitFromName("pièce");
+		article.setPackagingFromName("boite");
+		article.setProductFromReference("CASS154");
+		articleDao.saveOrUpdate(article);
+		
+		
+		
+		article = new Article ("OEUF6", "une boite de 6 oeufs", "3354654123401", 0.58,6,4);
+		article.setUnitFromName("pièce");
+		article.setPackagingFromName("boite");
+	//	article.setProductFromCode("OEUF");
+		articleDao.saveOrUpdate(article);
+		
+		article = new Article ("OEUF12", "une boite de douze oeufs", "3354654123457", 136,12,6);
+		article.setUnitFromName("pièce");
+		article.setPackagingFromName("boite");
+	//	article.setProductFromCode("OEUF");
+		articleDao.saveOrUpdate(article);
 		
 	}
 }
