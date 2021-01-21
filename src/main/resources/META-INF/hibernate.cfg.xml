@@ -9,8 +9,6 @@
   <property name="hibernate.current_session_context_class">thread</property>
   <mapping class="com.nesti.stock_manager.model.Article"/>
   <mapping class="com.nesti.stock_manager.model.Ingredient"/>
-  <mapping class="com.nesti.stock_manager.model.IsDefault"/>
-  <mapping class="com.nesti.stock_manager.model.IsDefaultPK"/>
   <mapping class="com.nesti.stock_manager.model.Offer"/>
   <mapping class="com.nesti.stock_manager.model.OfferPK"/>
   <mapping class="com.nesti.stock_manager.model.Order"/>

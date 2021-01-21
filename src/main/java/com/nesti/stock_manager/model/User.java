@@ -50,6 +50,13 @@ public class User extends BaseEntity implements Serializable {
 	public User() {
 	}
 
+	public User(String l, String n, Date d, String r) {
+		setLogin(l);
+		setName(n);
+		setDateCreation(d);
+		setRole(r);
+	}
+
 	public int getIdUser() {
 		return this.idUser;
 	}
@@ -127,7 +134,6 @@ public class User extends BaseEntity implements Serializable {
 		}
 		return dao;
 	}
-	
 
 	/**
 	 * Sets hash from plaintext password, using long password strategy described
