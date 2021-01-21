@@ -14,40 +14,39 @@ import at.favre.lib.crypto.bcrypt.LongPasswordStrategies;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the users database table.
  * 
  */
 @Entity
-@Table(name="users")
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@Table(name = "users")
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_user")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_user")
 	private int idUser;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="date_creation")
+	@Column(name = "date_creation")
 	private Date dateCreation;
 
 	private String login;
 
 	private String name;
 
-	@Column(name="password_hash")
+	@Column(name = "password_hash")
 	private String passwordHash;
 
 	private String role;
 
-	@OneToMany(mappedBy="user", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Order> orders;
 
 	private static UserDao dao;
-	
+
 	public User() {
 	}
 
@@ -99,7 +98,6 @@ public class User extends BaseEntity implements Serializable {
 		this.role = role;
 	}
 
-
 	public List<Order> getOrders() {
 		return this.orders;
 	}
@@ -121,7 +119,7 @@ public class User extends BaseEntity implements Serializable {
 
 		return order;
 	}
-	
+
 	@Override
 	public UserDao getDao() {
 		if (dao == null) {
@@ -129,24 +127,33 @@ public class User extends BaseEntity implements Serializable {
 		}
 		return dao;
 	}
-	
+
 	/**
-	 *  Sets hash from plaintext password, using long password strategy described here: https://github.com/patrickfav/bcrypt
+	 * Sets hash from plaintext password, using long password strategy described
+	 * here: https://github.com/patrickfav/bcrypt
+	 * 
 	 * @param plaintextPassword to generate hash from
 	 */
 	public void setPasswordHashFromPlainText(String plaintextPassword) {
-		var hash = BCrypt.with(LongPasswordStrategies.truncate(Version.VERSION_2A)).hashToString(6, plaintextPassword.toCharArray());
-		
+		var hash = BCrypt.with(LongPasswordStrategies.truncate(Version.VERSION_2A)).hashToString(6,
+				plaintextPassword.toCharArray());
+
 		this.setPasswordHash(hash);
 	}
-	
+
 	/**
-	 *  Checks plaintext password against bcrypt hash.
+	 * Checks plaintext password against bcrypt hash.
+	 * 
 	 * @param plaintextPassword to generate hash from
 	 */
 	public boolean isPassword(String plaintextPassword) {
 		var verifyer = BCrypt.verifyer(Version.VERSION_2A, LongPasswordStrategies.truncate(Version.VERSION_2A));
-		return this.getPasswordHash() != null && verifyer.verify(plaintextPassword.toCharArray(), this.getPasswordHash()).verified;
+		return this.getPasswordHash() != null
+				&& verifyer.verify(plaintextPassword.toCharArray(), this.getPasswordHash()).verified;
 	}
 
+	public boolean isSuperAdmin() {
+		return true;
+//		return this.getRole().equals("super-administrator");
+	}
 }
