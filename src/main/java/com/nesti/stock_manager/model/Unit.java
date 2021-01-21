@@ -35,6 +35,9 @@ public class Unit extends BaseEntity implements Serializable {
 
 	private static UnitDao dao;
 	
+	public Unit() {
+	}
+
 	public Unit(String n) {
 		setName(n);
 	}
