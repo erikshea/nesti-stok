@@ -9,9 +9,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import com.nesti.stock_manager.dao.UserDao;
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.form.ListFieldContainer;
+import com.nesti.stock_manager.form.PasswordFieldContainer;
 import com.nesti.stock_manager.model.User;
 import com.nesti.stock_manager.util.HibernateUtil;
 
@@ -50,7 +53,7 @@ public class UserInformation extends BaseInformation {
 				userFinal.getRole(),
 				(s)->userFinal.setRole(s));
 	
-		var passwordFieldContainer = new FieldContainer("Mot de passe", this);
+		var passwordFieldContainer = new PasswordFieldContainer("Mot de passe", this);
 		passwordFieldContainer.bind(
 				"",
 				(s)-> userFinal.setPasswordHashFromPlainText(s));
@@ -64,7 +67,6 @@ public class UserInformation extends BaseInformation {
 		
 		this.buttonValidate.addActionListener( e->{
 			try{
-				userFinal.setPasswordHash("FFF"); // TODO
 				dao.saveOrUpdate(userFinal);
 				HibernateUtil.getSession().getTransaction().commit();
 			} catch (Exception ex) {
@@ -76,10 +78,10 @@ public class UserInformation extends BaseInformation {
 			
 			this.mainControl.getUserDirectory().getEntityList().refresh();
 			this.mainControl.remove(this);
-			this.mainControl.setSelectedComponent(this.mainControl.getSupplierDirectory());
+			this.mainControl.setSelectedComponent(this.mainControl.getUserDirectory());
 		});
 		this.buttonCancel.addActionListener( e->{
-			this.mainControl.setSelectedComponent(this.mainControl.getSupplierDirectory());
+			this.mainControl.setSelectedComponent(this.mainControl.getUserDirectory());
 		});
 	}
 }
