@@ -59,6 +59,18 @@ public class Supplier  extends BaseEntity implements Serializable {
 	public Supplier() {
 	}
 
+	public Supplier(String name, String adress1, String adress2, String zipCode, String city, String contactName,
+			String country, String phone) {
+		setName(name);
+		setAddress1(adress1);
+		setAddress2(adress2);
+		setZipCode(zipCode);
+		setCity(city);
+		setContactName(contactName);
+		setCountry(country);
+		setPhoneNumber(phone);
+	}
+
 	public int getIdSupplier() {
 		return this.idSupplier;
 	}
