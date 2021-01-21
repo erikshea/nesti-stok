@@ -27,4 +27,8 @@ public class Utensil extends Product {
 		}
 		return dao;
 	}
+	
+	public Utensil(String r, String n) {
+		super(r,n);
+	}
 }

@@ -27,6 +27,10 @@ public class Packaging implements Serializable {
 
 	public Packaging() {
 	}
+	
+	public Packaging(String n) {
+		setName(n);
+	}
 
 	public int getIdPackaging() {
 		return this.idPackaging;

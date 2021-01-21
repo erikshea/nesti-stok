@@ -119,8 +119,6 @@ public class ArticleInformation extends BaseInformation {
 		articleForm.add(packagingListContainer);
 		
 		articleForm.add(Box.createVerticalGlue());
-
-		
 		
 		this.add(articleForm, BorderLayout.WEST);
 

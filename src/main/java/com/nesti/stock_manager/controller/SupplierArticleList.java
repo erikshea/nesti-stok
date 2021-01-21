@@ -78,6 +78,6 @@ public class SupplierArticleList extends BasePriceList {
 
 	@Override
 	public Object[] getTableModelColumns() {
-		return new Object[] { "Code article", "D�signation", "Prix de vente", "Suppression" };
+		return new Object[] { "Code article", "Désignation", "Prix de vente", "Suppression" };
 	}
 }
