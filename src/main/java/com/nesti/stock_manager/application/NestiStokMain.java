@@ -12,9 +12,9 @@ public class NestiStokMain {
         JFrame frame = new JFrame("Nesti Stok");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     //	var mainWindow = new MainWindowControl();
-		var formConnexion = new ConnexionForm(frame);
+		//var formConnexion = new ConnexionForm(frame);
 		
-        frame.getContentPane().add(formConnexion);
+        frame.getContentPane().add(new MainWindowControl());
         frame.pack();
         frame.setVisible(true);
        
