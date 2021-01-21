@@ -33,6 +33,7 @@ public class MainWindowControl extends JTabbedPane {
 			width = 1600;
 		}
 
+		
 		Integer height = (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.8);
 		if (height > 900) {
 			height = 900;
