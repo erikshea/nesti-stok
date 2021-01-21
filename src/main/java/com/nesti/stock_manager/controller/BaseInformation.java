@@ -3,6 +3,7 @@ package com.nesti.stock_manager.controller;
 
 import com.nesti.stock_manager.form.FieldContainer;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Box;
@@ -30,6 +31,9 @@ public class BaseInformation extends JPanel {
 
 		this.buttonCancel = new JButton("Annuler");
 		this.buttonValidate = new JButton("Enregistrer");
+		
+		this.buttonValidate.setBackground(new Color(91,148,4));
+		this.buttonCancel.setBackground(new Color(179,133,4));
 
 		buttonBottomBar.add(Box.createHorizontalGlue());
 		buttonBottomBar.add(buttonCancel);

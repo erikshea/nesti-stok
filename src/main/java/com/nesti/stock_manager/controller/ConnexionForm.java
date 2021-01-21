@@ -58,11 +58,16 @@ public class ConnexionForm extends JPanel {
 
 		var buttonValidate = new JButton("Se connecter");
 		buttonValidate.addActionListener(e -> {
+
 			var userDao = new UserDao();
-			//var user = userDao.
+			var user = userDao.findOneBy("login", loginField.getText());
+			if (user != null) {
+				isPassword();
+				
+			}
+			System.out.println(user.getName());
 		});
-		
-		
+
 		buttonBottomBar.setAlignmentX(Component.CENTER_ALIGNMENT);
 		buttonBottomBar.add(Box.createHorizontalGlue());
 		buttonBottomBar.add(buttonCancel);
@@ -70,12 +75,13 @@ public class ConnexionForm extends JPanel {
 		buttonBottomBar.add(buttonValidate);
 		buttonBottomBar.add(Box.createHorizontalGlue());
 
-	
-
 		formContainer.add(LoginContainer);
 		formContainer.add(passwordContainer);
 		formContainer.add(buttonBottomBar);
 
 	}
 
+	public void isPassword() {
+
+	}
 }
