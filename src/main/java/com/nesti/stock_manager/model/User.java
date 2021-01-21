@@ -127,6 +127,7 @@ public class User extends BaseEntity implements Serializable {
 		}
 		return dao;
 	}
+	
 
 	/**
 	 * Sets hash from plaintext password, using long password strategy described
@@ -153,7 +154,6 @@ public class User extends BaseEntity implements Serializable {
 	}
 
 	public boolean isSuperAdmin() {
-		return true;
-//		return this.getRole().equals("super-administrator");
+		return this.getRole().equals("super-administrator");
 	}
 }
