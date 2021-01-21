@@ -12,6 +12,7 @@ public class PasswordFieldContainer extends FieldContainer {
 		
 		this.remove(this.field);
 		this.field = new JPasswordField();
+		this.add(this.field);
 	}
 	
 	@Override
