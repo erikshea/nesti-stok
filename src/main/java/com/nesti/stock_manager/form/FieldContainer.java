@@ -36,9 +36,9 @@ public class FieldContainer extends BaseFieldContainer{
 	
 	public<E> void bind(String initialFieldValue, ValueSetter s, Predicate<String> validator) {
 
-		field.setText(initialFieldValue);
+		getField().setText(initialFieldValue);
 		
-		field.getDocument().addDocumentListener(new DocumentListener() {
+		getField().getDocument().addDocumentListener(new DocumentListener() {
 			  @Override
 			public void changedUpdate(DocumentEvent e) {
 			  	change();
@@ -53,22 +53,22 @@ public class FieldContainer extends BaseFieldContainer{
 			  }
 
 			  public void change() {
-				 field.setBackground(COLOR_VALID);
+				  getField().setBackground(COLOR_VALID);
 				 valid = true;
 				 try {
 					 valid = 		validator == null							// Always valid if no validator set
-							 	||  field.getText().equals(initialFieldValue) 	// always valid if text is same as initial value
-							 	||	validator.test(field.getText()); 			// valid if validator passes
+							 	||  getField().getText().equals(initialFieldValue) 	// always valid if text is same as initial value
+							 	||	validator.test(getField().getText()); 			// valid if validator passes
 
 					 if (valid) {
-						 s.set(field.getText());
+						 s.set(getField().getText());
 					 }  else {
-						 field.setBackground(COLOR_INVALID);
+						 getField().setBackground(COLOR_INVALID);
 					 }
 					 
 				 } catch ( Exception e ) {	// exception when setting (ie entering letters for Double property)
 					 valid = false;
-					 field.setBackground(COLOR_INVALID);
+					 getField().setBackground(COLOR_INVALID);
 				 } 
 
 				 infoPane.checkValidatedFields();
