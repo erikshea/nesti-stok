@@ -3,6 +3,10 @@ package com.nesti.stock_manager.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.nesti.stock_manager.dao.ArticleDao;
+import com.nesti.stock_manager.dao.OrderDao;
+import com.nesti.stock_manager.dao.OrdersArticleDao;
+
 
 /**
  * The persistent class for the orders_article database table.
@@ -42,6 +46,10 @@ public class OrdersArticle implements Serializable {
 	public OrdersArticle() {
 	}
 
+	public OrdersArticle(int q) {
+		setQuantity(q);
+	}
+
 	public OrdersArticlePK getId() {
 		return this.id;
 	}
@@ -73,5 +81,16 @@ public class OrdersArticle implements Serializable {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
-
+	
+	public void setOrderFromNumber(String n) {
+		var orderDao = new OrderDao();
+		var order = orderDao.findOneBy("number", n);
+		setOrder(order);
+	}
+	
+	public void setArticleFromCode(String c) {
+		var articleDao = new ArticleDao();
+		var article = articleDao.findOneBy("code", c);
+		setArticle(article);
+	}
 }

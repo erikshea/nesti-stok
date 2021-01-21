@@ -43,6 +43,10 @@ public class IsDefault implements Serializable {
 	public IsDefault() {
 	}
 
+	public IsDefault(byte d) {
+		setIsDefault(d);
+	}
+	
 	public IsDefaultPK getId() {
 		return this.id;
 	}

@@ -12,8 +12,6 @@ import com.nesti.stock_manager.model.*;
 public class PopulateDb {
 
 	public static void main(String[] args) {
-		
-		
 
 		var query = HibernateUtil.getSession()
                 .createQuery("DELETE FROM Article");
@@ -22,13 +20,23 @@ public class PopulateDb {
 	        query = HibernateUtil.getSession()
 	                .createQuery("DELETE FROM Order");
 	        query.executeUpdate();
+	        
+	        query = HibernateUtil.getSession()
+	                .createQuery("DELETE FROM OrdersArticle");
+	        query.executeUpdate();
+	        
+	        query = HibernateUtil.getSession()
+	                .createQuery("DELETE FROM Offer");
+	        query.executeUpdate();
 				
 	        query = HibernateUtil.getSession()
 	            .createQuery("DELETE FROM Packaging");
 	        query.executeUpdate();
+	        
 	        query = HibernateUtil.getSession()
 	                .createQuery("DELETE FROM Unit");
 	        query.executeUpdate();
+	        
 	        query = HibernateUtil.getSession()
 	                .createQuery("DELETE FROM Utensil");
 	        query.executeUpdate();
@@ -46,15 +54,9 @@ public class PopulateDb {
 	        query.executeUpdate();
 	        
 	        query = HibernateUtil.getSession()
-	                .createQuery("DELETE FROM Offer");
-	        query.executeUpdate();
-	        
-	        query = HibernateUtil.getSession()
 	                .createQuery("DELETE FROM User");
 	        query.executeUpdate();
-	        
 
-		
 		var packagingDao =  new PackagingDao();
 		packagingDao.saveOrUpdate(new Packaging("boite"));
 		packagingDao.saveOrUpdate(new Packaging("bouteille"));
@@ -73,7 +75,6 @@ public class PopulateDb {
 		utensilDao.saveOrUpdate(new Utensil("CASS154","Casserole anti adhérente"));
 		utensilDao.saveOrUpdate(new Utensil("LOU","Louche en inox"));
 
-		
 		var ingredientDao = new IngredientDao();
 		var ingredient = new Ingredient("OEUF", "Oeuf de poule");
 		ingredient.setUnitsFromNames(List.of("pièce"));
@@ -127,7 +128,7 @@ public class PopulateDb {
 		article.setPackagingFromName("bouteille");
 		article.setProductFromReference("LAIT");
 		articleDao.saveOrUpdate(article);
-		
+				
 		var SupplierDao = new SupplierDao();
 		SupplierDao.saveOrUpdate(new Supplier("O'Sel Fin","12 rue des lilas", "Bat E", "34000", "Montpellier","Jean Jacques","FRANCE","0492546547"));
 		SupplierDao.saveOrUpdate(new Supplier("Oeufs en folie","125 avenue Martin", "", "13013", "Marseille","Martine Martin","FRANCE","0491546978"));
@@ -194,17 +195,57 @@ public class PopulateDb {
 		order.setUserFromLogin("james");
 		orderDao.saveOrUpdate(order);
 		
-		
 		var day2 = DateUtils.addHours(now, 48);
-		order = new Order("547",now,day2);
+		order = new Order("546",now,day2);
 		order.setSupplierFromName("O'Sel Fin");
 		order.setUserFromLogin("erik");
 		orderDao.saveOrUpdate(order);
 		
-		order = new Order("65874",now,tomorrow);
+		order = new Order("658",now,tomorrow);
 		order.setSupplierFromName("O'Sel Fin");
 		order.setUserFromLogin("erik");
 		orderDao.saveOrUpdate(order);
+		
+		order = new Order("555",tomorrow,day2);
+		order.setSupplierFromName("Perfect cooking");
+		order.setUserFromLogin("erik");
+		orderDao.saveOrUpdate(order);
+		
+		var ordersArticleDao = new OrdersArticleDao();
+		var ordersArticle = new OrdersArticle(5);
+		ordersArticle.setOrderFromNumber("257");
+		ordersArticle.setArticleFromCode("OEUF6");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
+		
+		ordersArticle = new OrdersArticle(3);
+		ordersArticle.setOrderFromNumber("257");
+		ordersArticle.setArticleFromCode("OEUF12");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
+		
+		ordersArticle = new OrdersArticle(12);
+		ordersArticle.setOrderFromNumber("546");
+		ordersArticle.setArticleFromCode("OEUF12");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
+		
+		ordersArticle = new OrdersArticle(2);
+		ordersArticle.setOrderFromNumber("546");
+		ordersArticle.setArticleFromCode("LAI85");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
+		
+		ordersArticle = new OrdersArticle(24);
+		ordersArticle.setOrderFromNumber("658");
+		ordersArticle.setArticleFromCode("LAI85");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
+		
+		ordersArticle = new OrdersArticle(0);
+		ordersArticle.setOrderFromNumber("555");
+		ordersArticle.setArticleFromCode("CASS125");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
+		
+		ordersArticle = new OrdersArticle(1);
+		ordersArticle.setOrderFromNumber("555");
+		ordersArticle.setArticleFromCode("LOUCH45");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
 		
 		HibernateUtil.getSession().getTransaction().commit();
 	
