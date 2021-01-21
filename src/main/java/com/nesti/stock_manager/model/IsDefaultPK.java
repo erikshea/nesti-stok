@@ -12,6 +12,7 @@ public class IsDefaultPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
+	   
 	@Column(name="id_article")
 	private int idArticle;
 

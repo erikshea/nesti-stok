@@ -1,10 +1,7 @@
 package com.nesti.stock_manager.util;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-
-import org.apache.commons.lang3.time.DateUtils;
 
 import com.nesti.stock_manager.dao.*;
 import com.nesti.stock_manager.model.*;
@@ -40,18 +37,6 @@ public class PopulateDb {
 	        query = HibernateUtil.getSession()
 	                .createQuery("DELETE FROM Supplier");
 	        query.executeUpdate();
-	        
-	        query = HibernateUtil.getSession()
-	                .createQuery("DELETE FROM Offer");
-	        query.executeUpdate();
-	        
-	        query = HibernateUtil.getSession()
-	                .createQuery("DELETE FROM User");
-	        query.executeUpdate();
-	        
-	        query = HibernateUtil.getSession()
-	                .createQuery("DELETE FROM Order");
-	        query.executeUpdate();
 		
 		var packagingDao =  new PackagingDao();
 		packagingDao.saveOrUpdate(new Packaging("boite"));
@@ -69,24 +54,19 @@ public class PopulateDb {
 		var utensilDao = new UtensilDao();
 		utensilDao.saveOrUpdate(new Utensil("FOU54","Fouet en bois"));
 		utensilDao.saveOrUpdate(new Utensil("CASS154","Casserole anti adhérente"));
-		utensilDao.saveOrUpdate(new Utensil("LOU","Louche en inox"));
-
+		utensilDao.saveOrUpdate(new Utensil("LOU","Louche en inox"));	
 		
 		var ingredientDao = new IngredientDao();
 		var ingredient = new Ingredient("OEUF", "Oeuf de poule");
 		ingredient.setUnitsFromNames(List.of("pièce"));
 		ingredientDao.saveOrUpdate(ingredient);
 		
-		ingredient = new Ingredient("CHOCHOC", "Chocolat au lait");
+		ingredient = new Ingredient("CHOCHOC4", "Chocolat au lait");
 		ingredient.setUnitsFromNames(List.of("gramme", "kilos"));
 		ingredientDao.saveOrUpdate(ingredient);
 		
 		ingredient = new Ingredient("LAIT", "Lait");
 		ingredient.setUnitsFromNames(List.of("Litre"));
-		ingredientDao.saveOrUpdate(ingredient);
-		
-		ingredient = new Ingredient("SUC", "Sucre en poudre");
-		ingredient.setUnitsFromNames(List.of("gramme","kilos"));
 		ingredientDao.saveOrUpdate(ingredient);
 	
 		var articleDao = new ArticleDao();
@@ -96,16 +76,10 @@ public class PopulateDb {
 		article.setProductFromReference("CASS154");
 		articleDao.saveOrUpdate(article);
 		
-		article = new Article ("LOUCH45", "louche inox rouge à pois vert", "3354874123456", 225,1,18);
+		article = new Article ("LOUCH45", "louche rouge à pois vert", "3354874123456", 225,1,18);
 		article.setUnitFromName("pièce");
 		article.setPackagingFromName("sac");
 		article.setProductFromReference("LOU");
-		articleDao.saveOrUpdate(article);
-		
-		article = new Article ("CHOC74", "plaquette de chocolat", "3354654174584", 255,1,23);
-		article.setUnitFromName("pièce");
-		article.setPackagingFromName("boite");
-		article.setProductFromReference("OEUF");
 		articleDao.saveOrUpdate(article);
 		
 		article = new Article ("OEUF6", "une boite de six oeufs", "3354654123401", 0.58,6,4);
@@ -130,75 +104,21 @@ public class PopulateDb {
 		SupplierDao.saveOrUpdate(new Supplier("O'Sel Fin","12 rue des lilas", "Bat E", "34000", "Montpellier","Jean Jacques","FRANCE","0492546547"));
 		SupplierDao.saveOrUpdate(new Supplier("Oeufs en folie","125 avenue Martin", "", "13013", "Marseille","Martine Martin","FRANCE","0491546978"));
 		SupplierDao.saveOrUpdate(new Supplier("Perfect cooking","Eight Avenue", "", "35240", "NYC","Edward","USA","0084 564 874"));
-		
-		var offerDao = new OfferDao();
-		Date now = new Date();
-		Date tomorrow = DateUtils.addHours(now, 24);
 
-		var offer = new Offer(2.55);
-		offer.setSupplierFromName("Oeufs en folie");
+	
+		var offerDao = new OfferDao();
+		var dateTest = new Date();
+		var offer = new Offer();
+		offer.setPrice(1.1);
+		offer.setStartDate(dateTest);
+		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("OEUF6");
-		offer.setStartDate(now);
+		System.out.println(offer.getId());
+		System.out.println(offer.getSupplier());
+		System.out.println(offer.getArticle());
 		offerDao.saveOrUpdate(offer);
-		
-		offer = new Offer(4.99);
-		offer.setSupplierFromName("Oeufs en folie");
-		offer.setArticleFromCode("OEUF12");
-		offer.setStartDate(now);
-		offerDao.saveOrUpdate(offer);
-		
-		offer = new Offer(4.85);
-		offer.setSupplierFromName("O'Sel Fin");
-		offer.setArticleFromCode("OEUF12");
-		offer.setStartDate(now);
-		offerDao.saveOrUpdate(offer);
-		
-		offer = new Offer(3.25);
-		offer.setSupplierFromName("O'Sel Fin");
-		offer.setArticleFromCode("LAI85");
-		offer.setStartDate(now);
-		offerDao.saveOrUpdate(offer);
-		
-		offer = new Offer(4.72);
-		offer.setSupplierFromName("O'Sel Fin");
-		offer.setArticleFromCode("LAI85");
-		offer.setStartDate(tomorrow);
-		offerDao.saveOrUpdate(offer);
-		
-		offer = new Offer();
-		offer.setSupplierFromName("Perfect cooking");
-		offer.setArticleFromCode("CASS125");
-		offer.setStartDate(now);
-		offerDao.saveOrUpdate(offer);
-		
-		offer = new Offer(18.90);
-		offer.setSupplierFromName("Perfect cooking");
-		offer.setArticleFromCode("LOUCH45");
-		offer.setStartDate(now);
-		offerDao.saveOrUpdate(offer);
-		
-		
-		var userDao = new UserDao();
-		var user = new User("james", "James Bond",now,"super-administrator");
-		user.setPasswordHashFromPlainText("1234");
-		userDao.saveOrUpdate(user); 
-		
-		user = new User("erik", "Erik Shea",now,"administrator");
-		user.setPasswordHashFromPlainText("1234");
-		userDao.saveOrUpdate(user); 
-		
-//		var orderDao = new OrderDao();
-//		var order = new Order("257",now,tomorrow);
-//		order.setSupplierFromName("Oeufs en folie");
-//		order.setUserFromLogin("james");
-//		orderDao.saveOrUpdate(order);
-		
-		
-		
-		
 		
 		HibernateUtil.getSession().getTransaction().commit();
 	
 	}
 }
-

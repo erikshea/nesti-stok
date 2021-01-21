@@ -20,7 +20,7 @@ public class Offer implements Serializable {
    @PrePersist
    private void prePersist() {
        if (getId() == null) {
-    	   OfferPK pk = new OfferPK();
+    	   var pk = new OfferPK();
            pk.setIdArticle(getArticle().getIdArticle());
            pk.setIdSupplier(getSupplier().getIdSupplier());
            pk.setStartDate(getStartDate());
@@ -31,7 +31,7 @@ public class Offer implements Serializable {
 	@EmbeddedId
 	private OfferPK id;
 
-	private double price;
+	private Double price;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "start_date", insertable = false, updatable = false)
@@ -62,11 +62,11 @@ public class Offer implements Serializable {
 		this.id = id;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

@@ -13,7 +13,17 @@ import javax.persistence.*;
 @NamedQuery(name="IsDefault.findAll", query="SELECT d FROM IsDefault d")
 public class IsDefault implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
+	@PrePersist
+	private void prePersist() {
+		if (getId() == null) {
+			var pk = new IsDefaultPK();
+			pk.setIdArticle(getArticle().getIdArticle());
+			pk.setIdSupplier(getSupplier().getIdSupplier());
+			setId(pk);
+		}
+	}
+	
 	@EmbeddedId
 	private IsDefaultPK id;
 
