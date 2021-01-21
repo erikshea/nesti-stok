@@ -22,6 +22,7 @@ public class MainWindowControl extends JTabbedPane {
 	protected SupplierDirectory supplierDirectory;
 	protected IngredientDirectory ingredientDirectory;
 	protected UserDirectory userDirectory;
+	private ConnexionForm connexionForm;
 
 
 
@@ -39,6 +40,9 @@ public class MainWindowControl extends JTabbedPane {
 		this.setPreferredSize(new Dimension(width, 	height));
 		
 		this.setMaximumSize(new Dimension(600,900));;
+		
+		this.connexionForm = new ConnexionForm(this);
+		this.addTab("Connexion", this.connexionForm);
 		
 		this.articleDirectory = new ArticleDirectory(this);
 	    this.addTab("Article", this.articleDirectory);

@@ -10,7 +10,6 @@ public class SupplierList extends BaseList<Supplier> {
 	public SupplierList(MainWindowControl c) {
 		super(c);
 
-
 		refresh();
 	}
 	

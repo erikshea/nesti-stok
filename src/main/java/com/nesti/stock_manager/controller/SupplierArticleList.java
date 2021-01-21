@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -17,8 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import com.nesti.stock_manager.dao.ArticleDao;
-import com.nesti.stock_manager.dao.OfferDao;
-import com.nesti.stock_manager.dao.SupplierDao;
+
 
 @SuppressWarnings("serial")
 public class SupplierArticleList extends BasePriceList {
@@ -31,11 +29,11 @@ public class SupplierArticleList extends BasePriceList {
 		var uniqueArticle = new HashMap<Article,Offer>();
 		var offerSupplier = supplier.getOffers();
 		
-		
-		offerSupplier.forEach(os -> {
+                 if (offerSupplier != null){
+                    offerSupplier.forEach(os -> {
 			uniqueArticle.put(os.getArticle(), os);
 		});
-
+                 }
 		uniqueArticle.forEach((ua,o)->{
 			this.addRowData(new Object[] {ua.getCode(), ua.getName(), o.getPrice()});
 		});
@@ -71,7 +69,6 @@ public class SupplierArticleList extends BasePriceList {
 		this.add(addPriceContainer);
 
 		this.add(Box.createVerticalGlue());
-
 	}
 
 	@Override

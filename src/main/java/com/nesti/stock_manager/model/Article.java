@@ -78,6 +78,20 @@ public class Article extends BaseEntity implements Serializable {
 		}
 		return result;
 	}
+	
+	
+	public Offer getHighestOffer() {
+		var hql = "Select o from Offer o "
+				+ "WHERE o.price = (SELECT MAX(oo.price) FROM Offer oo WHERE oo.id.idArticle = :id_article) ";
+		var query = HibernateUtil.getSession().createQuery(hql);
+		query.setParameter("id_article", this.getIdArticle());
+		var results = query.list();
+		Offer result = null;
+		if (results.size() > 0) {
+			result = (Offer) results.get(0);
+		}
+		return result;
+	}
 
 	public int getIdArticle() {
 		return this.idArticle;

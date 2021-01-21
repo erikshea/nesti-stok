@@ -50,6 +50,11 @@ public class UserInformation extends BaseInformation {
 				userFinal.getRole(),
 				(s)->userFinal.setRole(s));
 	
+		var passwordFieldContainer = new FieldContainer("Mot de passe", this);
+		passwordFieldContainer.bind(
+				"",
+				(s)-> userFinal.setPasswordHashFromPlainText(s));
+		userForm.add(passwordFieldContainer);
 		
 		userForm.add(roleFieldContainer);
 		
