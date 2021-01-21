@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import com.nesti.stock_manager.dao.*;
 import com.nesti.stock_manager.model.*;
 import com.nesti.stock_manager.util.HibernateUtil;
+import com.nesti.stock_manager.form.*;
 
 public class ArticleInformation extends BaseInformation {
 	private static final long serialVersionUID = 1775908299271902575L;
