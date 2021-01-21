@@ -44,7 +44,7 @@ public class UserList extends BaseList<User> {
 		this.buttonAdd.addActionListener( e->{
 			this.mainController.addCloseableTab(
 					"Nouvel Utilisateur",
-					new UserInformation(this.mainController,null)
+					new UserInformation(this.mainController,new User())
 			);
 		});
 		/*

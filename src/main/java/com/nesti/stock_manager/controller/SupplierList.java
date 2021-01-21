@@ -42,7 +42,7 @@ public class SupplierList extends BaseList<Supplier> {
 		this.buttonAdd.addActionListener( e->{
 			this.mainController.addCloseableTab(
 					"Nouveau Fournisseur",
-					new SupplierInformation(this.mainController,null)
+					new SupplierInformation(this.mainController,new Supplier())
 			);
 		});
 		/*
