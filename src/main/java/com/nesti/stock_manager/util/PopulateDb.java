@@ -105,7 +105,6 @@ public class PopulateDb {
 		SupplierDao.saveOrUpdate(new Supplier("Oeufs en folie","125 avenue Martin", "", "13013", "Marseille","Martine Martin","FRANCE","0491546978"));
 		SupplierDao.saveOrUpdate(new Supplier("Perfect cooking","Eight Avenue", "", "35240", "NYC","Edward","USA","0084 564 874"));
 
-		HibernateUtil.getSession().getTransaction().commit();
 	
 		var offerDao = new OfferDao();
 		var dateTest = new Date();

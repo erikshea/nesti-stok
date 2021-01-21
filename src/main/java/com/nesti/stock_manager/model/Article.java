@@ -4,6 +4,8 @@ import java.io.Serializable;
 import com.nesti.stock_manager.dao.*;
 import com.nesti.stock_manager.util.HibernateUtil;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.*;
@@ -75,7 +77,43 @@ public class Article extends BaseEntity implements Serializable {
 		setStock(stock);
 	}
 
+
+	public List<Offer> getLatestOffers(){
+		HashMap<Supplier,Offer> suppliers = new HashMap<>();
+		
+		if ( getOffers() != null && getOffers().size()> 0) {
+			getOffers().forEach(oa->{
+				
+				
+				
+				/*if ( 	suppliers.get(oa.getSupplier()) == null
+					||  suppliers.get(oa.getSupplier()).getStartDate().compareTo(oa.getStartDate()) < 0  ) {
+					suppliers.put(oa.getSupplier(), oa);
+				}
+				
+				suppliers.put(oa.getSupplier(), oa);*/
+			});
+		}
+		
+		return new ArrayList<Offer>(suppliers.values());
+	}
+	
 	public Offer getLowestOffer() {
+		Offer result = null;
+		if (this.getOffers() != null && this.getOffers().size() > 0) {
+			result = this.getOffers().get(0);
+			
+			for (var offer:getOffers()) {
+				if (result.getPrice() > offer.getPrice()) {
+					result = offer;
+				}
+			}
+		}
+		return result;
+	}
+	
+	
+	public Offer getLowestOfferHQL() {
 		var hql = "Select o from Offer o "
 				+ "WHERE o.price = (SELECT MIN(oo.price) FROM Offer oo WHERE oo.id.idArticle = :id_article) ";
 		var query = HibernateUtil.getSession().createQuery(hql);

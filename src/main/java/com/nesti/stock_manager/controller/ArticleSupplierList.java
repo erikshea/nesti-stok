@@ -96,27 +96,15 @@ public class ArticleSupplierList extends BasePriceList {
 	private void refreshSuppliers(Article article) {
 		suppliers = new HashMap<>();
 		this.tableModel.getDataVector().removeAllElements();
-		var offerArticle = article.getOffers();
+		var latestOffers = article.getLatestOffers();
+		var lowestOffer = article.getLowestOffer();
+		latestOffers.forEach( o->{
+			if (o.getPrice() != null) {
+				this.addRowData(new Object[] { o.getSupplier().getName(), o.getPrice() }, o.equals(lowestOffer) );
+			}
+		});
 		
-		if ( offerArticle != null && offerArticle.size()> 0) {
-			offerArticle.forEach(oa->{
-				if ( 	suppliers.get(oa.getSupplier()) == null
-					||  suppliers.get(oa.getSupplier()).getStartDate().compareTo(oa.getStartDate()) < 0  ) {
-					suppliers.put(oa.getSupplier(), oa);
-				}
-				
-				//if (oa.getStartDate() > )
-				suppliers.put(oa.getSupplier(), oa);
-			});
 
-			var lowestOffer = article.getLowestOffer();
-			System.out.println(lowestOffer);
-			suppliers.forEach((us,o) -> {
-				// allows to select the suppliers which has the lowest price
-				var isLowest = o.equals(lowestOffer);
-				this.addRowData(new Object[] { us.getName(), o.getPrice() }, isLowest );
-			});
-		}
 	}
 
 	@Override

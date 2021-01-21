@@ -13,7 +13,17 @@ import javax.persistence.*;
 @NamedQuery(name="OrdersArticle.findAll", query="SELECT o FROM OrdersArticle o")
 public class OrdersArticle implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
+	@PrePersist
+	private void prePersist() {
+		if (getId() == null) {
+			var pk = new OrdersArticlePK();
+			pk.setIdArticle(getArticle().getIdArticle());
+			pk.setIdOrders(getOrder().getIdOrders());
+			setId(pk);
+		}
+	}
+	
 	@EmbeddedId
 	private OrdersArticlePK id;
 
