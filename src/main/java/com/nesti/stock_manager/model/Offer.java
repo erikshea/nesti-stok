@@ -2,39 +2,56 @@ package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
 
+import com.nesti.stock_manager.dao.ArticleDao;
+import com.nesti.stock_manager.dao.SupplierDao;
+
+import java.util.Date;
 
 /**
  * The persistent class for the offers database table.
  * 
  */
 @Entity
-@Table(name="offers")
-@NamedQuery(name="Offer.findAll", query="SELECT o FROM Offer o")
+@Table(name = "offers")
+@NamedQuery(name = "Offer.findAll", query = "SELECT o FROM Offer o")
 public class Offer implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+   @PrePersist
+   private void prePersist() {
+       if (getId() == null) {
+    	   OfferPK pk = new OfferPK();
+           pk.setIdArticle(getArticle().getIdArticle());
+           pk.setIdSupplier(getSupplier().getIdSupplier());
+           pk.setStartDate(getStartDate());
+           setId(pk);
+       }
+   }
+	   
 	@EmbeddedId
 	private OfferPK id;
 
 	private double price;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="start_date", insertable=false, updatable=false)
+	@Column(name = "start_date", insertable = false, updatable = false)
 	private Date startDate;
 
-	//bi-directional many-to-one association to Article
+	// bi-directional many-to-one association to Article
 	@ManyToOne
-	@JoinColumn(name="id_article", insertable=false, updatable=false)
+	@JoinColumn(name = "id_article", insertable = false, updatable = false)
 	private Article article;
 
-	//bi-directional many-to-one association to Supplier
+	// bi-directional many-to-one association to Supplier
 	@ManyToOne
-	@JoinColumn(name="id_supplier", insertable=false, updatable=false)
+	@JoinColumn(name = "id_supplier", insertable = false, updatable = false)
 	private Supplier supplier;
 
 	public Offer() {
+	}
+
+	public Offer(double p) {
+		setPrice(p);
 	}
 
 	public OfferPK getId() {
@@ -75,6 +92,18 @@ public class Offer implements Serializable {
 
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
+	}
+	
+	public void setSupplierFromName(String n) {
+		var supplierDao = new SupplierDao();
+		var supplier = supplierDao.findOneBy("name", n);
+		setSupplier(supplier);
+	}
+	
+	public void setArticleFromCode(String c) {
+		var articleDao = new ArticleDao();
+		var article = articleDao.findOneBy("code", c);
+		setArticle(article);
 	}
 
 }

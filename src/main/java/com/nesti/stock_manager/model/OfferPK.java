@@ -12,10 +12,10 @@ public class OfferPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="id_article", insertable=false, updatable=false)
+	@Column(name="id_article")
 	private int idArticle;
 
-	@Column(name="id_supplier", insertable=false, updatable=false)
+	@Column(name="id_supplier")
 	private int idSupplier;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -37,6 +37,14 @@ public class OfferPK implements Serializable {
 		this.idSupplier = idSupplier;
 	}
 
+	public java.util.Date getStartDate() {
+		return this.startDate;
+	}
+	public void setStartDate(java.util.Date d) {
+		this.startDate = d;
+	}
+
+	
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) {
