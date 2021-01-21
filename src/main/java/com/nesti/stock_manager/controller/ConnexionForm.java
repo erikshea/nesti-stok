@@ -62,9 +62,11 @@ public class ConnexionForm extends JPanel {
 			var userDao = new UserDao();
 			var user = userDao.findOneBy("login", loginField.getText());
 			if (user != null && user.isPassword(passwordField.getText())) {
-				
+				System.out.println("bravo");
 			}
-		
+			else {
+				System.out.println("echec");
+			}
 		});
 
 		buttonBottomBar.setAlignmentX(Component.CENTER_ALIGNMENT);
