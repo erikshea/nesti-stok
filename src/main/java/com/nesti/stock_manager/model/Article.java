@@ -1,11 +1,12 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import com.nesti.stock_manager.dao.*;
 import com.nesti.stock_manager.util.HibernateUtil;
 
 import java.util.List;
+
+import javax.persistence.*;
 
 /**
  * The persistent class for the article database table.
@@ -238,5 +239,30 @@ public class Article extends BaseEntity implements Serializable {
 			dao = new ArticleDao();
 		}
 		return dao;
+	}
+	
+	
+	public Article duplicate() {
+		final String suffix = "_NEW";
+		
+		var newArticle = new Article();
+		newArticle.setCode(this.getCode()+suffix);
+		newArticle.setEan(this.getEan()+suffix);
+		newArticle.setName(this.getName()+suffix);
+		newArticle.setProduct(this.getProduct());
+		newArticle.setQuantity(this.getQuantity());
+		newArticle.setWeight(this.getWeight());
+		newArticle.setStock(this.getStock());
+
+		return newArticle;
+	}
+	
+	
+	public static Article createEmpty() {
+		var newArticle = new Article();
+		newArticle.setUnit( (new UnitDao()).findOneBy("name", "pièce") );
+		newArticle.setPackaging( (new PackagingDao()).findOneBy("name", "boîte") );
+		
+		return newArticle;
 	}
 }

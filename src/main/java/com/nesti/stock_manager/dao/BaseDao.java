@@ -74,6 +74,21 @@ public  class BaseDao<E> {
 	}
 	
 	
+	
+	public E getFirstInTable() {
+		var hql = "Select x from " + getEntityClass().getSimpleName() + " x "
+				+ "WHERE x.id = (SELECT MIN(xx.id)" 
+				+ "FROM " + getEntityClass().getSimpleName() + " xx)";
+		var query = HibernateUtil.getSession().createQuery(hql);
+		var results = query.list();
+		E result = null;
+		if (results.size() > 0) {
+			result = (E) results.get(0);
+		}
+		return result;
+	}
+	
+	
 	public <T> E findOsneBy(String propertyName, T value) {
 			var cr = this.getCriteriaQuery();
 	        var root = cr.from(this.getEntityClass());
