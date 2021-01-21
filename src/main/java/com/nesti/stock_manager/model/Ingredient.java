@@ -2,6 +2,9 @@ package com.nesti.stock_manager.model;
 
 import javax.persistence.*;
 
+import com.nesti.stock_manager.dao.ArticleDao;
+import com.nesti.stock_manager.dao.IngredientDao;
+import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UnitDao;
 
 import java.util.ArrayList;
@@ -33,9 +36,12 @@ public class Ingredient extends Product  {
 	, inverseJoinColumns={
 		@JoinColumn(name="id_unit")
 		}
+	
 	)
 	private List<Unit> units;
 
+	private static IngredientDao dao;
+	
 	public Ingredient() {
 	}
 
@@ -72,5 +78,13 @@ public class Ingredient extends Product  {
 		getUnits().remove(unit);
 
 		return unit;
+	}
+	
+	@Override
+	public IngredientDao getDao() {
+		if (dao == null) {
+			dao = new IngredientDao();
+		}
+		return dao;
 	}
 }

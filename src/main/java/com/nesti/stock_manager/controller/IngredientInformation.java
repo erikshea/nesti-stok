@@ -35,7 +35,7 @@ public class IngredientInformation extends BaseInformation {
 		ingredientForm.setPreferredSize(new Dimension(500, 0));
 		ingredientForm.setLayout(new BoxLayout(ingredientForm, BoxLayout.Y_AXIS));
 		
-		var titleIngredientInformation = new JLabel("Ingr�dient");
+		var titleIngredientInformation = new JLabel("Ingrédient");
 		ingredientForm.add(titleIngredientInformation);
 		
 		var descriptionFieldContainer = new FieldContainer("Description", this);
@@ -45,14 +45,14 @@ public class IngredientInformation extends BaseInformation {
 				(fieldValue)->productDao.findOneBy("name", fieldValue) == null);
 		ingredientForm.add(descriptionFieldContainer);
 		
-		var codeFieldContainer = new FieldContainer("R�f�rence", this);
+		var codeFieldContainer = new FieldContainer("Référence", this);
 		codeFieldContainer.bind(
 				ingredientFinal.getReference(),
 				(s)-> ingredientFinal.setReference(s),
 				(fieldValue)->productDao.findOneBy("reference", fieldValue) == null);
 		ingredientForm.add(codeFieldContainer);
 		
-		var unitListContainer = new EditableListFieldContainer("Unit�", this);
+		var unitListContainer = new EditableListFieldContainer("Unité", this);
 		unitListContainer.getList().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		unitDao.findAll().forEach(unit -> {
@@ -79,8 +79,8 @@ public class IngredientInformation extends BaseInformation {
 				HibernateUtil.getSession().getTransaction().commit();
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this,
-				    "Veuillez v�rifier les champs en orange.",
-				    "Param�tres invalides",
+				    "Veuillez vérifier les champs en orange.",
+				    "Paramètres invalides",
 				    JOptionPane.WARNING_MESSAGE);
 			}
 			this.mainControl.getIngredientDirectory().getEntityList().refresh();

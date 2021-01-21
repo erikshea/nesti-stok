@@ -1,6 +1,7 @@
 package com.nesti.stock_manager.dao;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import com.nesti.stock_manager.model.*;
 
 import com.nesti.stock_manager.util.HibernateUtil;
 
@@ -90,5 +92,19 @@ public  class BaseDao<E> {
 	
 	public Class<E> getEntityClass() {
 		return (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	}
+	
+	public static BaseDao<?> getDao(Class<?> entityClass) {
+		BaseDao<?> result = null;
+		try {
+			var entity = (BaseEntity) entityClass.getConstructor().newInstance();
+			result = entity.getDao();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }

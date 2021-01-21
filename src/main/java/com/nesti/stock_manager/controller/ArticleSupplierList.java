@@ -45,15 +45,18 @@ public class ArticleSupplierList extends BasePriceList {
 
 		this.radioGroup = new ButtonGroup();
 
-		this.table.getColumn("Par d�faut").setCellRenderer(new RadioButtonRenderer());
-		this.table.getColumn("Par d�faut").setCellEditor(new RadioButtonEditor(new JCheckBox()));
+		this.table.getColumn("Par défaut").setCellRenderer(new RadioButtonRenderer());
+		this.table.getColumn("Par défaut").setCellEditor(new RadioButtonEditor(new JCheckBox()));
 
 		var uniqueSuppliers = new HashMap<Supplier,Offer>();
 		var offerArticle = article.getOffers();
 		
-		offerArticle.forEach(oa->{
-			uniqueSuppliers.put(oa.getSupplier(), oa);
-		});
+		if ( offerArticle != null ) {
+			offerArticle.forEach(oa->{
+				uniqueSuppliers.put(oa.getSupplier(), oa);
+			});
+		}
+
 		
 		uniqueSuppliers.forEach((us,o) -> {
 			// allows to select the suppliers which has the lowest price
@@ -98,12 +101,12 @@ public class ArticleSupplierList extends BasePriceList {
 
 	@Override
 	public String getTitle() {
-		return "Liste de fournisseur";
+		return "Liste de fournisseurs";
 	}
 
 	@Override
 	public Object[] getTableModelColumns() {
-		return new Object[] { "Par d�faut", "Fournisseur", "Prix d'achat", "Suppression" };
+		return new Object[] { "Par défaut", "Fournisseur", "Prix d'achat", "Suppression" };
 	}
 
 	@Override

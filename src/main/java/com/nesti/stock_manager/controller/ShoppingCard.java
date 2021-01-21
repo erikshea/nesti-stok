@@ -26,7 +26,7 @@ public class ShoppingCard extends BaseInformation {
 		var deleteButton = new JButton("Supprimer");
 		addtoCardContainer.add(deleteButton);
 
-		var titleLabel = new JLabel("Mes articles � commander");
+		var titleLabel = new JLabel("Mes articles à commander");
 		addtoCardContainer.add(titleLabel);
 
 		createTable();
@@ -53,7 +53,7 @@ public class ShoppingCard extends BaseInformation {
 	}
 
 	public Object[] getTableModelColumns() {
-		return new Object[] { "R�f", "Description", "Quantit�", "Prix d'achat", "Fournisseur" };
+		return new Object[] { "Réf", "Description", "Quantité", "Prix d'achat", "Fournisseur" };
 	}
 
 	public void addRowData(Object[] data) {

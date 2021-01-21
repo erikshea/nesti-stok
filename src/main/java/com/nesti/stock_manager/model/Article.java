@@ -2,7 +2,7 @@ package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
+import com.nesti.stock_manager.dao.*;
 import com.nesti.stock_manager.util.HibernateUtil;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name = "Article.findAll", query = "SELECT a FROM Article a")
-public class Article implements Serializable {
+public class Article extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -49,16 +49,18 @@ public class Article implements Serializable {
 	private Unit unit;
 
 	// bi-directional many-to-one association to Offer
-	@OneToMany(mappedBy = "article")
+	@OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
 	private List<Offer> offers;
 
 	// bi-directional many-to-one association to OrdersArticle
-	@OneToMany(mappedBy = "article")
+	@OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
 	private List<OrdersArticle> ordersArticles;
 
 	//bi-directional many-to-one association to Default
-	@OneToMany(mappedBy="article")
+	@OneToMany(mappedBy="article", cascade = CascadeType.REMOVE)
 	private List<IsDefault> isDefaults;
+	
+	private static ArticleDao dao;
 	
 	public Article() {
 	}
@@ -224,5 +226,17 @@ public class Article implements Serializable {
 		d.setArticle(null);
 
 		return d;
+	}
+	
+	public boolean containsUtensil(){
+		return this.getProduct() instanceof Utensil;
+	}
+	
+	@Override
+	public ArticleDao getDao() {
+		if (dao == null) {
+			dao = new ArticleDao();
+		}
+		return dao;
 	}
 }

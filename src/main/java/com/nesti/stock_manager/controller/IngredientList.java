@@ -1,35 +1,27 @@
 package com.nesti.stock_manager.controller;
 
+import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.IngredientDao;
+import com.nesti.stock_manager.model.*;
 
 @SuppressWarnings("serial")
-public class IngredientList extends BaseList {
+public class IngredientList extends BaseList<Ingredient> {
 
 	public IngredientList(MainWindowControl c) {
 		super(c);
 		
 		refresh();
 	}
-
-	public void refresh() {
-		this.tableModel.getDataVector().removeAllElements();
-		// Detail of the article List
-		var dao = new IngredientDao();
-		var ingredients = dao.findAll();
-		ingredients.forEach( i->{
-			this.addRowData(new Object[] {i.getReference(),i.getName()," "});//TODO 
-		});
-	}
 	
 	// Title of the article List
 	@Override
 	public String getTitle() {
-		return "Liste des ingr�dients";
+		return "Liste des ingrédients";
 	}
 
 	@Override
 	public Object[] getTableModelColumns() {
-		return new Object[] {"R�f","Nom","Unit�"};
+		return new Object[] {"Réf","Nom","Unité"};
 	}
 	
 	@Override
@@ -40,14 +32,14 @@ public class IngredientList extends BaseList {
 			var selectedIngredient = (new IngredientDao()).findOneBy("reference",ref);
 
 			this.mainController.addCloseableTab(
-					"Ingr�dient: " + selectedIngredient.getName(),
+					"Ingrédient: " + selectedIngredient.getName(),
 					new IngredientInformation(this.mainController,selectedIngredient)
 			);
 		});
 		
 		this.buttonAdd.addActionListener( e->{
 			this.mainController.addCloseableTab(
-					"Nouvel Ingr�dient",
+					"Nouvel Ingrédient",
 					new IngredientInformation(this.mainController,null)
 			);
 		});
@@ -69,9 +61,20 @@ public class IngredientList extends BaseList {
 			var product = selectedIngredient.getProduct();
 			product.setIdProduct(0);
 			this.mainController.addCloseableTab(
-					"Nouvel Ingr�dient",
+					"Nouvel Ingréient",
 					new IngredientInformation(this.mainController,selectedIngredient)
 			);
 		});*/
+	}
+	@Override
+	public void deleteRow(int rowIndex) {
+		var dao = new IngredientDao();
+		var entity = dao.findOneBy("reference", this.table.getValueAt(rowIndex, 0));
+		dao.delete(entity);
+	}
+	
+	@Override
+	public void addRow(Ingredient entity) {
+		this.addRowData(new Object[] {entity.getReference(),entity.getName()," "});//TODO 
 	}
 }

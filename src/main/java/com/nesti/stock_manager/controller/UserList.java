@@ -1,9 +1,12 @@
 package com.nesti.stock_manager.controller;
 
+import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UserDao;
+import com.nesti.stock_manager.model.Supplier;
+import com.nesti.stock_manager.model.User;
 
 @SuppressWarnings("serial")
-public class UserList extends BaseList {
+public class UserList extends BaseList<User> {
 
 	public UserList(MainWindowControl c) {
 		super(c);
@@ -11,17 +14,6 @@ public class UserList extends BaseList {
 		refresh();
 	}
 
-	
-
-	public void refresh() {
-		this.tableModel.getDataVector().removeAllElements();
-		// Detail of the article List
-		var dao = new UserDao();
-		var user = dao.findAll();
-		user.forEach(u-> {
-			this.addRowData(new Object[] {u.getLogin(),u.getRole(), u.getDateCreation(),u.getName()});
-		});
-	}
 	
 	@Override
 	public String getTitle() {
@@ -31,7 +23,7 @@ public class UserList extends BaseList {
 	
 	@Override
 	public Object[] getTableModelColumns() {
-		return new Object[] { "Nom d'utilisateur", "R�le", "Date d'inscription", "Nom du contact" };
+		return new Object[] { "Nom d'utilisateur", "Rôle", "Date d'inscription", "Nom du contact" };
 	}
 	
 	@Override
@@ -78,5 +70,17 @@ public class UserList extends BaseList {
 					new UserInformation(this.mainController,user)
 			);
 		});*/
+	}
+	
+	@Override
+	public void deleteRow(int rowIndex) {
+		var dao = new UserDao();
+		var entity = dao.findOneBy("login", this.table.getValueAt(rowIndex, 0));
+		dao.delete(entity);
+	}
+	
+	@Override
+	public void addRow(User entity) {
+		this.addRowData(new Object[] {entity.getLogin(),entity.getRole(), entity.getDateCreation(),entity.getName()});
 	}
 }

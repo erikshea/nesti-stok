@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
-public class Product implements Serializable {
+public abstract class Product extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -25,7 +25,7 @@ public class Product implements Serializable {
 	private String reference;
 
 	//bi-directional many-to-one association to Article
-	@OneToMany(mappedBy="product")
+	@OneToMany(mappedBy="product", cascade = CascadeType.REMOVE)
 	private List<Article> articles;
 	
 /*

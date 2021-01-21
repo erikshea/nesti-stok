@@ -73,7 +73,7 @@ public class SupplierInformation extends BaseInformation {
 				(s)-> supplierFinal.setCountry(s));
 		supplierForm.add(countryFieldContainer);
 
-		var phoneFieldContainer = new FieldContainer("T�l�phone", this);
+		var phoneFieldContainer = new FieldContainer("Téléphone", this);
 		phoneFieldContainer.bind(
 				supplierFinal.getPhoneNumber(),
 				(s)-> supplierFinal.setPhoneNumber(s));
@@ -98,8 +98,8 @@ public class SupplierInformation extends BaseInformation {
 				HibernateUtil.getSession().getTransaction().commit();
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this,
-				    "Veuillez v�rifier les champs en orange.",
-				    "Param�tres invalides",
+				    "Veuillez vérifier les champs en orange.",
+				    "Paramètres invalides",
 				    JOptionPane.WARNING_MESSAGE);
 			}
 			this.mainControl.getSupplierDirectory().getEntityList().refresh();
