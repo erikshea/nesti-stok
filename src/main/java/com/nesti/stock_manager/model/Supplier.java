@@ -3,9 +3,7 @@ package com.nesti.stock_manager.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.SupplierDao;
-
 import java.util.List;
 
 
@@ -50,9 +48,9 @@ public class Supplier  extends BaseEntity implements Serializable {
 	@OneToMany(mappedBy="supplier", cascade = CascadeType.REMOVE)
 	private List<Order> orders;
 
-	//bi-directional many-to-one association to Default
-	@OneToMany(mappedBy="supplier", cascade = CascadeType.REMOVE)
-	private List<IsDefault> isDefault;
+	//bi-directional many-to-one association to Article
+	@OneToMany(mappedBy="supplier")
+	private List<Article> articles;
 	
 	private static SupplierDao dao;
 	
@@ -187,26 +185,26 @@ public class Supplier  extends BaseEntity implements Serializable {
 		return order;
 	}
 
-	public List<IsDefault> getDefaults() {
-		return this.isDefault;
+	public List<Article> getArticles() {
+		return this.articles;
 	}
 
-	public void setDefaults(List<IsDefault> defaults) {
-		this.isDefault = defaults;
+	public void setArticles(List<Article> articles) {
+		this.articles = articles;
 	}
 
-	public IsDefault addDefault(IsDefault d) {
-		getDefaults().add(d);
-		d.setSupplier(this);
+	public Article addArticle(Article article) {
+		getArticles().add(article);
+		article.setDefaultSupplier(this);
 
-		return d;
+		return article;
 	}
 
-	public IsDefault removeDefault(IsDefault d) {
-		getDefaults().remove(d);
-		d.setSupplier(null);
+	public Article removeArticle(Article article) {
+		getArticles().remove(article);
+		article.setDefaultSupplier(null);
 
-		return d;
+		return article;
 	}
 	
 	public SupplierDao getDao() {

@@ -123,6 +123,7 @@ public class ArticleInformation extends BaseInformation {
 		this.add(articleForm, BorderLayout.WEST);
 
 		this.buttonValidate.addActionListener( e->{
+
 			try{
 				(new ProductDao()).saveOrUpdate(articleFinal.getProduct());
 				articleDao.saveOrUpdate(articleFinal);

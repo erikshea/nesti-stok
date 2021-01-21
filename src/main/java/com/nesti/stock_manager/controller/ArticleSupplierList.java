@@ -99,12 +99,10 @@ public class ArticleSupplierList extends BasePriceList {
 		var latestOffers = article.getLatestOffers();
 		var lowestOffer = article.getLowestOffer();
 		latestOffers.forEach( o->{
-			if (o.getPrice() != null) {
+			if (o.getPrice() != -1) {
 				this.addRowData(new Object[] { o.getSupplier().getName(), o.getPrice() }, o.equals(lowestOffer) );
 			}
 		});
-		
-
 	}
 
 	@Override

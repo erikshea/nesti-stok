@@ -59,9 +59,11 @@ public class Article extends BaseEntity implements Serializable {
 	@OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
 	private List<OrdersArticle> ordersArticles;
 
-	//bi-directional many-to-one association to Default
-	@OneToMany(mappedBy="article", cascade = CascadeType.REMOVE)
-	private List<IsDefault> isDefaults;
+	//bi-directional many-to-one association to Supplier
+	@ManyToOne
+	@JoinColumn(name="id_default_supplier")
+	private Supplier supplier;
+
 	
 	private static ArticleDao dao;
 	
@@ -76,33 +78,32 @@ public class Article extends BaseEntity implements Serializable {
 		setQuantity(quantity);
 		setStock(stock);
 	}
-
-
 	public List<Offer> getLatestOffers(){
-		HashMap<Supplier,Offer> suppliers = new HashMap<>();
-		
+		HashMap<Supplier,Offer> offersBySupplier = new HashMap<>();
+
 		if ( getOffers() != null && getOffers().size()> 0) {
 			getOffers().forEach(oa->{
-				
-				
-				
-				/*if ( 	suppliers.get(oa.getSupplier()) == null
-					||  suppliers.get(oa.getSupplier()).getStartDate().compareTo(oa.getStartDate()) < 0  ) {
-					suppliers.put(oa.getSupplier(), oa);
+				var offerInMap = offersBySupplier.get(oa.getSupplier());
+
+				if ( 	offerInMap == null
+					||  offerInMap.getStartDate() == null
+					||  oa.getStartDate() == null 
+					||  offerInMap.getStartDate().compareTo(oa.getStartDate()) < 0  ) {
+					offersBySupplier.put(oa.getSupplier(), oa);
 				}
-				
-				suppliers.put(oa.getSupplier(), oa);*/
+					
+				offersBySupplier.put(oa.getSupplier(), oa);
 			});
 		}
-		
-		return new ArrayList<Offer>(suppliers.values());
+
+		return new ArrayList<Offer>(offersBySupplier.values());
 	}
-	
+
 	public Offer getLowestOffer() {
 		Offer result = null;
 		if (this.getOffers() != null && this.getOffers().size() > 0) {
 			result = this.getOffers().get(0);
-			
+
 			for (var offer:getOffers()) {
 				if (result.getPrice() > offer.getPrice()) {
 					result = offer;
@@ -111,6 +112,8 @@ public class Article extends BaseEntity implements Serializable {
 		}
 		return result;
 	}
+
+
 	
 	
 	public Offer getLowestOfferHQL() {
@@ -286,28 +289,14 @@ public class Article extends BaseEntity implements Serializable {
 		return this.getProduct().getName();
 	}
 	
-	public List<IsDefault> getIsDefaults() {
-		return this.isDefaults;
+	public Supplier getDefaultSupplier() {
+		return this.supplier;
 	}
 
-	public void setIsDefaults(List<IsDefault> defaults) {
-		this.isDefaults = defaults;
+	public void setDefaultSupplier(Supplier supplier) {
+		this.supplier = supplier;
 	}
 
-	public IsDefault addIsDefault(IsDefault d) {
-		getIsDefaults().add(d);
-		d.setArticle(this);
-
-		return d;
-	}
-
-	public IsDefault removeIsDefault(IsDefault d) {
-		getIsDefaults().remove(d);
-		d.setArticle(null);
-
-		return d;
-	}
-	
 	public boolean containsUtensil(){
 		return this.getProduct() instanceof Utensil;
 	}
