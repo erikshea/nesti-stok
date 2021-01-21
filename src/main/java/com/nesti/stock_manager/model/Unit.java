@@ -2,6 +2,10 @@ package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.nesti.stock_manager.dao.IngredientDao;
+import com.nesti.stock_manager.dao.UnitDao;
+
 import java.util.List;
 
 
@@ -11,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Unit.findAll", query="SELECT u FROM Unit u")
-public class Unit implements Serializable {
+public class Unit extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -29,6 +33,8 @@ public class Unit implements Serializable {
 	@ManyToMany(mappedBy="units")
 	private List<Ingredient> ingredients;
 
+	private static UnitDao dao;
+	
 	public Unit() {
 	}
 
@@ -77,5 +83,11 @@ public class Unit implements Serializable {
 	public void setIngredients(List<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}*/
-
+	@Override
+	public UnitDao getDao() {
+		if (dao == null) {
+			dao = new UnitDao();
+		}
+		return dao;
+	}
 }

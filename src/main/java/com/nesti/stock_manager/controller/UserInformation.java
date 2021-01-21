@@ -46,7 +46,7 @@ public class UserInformation extends BaseInformation {
 				(s)-> userFinal.setName(s));
 		userForm.add(contactNameFieldContainer);
 		
-		var roleFieldContainer = new ListFieldContainer("R�le:", this);
+		var roleFieldContainer = new ListFieldContainer("Rôle:", this);
 		roleFieldContainer.populateList( List.of("super-administrator","administrator"));
 		roleFieldContainer.bindSelection(
 				userFinal.getRole(),
@@ -66,8 +66,8 @@ public class UserInformation extends BaseInformation {
 				HibernateUtil.getSession().getTransaction().commit();
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this,
-				    "Veuillez v�rifier les champs en orange.",
-				    "Param�tres invalides",
+				    "Veuillez vérifier les champs en orange.",
+				    "Paramètres invalides",
 				    JOptionPane.WARNING_MESSAGE);
 			}
 			

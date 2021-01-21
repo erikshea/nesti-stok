@@ -1,9 +1,11 @@
 package com.nesti.stock_manager.controller;
 
+import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.dao.SupplierDao;
+import com.nesti.stock_manager.model.*;
 
 @SuppressWarnings("serial")
-public class SupplierList extends BaseList {
+public class SupplierList extends BaseList<Supplier> {
 
 	public SupplierList(MainWindowControl c) {
 		super(c);
@@ -11,15 +13,6 @@ public class SupplierList extends BaseList {
 		refresh();
 	}
 	
-	public void refresh() {
-		this.tableModel.getDataVector().removeAllElements();
-		// Detail of the article List
-		var dao = new SupplierDao();
-		var suppliers = dao.findAll();
-		suppliers.forEach(s->{
-			this.addRowData(new Object[] {s.getName(), s.getContactName(), s.getCity(), s.getPhoneNumber()});
-		});
-	}
 	
 	// Title of the article List
 	@Override
@@ -75,5 +68,16 @@ public class SupplierList extends BaseList {
 			);
 		});*/
 	}
-
+	
+	@Override
+	public void deleteRow(int rowIndex) {
+		var dao = new SupplierDao();
+		var entity = dao.findOneBy("name", this.table.getValueAt(rowIndex, 0));
+		dao.delete(entity);
+	}
+	
+	@Override
+	public void addRow(Supplier entity) {
+		this.addRowData(new Object[] {entity.getName(), entity.getContactName(), entity.getCity(), entity.getPhoneNumber()});
+	}
 }

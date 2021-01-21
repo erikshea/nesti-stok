@@ -14,11 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.nesti.stock_manager.dao.ArticleDao;
-import com.nesti.stock_manager.dao.IngredientDao;
-import com.nesti.stock_manager.dao.ProductDao;
-import com.nesti.stock_manager.model.Article;
-import com.nesti.stock_manager.model.Ingredient;
+import com.nesti.stock_manager.dao.*;
+import com.nesti.stock_manager.model.*;
 import com.nesti.stock_manager.util.HibernateUtil;
 
 public class ArticleInformation extends BaseInformation {
@@ -29,11 +26,16 @@ public class ArticleInformation extends BaseInformation {
 	public ArticleInformation(MainWindowControl c, Article article) {
 		super(c, article);
 
-		if (article == null) {
-			article = new Article();
+		if (article.getUnit() == null) {
+			article.setUnit(new Unit());
 		}
+		
+		if (article.getPackaging() == null) {
+			article.setPackaging(new Packaging());
+		}
+
 		final var articleFinal= article;
-		var dao = new ArticleDao();
+		var articleDao = new ArticleDao();
 		var ingredientDao = new IngredientDao();
 		
 		var supplierPriceList = new ArticleSupplierList(article);
@@ -64,25 +66,25 @@ public class ArticleInformation extends BaseInformation {
 		descriptionFieldContainer.bind(
 			articleFinal.getName(),
 			(s)-> articleFinal.setName(s),
-			(fieldValue)->dao.findOneBy("name", fieldValue) == null);
+			(fieldValue)->articleDao.findOneBy("name", fieldValue) == null);
 		articleForm.add(descriptionFieldContainer);
 
 		var codeFieldContainer = new FieldContainer("Code Article", this);
 		codeFieldContainer.bind(
 			articleFinal.getCode(),
 			(s)->articleFinal.setCode(s),
-			(fieldValue)->dao.findOneBy("code", fieldValue) == null);
+			(fieldValue)->articleDao.findOneBy("code", fieldValue) == null);
 		articleForm.add(codeFieldContainer);
 
 		var eanFieldContainer = new FieldContainer("EAN", this);
 		eanFieldContainer.bind(
 			articleFinal.getEan(),
 			(s)->articleFinal.setEan(s),
-			(fieldValue)->dao.findOneBy("ean", fieldValue) == null);
+			(fieldValue)->articleDao.findOneBy("ean", fieldValue) == null);
 		articleForm.add(eanFieldContainer);
 		
-		if (article.getProduct() instanceof Ingredient) {
-			var ingredientListContainer = new ListFieldContainer("Ingr�dient:", this);
+		if (!article.containsUtensil()) {
+			var ingredientListContainer = new ListFieldContainer("Ingrédient:", this);
 			var listModel = ingredientListContainer.getListModel();
 			ingredientDao.findAll().forEach(ing -> {
 				listModel.addElement(ing.getName());				
@@ -93,7 +95,7 @@ public class ArticleInformation extends BaseInformation {
 			articleForm.add(ingredientListContainer);
 		}
 
-		var quantityFieldContainer = new FieldContainer("Quantit�", this);
+		var quantityFieldContainer = new FieldContainer("Quantité", this);
 		quantityFieldContainer.bind(
 			String.valueOf(articleFinal.getQuantity()),
 			(s)->articleFinal.setQuantity(Double.parseDouble(s)));
@@ -105,19 +107,41 @@ public class ArticleInformation extends BaseInformation {
 			(s)->articleFinal.setWeight(Double.parseDouble(s)));
 		articleForm.add(weightFieldContainer);
 
+		var unitListContainer = new ListFieldContainer("Unité:", this);
+		var unitDao = new UnitDao();
+		unitDao.findAll().forEach(u -> {
+			unitListContainer.getListModel().addElement(u.getName());				
+		});
+		unitListContainer.bindSelection(
+			articleFinal.getUnit().getName(),
+			(s)->articleFinal.setUnit(unitDao.findOneBy("name",s)));
+		articleForm.add(unitListContainer);
+		
+		var packagingListContainer = new ListFieldContainer("Emballage:", this);
+		var packagingDao = new PackagingDao();
+		packagingDao.findAll().forEach(p -> {
+			packagingListContainer.getListModel().addElement(p.getName());				
+		});
+		packagingListContainer.bindSelection(
+			articleFinal.getPackaging().getName(),
+			(s)->articleFinal.setPackaging(packagingDao.findOneBy("name",s)));
+		articleForm.add(packagingListContainer);
+		
 		articleForm.add(Box.createVerticalGlue());
 
+		
+		
 		this.add(articleForm, BorderLayout.WEST);
 
 		this.buttonValidate.addActionListener( e->{
 			try{
-				dao.saveOrUpdate(articleFinal);
 				(new ProductDao()).saveOrUpdate(articleFinal.getProduct());
+				articleDao.saveOrUpdate(articleFinal);
 				HibernateUtil.getSession().getTransaction().commit();
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this,
-				    "Veuillez v�rifier les champs en orange.",
-				    "Param�tres invalides",
+				    "Veuillez vérifier les champs en orange.",
+				    "Paramétres invalides",
 				    JOptionPane.WARNING_MESSAGE);
 			}
 			this.mainControl.getArticleDirectory().getEntityList().refresh();

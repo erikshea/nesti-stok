@@ -2,6 +2,10 @@ package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.nesti.stock_manager.dao.ArticleDao;
+import com.nesti.stock_manager.dao.SupplierDao;
+
 import java.util.List;
 
 
@@ -11,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Supplier.findAll", query="SELECT s FROM Supplier s")
-public class Supplier implements Serializable {
+public class Supplier  extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -39,16 +43,18 @@ public class Supplier implements Serializable {
 	private String zipCode;
 
 	//bi-directional many-to-one association to Offer
-	@OneToMany(mappedBy="supplier")
+	@OneToMany(mappedBy="supplier", cascade = CascadeType.REMOVE)
 	private List<Offer> offers;
 
 	//bi-directional many-to-one association to Order
-	@OneToMany(mappedBy="supplier")
+	@OneToMany(mappedBy="supplier", cascade = CascadeType.REMOVE)
 	private List<Order> orders;
 
 	//bi-directional many-to-one association to Default
-	@OneToMany(mappedBy="supplier")
+	@OneToMany(mappedBy="supplier", cascade = CascadeType.REMOVE)
 	private List<IsDefault> isDefault;
+	
+	private static SupplierDao dao;
 	
 	public Supplier() {
 	}
@@ -189,5 +195,12 @@ public class Supplier implements Serializable {
 		d.setSupplier(null);
 
 		return d;
+	}
+	
+	public SupplierDao getDao() {
+		if (dao == null) {
+			dao = new SupplierDao();
+		}
+		return dao;
 	}
 }
