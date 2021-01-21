@@ -7,6 +7,10 @@ import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.UnitDao;
 import com.nesti.stock_manager.dao.UserDao;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import at.favre.lib.crypto.bcrypt.BCrypt.Version;
+import at.favre.lib.crypto.bcrypt.LongPasswordStrategies;
+
 import java.util.Date;
 import java.util.List;
 
@@ -125,4 +129,24 @@ public class User extends BaseEntity implements Serializable {
 		}
 		return dao;
 	}
+	
+	/**
+	 *  Sets hash from plaintext password, using long password strategy described here: https://github.com/patrickfav/bcrypt
+	 * @param plaintextPassword to generate hash from
+	 */
+	public void setPasswordHashFromPlainText(String plaintextPassword) {
+		var hash = BCrypt.with(LongPasswordStrategies.truncate(Version.VERSION_2A)).hashToString(6, plaintextPassword.toCharArray());
+		
+		this.setPasswordHash(hash);
+	}
+	
+	/**
+	 *  Checks plaintext password against bcrypt hash.
+	 * @param plaintextPassword to generate hash from
+	 */
+	public boolean isPassword(String plaintextPassword) {
+		var verifyer = BCrypt.verifyer(Version.VERSION_2A, LongPasswordStrategies.truncate(Version.VERSION_2A));
+		return this.getPasswordHash() != null && verifyer.verify(plaintextPassword.toCharArray(), this.getPasswordHash()).verified;
+	}
+
 }
