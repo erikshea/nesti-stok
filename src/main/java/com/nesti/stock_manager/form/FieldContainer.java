@@ -35,45 +35,48 @@ public class FieldContainer extends BaseFieldContainer{
 	}
 	
 	public<E> void bind(String initialFieldValue, ValueSetter s, Predicate<String> validator) {
-
 		getField().setText(initialFieldValue);
+		validateField(s, validator);
 		
 		getField().getDocument().addDocumentListener(new DocumentListener() {
 			  @Override
 			public void changedUpdate(DocumentEvent e) {
-			  	change();
+				  validateField(s, validator);
 			  }
 			  @Override
 			public void removeUpdate(DocumentEvent e) {
-				change();
+				  validateField(s, validator);
 			  }
 			  @Override
 			public void insertUpdate(DocumentEvent e) {
-				change();
-			  }
-
-			  public void change() {
-				  getField().setBackground(COLOR_VALID);
-				 valid = true;
-				 try {
-					 valid = 		validator == null							// Always valid if no validator set
-							 	||  getField().getText().equals(initialFieldValue) 	// always valid if text is same as initial value
-							 	||	validator.test(getField().getText()); 			// valid if validator passes
-
-					 if (valid) {
-						 s.set(getField().getText());
-					 }  else {
-						 getField().setBackground(COLOR_INVALID);
-					 }
-					 
-				 } catch ( Exception e ) {	// exception when setting (ie entering letters for Double property)
-					 valid = false;
-					 getField().setBackground(COLOR_INVALID);
-				 } 
-
-				 infoPane.checkValidatedFields();
-			  }
+				  validateField(s, validator);
+			}
 		});
+	}
+	
+	public void validateField(ValueSetter s, Predicate<String> validator) {
+		 getField().setBackground(COLOR_VALID);
+		 valid = true;
+		 try {
+			 if ( validator != null ) {
+				 valid =		getField().getText().equals(initialFieldValue) 	// always valid if text is same as initial value
+						 	||	validator.test(getField().getText()); 			// valid if validator passes
+
+				 valid &= getField().getText().length()>0;
+			 }
+			 
+			 if (valid) {
+				 s.set(getField().getText());
+			 }  else {
+				 getField().setBackground(COLOR_INVALID);
+			 }
+			 
+		 } catch ( Exception e ) {	// exception when setting (ie entering letters for Double property)
+			 valid = false;
+			 getField().setBackground(COLOR_INVALID);
+		 } 
+
+		 infoPane.checkValidatedFields();
 	}
 }
 		
