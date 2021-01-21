@@ -96,14 +96,14 @@ public class ArticleSupplierList extends BasePriceList {
 	private void refreshSuppliers(Article article) {
 		suppliers = new HashMap<>();
 		this.tableModel.getDataVector().removeAllElements();
-		var latestOffers = article.getLatestOffers();
+		/*var latestOffers = article.getLatestOffers();
 		var lowestOffer = article.getLowestOffer();
 		latestOffers.forEach( o->{
 			if (o.getPrice() != null) {
 				this.addRowData(new Object[] { o.getSupplier().getName(), o.getPrice() }, o.equals(lowestOffer) );
 			}
 		});
-		
+		*/
 
 	}
 
