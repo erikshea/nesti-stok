@@ -40,6 +40,11 @@ public abstract class Product extends BaseEntity implements Serializable {
 */
 	public Product() {
 	}
+	
+	public Product(String r, String n) {
+		setReference(r);
+		setName(n);
+	}
 
 	public int getIdProduct() {
 		return this.idProduct;

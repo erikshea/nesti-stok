@@ -172,6 +172,18 @@ public class Article extends BaseEntity implements Serializable {
 	public void setUnit(Unit unit) {
 		this.unit = unit;
 	}
+	
+	public void setUnitFromName(String n) {
+		var unitDao = new UnitDao();
+		var unit = unitDao.findOneBy("name", n);
+		setUnit(unit);
+	}
+
+	public void setPackagingFromName(String n) {
+		var packagingDao = new PackagingDao();
+		var packaging = packagingDao.findOneBy("name", n);
+		setPackaging(packaging);
+	}
 
 	public List<Offer> getOffers() {
 		return this.offers;
