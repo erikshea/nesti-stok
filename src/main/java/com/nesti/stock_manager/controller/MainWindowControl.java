@@ -47,7 +47,7 @@ public class MainWindowControl extends JTabbedPane {
 	    this.addTab("Fournisseur", this.supplierDirectory);
 	    
 	    this.ingredientDirectory = new IngredientDirectory(this);
-	    this.addTab("Ingr�dient", this.ingredientDirectory);
+	    this.addTab("Ingrédient", this.ingredientDirectory);
 	    
 	    this.userDirectory = new UserDirectory(this);
 	    this.addTab("Utilisateur", this.userDirectory);

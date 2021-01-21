@@ -6,83 +6,71 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
+import com.nesti.stock_manager.dao.ArticleDao;
 
 @SuppressWarnings("serial")
 public class ArticleList extends BaseList {
 
-	public ArticleList(MainWindowControl c) {
-		super(c);
+    public ArticleList(MainWindowControl c) {
+        super(c);
 
-		var addToCart = new JPanel();
-		addToCart.setLayout(new BoxLayout(addToCart, BoxLayout.X_AXIS));
-		var addToCartField = new JTextField();
+        var addToCart = new JPanel();
+        addToCart.setLayout(new BoxLayout(addToCart, BoxLayout.X_AXIS));
+        var addToCartField = new JTextField();
 
-		addToCartField.setMaximumSize(new Dimension(100, 30));
+        addToCartField.setMaximumSize(new Dimension(100, 30));
         addToCartField.setPreferredSize(new Dimension(100, 0));
 
-		addToCart.add(addToCartField);
-		var addToCartButton = new JButton("Ajouter au panier");
-		addToCart.add(addToCartButton);
+        addToCart.add(addToCartField);
+        var addToCartButton = new JButton("Ajouter au panier");
+        addToCart.add(addToCartButton);
 
-		this.buttonBar.add(addToCart, 4);
+        this.buttonBar.add(addToCart, 4);
 
-		refresh();
-	}
+        refresh();
+    }
 
-
-	public void refresh() {
-		
-		var daoOffer = new OfferDao();
-		
-		
-		int highestOffer = 0;
-		var sellingPrice = highestOffer*1.2;
-		
-		
-		
-		
-		
-		this.tableModel.getDataVector().removeAllElements();
-		// Detail of the article List
+    public void refresh() {
+        this.tableModel.getDataVector().removeAllElements();
+        // Detail of the article List
         var dao = new ArticleDao();
         var articles = dao.findAll();
-        articles.forEach( a->{
-    		this.addRowData(new Object[] {a.getName(),a.getCode(),"", 0,a.getStock(),0});
+        articles.forEach(a -> {
+            this.addRowData(new Object[]{a.getName(), a.getCode(), "", 0, a.getStock(), 0});
         });
-	}
-	
-	@Override
-	public String getTitle() {
-		return "Liste d'article";
-	}
+    }
 
-	@Override
-	public Object[] getTableModelColumns() {
-		return new Object[] {"Description", "Code", "Fournisseur par d�faut", "Prix d'achat","Stock","PV Conseill�" };
-	}
-	
-	@Override
-	public void setUpButtonListeners()  {
-		super.setUpButtonListeners();
-		this.buttonModify.addActionListener( e->{
-			var code = this.table.getValueAt(this.table.getSelectedRow(), 1);
+    @Override
+    public String getTitle() {
+        return "Liste d'article";
+    }
 
-			var a = (new ArticleDao()).findOneBy("code",code);
-			
-			this.mainController.addCloseableTab(
-					"Article: " + a.getName(),
-					new ArticleInformation(this.mainController,a)
-			);
-		});
-		
-		this.buttonAdd.addActionListener( e->{ // TODO
-			/*this.mainController.addCloseableTab(
+    @Override
+    public Object[] getTableModelColumns() {
+        return new Object[]{"Description", "Code", "Fournisseur par d�faut", "Prix d'achat", "Stock", "PV Conseill�"};
+    }
+
+    @Override
+    public void setUpButtonListeners() {
+        super.setUpButtonListeners();
+        this.buttonModify.addActionListener(e -> {
+            var code = this.table.getValueAt(this.table.getSelectedRow(), 1);
+
+            var a = (new ArticleDao()).findOneBy("code", code);
+
+            this.mainController.addCloseableTab(
+                    "Article: " + a.getName(),
+                    new ArticleInformation(this.mainController, a)
+            );
+        });
+
+        this.buttonAdd.addActionListener(e -> { // TODO
+            /*this.mainController.addCloseableTab(
 					"Nouvel Article",
 					new ArticleInformation(this.mainController,null)
 			);*/
-		});
-		/*
+        });
+        /*
 		this.buttonDelete.addActionListener( e->{
 			var dao = new ArticleDao();
 			
@@ -109,5 +97,5 @@ public class ArticleList extends BaseList {
 					new ArticleInformation(this.mainController,a)
 			);
 		});*/
-	}
+    }
 }

@@ -29,7 +29,7 @@ public class BaseList extends JPanel {
 	public BaseList(MainWindowControl c) {
 		this.mainController = c;
 		
-		this.buttonAdd = new JButton("Cr�er");
+		this.buttonAdd = new JButton("Créer");
 		
 		this.buttonDelete = new JButton("Supprimer");
 		this.buttonModify = new JButton("Modifier");
