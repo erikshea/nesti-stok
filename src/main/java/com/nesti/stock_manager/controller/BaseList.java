@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.UserDao;
 import com.nesti.stock_manager.util.HibernateUtil;
+import org.apache.commons.lang3.tuple.Pair;
 
 @SuppressWarnings("serial")
 public abstract class BaseList<E> extends JPanel {
@@ -135,6 +136,16 @@ public abstract class BaseList<E> extends JPanel {
 	public void addRowData(Object[] data) {
 		this.tableModel.addRow(data);
 	}
+	
+
+	public void duplicate() {
+		var dao = BaseDao.getDao(getEntityClass());
+		
+		//var entity = dao.findOneBy("code", this.table.getValueAt(rowIndex, 1));
+	}
+	
+	//public abstract  Pair<Integer,String> getFindableColumn();
+	
 	@SuppressWarnings("unchecked")
 	public void refresh() {
 		this.tableModel.getDataVector().removeAllElements();

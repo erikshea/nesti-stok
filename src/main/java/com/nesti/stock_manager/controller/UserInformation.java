@@ -20,9 +20,7 @@ public class UserInformation extends BaseInformation {
 
 	public UserInformation(MainWindowControl c, User user) {
 		super(c, user);
-		if (user == null) {
-			user = new User();
-		}
+
 		final var userFinal= user;
 		var dao = new UserDao();
 		

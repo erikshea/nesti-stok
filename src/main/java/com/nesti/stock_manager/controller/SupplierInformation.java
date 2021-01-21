@@ -22,9 +22,7 @@ public class SupplierInformation extends BaseInformation {
 	 */
 	public SupplierInformation(MainWindowControl c, Supplier supplier) {
 		super(c, supplier);
-		if (supplier == null) {
-			supplier = new Supplier();
-		}
+
 		var dao = new SupplierDao();
 		final var supplierFinal = supplier;
 // left of the screen, supplier's information

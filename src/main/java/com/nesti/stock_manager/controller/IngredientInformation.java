@@ -22,9 +22,7 @@ public class IngredientInformation extends BaseInformation {
 
 	public IngredientInformation(MainWindowControl c, Ingredient ingredient) {
 		super(c, ingredient);
-		if (ingredient == null) {
-			ingredient = new Ingredient();
-		}
+
 		final var ingredientFinal= ingredient;
 		var ingredientDao = new IngredientDao();
 		var productDao = new ProductDao();

@@ -18,7 +18,7 @@ import com.nesti.stock_manager.dao.ProductDao;
 import com.nesti.stock_manager.model.Article;
 import com.nesti.stock_manager.model.Ingredient;
 import com.nesti.stock_manager.model.Utensil;
-
+import org.apache.commons.lang3.tuple.Pair;
 @SuppressWarnings("serial")
 public class ArticleList extends BaseList<Article> {
 
@@ -67,7 +67,7 @@ public class ArticleList extends BaseList<Article> {
 		final JPopupMenu popup = new JPopupMenu();
 		var addIngredient = new JMenuItem(new AbstractAction("Ingrédient") {
 			public void actionPerformed(ActionEvent e) {
-				Article article = new Article();
+				Article article = Article.createEmpty();
 				article.setProduct(new Ingredient());
 				mainController.addCloseableTab("Nouvel Article", new ArticleInformation(mainController, article));
 			}
@@ -75,7 +75,7 @@ public class ArticleList extends BaseList<Article> {
 
 		var addUtensil = new JMenuItem(new AbstractAction("Ustensile") {
 			public void actionPerformed(ActionEvent e) {
-				Article article = new Article();
+				Article article = Article.createEmpty();
 				article.setProduct(new Utensil());
 				mainController.addCloseableTab("Nouvel Article", new ArticleInformation(mainController, article));
 			}
@@ -110,6 +110,13 @@ public class ArticleList extends BaseList<Article> {
 		 * ArticleInformation(this.mainController,a) ); });
 		 */
 	}
+	/*
+	@Override
+	public Pair<Integer,String> getFindableColumn() {
+		Pair<Integer,String> pair  = Pair.emptyArray();
+		
+		return new Pair<>(1,"");
+	}*/
 
 	@Override
 	public void deleteRow(int rowIndex) {

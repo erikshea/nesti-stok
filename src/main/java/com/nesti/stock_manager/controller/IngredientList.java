@@ -40,7 +40,7 @@ public class IngredientList extends BaseList<Ingredient> {
 		this.buttonAdd.addActionListener( e->{
 			this.mainController.addCloseableTab(
 					"Nouvel Ingrédient",
-					new IngredientInformation(this.mainController,null)
+					new IngredientInformation(this.mainController,new Ingredient())
 			);
 		});
 		/*
