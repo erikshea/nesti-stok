@@ -2,6 +2,7 @@ package com.nesti.stock_manager.controller;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.lang.reflect.ParameterizedType;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -13,8 +14,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.nesti.stock_manager.dao.BaseDao;
+import com.nesti.stock_manager.dao.UserDao;
+import com.nesti.stock_manager.util.HibernateUtil;
+
 @SuppressWarnings("serial")
-public class BaseList extends JPanel {
+public abstract class BaseList<E> extends JPanel {
 
 	protected JPanel buttonBar;
 	protected DefaultTableModel tableModel;
@@ -29,7 +34,7 @@ public class BaseList extends JPanel {
 	public BaseList(MainWindowControl c) {
 		this.mainController = c;
 		
-		this.buttonAdd = new JButton("Cr�er");
+		this.buttonAdd = new JButton("Créer");
 		
 		this.buttonDelete = new JButton("Supprimer");
 		this.buttonModify = new JButton("Modifier");
@@ -64,6 +69,8 @@ public class BaseList extends JPanel {
 		
 		this.setAlignmentX(Component.CENTER_ALIGNMENT);
 		this.setUpButtonListeners();
+		
+		
 	}
 
 	public String getTitle() {
@@ -88,10 +95,10 @@ public class BaseList extends JPanel {
 
 			var options = new String[] {"Annuler", "Confirmer"};
 			
-			JOptionPane.showOptionDialog(this,
-				"�tes-vous certain de vouloir supprimer "
-						+ (this.table.getSelectedRowCount()==1?"cet �l�ment?":"ces " + this.table.getSelectedRowCount() + " �l�ments?")
-						+ "\nCeci est irr�versible.",
+			int choice = JOptionPane.showOptionDialog(this,
+				"êtes-vous certain de vouloir supprimer "
+						+ (this.table.getSelectedRowCount()==1?"cet élément?":"ces " + this.table.getSelectedRowCount() + " éléments?")
+						+ "\nCeci est irréversible.",
 				"Supprimer",
 			    JOptionPane.YES_NO_OPTION,
 			    JOptionPane.WARNING_MESSAGE,
@@ -99,12 +106,13 @@ public class BaseList extends JPanel {
 			    options,  //the titles of buttons
 			    options[0]); //default button title
 			
-			/*
-			//If a string was returned, say so.
-			if ((s != null) && (s.length() > 0)) {
-			    System.out.println( s );
-			    return;
-			}*/
+			if ( choice == 1 ) {
+				for (var rowIndex : this.table.getSelectedRows()) {
+					this.deleteRow(rowIndex);
+				}
+			}
+			HibernateUtil.getSession().getTransaction().commit();
+			refresh();
 		});
 		
 		this.buttonModify.addActionListener( e->{
@@ -117,7 +125,8 @@ public class BaseList extends JPanel {
 		
 		
 	}
-	
+	public abstract void deleteRow(int rowIndex) ;
+	public abstract void addRow(E entity) ;
 	
 	public Object[] getTableModelColumns() {
 		return new Object[] {};
@@ -126,5 +135,20 @@ public class BaseList extends JPanel {
 	public void addRowData(Object[] data) {
 		this.tableModel.addRow(data);
 	}
-
+	@SuppressWarnings("unchecked")
+	public void refresh() {
+		this.tableModel.getDataVector().removeAllElements();
+		// Detail of the article List
+		
+		var dao = BaseDao.getDao(getEntityClass());
+		var entities = dao.findAll();
+		entities.forEach(e-> {
+			this.addRow((E) e);
+		});
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Class<E> getEntityClass() {
+		return (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	}
 }

@@ -2,6 +2,11 @@ package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.nesti.stock_manager.dao.ArticleDao;
+import com.nesti.stock_manager.dao.UnitDao;
+import com.nesti.stock_manager.dao.UserDao;
+
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +18,7 @@ import java.util.List;
 @Entity
 @Table(name="users")
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
-public class User implements Serializable {
+public class User extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -34,9 +39,11 @@ public class User implements Serializable {
 
 	private String role;
 
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", cascade = CascadeType.REMOVE)
 	private List<Order> orders;
 
+	private static UserDao dao;
+	
 	public User() {
 	}
 
@@ -110,5 +117,12 @@ public class User implements Serializable {
 
 		return order;
 	}
-
+	
+	@Override
+	public UserDao getDao() {
+		if (dao == null) {
+			dao = new UserDao();
+		}
+		return dao;
+	}
 }

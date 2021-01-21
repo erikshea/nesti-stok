@@ -1,15 +1,26 @@
 package com.nesti.stock_manager.controller;
 
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 
 import com.nesti.stock_manager.dao.ArticleDao;
+import com.nesti.stock_manager.dao.ProductDao;
+import com.nesti.stock_manager.model.Article;
+import com.nesti.stock_manager.model.Ingredient;
+import com.nesti.stock_manager.model.Utensil;
 
 @SuppressWarnings("serial")
-public class ArticleList extends BaseList {
+public class ArticleList extends BaseList<Article> {
 
 	public ArticleList(MainWindowControl c) {
 		super(c);
@@ -19,7 +30,7 @@ public class ArticleList extends BaseList {
 		var addToCartField = new JTextField();
 
 		addToCartField.setMaximumSize(new Dimension(100, 30));
-        addToCartField.setPreferredSize(new Dimension(100, 0));
+		addToCartField.setPreferredSize(new Dimension(100, 0));
 
 		addToCart.add(addToCartField);
 		var addToCartButton = new JButton("Ajouter au panier");
@@ -29,16 +40,6 @@ public class ArticleList extends BaseList {
 
 		refresh();
 	}
-
-	public void refresh() {
-		this.tableModel.getDataVector().removeAllElements();
-		// Detail of the article List
-        var dao = new ArticleDao();
-        var articles = dao.findAll();
-        articles.forEach( a->{
-    		this.addRowData(new Object[] {a.getName(),a.getCode(),"", 0,a.getStock(),0});
-        });
-	}
 	
 	@Override
 	public String getTitle() {
@@ -47,55 +48,79 @@ public class ArticleList extends BaseList {
 
 	@Override
 	public Object[] getTableModelColumns() {
-		return new Object[] {"Description", "Code", "Fournisseur par d�faut", "Prix d'achat","Stock","PV Conseill�" };
+		return new Object[] { "Description", "Code", "Fournisseur par défaut", "Prix d'achat", "Stock",
+				"PV Conseillé" };
 	}
-	
+
 	@Override
-	public void setUpButtonListeners()  {
+	public void setUpButtonListeners() {
 		super.setUpButtonListeners();
-		this.buttonModify.addActionListener( e->{
+		this.buttonModify.addActionListener(e -> {
 			var code = this.table.getValueAt(this.table.getSelectedRow(), 1);
 
-			var a = (new ArticleDao()).findOneBy("code",code);
-			
-			this.mainController.addCloseableTab(
-					"Article: " + a.getName(),
-					new ArticleInformation(this.mainController,a)
-			);
+			var a = (new ArticleDao()).findOneBy("code", code);
+
+			this.mainController.addCloseableTab("Article: " + a.getName(),
+					new ArticleInformation(this.mainController, a));
 		});
-		
-		this.buttonAdd.addActionListener( e->{ // TODO
-			/*this.mainController.addCloseableTab(
-					"Nouvel Article",
-					new ArticleInformation(this.mainController,null)
-			);*/
+
+		final JPopupMenu popup = new JPopupMenu();
+		var addIngredient = new JMenuItem(new AbstractAction("Ingrédient") {
+			public void actionPerformed(ActionEvent e) {
+				Article article = new Article();
+				article.setProduct(new Ingredient());
+				mainController.addCloseableTab("Nouvel Article", new ArticleInformation(mainController, article));
+			}
+		});
+
+		var addUtensil = new JMenuItem(new AbstractAction("Ustensile") {
+			public void actionPerformed(ActionEvent e) {
+				Article article = new Article();
+				article.setProduct(new Utensil());
+				mainController.addCloseableTab("Nouvel Article", new ArticleInformation(mainController, article));
+			}
+		});
+
+		popup.add(addIngredient);
+		popup.add(addUtensil);
+
+		this.buttonAdd.addActionListener(e -> { // TODO
+			popup.show((Component) e.getSource(), 0, 0);
+			/*
+			 * this.mainController.addCloseableTab( "Nouvel Article", new
+			 * ArticleInformation(this.mainController,null) );
+			 */
 		});
 		/*
-		this.buttonDelete.addActionListener( e->{
-			var dao = new ArticleDao();
-			
-			for ( var rowIndex : this.table.getSelectedRows()) {
-				var article = dao.findOneBy("code", this.table.getValueAt(rowIndex, 1));
-				dao.delete(article);
-			}
-			
-			refresh();
-		});
+		 * this.buttonDelete.addActionListener( e->{ var dao = new ArticleDao();
+		 * 
+		 * for ( var rowIndex : this.table.getSelectedRows()) { var article =
+		 * dao.findOneBy("code", this.table.getValueAt(rowIndex, 1));
+		 * dao.delete(article); }
+		 * 
+		 * refresh(); });
+		 * 
+		 * this.buttonDuplicate.addActionListener( e->{ var code =
+		 * this.table.getValueAt(this.table.getSelectedRow(), 1); var a = (new
+		 * ArticleDao()).findOneBy("code",code); a.setIdArticle(0);
+		 * a.getProduct().setIdProduct(0); a.setCode(""); a.setName(""); a.setEan("");
+		 * 
+		 * 
+		 * this.mainController.addCloseableTab( "Nouvel Article", new
+		 * ArticleInformation(this.mainController,a) ); });
+		 */
+	}
+
+	@Override
+	public void deleteRow(int rowIndex) {
+		var articleDao = new ArticleDao();
+		var article = articleDao.findOneBy("code", this.table.getValueAt(rowIndex, 1));
 		
-		this.buttonDuplicate.addActionListener( e->{
-			var code = this.table.getValueAt(this.table.getSelectedRow(), 1);
-			var a = (new ArticleDao()).findOneBy("code",code);
-			a.setIdArticle(0);
-			a.getProduct().setIdProduct(0);
-			a.setCode("");
-			a.setName("");
-			a.setEan("");
-			
-			
-			this.mainController.addCloseableTab(
-					"Nouvel Article",
-					new ArticleInformation(this.mainController,a)
-			);
-		});*/
+		articleDao.delete(article);
+	}
+
+	@Override
+	public void addRow(Article entity) {
+		this.addRowData(new Object[] { entity.getName(), entity.getCode(), "", 0, entity.getStock(), 0 });
 	}
 }
