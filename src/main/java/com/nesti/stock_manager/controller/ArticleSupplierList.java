@@ -100,12 +100,20 @@ public class ArticleSupplierList extends BasePriceList {
 		
 		if ( offerArticle != null && offerArticle.size()> 0) {
 			offerArticle.forEach(oa->{
+				if ( 	suppliers.get(oa.getSupplier()) == null
+					||  suppliers.get(oa.getSupplier()).getStartDate().compareTo(oa.getStartDate()) < 0  ) {
+					suppliers.put(oa.getSupplier(), oa);
+				}
+				
+				//if (oa.getStartDate() > )
 				suppliers.put(oa.getSupplier(), oa);
 			});
 
+			var lowestOffer = article.getLowestOffer();
+			System.out.println(lowestOffer);
 			suppliers.forEach((us,o) -> {
 				// allows to select the suppliers which has the lowest price
-				var isLowest = o.equals(article.getLowestOffer());
+				var isLowest = o.equals(lowestOffer);
 				this.addRowData(new Object[] { us.getName(), o.getPrice() }, isLowest );
 			});
 		}
