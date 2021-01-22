@@ -20,12 +20,15 @@ public class Packaging implements Serializable {
 	private int idPackaging;
 
 	private String name;
+	
+	private String flag;
 
 	//bi-directional many-to-one association to Article
 	@OneToMany(mappedBy="packaging")
 	private List<Article> articles;
 
 	public Packaging() {
+		this.setFlag(BaseEntity.FLAG_DEFAULT);
 	}
 	
 	public Packaging(String n) {
@@ -69,5 +72,11 @@ public class Packaging implements Serializable {
 
 		return article;
 	}
+	public String getFlag() {
+		return this.flag;
+	}
 
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
 }

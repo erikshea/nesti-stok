@@ -52,13 +52,17 @@ public class Supplier  extends BaseEntity implements Serializable {
 	@OneToMany(mappedBy="supplier")
 	private List<Article> articles;
 	
+	private String flag;
+	
 	private static SupplierDao dao;
 	
 	public Supplier() {
+		this.setFlag(BaseEntity.FLAG_DEFAULT);
 	}
 
 	public Supplier(String name, String adress1, String adress2, String zipCode, String city, String contactName,
 			String country, String phone) {
+		this();
 		setName(name);
 		setAddress1(adress1);
 		setAddress2(adress2);
@@ -212,5 +216,13 @@ public class Supplier  extends BaseEntity implements Serializable {
 			dao = new SupplierDao();
 		}
 		return dao;
+	}
+
+	public String getFlag() {
+		return this.flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 }

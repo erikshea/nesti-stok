@@ -23,6 +23,8 @@ public abstract class Product extends BaseEntity implements Serializable {
 	private String name;
 
 	private String reference;
+	
+	private String flag;
 
 	//bi-directional many-to-one association to Article
 	@OneToMany(mappedBy="product", cascade = CascadeType.REMOVE)
@@ -39,9 +41,11 @@ public abstract class Product extends BaseEntity implements Serializable {
 	private Utensil utensil;
 */
 	public Product() {
+		this.setFlag(BaseEntity.FLAG_DEFAULT);
 	}
 	
 	public Product(String r, String n) {
+		this();
 		setReference(r);
 		setName(n);
 	}
@@ -91,21 +95,13 @@ public abstract class Product extends BaseEntity implements Serializable {
 
 		return article;
 	}
-/*
-	public Ingredient getIngredient() {
-		return this.ingredient;
+
+	public String getFlag() {
+		return this.flag;
 	}
 
-	public void setIngredient(Ingredient ingredient) {
-		this.ingredient = ingredient;
-	}*/
-/*
-	public Utensil getUtensil() {
-		return this.utensil;
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
-
-	public void setUtensil(Utensil utensil) {
-		this.utensil = utensil;
-	}*/
 
 }

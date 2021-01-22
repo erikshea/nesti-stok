@@ -32,13 +32,17 @@ public class Unit extends BaseEntity implements Serializable {
 	//bi-directional many-to-many association to Unit
 	@ManyToMany(mappedBy="units")
 	private List<Ingredient> ingredients;
+	
+	private String flag;
 
 	private static UnitDao dao;
 	
 	public Unit() {
+		this.setFlag(BaseEntity.FLAG_DEFAULT);
 	}
 	
 	public Unit(String n) {
+		this();
 		setName(n);
 	}
 
@@ -93,5 +97,13 @@ public class Unit extends BaseEntity implements Serializable {
 			dao = new UnitDao();
 		}
 		return dao;
+	}
+
+	public String getFlag() {
+		return this.flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 }
