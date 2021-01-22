@@ -144,4 +144,12 @@ public class Order implements Serializable {
 		setUser(user);
 	}
 	
+	public Double getSubTotal() {
+	return 0.0;	
+	}
+	
+	public Double getSheepingFees() {
+		return 0.0;
+	}
+	
 }

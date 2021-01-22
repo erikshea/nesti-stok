@@ -56,6 +56,9 @@ public class ArticleList extends BaseList<Article> {
 					this.mainController.getShoppingCart().addArticle(article, quantity);
 				}
 			}
+			else {
+				JOptionPane.showMessageDialog(this,"Un article n'est pas disponible, merci de vérifier la sélection");
+			}
 
 		});
 
@@ -128,7 +131,8 @@ public class ArticleList extends BaseList<Article> {
 	public boolean defaultSupplierExistsForAll(int[] rowIndexes) {
 		var selectionIsValid = true;
 		for (var rowIndex : rowIndexes) {
-			var defaultSupplierName = this.table.getValueAt(rowIndex, 3);
+			var defaultSupplierName = this.table.getValueAt(rowIndex, 2);
+		//	selectionIsValid &= defaultSupplierName.equals("");
 			if (defaultSupplierName.equals("")) {
 				selectionIsValid = false;
 			}
