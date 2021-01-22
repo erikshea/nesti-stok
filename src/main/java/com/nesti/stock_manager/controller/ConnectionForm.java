@@ -20,18 +20,15 @@ import com.nesti.stock_manager.model.User;
 import com.nesti.stock_manager.util.ApplicationSettings;
 
 @SuppressWarnings("serial")
-public class ConnexionForm extends JPanel {
+public class ConnectionForm extends JPanel {
 
 	protected JPasswordField passwordField;
 	protected JTextField loginField;
 	protected JFrame frame;
 
 	@SuppressWarnings("deprecation")
-	public ConnexionForm(JFrame f) {
+	public ConnectionForm(JFrame f) {
 		super();
-
-		
-		
 		this.frame = f;
 		this.setPreferredSize(new Dimension(800, 400));
 		// this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -61,6 +58,7 @@ public class ConnexionForm extends JPanel {
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(c);
 		frame.getContentPane().doLayout();
+		frame.pack();
 		frame.update(frame.getGraphics());
 	}
 

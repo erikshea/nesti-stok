@@ -119,7 +119,7 @@ public class Article extends BaseEntity implements Serializable {
 	}
 
 
-	public HashMap<Supplier,Offer> getCurrentOffers() {
+	public HashMap<Supplier,Offer> getCurrentOffersHQL() {
 		var hql = "Select o from Offer o "
 				+ "WHERE o.id.idArticle = :id_article" 
 				+ "	AND o.price IS NOT NULL"
@@ -136,19 +136,20 @@ public class Article extends BaseEntity implements Serializable {
 		return offersBySupplier;
 	}
 	
-	public Offer getLowestOfferHQL() {
-		var hql = "Select o from Offer o "
-				+ "WHERE o.price = (SELECT MIN(oo.price) FROM Offer oo WHERE oo.id.idArticle = :id_article) ";
-		var query = HibernateUtil.getSession().createQuery(hql);
-		query.setParameter("id_article", this.getIdArticle());
-		var results = query.list();
-		Offer result = null;
-		if (results.size() > 0) {
-			result = (Offer) results.get(0);
-		}
-		return result;
+	public HashMap<Supplier,Offer> getCurrentOffers() {
+		HashMap<Supplier,Offer> offersBySupplier = new HashMap<>();
+		
+		this.getOffers().forEach(o->{
+			if (	o.getPrice() != null
+				&&	( 	!offersBySupplier.containsKey( o.getSupplier() )
+					 ||  offersBySupplier.get(o.getSupplier()).getStartDate().before(o.getStartDate()) )
+						){
+					offersBySupplier.put(o.getSupplier(), o);
+				}
+			});
+		
+		return offersBySupplier;
 	}
-	
 	
 	public Offer getHighestOffer() {
 		var hql = "Select o from Offer o "
@@ -262,6 +263,9 @@ public class Article extends BaseEntity implements Serializable {
 	}
 
 	public List<Offer> getOffers() {
+		if (this.offers == null) {
+			this.offers = new ArrayList<Offer>();
+		}
 		return this.offers;
 	}
 
@@ -319,7 +323,6 @@ public class Article extends BaseEntity implements Serializable {
 				result = lowestOffer.getSupplier();
 			}
 		} else {
-			System.out.println("test:");
 			result = this.supplier;
 		}
 		

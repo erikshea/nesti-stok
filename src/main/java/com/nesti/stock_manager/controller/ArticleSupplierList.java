@@ -115,10 +115,6 @@ public class ArticleSupplierList extends BasePriceList {
 		this.tableModel.getDataVector().removeAllElements();
 		var latestOffers = article.getCurrentOffers().values();
 		var defaultSupplier = article.getDefaultSupplier();
-		if (defaultSupplier != null){
-			System.out.println(defaultSupplier.getName());
-			
-		}
 		
 		latestOffers.forEach( o->{
 			if (o.getPrice() != -1) {
@@ -141,16 +137,26 @@ public class ArticleSupplierList extends BasePriceList {
 	public void addRowData(Object[] data) {
 		var tabData = new ArrayList<Object>(Arrays.asList(data));
 		var radioButton = new JRadioButton("");
+		var supplier = (new SupplierDao()).findOneBy("name", data[0]);
+		
 		radioButton.addActionListener(e->{
 			if (radioButton.isSelected()) {
-				var supplier = (new SupplierDao()).findOneBy("name", data[0]);
 				article.setDefaultSupplier(supplier);
 			}
 			
 		});
 		tabData.add(0, radioButton);
-		tabData.add(new JButton("-"));
+		var removeButton = new JButton("-");
+		
+		tabData.add(removeButton);
 
+		removeButton.addActionListener(e->{
+			var offer = article.getCurrentOffers().get(supplier);
+			System.out.println(offer);
+			article.removeOffer(offer);
+			refreshSuppliers();
+		});
+		
 		this.tableModel.addRow(tabData.toArray());
 
 		radioGroup.add((JRadioButton) tabData.get(0));

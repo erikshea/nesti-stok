@@ -26,7 +26,7 @@ public class MainWindowControl extends JTabbedPane {
 	protected SupplierDirectory supplierDirectory;
 	protected IngredientDirectory ingredientDirectory;
 	protected UserDirectory userDirectory;
-	protected ConnexionForm connexionForm;
+	protected ConnectionForm connexionForm;
 	protected ShoppingCart shoppingCart;
 	private ShoppingCartDirectory shoppingCartDirectory;
 
@@ -62,10 +62,10 @@ public class MainWindowControl extends JTabbedPane {
 		this.addTab("Panier", this.shoppingCartDirectory);
 		
 		var user = getConnectedUser();
-		//if (user.isSuperAdmin()) {
+		if (user.isSuperAdmin()) {
 			this.userDirectory = new UserDirectory(this);
 			this.addTab("Utilisateur", this.userDirectory);
-		//}
+		}
 	}
 
 	@Override

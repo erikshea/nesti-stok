@@ -3,6 +3,7 @@ package com.nesti.stock_manager.controller;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
