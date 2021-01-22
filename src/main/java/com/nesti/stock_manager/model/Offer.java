@@ -108,4 +108,7 @@ public class Offer implements Serializable {
 		setArticle(article);
 	}
 
+	public Boolean isValid() {
+		return this.getPrice() == null;
+	}
 }

@@ -163,13 +163,13 @@ public class PopulateDb2 {
 		offer.setStartDate(now);
 		offerDao.saveOrUpdate(offer);
 		
-		offer = new Offer(4.72);
+		offer = new Offer(null);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("LAI85");
 		offer.setStartDate(tomorrow);
 		offerDao.saveOrUpdate(offer);
 		
-		offer = new Offer(-1);
+		offer = new Offer(-1.);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("CASS125");
 		offer.setStartDate(now);

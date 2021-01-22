@@ -88,10 +88,9 @@ public class Article extends BaseEntity implements Serializable {
 			getOffers().forEach(oa->{
 				var offerInMap = offersBySupplier.get(oa.getSupplier());
 
-				if ( 	offerInMap == null
-					||  offerInMap.getStartDate() == null
-					||  oa.getStartDate() == null 
-					||  offerInMap.getStartDate().compareTo(oa.getStartDate()) < 0  ) {
+				if ( 	oa.isValid() && (
+						offerInMap == null
+					||  offerInMap.getStartDate().compareTo(oa.getStartDate()) < 0  ) ) {
 					offersBySupplier.put(oa.getSupplier(), oa);
 				}
 					
@@ -102,6 +101,7 @@ public class Article extends BaseEntity implements Serializable {
 		return offersBySupplier;
 	}
 
+	
 	public Offer getLowestOffer() {
 		Offer result = null;
 		var offers = getLatestOffers().values();

@@ -26,7 +26,8 @@ public class MainWindowControl extends JTabbedPane {
 	protected IngredientDirectory ingredientDirectory;
 	protected UserDirectory userDirectory;
 	protected ConnexionForm connexionForm;
-
+	
+	
 	public MainWindowControl() {
 		Integer width = (int) (Toolkit.getDefaultToolkit().getScreenSize().width * 0.8);
 		if (width > 1600) {
