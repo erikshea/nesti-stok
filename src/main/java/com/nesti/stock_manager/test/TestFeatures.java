@@ -22,11 +22,5 @@ public class TestFeatures {
 		offer.setSupplier(supplier);
 		
 		article.addOffer(offer);
-		System.out.println(article.getCurrentOffers().size());
-		/*
-		article.getCurrentOffers().forEach( o->{
-			System.out.println(o.getSupplier().getName() + " : " + o.getPrice());
-		});*/
-		
 	}
 }
