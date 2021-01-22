@@ -45,12 +45,12 @@ public class ArticleList extends BaseList<Article> {
 
 			if (!isNumeric(addToCartField.getText()) || Double.parseDouble(addToCartField.getText()) < 0) {
 				JOptionPane.showMessageDialog(this, "Vous devez saisir une quantité à ajouter au panier");
-			} else {
+			} else if (defaultSupplierExistsForAll(this.table.getSelectedRows())) {
 				for (var rowIndex : this.table.getSelectedRows()) {
 					var code = this.table.getValueAt(rowIndex, 1);
 					var article = (new ArticleDao()).findOneBy("code", code);
 
-					var quantity = (int)Double.parseDouble(addToCartField.getText());
+					var quantity = (int) Double.parseDouble(addToCartField.getText());
 
 					System.out.println(article.getCode() + " qte : " + quantity);
 					this.mainController.getShoppingCart().addArticle(article, quantity);
@@ -125,6 +125,17 @@ public class ArticleList extends BaseList<Article> {
 		return true;
 	}
 
+	public boolean defaultSupplierExistsForAll(int[] rowIndexes) {
+		var selectionIsValid = true;
+		for (var rowIndex : rowIndexes) {
+			var defaultSupplierName = this.table.getValueAt(rowIndex, 3);
+			if (defaultSupplierName.equals("")) {
+				selectionIsValid = false;
+			}
+		}
+		return selectionIsValid;
+	}
+
 	@Override
 	public void createTable() {
 		super.createTable();
@@ -137,7 +148,6 @@ public class ArticleList extends BaseList<Article> {
 	public void deleteRow(int rowIndex) {
 		var articleDao = new ArticleDao();
 		var article = articleDao.findOneBy("code", this.table.getValueAt(rowIndex, 1));
-
 		articleDao.delete(article);
 	}
 

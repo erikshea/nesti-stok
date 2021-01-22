@@ -25,6 +25,7 @@ public class ShoppingCart {
 		var supplier = offer.getSupplier();
 		if (!orders.containsKey(supplier)) {
 			var order = new Order();
+			order.setSupplier(supplier);
 			var loggedInUser = mainController.getConnectedUser();
 			order.setUser(loggedInUser);
 			orders.put(supplier, order);
