@@ -88,6 +88,7 @@ public abstract class BaseList<E> extends JPanel {
 			this.buttonDelete.setEnabled(this.table.getSelectedRowCount() > 0) ;
 			this.buttonModify.setEnabled(this.table.getSelectedRowCount() == 0 || this.table.getSelectedRowCount() == 1) ;
 			this.buttonDuplicate.setEnabled(this.table.getSelectedRowCount() <= 1) ;
+			
 		});
 	}
 

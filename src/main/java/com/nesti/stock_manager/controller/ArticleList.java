@@ -11,16 +11,22 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+//import org.graalvm.compiler.core.common.spi.JavaConstantFieldProvider_OptionDescriptors;
 
 import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.ProductDao;
 import com.nesti.stock_manager.model.Article;
 import com.nesti.stock_manager.model.Ingredient;
 import com.nesti.stock_manager.model.Utensil;
-import org.apache.commons.lang3.tuple.Pair;
+
 @SuppressWarnings("serial")
 public class ArticleList extends BaseList<Article> {
+
+	protected JButton addToCartButton;
 
 	public ArticleList(MainWindowControl c) {
 		super(c);
@@ -33,14 +39,35 @@ public class ArticleList extends BaseList<Article> {
 		addToCartField.setPreferredSize(new Dimension(100, 0));
 
 		addToCart.add(addToCartField);
-		var addToCartButton = new JButton("Ajouter au panier");
+		addToCartButton = new JButton("Ajouter au panier");
+		addToCartButton.setEnabled(false);
+		addToCartButton.addActionListener(e -> {
+			
+			if (!isNumeric(addToCartField.getText() )|| Integer.valueOf(addToCartField.getText())<0) {
+			JOptionPane.showMessageDialog(this, "Vous devez saisir une quantité à ajouter au panier");
+			}
+			else {
+				for (var rowIndex : this.table.getSelectedRows()) {
+					var code = this.table.getValueAt(rowIndex, 1);
+					var article = (new ArticleDao()).findOneBy("code", code);
+					
+
+					var quantity = Integer.valueOf(addToCartField.getText());
+
+					System.out.println(article.getCode() + " qte : " + quantity);
+					this.mainController.getShoppingCart().addArticle(article, quantity);
+				}
+			}
+			
+		});
+
 		addToCart.add(addToCartButton);
 
 		this.buttonBar.add(addToCart, 4);
 
 		refresh();
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return "Liste d'article";
@@ -86,19 +113,34 @@ public class ArticleList extends BaseList<Article> {
 
 		this.buttonAdd.addActionListener(e -> { // TODO
 			popup.show((Component) e.getSource(), 0, 0);
-			var code = this.table.getValueAt(this.table.getSelectedRow(), 1);
-			System.out.println(code);
-		//	this.mainController.getShoppingCart().addArticle(article);
-	
+
 		});
 
+	}
+
+	public static boolean isNumeric(String strNum) {
+	    try {
+	        double d = Double.parseDouble(strNum);
+	    } catch (NumberFormatException | NullPointerException nfe) {
+	        return false;
+	    }
+	    return true;
+	}
+	
+	
+	@Override
+	public void createTable() {
+		super.createTable();
+		this.table.getSelectionModel().addListSelectionListener(e -> {
+			addToCartButton.setEnabled(this.table.getSelectedRowCount() > 0);
+		});
 	}
 
 	@Override
 	public void deleteRow(int rowIndex) {
 		var articleDao = new ArticleDao();
 		var article = articleDao.findOneBy("code", this.table.getValueAt(rowIndex, 1));
-		
+
 		articleDao.delete(article);
 	}
 

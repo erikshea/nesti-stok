@@ -30,21 +30,15 @@ public class MainWindowControl extends JTabbedPane {
 	protected ShoppingCart shoppingCart;
 	private ShoppingCartDirectory shoppingCartDirectory;
 
-	/**
-	 * @return the shoppingCart
-	 */
-	public ShoppingCart getShoppingCart() {
-		return shoppingCart;
-	}
 
+	
 	public MainWindowControl() {
-		shoppingCart= new ShoppingCart(); 
+		shoppingCart= new ShoppingCart(this); 
 		
 		Integer width = (int) (Toolkit.getDefaultToolkit().getScreenSize().width * 0.8);
 		if (width > 1600) {
 			width = 1600;
 		}
-
 		
 		Integer height = (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.8);
 		if (height > 900) {
@@ -170,5 +164,16 @@ public class MainWindowControl extends JTabbedPane {
 		var userDao = new UserDao();
 		return userDao.findOneBy("login", ApplicationSettings.get("login"));
 
+	}
+	
+	/**
+	 * @return the shoppingCart
+	 */
+	public ShoppingCart getShoppingCart() {
+		return shoppingCart;
+	}
+
+	public ShoppingCartDirectory getShoppingCartDirectory() {
+		return shoppingCartDirectory;
 	}
 }

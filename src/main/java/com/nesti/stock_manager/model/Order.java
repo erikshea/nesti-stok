@@ -6,6 +6,7 @@ import javax.persistence.*;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UserDao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -115,6 +116,9 @@ public class Order implements Serializable {
 	}
 
 	public OrdersArticle addOrdersArticle(OrdersArticle ordersArticle) {
+		if(getOrdersArticles() == null) {
+			ordersArticles = new ArrayList<>();
+		}
 		getOrdersArticles().add(ordersArticle);
 		ordersArticle.setOrder(this);
 
