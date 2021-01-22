@@ -51,7 +51,7 @@ public class Offer implements Serializable {
 		this.setStartDate(new Date());
 	}
 
-	public Offer(double p) {
+	public Offer(Double p) {
 		this();
 		setPrice(p);
 	}

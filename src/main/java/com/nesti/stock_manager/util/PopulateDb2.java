@@ -175,7 +175,7 @@ public class PopulateDb2 {
 		offer.setStartDate(now);
 		offerDao.saveOrUpdate(offer);
 		
-		offer = new Offer(18.90);
+		offer = new Offer(null);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("LOUCH45");
 		offer.setStartDate(now);

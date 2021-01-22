@@ -20,6 +20,8 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import com.nesti.stock_manager.controller.ArticleSupplierList.RadioButtonEditor;
+
 
 public class BasePriceList extends JPanel {
 
@@ -62,7 +64,8 @@ public class BasePriceList extends JPanel {
 			}
 		};
 
-		this.table.getColumn("Suppression").setCellRenderer(new JTableButtonRenderer(null));
+		this.table.getColumn("Suppression").setCellRenderer(new JTableButtonRenderer());	
+		this.table.getColumn("Suppression").setCellEditor(new JButtonEditor(new JCheckBox()));	
 		// manque la partie pour �diter quand on clique sur le
 		// bouton!!!! a ajouter
 		return this.table;
@@ -82,18 +85,42 @@ public class BasePriceList extends JPanel {
 
 }
 
-//display classic button
-class JTableButtonRenderer implements TableCellRenderer {
-	private TableCellRenderer defaultRenderer;
-
-	public JTableButtonRenderer(TableCellRenderer renderer) {
-		defaultRenderer = renderer;
-	}
-
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
-		if (value instanceof Component)
+	class JTableButtonRenderer implements TableCellRenderer {
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			if (value == null) {
+				return null;
+			}
+				
 			return (Component) value;
-		return defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		}
 	}
-}
+
+//click radio button
+	@SuppressWarnings("serial")
+	class JButtonEditor extends DefaultCellEditor implements ItemListener {
+		private JButton button;
+
+		public JButtonEditor(JCheckBox checkBox) {
+			super(checkBox);
+		}
+
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+				int column) {
+			if (value == null) {
+				return null;
+			}
+			button = (JButton) value;
+			button.addItemListener(this);
+			return (Component) value;
+		}
+
+		public Object getCellEditorValue() {
+			button.removeItemListener(this);
+			return button;
+		}
+
+		public void itemStateChanged(ItemEvent e) {
+			super.fireEditingStopped();
+		}
+	}

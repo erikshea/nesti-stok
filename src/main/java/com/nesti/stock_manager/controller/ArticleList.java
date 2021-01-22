@@ -86,37 +86,10 @@ public class ArticleList extends BaseList<Article> {
 
 		this.buttonAdd.addActionListener(e -> { // TODO
 			popup.show((Component) e.getSource(), 0, 0);
-			/*
-			 * this.mainController.addCloseableTab( "Nouvel Article", new
-			 * ArticleInformation(this.mainController,null) );
-			 */
+	
 		});
-		/*
-		 * this.buttonDelete.addActionListener( e->{ var dao = new ArticleDao();
-		 * 
-		 * for ( var rowIndex : this.table.getSelectedRows()) { var article =
-		 * dao.findOneBy("code", this.table.getValueAt(rowIndex, 1));
-		 * dao.delete(article); }
-		 * 
-		 * refresh(); });
-		 * 
-		 * this.buttonDuplicate.addActionListener( e->{ var code =
-		 * this.table.getValueAt(this.table.getSelectedRow(), 1); var a = (new
-		 * ArticleDao()).findOneBy("code",code); a.setIdArticle(0);
-		 * a.getProduct().setIdProduct(0); a.setCode(""); a.setName(""); a.setEan("");
-		 * 
-		 * 
-		 * this.mainController.addCloseableTab( "Nouvel Article", new
-		 * ArticleInformation(this.mainController,a) ); });
-		 */
+
 	}
-	/*
-	@Override
-	public Pair<Integer,String> getFindableColumn() {
-		Pair<Integer,String> pair  = Pair.emptyArray();
-		
-		return new Pair<>(1,"");
-	}*/
 
 	@Override
 	public void deleteRow(int rowIndex) {

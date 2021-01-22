@@ -162,4 +162,7 @@ public abstract class BaseList<E> extends JPanel {
 	public Class<E> getEntityClass() {
 		return (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
+	
+	
+	
 }
