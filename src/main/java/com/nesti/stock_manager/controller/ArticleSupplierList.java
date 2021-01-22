@@ -89,13 +89,14 @@ public class ArticleSupplierList extends BasePriceList {
 			offer.setPrice(Double.parseDouble(priceSupplier.getText()));
 
 			Date latestOfferDateForSupplier = null;
-			if ( 		article.getLatestOffers() != null
-					&&  article.getLatestOffers().get(supplier) != null) {
-				latestOfferDateForSupplier = article.getLatestOffers().get(supplier).getStartDate();
+			var currentOffers = article.getCurrentOffers();
+			
+			long offerTimeForSupplier = 0;
+			if ( currentOffers.containsKey(supplier) ) {
+				offerTimeForSupplier = currentOffers.get(supplier).getStartDate().getTime();
 			}
 	
-			if ( latestOfferDateForSupplier == null 
-				|| latestOfferDateForSupplier != null && (offer.getStartDate().getTime() - latestOfferDateForSupplier.getTime() >1000)) {
+			if ( offer.getStartDate().getTime() - offerTimeForSupplier > 1000) {
 				article.addOffer(offer);
 				refreshSuppliers();
 			}
@@ -112,7 +113,7 @@ public class ArticleSupplierList extends BasePriceList {
 	private void refreshSuppliers() {
 		suppliers = new HashMap<>();
 		this.tableModel.getDataVector().removeAllElements();
-		var latestOffers = article.getLatestOffers().values();
+		var latestOffers = article.getCurrentOffers().values();
 		var defaultSupplier = article.getDefaultSupplier();
 		if (defaultSupplier != null){
 			System.out.println(defaultSupplier.getName());

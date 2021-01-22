@@ -70,8 +70,6 @@ public abstract class BaseList<E> extends JPanel {
 		
 		this.setAlignmentX(Component.CENTER_ALIGNMENT);
 		this.setUpButtonListeners();
-		
-		
 	}
 
 	public String getTitle() {

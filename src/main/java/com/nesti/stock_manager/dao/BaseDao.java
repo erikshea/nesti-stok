@@ -89,7 +89,7 @@ public  class BaseDao<E> {
 	}
 	
 	
-	public <T> E findOsneBy(String propertyName, T value) {
+	public <T> E finddOneBy(String propertyName, T value) {
 			var cr = this.getCriteriaQuery();
 	        var root = cr.from(this.getEntityClass());
 	        var cb =this.getSession().getCriteriaBuilder();

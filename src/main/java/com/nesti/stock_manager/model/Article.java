@@ -36,7 +36,9 @@ public class Article extends BaseEntity implements Serializable {
 	private int stock;
 
 	private double weight;
-
+	
+	private String flag;
+	
 	// bi-directional many-to-one association to Packaging
 	@ManyToOne
 	@JoinColumn(name = "id_packaging")
@@ -69,9 +71,11 @@ public class Article extends BaseEntity implements Serializable {
 	private static ArticleDao dao;
 	
 	public Article() {
+		this.setFlag(BaseEntity.FLAG_DEFAULT);
 	}
 
 	public Article(String code, String name, String ean, double weight, double quantity, int stock) {
+		this();
 		setCode(code);
 		setName(name);
 		setEan(ean);
@@ -88,10 +92,9 @@ public class Article extends BaseEntity implements Serializable {
 			getOffers().forEach(oa->{
 				var offerInMap = offersBySupplier.get(oa.getSupplier());
 
-				if ( 	offerInMap == null
-					||  offerInMap.getStartDate() == null
-					||  oa.getStartDate() == null 
-					||  offerInMap.getStartDate().compareTo(oa.getStartDate()) < 0  ) {
+				if ( 	oa.isValid() && (
+						offerInMap == null
+					||  offerInMap.getStartDate().compareTo(oa.getStartDate()) < 0  ) ) {
 					offersBySupplier.put(oa.getSupplier(), oa);
 				}
 					
@@ -102,6 +105,7 @@ public class Article extends BaseEntity implements Serializable {
 		return offersBySupplier;
 	}
 
+	
 	public Offer getLowestOffer() {
 		Offer result = null;
 		var offers = getLatestOffers().values();
@@ -116,7 +120,22 @@ public class Article extends BaseEntity implements Serializable {
 	}
 
 
-	
+	public HashMap<Supplier,Offer> getCurrentOffers() {
+		var hql = "Select o from Offer o "
+				+ "WHERE o.id.idArticle = :id_article" 
+				+ "	AND o.price IS NOT NULL"
+				+ "	AND o.startDate = (SELECT MAX(oo.startDate) FROM Offer oo"
+				+ "	 					WHERE oo.id.idArticle = o.id.idArticle"
+				+ "						AND oo.id.idSupplier = o.id.idSupplier)";
+		var query = HibernateUtil.getSession().createQuery(hql);
+		query.setParameter("id_article", this.getIdArticle());
+		@SuppressWarnings("unchecked")
+		List<Offer> results = query.list();
+		HashMap<Supplier,Offer> offersBySupplier = new HashMap<>();
+		results.forEach( o-> offersBySupplier.put(o.getSupplier(), o));
+		
+		return offersBySupplier;
+	}
 	
 	public Offer getLowestOfferHQL() {
 		var hql = "Select o from Offer o "
@@ -347,5 +366,15 @@ public class Article extends BaseEntity implements Serializable {
 		newArticle.setPackaging( (new PackagingDao()).findOneBy("name", "boîte") );
 		
 		return newArticle;
+	}
+	
+
+
+	public String getFlag() {
+		return this.flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 }

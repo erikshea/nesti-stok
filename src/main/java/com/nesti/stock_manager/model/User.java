@@ -44,13 +44,17 @@ public class User extends BaseEntity implements Serializable {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Order> orders;
+	
+	private String flag;
 
 	private static UserDao dao;
 
 	public User() {
+		this.setFlag(BaseEntity.FLAG_DEFAULT);
 	}
 
 	public User(String l, String n, Date d, String r) {
+		this();
 		setLogin(l);
 		setName(n);
 		setDateCreation(d);
@@ -161,5 +165,13 @@ public class User extends BaseEntity implements Serializable {
 
 	public boolean isSuperAdmin() {
 		return this.getRole().equals("super-administrator");
+	}
+
+	public String getFlag() {
+		return this.flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 }
