@@ -6,6 +6,7 @@ import javax.persistence.*;
 import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.dao.OrdersArticleDao;
+import com.nesti.stock_manager.dao.UserDao;
 
 
 /**
@@ -15,8 +16,9 @@ import com.nesti.stock_manager.dao.OrdersArticleDao;
 @Entity
 @Table(name="orders_article")
 @NamedQuery(name="OrdersArticle.findAll", query="SELECT o FROM OrdersArticle o")
-public class OrdersArticle implements Serializable {
+public class OrdersArticle extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private static OrdersArticleDao dao;
 	
 	@PrePersist
 	private void prePersist() {
@@ -92,5 +94,13 @@ public class OrdersArticle implements Serializable {
 		var articleDao = new ArticleDao();
 		var article = articleDao.findOneBy("code", c);
 		setArticle(article);
+	}
+	
+	@Override
+	public OrdersArticleDao getDao() {
+		if (dao == null) {
+			dao = new OrdersArticleDao();
+		}
+		return dao;
 	}
 }
