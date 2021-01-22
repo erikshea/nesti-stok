@@ -14,11 +14,8 @@ import com.nesti.stock_manager.util.HibernateUtil;
 public class TestFeatures {
 	public static void main(String[] args) {
 		var article = (new ArticleDao()).findOneBy("code", "OEUF12");
-		var supplier = (new SupplierDao()).findOneBy("name", "Oeufs en folie");
-		article.setDefaultSupplier(supplier);
-System.out.println(article);
-		(new ArticleDao()).saveOrUpdate(article);
+		System.out.println(article.getDefaultSupplier());
+
 		
-		HibernateUtil.getSession().getTransaction().commit();
 	}
 }
