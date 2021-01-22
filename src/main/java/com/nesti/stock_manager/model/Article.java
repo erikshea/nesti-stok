@@ -108,12 +108,11 @@ public class Article extends BaseEntity implements Serializable {
 	
 	public Offer getLowestOffer() {
 		Offer result = null;
-		var offers = getLatestOffers().values();
-		if (offers != null && offers.size() > 0) {
-			for (var offer:offers) {
-				if (offer.getPrice() != -1 && (result == null || result.getPrice() > offer.getPrice()) ) {
-					result = offer;
-				}
+		var offers = getCurrentOffers().values();
+
+		for (var offer:offers) {
+			if (result == null || result.getPrice() > offer.getPrice()) {
+				result = offer;
 			}
 		}
 		return result;
@@ -314,7 +313,7 @@ public class Article extends BaseEntity implements Serializable {
 		Supplier result = null;
 		
 		if (this.supplier == null) {
-			var lowestOffer = this.getLowestOffer();
+			var lowestOffer = getLowestOffer();
 
 			if (lowestOffer != null) {
 				result = lowestOffer.getSupplier();
