@@ -149,16 +149,20 @@ public class Order implements Serializable {
 
 	public Double getSubTotal() {
 		var result = 0.0;
-		
-		this.getOrdersArticles().forEach(oa->{
-			oa.getQuantity();
-		});;
-		
-		return 0.0;
+
+		for (var oa : this.getOrdersArticles()) {
+			result += oa.getQuantity() * oa.getOffer().getPrice();
+		}
+		return result;
 	}
 
 	public Double getSheepingFees() {
-		return 0.0;
+		var result = 0.0;
+		
+		for (var oa : this.getOrdersArticles()) {
+			result += oa.getOffer().getArticle().getWeight()*oa.getQuantity()*0.006;
+		}
+		return Math.round(result*100.0)/100.0;
 	}
 
 	public OrdersArticle getOrdersArticleFor(Article article) {

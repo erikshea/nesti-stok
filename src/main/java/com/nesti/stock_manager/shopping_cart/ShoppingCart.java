@@ -21,7 +21,6 @@ public class ShoppingCart {
 		var supplier = article.getDefaultSupplier();
 		addOffer(offers.get(supplier), quantity);
 		
-	//	calculateSubTotal(offers.get(supplier));
 	}
 
 	public void addOffer(Offer offer, int quantity) {
@@ -46,12 +45,27 @@ public class ShoppingCart {
 			currentOrder.addOrdersArticle(orderLine);
 			
 			mainController.getShoppingCartDirectory().getEntityList().addRow(orderLine);
-	
 
 		}
 
 	}
+	
+	public Double getTotal() {
+		var result = 0.0;
+		for(var o : orders.values()){
+			result += o.getSubTotal();
+		}
+		return result;
+	}
 
+	
+	public Double getSheepingFees() {
+		var result = 0.0;
+		for(var o :orders.values()){
+			result += o.getSheepingFees();
+		}
+		return result; 
+	}
 
 	public ArrayList<OrdersArticle>  getAllOrdersArticle() {
 		var orderlines = new ArrayList<OrdersArticle>();

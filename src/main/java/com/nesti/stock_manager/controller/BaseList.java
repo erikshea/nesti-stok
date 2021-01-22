@@ -61,7 +61,6 @@ public abstract class BaseList<E> extends JPanel {
 
 		this.add(buttonBar);
 
-		// Title of the article List
 		var titleLabel = new JLabel(this.getTitle());
 		this.add(titleLabel);
 
