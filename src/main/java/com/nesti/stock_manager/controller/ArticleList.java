@@ -43,14 +43,14 @@ public class ArticleList extends BaseList<Article> {
 		addToCartButton.setEnabled(false);
 		addToCartButton.addActionListener(e -> {
 
-			if (!isNumeric(addToCartField.getText()) || Integer.valueOf(addToCartField.getText()) < 0) {
+			if (!isNumeric(addToCartField.getText()) || Double.parseDouble(addToCartField.getText()) < 0) {
 				JOptionPane.showMessageDialog(this, "Vous devez saisir une quantité à ajouter au panier");
 			} else {
 				for (var rowIndex : this.table.getSelectedRows()) {
 					var code = this.table.getValueAt(rowIndex, 1);
 					var article = (new ArticleDao()).findOneBy("code", code);
 
-					var quantity = Integer.valueOf(addToCartField.getText());
+					var quantity = (int)Double.parseDouble(addToCartField.getText());
 
 					System.out.println(article.getCode() + " qte : " + quantity);
 					this.mainController.getShoppingCart().addArticle(article, quantity);
