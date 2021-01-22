@@ -86,6 +86,9 @@ public class ArticleList extends BaseList<Article> {
 
 		this.buttonAdd.addActionListener(e -> { // TODO
 			popup.show((Component) e.getSource(), 0, 0);
+			var code = this.table.getValueAt(this.table.getSelectedRow(), 1);
+			System.out.println(code);
+		//	this.mainController.getShoppingCart().addArticle(article);
 	
 		});
 

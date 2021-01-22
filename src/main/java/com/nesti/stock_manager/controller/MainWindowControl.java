@@ -16,6 +16,7 @@ import javax.swing.plaf.metal.MetalIconFactory;
 
 import com.nesti.stock_manager.dao.UserDao;
 import com.nesti.stock_manager.model.User;
+import com.nesti.stock_manager.shopping_cart.ShoppingCart;
 import com.nesti.stock_manager.util.ApplicationSettings;
 import com.nesti.stock_manager.util.HibernateUtil;
 
@@ -26,8 +27,19 @@ public class MainWindowControl extends JTabbedPane {
 	protected IngredientDirectory ingredientDirectory;
 	protected UserDirectory userDirectory;
 	protected ConnexionForm connexionForm;
+	protected ShoppingCart shoppingCart;
+	private ShoppingCartDirectory shoppingCartDirectory;
+
+	/**
+	 * @return the shoppingCart
+	 */
+	public ShoppingCart getShoppingCart() {
+		return shoppingCart;
+	}
 
 	public MainWindowControl() {
+		shoppingCart= new ShoppingCart(); 
+		
 		Integer width = (int) (Toolkit.getDefaultToolkit().getScreenSize().width * 0.8);
 		if (width > 1600) {
 			width = 1600;
@@ -42,7 +54,6 @@ public class MainWindowControl extends JTabbedPane {
 		this.setPreferredSize(new Dimension(width, height));
 
 		this.setMaximumSize(new Dimension(600, 900));
-		;
 
 		this.articleDirectory = new ArticleDirectory(this);
 		this.addTab("Article", this.articleDirectory);
@@ -52,7 +63,10 @@ public class MainWindowControl extends JTabbedPane {
 
 		this.ingredientDirectory = new IngredientDirectory(this);
 		this.addTab("Ingrédient", this.ingredientDirectory);
-
+		
+		this.shoppingCartDirectory = new ShoppingCartDirectory(this);
+		this.addTab("Panier", this.shoppingCartDirectory);
+		
 		var user = getConnectedUser();
 		//if (user.isSuperAdmin()) {
 			this.userDirectory = new UserDirectory(this);

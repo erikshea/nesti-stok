@@ -18,16 +18,14 @@ public class PopulateDb {
 		query =
 				HibernateUtil.getSession().createQuery("DELETE FROM Offer");
 		query.executeUpdate();
+		query = HibernateUtil.getSession().createQuery("DELETE FROM OrdersArticle");
+		query.executeUpdate();
 
 		query = HibernateUtil.getSession().createQuery("DELETE FROM Article");
 		query.executeUpdate();
 
-		query = HibernateUtil.getSession().createQuery("DELETE FROM OrdersArticle");
-		query.executeUpdate();
-		
 		query = HibernateUtil.getSession().createQuery("DELETE FROM Order");
 		query.executeUpdate();
-
 
 		query = HibernateUtil.getSession().createQuery("DELETE FROM Packaging");
 		query.executeUpdate();
@@ -207,41 +205,41 @@ public class PopulateDb {
 		order.setUserFromLogin("erik");
 		orderDao.saveOrUpdate(order);
 
-		var ordersArticleDao = new OrdersArticleDao();
-		var ordersArticle = new OrdersArticle(5);
-		ordersArticle.setOrderFromNumber("257");
-		ordersArticle.setArticleFromCode("OEUF6");
-		ordersArticleDao.saveOrUpdate(ordersArticle);
-
-		ordersArticle = new OrdersArticle(3);
-		ordersArticle.setOrderFromNumber("257");
-		ordersArticle.setArticleFromCode("OEUF12");
-		ordersArticleDao.saveOrUpdate(ordersArticle);
-
-		ordersArticle = new OrdersArticle(12);
-		ordersArticle.setOrderFromNumber("546");
-		ordersArticle.setArticleFromCode("OEUF12");
-		ordersArticleDao.saveOrUpdate(ordersArticle);
-
-		ordersArticle = new OrdersArticle(2);
-		ordersArticle.setOrderFromNumber("546");
-		ordersArticle.setArticleFromCode("LAI85");
-		ordersArticleDao.saveOrUpdate(ordersArticle);
-
-		ordersArticle = new OrdersArticle(24);
-		ordersArticle.setOrderFromNumber("658");
-		ordersArticle.setArticleFromCode("LAI85");
-		ordersArticleDao.saveOrUpdate(ordersArticle);
-
-		ordersArticle = new OrdersArticle(0);
-		ordersArticle.setOrderFromNumber("555");
-		ordersArticle.setArticleFromCode("CASS125");
-		ordersArticleDao.saveOrUpdate(ordersArticle);
-
-		ordersArticle = new OrdersArticle(1);
-		ordersArticle.setOrderFromNumber("555");
-		ordersArticle.setArticleFromCode("LOUCH45");
-		ordersArticleDao.saveOrUpdate(ordersArticle);
+//		var ordersArticleDao = new OrdersArticleDao();
+//		var ordersArticle = new OrdersArticle(5);
+//		ordersArticle.setOrderFromNumber("257");
+//		ordersArticle.setArticleFromCode("OEUF6");
+//		ordersArticleDao.saveOrUpdate(ordersArticle);
+//
+//		ordersArticle = new OrdersArticle(3);
+//		ordersArticle.setOrderFromNumber("257");
+//		ordersArticle.setArticleFromCode("OEUF12");
+//		ordersArticleDao.saveOrUpdate(ordersArticle);
+//
+//		ordersArticle = new OrdersArticle(12);
+//		ordersArticle.setOrderFromNumber("546");
+//		ordersArticle.setArticleFromCode("OEUF12");
+//		ordersArticleDao.saveOrUpdate(ordersArticle);
+//
+//		ordersArticle = new OrdersArticle(2);
+//		ordersArticle.setOrderFromNumber("546");
+//		ordersArticle.setArticleFromCode("LAI85");
+//		ordersArticleDao.saveOrUpdate(ordersArticle);
+//
+//		ordersArticle = new OrdersArticle(24);
+//		ordersArticle.setOrderFromNumber("658");
+//		ordersArticle.setArticleFromCode("LAI85");
+//		ordersArticleDao.saveOrUpdate(ordersArticle);
+//
+//		ordersArticle = new OrdersArticle(0);
+//		ordersArticle.setOrderFromNumber("555");
+//		ordersArticle.setArticleFromCode("CASS125");
+//		ordersArticleDao.saveOrUpdate(ordersArticle);
+//
+//		ordersArticle = new OrdersArticle(1);
+//		ordersArticle.setOrderFromNumber("555");
+//		ordersArticle.setArticleFromCode("LOUCH45");
+//		ordersArticleDao.saveOrUpdate(ordersArticle);
 
 		HibernateUtil.getSession().getTransaction().commit();
 
