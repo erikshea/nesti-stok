@@ -48,9 +48,11 @@ public class Offer implements Serializable {
 	private Supplier supplier;
 
 	public Offer() {
+		this.setStartDate(new Date());
 	}
 
 	public Offer(double p) {
+		this();
 		setPrice(p);
 	}
 

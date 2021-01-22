@@ -5,6 +5,7 @@ import com.nesti.stock_manager.dao.*;
 import com.nesti.stock_manager.util.HibernateUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class Article extends BaseEntity implements Serializable {
 	private Unit unit;
 
 	// bi-directional many-to-one association to Offer
-	@OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
 	private List<Offer> offers;
 
 	// bi-directional many-to-one association to OrdersArticle
@@ -78,7 +79,9 @@ public class Article extends BaseEntity implements Serializable {
 		setQuantity(quantity);
 		setStock(stock);
 	}
-	public List<Offer> getLatestOffers(){
+
+	
+	public HashMap<Supplier,Offer> getLatestOffers(){
 		HashMap<Supplier,Offer> offersBySupplier = new HashMap<>();
 
 		if ( getOffers() != null && getOffers().size()> 0) {
@@ -96,16 +99,15 @@ public class Article extends BaseEntity implements Serializable {
 			});
 		}
 
-		return new ArrayList<Offer>(offersBySupplier.values());
+		return offersBySupplier;
 	}
 
 	public Offer getLowestOffer() {
 		Offer result = null;
-		if (this.getOffers() != null && this.getOffers().size() > 0) {
-			result = this.getOffers().get(0);
-
-			for (var offer:getOffers()) {
-				if (result.getPrice() > offer.getPrice()) {
+		var offers = getLatestOffers().values();
+		if (offers != null && offers.size() > 0) {
+			for (var offer:offers) {
+				if (offer.getPrice() != -1 && (result == null || result.getPrice() > offer.getPrice()) ) {
 					result = offer;
 				}
 			}
@@ -290,7 +292,20 @@ public class Article extends BaseEntity implements Serializable {
 	}
 	
 	public Supplier getDefaultSupplier() {
-		return this.supplier;
+		Supplier result = null;
+		
+		if (this.supplier == null) {
+			var lowestOffer = this.getLowestOffer();
+
+			if (lowestOffer != null) {
+				result = lowestOffer.getSupplier();
+			}
+		} else {
+			System.out.println("test:");
+			result = this.supplier;
+		}
+		
+		return result;
 	}
 
 	public void setDefaultSupplier(Supplier supplier) {
