@@ -52,7 +52,6 @@ public class ArticleList extends BaseList<Article> {
 
 					var quantity = (int) Double.parseDouble(addToCartField.getText());
 
-					System.out.println(article.getCode() + " qte : " + quantity);
 					this.mainController.getShoppingCart().addArticle(article, quantity);
 				}
 			} else {

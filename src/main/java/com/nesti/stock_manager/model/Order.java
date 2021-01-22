@@ -3,6 +3,7 @@ package com.nesti.stock_manager.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.nesti.stock_manager.dao.OrdersArticleDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UserDao;
 
@@ -147,6 +148,12 @@ public class Order implements Serializable {
 	}
 
 	public Double getSubTotal() {
+		var result = 0.0;
+		
+		this.getOrdersArticles().forEach(oa->{
+			oa.getQuantity();
+		});;
+		
 		return 0.0;
 	}
 

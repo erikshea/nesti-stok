@@ -18,4 +18,5 @@ public class ShoppingCartDirectory extends BaseDirectory {
 		this.add(this.entityList, BorderLayout.CENTER);
 	}
 
+
 }
