@@ -107,6 +107,9 @@ public class Order implements Serializable {
 	}
 
 	public List<OrdersArticle> getOrdersArticles() {
+		if (this.ordersArticles == null) {
+			this.ordersArticles = new ArrayList<OrdersArticle>();
+		}
 		return this.ordersArticles;
 	}
 
