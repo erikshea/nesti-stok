@@ -55,9 +55,8 @@ public class ArticleList extends BaseList<Article> {
 					System.out.println(article.getCode() + " qte : " + quantity);
 					this.mainController.getShoppingCart().addArticle(article, quantity);
 				}
-			}
-			else {
-				JOptionPane.showMessageDialog(this,"Un article n'est pas disponible, merci de vérifier la sélection");
+			} else {
+				JOptionPane.showMessageDialog(this, "Un article n'est pas disponible, merci de vérifier la sélection");
 			}
 
 		});
@@ -132,7 +131,6 @@ public class ArticleList extends BaseList<Article> {
 		var selectionIsValid = true;
 		for (var rowIndex : rowIndexes) {
 			var defaultSupplierName = this.table.getValueAt(rowIndex, 2);
-		//	selectionIsValid &= defaultSupplierName.equals("");
 			if (defaultSupplierName.equals("")) {
 				selectionIsValid = false;
 			}
@@ -162,12 +160,13 @@ public class ArticleList extends BaseList<Article> {
 			defaultSupplierName = entity.getDefaultSupplier().getName();
 		}
 
-		var purchasePrice = "hors stock";
+		var purchasePrice = "Non disponible";
 		Double sellingPrice = 0.0;
 		if (entity.getCurrentOffers().get(entity.getDefaultSupplier()) != null) {
 			var offer = entity.getCurrentOffers().get(entity.getDefaultSupplier());
 			purchasePrice = String.valueOf(offer.getPrice());
-			sellingPrice = offer.getPrice() * 1.2;
+			sellingPrice = (double) Math.round((offer.getPrice() * 1.2) * 100) / 100;
+
 		}
 		this.addRowData(new Object[] { entity.getName(), entity.getCode(), defaultSupplierName, purchasePrice,
 				entity.getStock(), sellingPrice });

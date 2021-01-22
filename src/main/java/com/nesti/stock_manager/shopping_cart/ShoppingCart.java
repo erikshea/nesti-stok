@@ -18,7 +18,7 @@ public class ShoppingCart {
 	public void addArticle(Article article, int quantity) {
 		var offers = article.getLatestOffers();
 		var supplier = article.getDefaultSupplier();
-		addOffer(offers.get(supplier),quantity);
+		addOffer(offers.get(supplier), quantity);
 	}
 
 	public void addOffer(Offer offer, int quantity) {
@@ -30,15 +30,21 @@ public class ShoppingCart {
 			order.setUser(loggedInUser);
 			orders.put(supplier, order);
 		}
-		var currentOrder = orders.get(supplier);
-		var orderLine = new OrdersArticle();
-		orderLine.setArticle(offer.getArticle());
-		orderLine.setQuantity(quantity);
-		currentOrder.addOrdersArticle(orderLine);
-		
-		mainController.getShoppingCartDirectory().getEntityList().addRow(orderLine);;
+		var existingOrderLine = orders.get(supplier).getOrdersArticleFor(offer.getArticle());
+		if (existingOrderLine != null) {
+			var newQuantity = quantity + existingOrderLine.getQuantity();
+			existingOrderLine.setQuantity(newQuantity);
+			mainController.getShoppingCartDirectory().getEntityList().refresh();
+		} else {
+			var currentOrder = orders.get(supplier);
+			var orderLine = new OrdersArticle();
+			orderLine.setArticle(offer.getArticle());
+			orderLine.setQuantity(quantity);
+			currentOrder.addOrdersArticle(orderLine);
+
+			mainController.getShoppingCartDirectory().getEntityList().addRow(orderLine);
+
+		}
 
 	}
-	
-	
 }

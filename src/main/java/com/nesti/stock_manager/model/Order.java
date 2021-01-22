@@ -10,44 +10,43 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the orders database table.
  * 
  */
 @Entity
-@Table(name="orders")
-@NamedQuery(name="Order.findAll", query="SELECT o FROM Order o")
+@Table(name = "orders")
+@NamedQuery(name = "Order.findAll", query = "SELECT o FROM Order o")
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_orders")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_orders")
 	private int idOrders;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="date_delivery")
+	@Column(name = "date_delivery")
 	private Date dateDelivery;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="date_order")
+	@Column(name = "date_order")
 	private Date dateOrder;
 
 	private String number;
 
-	//bi-directional many-to-one association to Supplier
+	// bi-directional many-to-one association to Supplier
 	@ManyToOne
-	@JoinColumn(name="id_supplier")
+	@JoinColumn(name = "id_supplier")
 	private Supplier supplier;
 
-	//bi-directional many-to-one association to User
+	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="id_user")
+	@JoinColumn(name = "id_user")
 	private User user;
 
-	//bi-directional many-to-one association to OrdersArticle
-	@OneToMany(mappedBy="order")
+	// bi-directional many-to-one association to OrdersArticle
+	@OneToMany(mappedBy = "order")
 	private List<OrdersArticle> ordersArticles;
 
 	public Order() {
@@ -58,7 +57,7 @@ public class Order implements Serializable {
 		setDateOrder(o);
 		setDateDelivery(d);
 	}
-	
+
 	public int getIdOrders() {
 		return this.idOrders;
 	}
@@ -116,7 +115,7 @@ public class Order implements Serializable {
 	}
 
 	public OrdersArticle addOrdersArticle(OrdersArticle ordersArticle) {
-		if(getOrdersArticles() == null) {
+		if (getOrdersArticles() == null) {
 			ordersArticles = new ArrayList<>();
 		}
 		getOrdersArticles().add(ordersArticle);
@@ -131,7 +130,7 @@ public class Order implements Serializable {
 
 		return ordersArticle;
 	}
-	
+
 	public void setSupplierFromName(String n) {
 		var supplierDao = new SupplierDao();
 		var supplier = supplierDao.findOneBy("name", n);
@@ -143,13 +142,23 @@ public class Order implements Serializable {
 		var user = userDao.findOneBy("login", l);
 		setUser(user);
 	}
-	
+
 	public Double getSubTotal() {
-	return 0.0;	
+		return 0.0;
 	}
-	
+
 	public Double getSheepingFees() {
 		return 0.0;
 	}
-	
+
+	public OrdersArticle getOrdersArticleFor(Article article) {
+		OrdersArticle result = null;
+		for (var oa : getOrdersArticles()) {
+			if (oa.getArticle().equals(article)) {
+				result = oa;
+			}
+		}
+		;
+		return result;
+	}
 }
