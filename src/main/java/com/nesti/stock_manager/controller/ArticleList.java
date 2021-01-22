@@ -42,15 +42,13 @@ public class ArticleList extends BaseList<Article> {
 		addToCartButton = new JButton("Ajouter au panier");
 		addToCartButton.setEnabled(false);
 		addToCartButton.addActionListener(e -> {
-			
-			if (!isNumeric(addToCartField.getText() )|| Integer.valueOf(addToCartField.getText())<0) {
-			JOptionPane.showMessageDialog(this, "Vous devez saisir une quantité à ajouter au panier");
-			}
-			else {
+
+			if (!isNumeric(addToCartField.getText()) || Integer.valueOf(addToCartField.getText()) < 0) {
+				JOptionPane.showMessageDialog(this, "Vous devez saisir une quantité à ajouter au panier");
+			} else {
 				for (var rowIndex : this.table.getSelectedRows()) {
 					var code = this.table.getValueAt(rowIndex, 1);
 					var article = (new ArticleDao()).findOneBy("code", code);
-					
 
 					var quantity = Integer.valueOf(addToCartField.getText());
 
@@ -58,7 +56,7 @@ public class ArticleList extends BaseList<Article> {
 					this.mainController.getShoppingCart().addArticle(article, quantity);
 				}
 			}
-			
+
 		});
 
 		addToCart.add(addToCartButton);
@@ -119,15 +117,14 @@ public class ArticleList extends BaseList<Article> {
 	}
 
 	public static boolean isNumeric(String strNum) {
-	    try {
-	        double d = Double.parseDouble(strNum);
-	    } catch (NumberFormatException | NullPointerException nfe) {
-	        return false;
-	    }
-	    return true;
+		try {
+			double d = Double.parseDouble(strNum);
+		} catch (NumberFormatException | NullPointerException nfe) {
+			return false;
+		}
+		return true;
 	}
-	
-	
+
 	@Override
 	public void createTable() {
 		super.createTable();
@@ -146,6 +143,20 @@ public class ArticleList extends BaseList<Article> {
 
 	@Override
 	public void addRow(Article entity) {
-		this.addRowData(new Object[] { entity.getName(), entity.getCode(), "", 0, entity.getStock(), 0 });
+		var defaultSupplierName = "";
+		if (entity.getDefaultSupplier() != null) {
+			defaultSupplierName = entity.getDefaultSupplier().getName();
+		}
+
+		var purchasePrice = "hors stock";
+		Double sellingPrice = 0.0;
+		if (entity.getCurrentOffers().get(entity.getDefaultSupplier()) != null) {
+			var offer = entity.getCurrentOffers().get(entity.getDefaultSupplier());
+			purchasePrice = String.valueOf(offer.getPrice());
+			sellingPrice = offer.getPrice() * 1.2;
+		}
+		this.addRowData(new Object[] { entity.getName(), entity.getCode(), defaultSupplierName, purchasePrice,
+				entity.getStock(), sellingPrice });
+
 	}
 }

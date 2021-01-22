@@ -70,7 +70,8 @@ public class ShoppingCartList extends BaseList<OrdersArticle> {
 
 	@Override
 	public void addRow(OrdersArticle orderLine) {
+		var offer = orderLine.getArticle().getCurrentOffers().get(orderLine.getOrder().getSupplier());
 		this.addRowData(new Object[] { orderLine.getArticle().getCode(), orderLine.getArticle().getName(),
-				orderLine.getQuantity(), orderLine.getOrder().getSupplier() });
+				orderLine.getQuantity(),offer.getPrice(), orderLine.getOrder().getSupplier() });
 	}
 }

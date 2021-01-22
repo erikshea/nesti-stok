@@ -35,7 +35,7 @@ public class ShoppingCart {
 		orderLine.setQuantity(quantity);
 		currentOrder.addOrdersArticle(orderLine);
 		
-		mainController.getShoppingCartDirectory().getEntityList().getTable();
+		mainController.getShoppingCartDirectory().getEntityList().addRow(orderLine);;
 
 	}
 	
