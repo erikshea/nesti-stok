@@ -30,9 +30,6 @@ public class ArticleInformation extends BaseInformation {
 		var ingredientDao = new IngredientDao();
 		
 		var supplierPriceList = new ArticleSupplierList(article);
-		if (article.getIdArticle()==0) {
-			supplierPriceList.getAddButton().setEnabled(false);
-		}
 		this.add(supplierPriceList, BorderLayout.EAST);
 
 		var articleForm = new JPanel();

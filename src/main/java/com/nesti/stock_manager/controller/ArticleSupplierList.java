@@ -9,6 +9,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -27,6 +28,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellRenderer;
+
+import org.hibernate.internal.build.AllowSysOut;
+
 import com.nesti.stock_manager.dao.OfferDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 
@@ -35,11 +39,12 @@ import com.nesti.stock_manager.dao.SupplierDao;
 @SuppressWarnings("serial")
 public class ArticleSupplierList extends BasePriceList {
 	HashMap<Supplier,Offer> suppliers;
+	Article article;
 	// right of the screen, price's and supplier's informations
 
-	public ArticleSupplierList(Article article) {
-		super(article);
-
+	public ArticleSupplierList(Article a) {
+		super(a);
+		article = a;
 		// HEAD OF THE SCREEN, SUPPLIERS OF THE ARTICLE
 		this.table = this.getPriceTable();
 
@@ -49,7 +54,7 @@ public class ArticleSupplierList extends BasePriceList {
 		this.table.getColumn("Par défaut").setCellEditor(new RadioButtonEditor(new JCheckBox()));
 
 
-		refreshSuppliers(article);
+		refreshSuppliers();
 	
 		// FOOTER OF THE SCREEN, ADD A SUPPLIER
 		var scrollPriceList = new JScrollPane(table);
@@ -65,7 +70,7 @@ public class ArticleSupplierList extends BasePriceList {
 		var listModel = new DefaultListModel<>();
 		var list = new JList<>(listModel);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+		list.setSelectedIndex(0);
 		var daoSupplier = new SupplierDao();
 		var suppliers = daoSupplier.findAll();
 		suppliers.forEach(s -> listModel.addElement(s.getName()));
@@ -82,8 +87,19 @@ public class ArticleSupplierList extends BasePriceList {
 			var offer = new Offer();
 			offer.setSupplier(supplier);
 			offer.setPrice(Double.parseDouble(priceSupplier.getText()));
-			article.addOffer(offer);
-			refreshSuppliers(article);
+
+			Date latestOfferDateForSupplier = null;
+			if ( 		article.getLatestOffers() != null
+					&&  article.getLatestOffers().get(supplier) != null) {
+				latestOfferDateForSupplier = article.getLatestOffers().get(supplier).getStartDate();
+			}
+	
+			if ( latestOfferDateForSupplier == null 
+				|| latestOfferDateForSupplier != null && (offer.getStartDate().getTime() - latestOfferDateForSupplier.getTime() >1000)) {
+				article.addOffer(offer);
+				refreshSuppliers();
+			}
+	
 		});
 		addPriceContainer.add(addButton);
 
@@ -93,14 +109,19 @@ public class ArticleSupplierList extends BasePriceList {
 
 	}
 	
-	private void refreshSuppliers(Article article) {
+	private void refreshSuppliers() {
 		suppliers = new HashMap<>();
 		this.tableModel.getDataVector().removeAllElements();
-		var latestOffers = article.getLatestOffers();
-		var lowestOffer = article.getLowestOffer();
+		var latestOffers = article.getLatestOffers().values();
+		var defaultSupplier = article.getDefaultSupplier();
+		if (defaultSupplier != null){
+			System.out.println(defaultSupplier.getName());
+			
+		}
+		
 		latestOffers.forEach( o->{
 			if (o.getPrice() != -1) {
-				this.addRowData(new Object[] { o.getSupplier().getName(), o.getPrice() }, o.equals(lowestOffer) );
+				this.addRowData(new Object[] { o.getSupplier().getName(), o.getPrice() }, o.getSupplier().equals(defaultSupplier) );
 			}
 		});
 	}
@@ -119,16 +140,19 @@ public class ArticleSupplierList extends BasePriceList {
 	public void addRowData(Object[] data) {
 		var tabData = new ArrayList<Object>(Arrays.asList(data));
 		var radioButton = new JRadioButton("");
-		tabData.add(0, new JRadioButton(""));
+		radioButton.addActionListener(e->{
+			if (radioButton.isSelected()) {
+				var supplier = (new SupplierDao()).findOneBy("name", data[0]);
+				article.setDefaultSupplier(supplier);
+			}
+			
+		});
+		tabData.add(0, radioButton);
 		tabData.add(new JButton("-"));
 
 		this.tableModel.addRow(tabData.toArray());
 
 		radioGroup.add((JRadioButton) tabData.get(0));
-		
-		radioButton.addActionListener(e->{
-			System.out.println("qsdsqdqsd");
-		});
 	}
 
 //display radio button
