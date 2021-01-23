@@ -2,12 +2,21 @@ package com.nesti.stock_manager.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.DefaultTableModel;
 
+import com.nesti.stock_manager.form.ButtonColumn;
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.form.LabelContainer;
 import com.nesti.stock_manager.model.Order;
@@ -32,30 +41,33 @@ public class OrderInformation extends BaseInformation<Order> {
 		orderDetails.setPreferredSize(new Dimension(500, 0));
 		orderDetails.setLayout(new BoxLayout(orderDetails, BoxLayout.Y_AXIS));
 		
-		var titleSupplierInformation = new JLabel("Commande");
+		var titleSupplierInformation = new JLabel("Commande :");
 		orderDetails.add(titleSupplierInformation);
 
 		orderDetails.add(
-			new LabelContainer("Numéro", order.getNumber())
+			new LabelContainer("Numéro :", order.getNumber())
 		);
 		
 		orderDetails.add(
-			new LabelContainer("Fournisseur", order.getSupplier().getName())
+			new LabelContainer("Fournisseur :", order.getSupplier().getName())
 		);
 		
 		orderDetails.add(
-			new LabelContainer("Auteur", order.getUser().getName())
+			new LabelContainer("Auteur :", order.getUser().getName())
 		);
 		
 		orderDetails.add(
-			new LabelContainer("Date", String.valueOf(order.getDateOrder()))
+			new LabelContainer("Date :", String.valueOf(order.getDateOrder()))
 		);
 		
 		orderDetails.add(
-			new LabelContainer("Livrée le", String.valueOf(order.getDateDelivery()))
+			new LabelContainer("Livrée le :", String.valueOf(order.getDateDelivery()))
 		);
 
 		orderDetails.add(Box.createVerticalGlue());
+		
+		
+		addOrderItemTable();
 		
 		this.add(orderDetails, BorderLayout.WEST);
 	}
@@ -66,6 +78,31 @@ public class OrderInformation extends BaseInformation<Order> {
 		this.mainControl.setSelectedComponent(this.mainControl.getOrderDirectory());
 	}
 
+	public void addOrderItemTable() {
+		var tableModel = new DefaultTableModel();
+		var table = new JTable(tableModel);
+		tableModel.setColumnIdentifiers(
+			new Object[] { "Code d'Article", "Nom d'Article", "Prix d'achat", "Quantité" }
+		);
+
+		item.getOrdersArticles().forEach(oa->{
+			tableModel.addRow(new Object[] {
+				oa.getArticle().getCode(),
+				oa.getArticle().getName(),
+				0,
+				oa.getQuantity()
+			 });
+		});
+		
+		var tableContainer = new JScrollPane(table);
+		tableContainer.setPreferredSize(new Dimension(500, 300));
+		tableContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, 300));
+		System.out.println("SDSQDQSD");
+		this.add(tableContainer, BorderLayout.EAST);
+	}
+	
+
+	
 	
 	
 	@Override
