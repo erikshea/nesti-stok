@@ -2,6 +2,7 @@ package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.TemporalType;
 
 import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.BaseDao;
@@ -164,6 +166,25 @@ public class Article extends BaseEntity implements Serializable {
 		});
 		
 		return offersBySupplier;
+	}
+	
+	public Offer getOfferAt(Date date, Supplier s) {
+		var hql = "Select o from Offer o"
+				+ " 	WHERE o.id.idArticle = :id_article "
+				+ "		AND o.id.idSupplier = :id_supplier"
+				+ "		AND o.price IS NOT NULL"
+				+ "		AND o.startDate < :date"
+				+ "		ORDER BY o.startDate DESC";
+		var query = HibernateUtil.getSession().createQuery(hql);
+		query.setParameter("id_article", this.getIdArticle());
+		query.setParameter("id_supplier", s.getIdSupplier());
+		query.setParameter("date",date,TemporalType.DATE);
+		var results = query.list();
+		Offer result = null;
+		if (results.size() > 0) {
+			result = (Offer) results.get(0);
+		}
+		return result;
 	}
 	
 	public Offer getHighestOffer() {

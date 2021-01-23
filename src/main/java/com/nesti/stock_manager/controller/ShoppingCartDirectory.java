@@ -6,16 +6,19 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.model.OrdersArticle;
+import com.nesti.stock_manager.util.HibernateUtil;
 
 public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 	private static final long serialVersionUID = 1L;
 
 	protected JLabel totalValue;
 	protected JLabel sheepingFeesValue;
-	
+	protected JButton orderButton,cancelButton;
 	
 	public ShoppingCartDirectory(MainWindowControl c) {
 		super(c);
@@ -58,8 +61,8 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		// buttons footer
 		var buttonBarContainer = new JPanel();
 
-		var orderButton = new JButton("Commander");
-		var cancelButton = new JButton("Annuler");
+		orderButton = new JButton("Commander");
+		cancelButton = new JButton("Annuler");
 
 		buttonBarContainer.add(Box.createHorizontalGlue());
 		buttonBarContainer.add(cancelButton);
@@ -68,6 +71,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		this.add(sheepingFeesContainer);
 		this.add(totalContainer);
 		this.add(buttonBarContainer);
+		addButtonListeners();
 	}
 
 	@Override
@@ -101,6 +105,33 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		var sheepingFees = String.valueOf(mainController.getShoppingCart().getSheepingFees());
 		sheepingFeesValue.setText(sheepingFees);
 	}
+	
+	public void addButtonListeners() {
+		cancelButton.addActionListener( ev->{
+			closeTab();
+		});
+		
+		orderButton.addActionListener( e->{
+			try{
+				saveOrders();
+				HibernateUtil.getSession().getTransaction().commit();
+				closeTab();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		});
+	}
+	
+	public void saveOrders() throws Exception{
+		var orders = mainController.getShoppingCart().getOrders();
+		var dao = new OrderDao();
+		
+		orders.values().forEach(o->{
+			System.out.println(o.getNumber());
+		//	var id = dao.saveOrUpdate(o);
+		});
+	}
+	
 	
 	@Override
 	public void refreshTable() {

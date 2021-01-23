@@ -48,7 +48,6 @@ public class ShoppingCart {
 			currentOrder.addOrdersArticle(orderLine);
 
 			mainController.getShoppingCartDirectory().addRow(orderLine);
-
 		}
 
 	}
@@ -71,6 +70,10 @@ public class ShoppingCart {
 		return result; 
 	}
 
+	public HashMap<Supplier, Order> getOrders() {
+		return orders;
+	}
+	
 	public ArrayList<OrdersArticle>  getAllOrdersArticle() {
 		var orderlines = new ArrayList<OrdersArticle>();
 		orders.values().forEach(o -> {
