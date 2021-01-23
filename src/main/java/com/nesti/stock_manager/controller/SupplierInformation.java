@@ -90,23 +90,17 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 		
 		this.add(supplierForm, BorderLayout.WEST);
 	}
-	
+
 	@Override
-	public void addButtonListeners() {
-		super.addButtonListeners();
-		this.buttonValidate.addActionListener( e->{
-			this.mainControl.setSelectedComponent(this.mainControl.getSupplierList());
-		});
-		
-		this.buttonCancel.addActionListener( e->{
-			this.mainControl.setSelectedComponent(this.mainControl.getSupplierList());
-		});
+	public void closeTab() {
+		super.closeTab();
+		this.mainControl.setSelectedComponent(this.mainControl.getSupplierList());
 	}
 
+	
 	@Override
 	public void saveItem() {
 		final var supplier= (Supplier) item;
 		supplier.getDao().saveOrUpdate(supplier);
-		this.mainControl.getSupplierList().refreshTab();
 	}
 }

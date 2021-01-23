@@ -80,6 +80,15 @@ public class MainWindowControl extends JTabbedPane {
 		super.addTab(title, icon, component, tip);
 		HibernateUtil.getSession().clear();
 	}
+	
+
+	
+	@Override
+	public void setSelectedComponent(Component c) {
+		// TODO Auto-generated method stub
+		super.setSelectedComponent(c);
+		((Tab) c).refreshTab();
+	}
 
 	public void addCloseableTab(String title, Icon icon, Component component, String tip) {
 		super.addTab(title, icon, component, tip);

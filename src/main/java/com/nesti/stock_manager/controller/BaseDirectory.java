@@ -111,14 +111,14 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 			HibernateUtil.getSession().getTransaction().commit();
 			refreshTable();
 		});
-		
+		/*
 		this.buttonModify.addActionListener( e->{
 			
 		});
 		
 		this.buttonDuplicate.addActionListener( e->{
 			
-		});
+		});*/
 	}
 	public abstract void deleteRow(int rowIndex) ;
 	public abstract void addRow(E entity) ;
@@ -159,6 +159,9 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 	
 	public void refreshTab() {
 		refreshTable();
+		if (table.getRowCount() > 0) {
+			this.table.setRowSelectionInterval(0, 0);
+		}
 	}
 	
 	public void closeTab() {}

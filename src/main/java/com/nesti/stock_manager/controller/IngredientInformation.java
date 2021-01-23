@@ -75,18 +75,11 @@ public class IngredientInformation extends BaseInformation<Ingredient> {
 	public void saveItem() {
 		final var product= (Product) item;
 		(new ProductDao()).saveOrUpdate(product);
-		this.mainControl.getIngredientList().refreshTab();
 	}
 	
 	@Override
-	public void addButtonListeners() {
-		super.addButtonListeners();
-		this.buttonValidate.addActionListener( e->{
-			this.mainControl.setSelectedComponent(this.mainControl.getIngredientList());
-		});
-		
-		this.buttonCancel.addActionListener( e->{
-			this.mainControl.setSelectedComponent(this.mainControl.getIngredientList());
-		});
+	public void closeTab() {
+		super.closeTab();
+		this.mainControl.setSelectedComponent(this.mainControl.getIngredientList());
 	}
 }

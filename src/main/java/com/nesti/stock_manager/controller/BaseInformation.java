@@ -64,13 +64,13 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 			try{
 				saveItem();
 				HibernateUtil.getSession().getTransaction().commit();
+				closeTab();
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(this,
 				    "Veuillez vérifier les champs en orange.",
 				    "Paramétres invalides",
 				    JOptionPane.WARNING_MESSAGE);
 			}
-			this.mainControl.remove(this);
 		});
 	}
 	

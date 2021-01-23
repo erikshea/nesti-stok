@@ -65,23 +65,18 @@ public class UserInformation extends BaseInformation<User> {
 		
 		this.add(userForm, BorderLayout.WEST);
 	}
-	
+
 	@Override
-	public void addButtonListeners() {
-		super.addButtonListeners();
-		this.buttonValidate.addActionListener( e->{
-			this.mainControl.setSelectedComponent(this.mainControl.getUserList());
-		});
-		this.buttonCancel.addActionListener( e->{
-			this.mainControl.setSelectedComponent(this.mainControl.getUserList());
-		});
+	public void closeTab() {
+		super.closeTab();
+		this.mainControl.setSelectedComponent(this.mainControl.getUserList());
 	}
 
+	
 	@Override
 	public void saveItem() {
 		final var user= (User) item;
 		user.getDao().saveOrUpdate(user);
-		this.mainControl.getUserList().refreshTab();
 	}
 	
 }

@@ -17,6 +17,7 @@ import com.nesti.stock_manager.dao.UnitDao;
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.form.ListFieldContainer;
 import com.nesti.stock_manager.model.Article;
+import com.nesti.stock_manager.util.HibernateUtil;
 public class ArticleInformation extends BaseInformation<Article> {
 	private static final long serialVersionUID = 1775908299271902575L;
 
@@ -125,22 +126,16 @@ public class ArticleInformation extends BaseInformation<Article> {
 		this.add(articleForm, BorderLayout.WEST);
 	}
 	
-	@Override
-	public void addButtonListeners() {
-		super.addButtonListeners();
-		this.buttonValidate.addActionListener( e->{
-			this.mainControl.setSelectedComponent(this.mainControl.getArticleList());
-		});
-		
-		this.buttonCancel.addActionListener( e->{
-			this.mainControl.setSelectedComponent(this.mainControl.getArticleList());
-		});
-	}
 	
+	@Override
+	public void closeTab() {
+		super.closeTab();
+		this.mainControl.setSelectedComponent(this.mainControl.getArticleList());
+	}
+
 
 	public void saveItem() {
 		final var article= (Article) item;
 		article.getDao().saveOrUpdate(article);
-		this.mainControl.getArticleList().refreshTab();
 	};
 }

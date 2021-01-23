@@ -1,6 +1,7 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -101,6 +102,13 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 		var article = articleDao.findOneBy("code", c);
 		setArticle(article);
 	}
+	
+	public Double getOfferAt(Date date) {
+		
+		
+		return null;
+	}
+	
 	
 	@Override
 	public OrdersArticleDao getDao() {
