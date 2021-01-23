@@ -9,7 +9,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import com.nesti.stock_manager.controller.BaseInformation;
-import com.nesti.stock_manager.util.HibernateUtil;
 
 @SuppressWarnings("serial")
 public class FieldContainer extends BaseFieldContainer{
@@ -18,7 +17,7 @@ public class FieldContainer extends BaseFieldContainer{
 	protected static final Color COLOR_VALID = Color.WHITE;
 	protected static final Color COLOR_INVALID = Color.ORANGE;
 	
-	public FieldContainer(String labelText, BaseInformation infoPane) {
+	public FieldContainer(String labelText, BaseInformation<?> infoPane) {
 		super(labelText, infoPane);
 		infoPane.addValidatedField(this);
 		this.field = new JTextField();

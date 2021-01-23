@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -22,13 +23,13 @@ import com.nesti.stock_manager.util.HibernateUtil;
 
 public class MainWindowControl extends JTabbedPane {
 	private static final long serialVersionUID = 4705253258936419615L;
-	protected ArticleDirectory articleDirectory;
-	protected SupplierDirectory supplierDirectory;
-	protected IngredientDirectory ingredientDirectory;
-	protected UserDirectory userDirectory;
+	protected ArticleDirectory articleList;
+	protected SupplierDirectory supplierList;
+	protected IngredientDirectory ingredientList;
+	protected UserDirectory userList;
 	protected ConnectionForm connexionForm;
 	protected ShoppingCart shoppingCart;
-	private ShoppingCartDirectory shoppingCartDirectory;
+	private ShoppingCartDirectory shoppingCartList;
 
 
 	
@@ -49,23 +50,28 @@ public class MainWindowControl extends JTabbedPane {
 
 		this.setMaximumSize(new Dimension(600, 900));
 
-		this.articleDirectory = new ArticleDirectory(this);
-		this.addTab("Article", this.articleDirectory);
+		this.articleList = new ArticleDirectory(this);
+		this.addTab("Article", this.articleList);
 
-		this.supplierDirectory = new SupplierDirectory(this);
-		this.addTab("Fournisseur", this.supplierDirectory);
+		this.supplierList = new SupplierDirectory(this);
+		this.addTab("Fournisseur", this.supplierList);
 
-		this.ingredientDirectory = new IngredientDirectory(this);
-		this.addTab("Ingrédient", this.ingredientDirectory);
+		this.ingredientList = new IngredientDirectory(this);
+		this.addTab("Ingrédient", this.ingredientList);
 		
-		this.shoppingCartDirectory = new ShoppingCartDirectory(this);
-		this.addTab("Panier", this.shoppingCartDirectory);
+		this.shoppingCartList = new ShoppingCartDirectory(this);
+		this.addTab("Panier", this.shoppingCartList);
 		
 		var user = getConnectedUser();
 		if (user.isSuperAdmin()) {
-			this.userDirectory = new UserDirectory(this);
-			this.addTab("Utilisateur", this.userDirectory);
+			this.userList = new UserDirectory(this);
+			this.addTab("Utilisateur", this.userList);
 		}
+		
+		((Tab) this.getComponent(0)).refreshTab(); // Must refresh first tab
+		this.addChangeListener(e->{
+			((Tab) this.getSelectedComponent()).refreshTab();
+		});
 	}
 
 	@Override
@@ -112,18 +118,16 @@ public class MainWindowControl extends JTabbedPane {
 	}
 
 	public class CloseableTabListener implements MouseListener {
-		private Component tab;
+		private Tab tab;
 
 		public CloseableTabListener(Component tab) {
-			this.tab = tab;
+			this.tab = (Tab) tab;
 		}
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (e.getSource() instanceof JButton) {
-				JButton closeButton = (JButton) e.getSource();
-				JTabbedPane tabbedPane = (JTabbedPane) closeButton.getParent().getParent().getParent();
-				tabbedPane.remove(tab);
+				tab.closeTab();
 			}
 		}
 
@@ -144,20 +148,20 @@ public class MainWindowControl extends JTabbedPane {
 		}
 	}
 
-	public ArticleDirectory getArticleDirectory() {
-		return articleDirectory;
+	public ArticleDirectory getArticleList() {
+		return articleList;
 	}
 
-	public SupplierDirectory getSupplierDirectory() {
-		return supplierDirectory;
+	public SupplierDirectory getSupplierList() {
+		return supplierList;
 	}
 
-	public IngredientDirectory getIngredientDirectory() {
-		return ingredientDirectory;
+	public IngredientDirectory getIngredientList() {
+		return ingredientList;
 	}
 
-	public UserDirectory getUserDirectory() {
-		return userDirectory;
+	public UserDirectory getUserList() {
+		return userList;
 	}
 
 	public User getConnectedUser() {
@@ -173,7 +177,7 @@ public class MainWindowControl extends JTabbedPane {
 		return shoppingCart;
 	}
 
-	public ShoppingCartDirectory getShoppingCartDirectory() {
-		return shoppingCartDirectory;
+	public ShoppingCartDirectory getShoppingCartList() {
+		return shoppingCartList;
 	}
 }

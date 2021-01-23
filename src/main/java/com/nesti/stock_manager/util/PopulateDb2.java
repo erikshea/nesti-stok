@@ -1,14 +1,29 @@
 package com.nesti.stock_manager.util;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.query.Query;
 
-import com.nesti.stock_manager.dao.*;
-import com.nesti.stock_manager.model.*;
+import com.nesti.stock_manager.dao.ArticleDao;
+import com.nesti.stock_manager.dao.IngredientDao;
+import com.nesti.stock_manager.dao.OfferDao;
+import com.nesti.stock_manager.dao.OrderDao;
+import com.nesti.stock_manager.dao.PackagingDao;
+import com.nesti.stock_manager.dao.SupplierDao;
+import com.nesti.stock_manager.dao.UnitDao;
+import com.nesti.stock_manager.dao.UserDao;
+import com.nesti.stock_manager.dao.UtensilDao;
+import com.nesti.stock_manager.model.Article;
+import com.nesti.stock_manager.model.Ingredient;
+import com.nesti.stock_manager.model.Offer;
+import com.nesti.stock_manager.model.Order;
+import com.nesti.stock_manager.model.Packaging;
+import com.nesti.stock_manager.model.Supplier;
+import com.nesti.stock_manager.model.Unit;
+import com.nesti.stock_manager.model.User;
+import com.nesti.stock_manager.model.Utensil;
 
 public class PopulateDb2 {
 

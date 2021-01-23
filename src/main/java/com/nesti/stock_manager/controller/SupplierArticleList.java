@@ -1,79 +1,72 @@
 package com.nesti.stock_manager.controller;
 
-import com.nesti.stock_manager.model.Article;
+import javax.swing.DefaultListModel;
+
+import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.model.Offer;
 import com.nesti.stock_manager.model.Supplier;
-import java.awt.Dimension;
-import java.util.HashMap;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import com.nesti.stock_manager.dao.ArticleDao;
-
 
 @SuppressWarnings("serial")
-public class SupplierArticleList extends BasePriceList {
-
-	public SupplierArticleList(Supplier supplier) {
-		super(supplier);
-		
-		this.table = this.getPriceTable();
+public class SupplierArticleList extends BasePriceList<Supplier> {
 	
-		var uniqueArticle = new HashMap<Article,Offer>();
-		var offerSupplier = supplier.getOffers();
+	public SupplierArticleList(Supplier s) {
+		super(s);
+
+		refreshList();
+	}
+	
+	@Override
+	protected void addNewPriceContainer(){
+		super.addNewPriceContainer();
+		addButton.addActionListener(e->{
+			var article = (new ArticleDao()).findOneBy("name", newPriceList.getSelectedValue());
+			var offer = new Offer();
+			offer.setArticle(article);
+			try {
+				offer.setPrice(Double.parseDouble(newPriceField.getText()));
+				var currentOffers = entity.getCurrentOffers();
+				
+				long offerTimeForSupplier = 0;
+				if ( currentOffers.containsKey(article) ) {
+					offerTimeForSupplier = currentOffers.get(article).getStartDate().getTime();
+				}
 		
-                 if (offerSupplier != null){
-                    offerSupplier.forEach(os -> {
-			uniqueArticle.put(os.getArticle(), os);
+				if ( offer.getStartDate().getTime() - offerTimeForSupplier > 1000) {
+					entity.addOffer(offer);
+					refreshList();
+				}
+			} catch (Exception ex) {}
 		});
-                 }
-		uniqueArticle.forEach((ua,o)->{
-			this.addRowData(new Object[] {ua.getCode(), ua.getName(), o.getPrice()});
-		});
-		
-		// FOOTER OF THE SCREEN, ADD A SUPPLIER
-		var scrollPriceList = new JScrollPane(table);
-		scrollPriceList.setPreferredSize(new Dimension(0, 150));
-		scrollPriceList.setMaximumSize(new Dimension(Short.MAX_VALUE, 150));
-		this.add(scrollPriceList);
-
-		var addPriceContainer = new JPanel();
-		addPriceContainer.setPreferredSize(new Dimension(500, 100));
-		addPriceContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, 100));
-		addPriceContainer.setLayout(new BoxLayout(addPriceContainer, BoxLayout.X_AXIS));
-
-		var listModel = new DefaultListModel<>();
-		var list = new JList<>(listModel);
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-		var daoArticle = new ArticleDao();
-		var articles = daoArticle.findAll();
+		var articles = (new ArticleDao()).findAll();
+		var listModel = (DefaultListModel<Object>)newPriceList.getModel();
 		articles.forEach(a -> listModel.addElement(a.getName()));
-
-		var scrollPane = new JScrollPane(list);
-		addPriceContainer.add(scrollPane);
-
-		var priceArticle = new JTextField("12");
-		addPriceContainer.add(priceArticle);
-
-		addButton = new JButton("+");
-		addPriceContainer.add(addButton);
-
-		this.add(addPriceContainer);
-
-		this.add(Box.createVerticalGlue());
+	}
+	
+	@Override
+	protected void onRowDelete(int modelRow) {
+		var article = (new ArticleDao()).findOneBy("name", this.table.getValueAt(modelRow, 1));
+		var offer = entity.getCurrentOffers().get(article);
+		offer.setPrice(null);
+		if (	article.getDefaultSupplier() != null
+			&&  article.getDefaultSupplier().equals(entity)) {
+			article.setDefaultSupplier(null);
+		}
+		
+		refreshList();
 	}
 
 	@Override
+	protected void refreshList() {
+		super.refreshList();
+		
+		entity.getCurrentOffers().values().forEach( o->{
+			this.addRowData(new Object[] { o.getArticle().getCode(), o.getArticle().getName(), o.getPrice()} );
+		});
+	}
+	
+	@Override
 	public String getTitle() {
-		return "Liste d'article";
+		return "Liste d'articles";
 	}
 
 	@Override

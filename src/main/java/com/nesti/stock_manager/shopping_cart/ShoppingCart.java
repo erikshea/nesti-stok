@@ -3,7 +3,11 @@ package com.nesti.stock_manager.shopping_cart;
 import java.util.HashMap;
 
 import com.nesti.stock_manager.controller.MainWindowControl;
-import com.nesti.stock_manager.model.*;
+import com.nesti.stock_manager.model.Article;
+import com.nesti.stock_manager.model.Offer;
+import com.nesti.stock_manager.model.Order;
+import com.nesti.stock_manager.model.OrdersArticle;
+import com.nesti.stock_manager.model.Supplier;
 
 public class ShoppingCart {
 
@@ -34,7 +38,7 @@ public class ShoppingCart {
 		if (existingOrderLine != null) {
 			var newQuantity = quantity + existingOrderLine.getQuantity();
 			existingOrderLine.setQuantity(newQuantity);
-			mainController.getShoppingCartDirectory().getEntityList().refresh();
+			mainController.getShoppingCartList().refreshTable();
 		} else {
 			var currentOrder = orders.get(supplier);
 			var orderLine = new OrdersArticle();
@@ -42,7 +46,7 @@ public class ShoppingCart {
 			orderLine.setQuantity(quantity);
 			currentOrder.addOrdersArticle(orderLine);
 
-			mainController.getShoppingCartDirectory().getEntityList().addRow(orderLine);
+			mainController.getShoppingCartList().addRow(orderLine);
 
 		}
 

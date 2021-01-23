@@ -1,18 +1,27 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
-import com.nesti.stock_manager.dao.ArticleDao;
-import com.nesti.stock_manager.dao.UnitDao;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.UserDao;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import at.favre.lib.crypto.bcrypt.BCrypt.Version;
 import at.favre.lib.crypto.bcrypt.LongPasswordStrategies;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * The persistent class for the users database table.
@@ -50,7 +59,7 @@ public class User extends BaseEntity implements Serializable {
 	private static UserDao dao;
 
 	public User() {
-		this.setFlag(BaseEntity.FLAG_DEFAULT);
+		this.setFlag(BaseDao.FLAG_DEFAULT);
 	}
 
 	public User(String l, String n, Date d, String r) {

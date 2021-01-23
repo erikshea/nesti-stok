@@ -1,9 +1,9 @@
 package com.nesti.stock_manager.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.PrimaryKeyJoinColumn;
 
-import com.nesti.stock_manager.dao.BaseDao;
-import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.dao.UtensilDao;
 
 

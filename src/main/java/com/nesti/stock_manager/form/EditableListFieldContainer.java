@@ -1,9 +1,9 @@
 package com.nesti.stock_manager.form;
 
 import java.awt.Dimension;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -43,7 +43,7 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		getListModel().removeElement(selected);
 	}
 	
-	public EditableListFieldContainer(String labelText, BaseInformation infoPane) {
+	public EditableListFieldContainer(String labelText, BaseInformation<?> infoPane) {
 		super(labelText, infoPane);
 
 		this.setPreferredSize(new Dimension(0, 120));

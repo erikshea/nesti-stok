@@ -1,9 +1,8 @@
 package com.nesti.stock_manager.application;
 
-import com.nesti.stock_manager.controller.*;
 import javax.swing.JFrame;
 
-import com.nesti.stock_manager.controller.MainWindowControl;
+import com.nesti.stock_manager.controller.ConnectionForm;
 
 public class NestiStokMain {
 	

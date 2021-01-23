@@ -1,12 +1,19 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import com.nesti.stock_manager.dao.IngredientDao;
-import com.nesti.stock_manager.dao.UnitDao;
-
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import com.nesti.stock_manager.dao.BaseDao;
+import com.nesti.stock_manager.dao.UnitDao;
 
 
 /**
@@ -38,7 +45,7 @@ public class Unit extends BaseEntity implements Serializable {
 	private static UnitDao dao;
 	
 	public Unit() {
-		this.setFlag(BaseEntity.FLAG_DEFAULT);
+		this.setFlag(BaseDao.FLAG_DEFAULT);
 	}
 	
 	public Unit(String n) {

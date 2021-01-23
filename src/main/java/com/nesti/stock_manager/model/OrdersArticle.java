@@ -1,12 +1,18 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
 import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.dao.OrdersArticleDao;
-import com.nesti.stock_manager.dao.UserDao;
 
 
 /**

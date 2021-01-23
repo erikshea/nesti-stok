@@ -13,10 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.UserDao;
-import com.nesti.stock_manager.form.FieldContainer;
-import com.nesti.stock_manager.model.User;
 import com.nesti.stock_manager.util.ApplicationSettings;
 
 @SuppressWarnings("serial")
@@ -26,7 +23,7 @@ public class ConnectionForm extends JPanel {
 	protected JTextField loginField;
 	protected JFrame frame;
 
-	@SuppressWarnings("deprecation")
+
 	public ConnectionForm(JFrame f) {
 		super();
 		this.frame = f;
@@ -62,6 +59,7 @@ public class ConnectionForm extends JPanel {
 		frame.update(frame.getGraphics());
 	}
 
+	@SuppressWarnings("deprecation")
 	public void showForm() {
 		var formContainer = new JPanel();
 		formContainer.setLayout(new BoxLayout(formContainer, BoxLayout.Y_AXIS));

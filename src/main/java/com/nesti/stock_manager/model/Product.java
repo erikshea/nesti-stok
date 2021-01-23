@@ -1,8 +1,20 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import com.nesti.stock_manager.dao.BaseDao;
 
 
 /**
@@ -30,18 +42,8 @@ public abstract class Product extends BaseEntity implements Serializable {
 	@OneToMany(mappedBy="product", cascade = CascadeType.REMOVE)
 	private List<Article> articles;
 	
-/*
-	//bi-directional one-to-one association to Ingredient
-	@OneToOne(mappedBy="product")
-	private Ingredient ingredient;
-*/
-	/*
-	//bi-directional one-to-one association to Utensil
-	@OneToOne(mappedBy="product")
-	private Utensil utensil;
-*/
 	public Product() {
-		this.setFlag(BaseEntity.FLAG_DEFAULT);
+		this.setFlag(BaseDao.FLAG_DEFAULT);
 	}
 	
 	public Product(String r, String n) {
@@ -103,5 +105,4 @@ public abstract class Product extends BaseEntity implements Serializable {
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
-
 }

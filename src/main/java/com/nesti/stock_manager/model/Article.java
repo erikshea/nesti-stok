@@ -1,15 +1,27 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
-import com.nesti.stock_manager.dao.*;
-import com.nesti.stock_manager.util.HibernateUtil;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import com.nesti.stock_manager.dao.ArticleDao;
+import com.nesti.stock_manager.dao.BaseDao;
+import com.nesti.stock_manager.dao.PackagingDao;
+import com.nesti.stock_manager.dao.ProductDao;
+import com.nesti.stock_manager.dao.UnitDao;
+import com.nesti.stock_manager.util.HibernateUtil;
 
 /**
  * The persistent class for the article database table.
@@ -45,7 +57,7 @@ public class Article extends BaseEntity implements Serializable {
 	private Packaging packaging;
 
 	// bi-directional many-to-one association to Product
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_product")
 	private Product product;
 
@@ -71,7 +83,7 @@ public class Article extends BaseEntity implements Serializable {
 	private static ArticleDao dao;
 	
 	public Article() {
-		this.setFlag(BaseEntity.FLAG_DEFAULT);
+		this.setFlag(BaseDao.FLAG_DEFAULT);
 	}
 
 	public Article(String code, String name, String ean, double weight, double quantity, int stock) {
@@ -85,31 +97,10 @@ public class Article extends BaseEntity implements Serializable {
 	}
 
 	
-	public HashMap<Supplier,Offer> getLatestOffers(){
-		HashMap<Supplier,Offer> offersBySupplier = new HashMap<>();
-
-		if ( getOffers() != null && getOffers().size()> 0) {
-			getOffers().forEach(oa->{
-				var offerInMap = offersBySupplier.get(oa.getSupplier());
-
-				if ( 	oa.isValid() && (
-						offerInMap == null
-					||  offerInMap.getStartDate().compareTo(oa.getStartDate()) < 0  ) ) {
-					offersBySupplier.put(oa.getSupplier(), oa);
-				}
-					
-				offersBySupplier.put(oa.getSupplier(), oa);
-			});
-		}
-
-		return offersBySupplier;
-	}
-
-	
 	public Offer getLowestOffer() {
 		Offer result = null;
 		var offers = getCurrentOffers().values();
-
+		
 		for (var offer:offers) {
 			if (result == null || result.getPrice() > offer.getPrice()) {
 				result = offer;
@@ -117,7 +108,20 @@ public class Article extends BaseEntity implements Serializable {
 		}
 		return result;
 	}
-
+	
+	public Offer getLatestDefaultOffer() {
+		Offer latestOffer = null;
+		var offers = getCurrentOffers().values();
+		
+		for (var offer:offers) {
+			if (	this.getDefaultSupplier() != null
+				&&  offer.getSupplier().equals(this.getDefaultSupplier()) 
+				&&  ( latestOffer == null || latestOffer.getStartDate().before(offer.getStartDate()))	) {
+				latestOffer = offer;
+			}
+		}
+		return latestOffer;
+	}
 
 	public HashMap<Supplier,Offer> getCurrentOffersHQL() {
 		var hql = "Select o from Offer o "
@@ -135,18 +139,29 @@ public class Article extends BaseEntity implements Serializable {
 		
 		return offersBySupplier;
 	}
+
 	
-	public HashMap<Supplier,Offer> getCurrentOffers() {
-		HashMap<Supplier,Offer> offersBySupplier = new HashMap<>();
+	public HashMap<Supplier,Offer> getLatestOffers(){
+		var offersBySupplier = new HashMap<Supplier,Offer>();
 		
 		this.getOffers().forEach(o->{
-			if (	o.getPrice() != null
-				&&	( 	!offersBySupplier.containsKey( o.getSupplier() )
-					 ||  offersBySupplier.get(o.getSupplier()).getStartDate().before(o.getStartDate()) )
-						){
+			if (	!offersBySupplier.containsKey( o.getSupplier() )
+				||   offersBySupplier.get(o.getSupplier()).getStartDate().before(o.getStartDate()) ){
 					offersBySupplier.put(o.getSupplier(), o);
 				}
-			});
+		});
+		
+		return offersBySupplier;
+	}
+
+	public HashMap<Supplier,Offer> getCurrentOffers() {
+		var offersBySupplier = new HashMap<Supplier,Offer>();
+
+		getLatestOffers().forEach((s,o)->{
+			if(o.getPrice()!=null) {
+				offersBySupplier.put(s,o);
+			}
+		});
 		
 		return offersBySupplier;
 	}
@@ -379,4 +394,5 @@ public class Article extends BaseEntity implements Serializable {
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
+	
 }

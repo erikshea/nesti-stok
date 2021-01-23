@@ -7,13 +7,14 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+
 import com.nesti.stock_manager.controller.BaseInformation;
 
 @SuppressWarnings("serial")
 public class ListFieldContainer extends BaseFieldContainer {
 	protected JList<String> list;
 
-	public ListFieldContainer(String labelText, BaseInformation infoPane) {
+	public ListFieldContainer(String labelText, BaseInformation<?> infoPane) {
 		super(labelText, infoPane);
 
 		this.setPreferredSize(new Dimension(0, 80));
