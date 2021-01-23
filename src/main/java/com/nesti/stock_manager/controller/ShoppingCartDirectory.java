@@ -115,4 +115,9 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		refreshTotal();
 		refreshSheepingFees();
 	}
+	
+
+	
+	
+	
 }

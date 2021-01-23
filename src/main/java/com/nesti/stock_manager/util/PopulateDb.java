@@ -10,6 +10,7 @@ import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.dao.OfferDao;
 import com.nesti.stock_manager.dao.OrderDao;
+import com.nesti.stock_manager.dao.OrdersArticleDao;
 import com.nesti.stock_manager.dao.PackagingDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UnitDao;
@@ -19,6 +20,7 @@ import com.nesti.stock_manager.model.Article;
 import com.nesti.stock_manager.model.Ingredient;
 import com.nesti.stock_manager.model.Offer;
 import com.nesti.stock_manager.model.Order;
+import com.nesti.stock_manager.model.OrdersArticle;
 import com.nesti.stock_manager.model.Packaging;
 import com.nesti.stock_manager.model.Supplier;
 import com.nesti.stock_manager.model.Unit;
@@ -146,6 +148,8 @@ public class PopulateDb {
 		var offerDao = new OfferDao();
 		Date now = new Date();
 		Date tomorrow = DateUtils.addHours(now, 24);
+		Date plus10 = DateUtils.addHours(now, 240);
+		Date plus20 =  DateUtils.addHours(now, 480);
 
 		var offer = new Offer(2.55);
 		offer.setSupplierFromName("Oeufs en folie");
@@ -158,11 +162,17 @@ public class PopulateDb {
 		offer.setArticleFromCode("OEUF12");
 		offer.setStartDate(now);
 		offerDao.saveOrUpdate(offer);
-
-		offer = new Offer(4.85);
+		
+		offer = new Offer(4.99);
+		offer.setSupplierFromName("Oeufs en folie");
+		offer.setArticleFromCode("OEUF12");
+		offer.setStartDate(tomorrow);
+		offerDao.saveOrUpdate(offer);
+		
+		offer = new Offer(6.28);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("OEUF12");
-		offer.setStartDate(now);
+		offer.setStartDate(plus20);
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(3.25);
@@ -203,6 +213,11 @@ public class PopulateDb {
 		order.setSupplierFromName("Oeufs en folie");
 		order.setUserFromLogin("james");
 		orderDao.saveOrUpdate(order);
+		
+		order = new Order("612", plus10, plus20);
+		order.setSupplierFromName("Oeufs en folie");
+		order.setUserFromLogin("erik");
+		orderDao.saveOrUpdate(order);
 
 		var day2 = DateUtils.addHours(now, 48);
 		order = new Order("546", now, day2);
@@ -220,41 +235,46 @@ public class PopulateDb {
 		order.setUserFromLogin("erik");
 		orderDao.saveOrUpdate(order);
 
-//		var ordersArticleDao = new OrdersArticleDao();
-//		var ordersArticle = new OrdersArticle(5);
-//		ordersArticle.setOrderFromNumber("257");
-//		ordersArticle.setArticleFromCode("OEUF6");
-//		ordersArticleDao.saveOrUpdate(ordersArticle);
-//
-//		ordersArticle = new OrdersArticle(3);
-//		ordersArticle.setOrderFromNumber("257");
-//		ordersArticle.setArticleFromCode("OEUF12");
-//		ordersArticleDao.saveOrUpdate(ordersArticle);
-//
-//		ordersArticle = new OrdersArticle(12);
-//		ordersArticle.setOrderFromNumber("546");
-//		ordersArticle.setArticleFromCode("OEUF12");
-//		ordersArticleDao.saveOrUpdate(ordersArticle);
-//
-//		ordersArticle = new OrdersArticle(2);
-//		ordersArticle.setOrderFromNumber("546");
-//		ordersArticle.setArticleFromCode("LAI85");
-//		ordersArticleDao.saveOrUpdate(ordersArticle);
-//
-//		ordersArticle = new OrdersArticle(24);
-//		ordersArticle.setOrderFromNumber("658");
-//		ordersArticle.setArticleFromCode("LAI85");
-//		ordersArticleDao.saveOrUpdate(ordersArticle);
-//
-//		ordersArticle = new OrdersArticle(0);
-//		ordersArticle.setOrderFromNumber("555");
-//		ordersArticle.setArticleFromCode("CASS125");
-//		ordersArticleDao.saveOrUpdate(ordersArticle);
-//
-//		ordersArticle = new OrdersArticle(1);
-//		ordersArticle.setOrderFromNumber("555");
-//		ordersArticle.setArticleFromCode("LOUCH45");
-//		ordersArticleDao.saveOrUpdate(ordersArticle);
+		var ordersArticleDao = new OrdersArticleDao();
+		var ordersArticle = new OrdersArticle(5);
+		ordersArticle.setOrderFromNumber("257");
+		ordersArticle.setArticleFromCode("OEUF6");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
+
+		ordersArticle = new OrdersArticle(3);
+		ordersArticle.setOrderFromNumber("257");
+		ordersArticle.setArticleFromCode("OEUF12");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
+		
+		ordersArticle = new OrdersArticle(8);
+		ordersArticle.setOrderFromNumber("612");
+		ordersArticle.setArticleFromCode("OEUF12");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
+
+		ordersArticle = new OrdersArticle(12);
+		ordersArticle.setOrderFromNumber("546");
+		ordersArticle.setArticleFromCode("OEUF12");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
+
+		ordersArticle = new OrdersArticle(2);
+		ordersArticle.setOrderFromNumber("546");
+		ordersArticle.setArticleFromCode("LAI85");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
+
+		ordersArticle = new OrdersArticle(24);
+		ordersArticle.setOrderFromNumber("658");
+		ordersArticle.setArticleFromCode("LAI85");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
+
+		ordersArticle = new OrdersArticle(0);
+		ordersArticle.setOrderFromNumber("555");
+		ordersArticle.setArticleFromCode("CASS125");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
+
+		ordersArticle = new OrdersArticle(1);
+		ordersArticle.setOrderFromNumber("555");
+		ordersArticle.setArticleFromCode("LOUCH45");
+		ordersArticleDao.saveOrUpdate(ordersArticle);
 
 		HibernateUtil.getSession().getTransaction().commit();
 
