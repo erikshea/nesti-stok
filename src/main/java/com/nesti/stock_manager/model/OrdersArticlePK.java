@@ -1,7 +1,9 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 /**
  * The primary key class for the orders_article database table.

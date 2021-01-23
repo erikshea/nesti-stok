@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,6 +17,7 @@ import javax.swing.plaf.metal.MetalIconFactory;
 
 import com.nesti.stock_manager.dao.UserDao;
 import com.nesti.stock_manager.model.User;
+import com.nesti.stock_manager.shopping_cart.ShoppingCart;
 import com.nesti.stock_manager.util.ApplicationSettings;
 import com.nesti.stock_manager.util.HibernateUtil;
 
@@ -25,14 +27,18 @@ public class MainWindowControl extends JTabbedPane {
 	protected SupplierDirectory supplierDirectory;
 	protected IngredientDirectory ingredientDirectory;
 	protected UserDirectory userDirectory;
-	protected ConnexionForm connexionForm;
+	protected ConnectionForm connexionForm;
+	protected ShoppingCart shoppingCart;
+	private OrderDirectory orderDirectory;
+	private ShoppingCartDirectory shoppingCartDirectory;
 
 	public MainWindowControl() {
+		shoppingCart= new ShoppingCart(this); 
+		
 		Integer width = (int) (Toolkit.getDefaultToolkit().getScreenSize().width * 0.8);
 		if (width > 1600) {
 			width = 1600;
 		}
-
 		
 		Integer height = (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.8);
 		if (height > 900) {
@@ -42,7 +48,6 @@ public class MainWindowControl extends JTabbedPane {
 		this.setPreferredSize(new Dimension(width, height));
 
 		this.setMaximumSize(new Dimension(600, 900));
-		;
 
 		this.articleDirectory = new ArticleDirectory(this);
 		this.addTab("Article", this.articleDirectory);
@@ -52,12 +57,23 @@ public class MainWindowControl extends JTabbedPane {
 
 		this.ingredientDirectory = new IngredientDirectory(this);
 		this.addTab("Ingrédient", this.ingredientDirectory);
-
+		
+		this.orderDirectory = new OrderDirectory(this);
+		this.addTab("Commandes", this.orderDirectory);
+		
+		this.shoppingCartDirectory = new ShoppingCartDirectory(this);
+		this.addTab("Panier", this.shoppingCartDirectory);
+		
 		var user = getConnectedUser();
-		//if (user.isSuperAdmin()) {
+		if (user.isSuperAdmin()) {
 			this.userDirectory = new UserDirectory(this);
 			this.addTab("Utilisateur", this.userDirectory);
-		//}
+		}
+		
+		((Tab) this.getComponent(0)).refreshTab(); // Must refresh first tab
+		this.addChangeListener(e->{
+			((Tab) this.getSelectedComponent()).refreshTab();
+		});
 	}
 
 	@Override
@@ -65,6 +81,15 @@ public class MainWindowControl extends JTabbedPane {
 		// TODO Auto-generated method stub
 		super.addTab(title, icon, component, tip);
 		HibernateUtil.getSession().clear();
+	}
+	
+
+	
+	@Override
+	public void setSelectedComponent(Component c) {
+		// TODO Auto-generated method stub
+		super.setSelectedComponent(c);
+		((Tab) c).refreshTab();
 	}
 
 	public void addCloseableTab(String title, Icon icon, Component component, String tip) {
@@ -104,18 +129,16 @@ public class MainWindowControl extends JTabbedPane {
 	}
 
 	public class CloseableTabListener implements MouseListener {
-		private Component tab;
+		private Tab tab;
 
 		public CloseableTabListener(Component tab) {
-			this.tab = tab;
+			this.tab = (Tab) tab;
 		}
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (e.getSource() instanceof JButton) {
-				JButton closeButton = (JButton) e.getSource();
-				JTabbedPane tabbedPane = (JTabbedPane) closeButton.getParent().getParent().getParent();
-				tabbedPane.remove(tab);
+				tab.closeTab();
 			}
 		}
 
@@ -148,6 +171,10 @@ public class MainWindowControl extends JTabbedPane {
 		return ingredientDirectory;
 	}
 
+	public OrderDirectory getOrderDirectory() {
+		return orderDirectory;
+	}
+	
 	public UserDirectory getUserDirectory() {
 		return userDirectory;
 	}
@@ -156,5 +183,16 @@ public class MainWindowControl extends JTabbedPane {
 		var userDao = new UserDao();
 		return userDao.findOneBy("login", ApplicationSettings.get("login"));
 
+	}
+	
+	/**
+	 * @return the shoppingCart
+	 */
+	public ShoppingCart getShoppingCart() {
+		return shoppingCart;
+	}
+
+	public ShoppingCartDirectory getShoppingCartDirectory() {
+		return shoppingCartDirectory;
 	}
 }

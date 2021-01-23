@@ -1,10 +1,21 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import com.nesti.stock_manager.dao.SupplierDao;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import com.nesti.stock_manager.dao.BaseDao;
+import com.nesti.stock_manager.dao.SupplierDao;
 
 
 /**
@@ -41,7 +52,7 @@ public class Supplier  extends BaseEntity implements Serializable {
 	private String zipCode;
 
 	//bi-directional many-to-one association to Offer
-	@OneToMany(mappedBy="supplier", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="supplier", cascade = CascadeType.ALL)
 	private List<Offer> offers;
 
 	//bi-directional many-to-one association to Order
@@ -52,13 +63,42 @@ public class Supplier  extends BaseEntity implements Serializable {
 	@OneToMany(mappedBy="supplier")
 	private List<Article> articles;
 	
+	private String flag;
+	
 	private static SupplierDao dao;
 	
 	public Supplier() {
+		this.setFlag(BaseDao.DEFAULT);
 	}
 
+	public HashMap<Article,Offer> getLatestOffers(){
+		var offersByArticle = new HashMap<Article,Offer>();
+		
+		this.getOffers().forEach(o->{
+			if (	!offersByArticle.containsKey( o.getArticle() )
+				||   offersByArticle.get(o.getArticle()).getStartDate().before(o.getStartDate()) ){
+				offersByArticle.put(o.getArticle(), o);
+			}
+		});
+		
+		return offersByArticle;
+	}
+
+	public HashMap<Article,Offer> getCurrentOffers() {
+		var offersByArticle = new HashMap<Article,Offer>();
+
+		getLatestOffers().forEach((s,o)->{
+			if(o.getPrice()!=null) {
+				offersByArticle.put(s,o);
+			}
+		});
+		
+		return offersByArticle;
+	}
+	
 	public Supplier(String name, String adress1, String adress2, String zipCode, String city, String contactName,
 			String country, String phone) {
+		this();
 		setName(name);
 		setAddress1(adress1);
 		setAddress2(adress2);
@@ -142,6 +182,9 @@ public class Supplier  extends BaseEntity implements Serializable {
 	}
 
 	public List<Offer> getOffers() {
+		if (this.offers == null) {
+			this.offers = new ArrayList<Offer>();
+		}
 		return this.offers;
 	}
 
@@ -212,5 +255,13 @@ public class Supplier  extends BaseEntity implements Serializable {
 			dao = new SupplierDao();
 		}
 		return dao;
+	}
+
+	public String getFlag() {
+		return this.flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 }

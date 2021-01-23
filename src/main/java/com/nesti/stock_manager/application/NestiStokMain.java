@@ -1,9 +1,8 @@
 package com.nesti.stock_manager.application;
 
-import com.nesti.stock_manager.controller.*;
 import javax.swing.JFrame;
 
-import com.nesti.stock_manager.controller.MainWindowControl;
+import com.nesti.stock_manager.controller.ConnectionForm;
 
 public class NestiStokMain {
 	
@@ -11,10 +10,9 @@ public class NestiStokMain {
         //Create and set up the window.
         JFrame frame = new JFrame("Nesti Stok");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    //	var mainWindow = new MainWindowControl();
-		//var formConnexion = new ConnexionForm(frame);
+		var formConnexion = new ConnectionForm(frame);
 		
-        frame.getContentPane().add(new MainWindowControl());
+        frame.getContentPane().add(formConnexion);
         frame.pack();
         frame.setVisible(true);
        

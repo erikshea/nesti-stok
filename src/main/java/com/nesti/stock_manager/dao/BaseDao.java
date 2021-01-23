@@ -7,15 +7,21 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import com.nesti.stock_manager.model.*;
 
+import com.nesti.stock_manager.model.BaseEntity;
 import com.nesti.stock_manager.util.HibernateUtil;
 
 @SuppressWarnings("unchecked")
 public  class BaseDao<E> {
 
+	public final static String ACTIVE = "a";
+	public final static String WAITING = "w";
+	public final static String DELETED = "b";
+	public final static String DEFAULT = ACTIVE;
+	
 	protected Session getSession() {
 		return HibernateUtil.getSession();
 	}
@@ -45,6 +51,7 @@ public  class BaseDao<E> {
 		}
 	}
 
+	
 	public List<E> findAll() {
 		var cr = this.getCriteriaQuery();
 		var root = cr.from(this.getEntityClass());
@@ -52,6 +59,19 @@ public  class BaseDao<E> {
 		return this.getSession().createQuery(cr).getResultList();
 	}
 
+	public List<E> findAll(String flag) {
+		var cr = this.getCriteriaQuery();
+		var root = cr.from(this.getEntityClass());
+		var cb =this.getSession().getCriteriaBuilder();
+		try {
+			cr.where(cb.equal(root.get("flag"), flag));
+		} catch (Exception E) {}
+		
+		return this.getSession().createQuery(cr).getResultList();
+	}
+
+	
+	
 	public void clear() {
 		getSession().clear();
 
@@ -89,7 +109,7 @@ public  class BaseDao<E> {
 	}
 	
 	
-	public <T> E findOsneBy(String propertyName, T value) {
+	public <T> E finddOneBy(String propertyName, T value) {
 			var cr = this.getCriteriaQuery();
 	        var root = cr.from(this.getEntityClass());
 	        var cb =this.getSession().getCriteriaBuilder();

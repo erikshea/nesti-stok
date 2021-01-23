@@ -1,9 +1,9 @@
 package com.nesti.stock_manager.form;
 
 import java.awt.Dimension;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -43,7 +43,7 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		getListModel().removeElement(selected);
 	}
 	
-	public EditableListFieldContainer(String labelText, BaseInformation infoPane) {
+	public EditableListFieldContainer(String labelText, BaseInformation<?> infoPane) {
 		super(labelText, infoPane);
 
 		this.setPreferredSize(new Dimension(0, 120));
@@ -56,8 +56,6 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		var plusButton = new JButton("+");
 		plusButton.setPreferredSize(buttonDimension);
 
-		// c'est comme un add action listener mais on supprime les trucs en trop, ca
-		// s'appelle lambda
 		plusButton.addActionListener((e) -> {
 			this.addToList();
 		});
@@ -74,8 +72,7 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		buttonContainer.add(minusButton);
 
 		this.add(buttonContainer);
-		// on met les deux boutons dans un panel avec box layout vertyical
-		// c'est ce conteneur qu'on ajoutera a ingredient information
+
 	}
 
 }

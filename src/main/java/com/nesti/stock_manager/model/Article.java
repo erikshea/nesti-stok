@@ -1,15 +1,27 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
-import com.nesti.stock_manager.dao.*;
-import com.nesti.stock_manager.util.HibernateUtil;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import com.nesti.stock_manager.dao.ArticleDao;
+import com.nesti.stock_manager.dao.BaseDao;
+import com.nesti.stock_manager.dao.PackagingDao;
+import com.nesti.stock_manager.dao.ProductDao;
+import com.nesti.stock_manager.dao.UnitDao;
+import com.nesti.stock_manager.util.HibernateUtil;
 
 /**
  * The persistent class for the article database table.
@@ -36,14 +48,16 @@ public class Article extends BaseEntity implements Serializable {
 	private int stock;
 
 	private double weight;
-
+	
+	private String flag;
+	
 	// bi-directional many-to-one association to Packaging
 	@ManyToOne
 	@JoinColumn(name = "id_packaging")
 	private Packaging packaging;
 
 	// bi-directional many-to-one association to Product
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_product")
 	private Product product;
 
@@ -69,9 +83,11 @@ public class Article extends BaseEntity implements Serializable {
 	private static ArticleDao dao;
 	
 	public Article() {
+		this.setFlag(BaseDao.DEFAULT);
 	}
 
 	public Article(String code, String name, String ean, double weight, double quantity, int stock) {
+		this();
 		setCode(code);
 		setName(name);
 		setEan(ean);
@@ -81,56 +97,74 @@ public class Article extends BaseEntity implements Serializable {
 	}
 
 	
-	public HashMap<Supplier,Offer> getLatestOffers(){
-		HashMap<Supplier,Offer> offersBySupplier = new HashMap<>();
-
-		if ( getOffers() != null && getOffers().size()> 0) {
-			getOffers().forEach(oa->{
-				var offerInMap = offersBySupplier.get(oa.getSupplier());
-
-				if ( 	offerInMap == null
-					||  offerInMap.getStartDate() == null
-					||  oa.getStartDate() == null 
-					||  offerInMap.getStartDate().compareTo(oa.getStartDate()) < 0  ) {
-					offersBySupplier.put(oa.getSupplier(), oa);
-				}
-					
-				offersBySupplier.put(oa.getSupplier(), oa);
-			});
-		}
-
-		return offersBySupplier;
-	}
-
 	public Offer getLowestOffer() {
 		Offer result = null;
-		var offers = getLatestOffers().values();
-		if (offers != null && offers.size() > 0) {
-			for (var offer:offers) {
-				if (offer.getPrice() != -1 && (result == null || result.getPrice() > offer.getPrice()) ) {
-					result = offer;
-				}
+		var offers = getCurrentOffers().values();
+		
+		for (var offer:offers) {
+			if (result == null || result.getPrice() > offer.getPrice()) {
+				result = offer;
 			}
 		}
 		return result;
 	}
-
-
 	
-	
-	public Offer getLowestOfferHQL() {
+	public Offer getLatestDefaultOffer() {
+		Offer latestOffer = null;
+		var offers = getCurrentOffers().values();
+		
+		for (var offer:offers) {
+			if (	this.getDefaultSupplier() != null
+				&&  offer.getSupplier().equals(this.getDefaultSupplier()) 
+				&&  ( latestOffer == null || latestOffer.getStartDate().before(offer.getStartDate()))	) {
+				latestOffer = offer;
+			}
+		}
+		return latestOffer;
+	}
+
+	public HashMap<Supplier,Offer> getCurrentOffersHQL() {
 		var hql = "Select o from Offer o "
-				+ "WHERE o.price = (SELECT MIN(oo.price) FROM Offer oo WHERE oo.id.idArticle = :id_article) ";
+				+ "WHERE o.id.idArticle = :id_article" 
+				+ "	AND o.price IS NOT NULL"
+				+ "	AND o.startDate = (SELECT MAX(oo.startDate) FROM Offer oo"
+				+ "	 					WHERE oo.id.idArticle = o.id.idArticle"
+				+ "						AND oo.id.idSupplier = o.id.idSupplier)";
 		var query = HibernateUtil.getSession().createQuery(hql);
 		query.setParameter("id_article", this.getIdArticle());
-		var results = query.list();
-		Offer result = null;
-		if (results.size() > 0) {
-			result = (Offer) results.get(0);
-		}
-		return result;
+		@SuppressWarnings("unchecked")
+		List<Offer> results = query.list();
+		HashMap<Supplier,Offer> offersBySupplier = new HashMap<>();
+		results.forEach( o-> offersBySupplier.put(o.getSupplier(), o));
+		
+		return offersBySupplier;
 	}
+
 	
+	public HashMap<Supplier,Offer> getLatestOffers(){
+		var offersBySupplier = new HashMap<Supplier,Offer>();
+		
+		this.getOffers().forEach(o->{
+			if (	!offersBySupplier.containsKey( o.getSupplier() )
+				||   offersBySupplier.get(o.getSupplier()).getStartDate().before(o.getStartDate()) ){
+					offersBySupplier.put(o.getSupplier(), o);
+				}
+		});
+		
+		return offersBySupplier;
+	}
+
+	public HashMap<Supplier,Offer> getCurrentOffers() {
+		var offersBySupplier = new HashMap<Supplier,Offer>();
+
+		getLatestOffers().forEach((s,o)->{
+			if(o.getPrice()!=null) {
+				offersBySupplier.put(s,o);
+			}
+		});
+		
+		return offersBySupplier;
+	}
 	
 	public Offer getHighestOffer() {
 		var hql = "Select o from Offer o "
@@ -244,6 +278,9 @@ public class Article extends BaseEntity implements Serializable {
 	}
 
 	public List<Offer> getOffers() {
+		if (this.offers == null) {
+			this.offers = new ArrayList<Offer>();
+		}
 		return this.offers;
 	}
 
@@ -295,13 +332,12 @@ public class Article extends BaseEntity implements Serializable {
 		Supplier result = null;
 		
 		if (this.supplier == null) {
-			var lowestOffer = this.getLowestOffer();
+			var lowestOffer = getLowestOffer();
 
 			if (lowestOffer != null) {
 				result = lowestOffer.getSupplier();
 			}
 		} else {
-			System.out.println("test:");
 			result = this.supplier;
 		}
 		
@@ -348,4 +384,15 @@ public class Article extends BaseEntity implements Serializable {
 		
 		return newArticle;
 	}
+	
+
+
+	public String getFlag() {
+		return this.flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+	
 }

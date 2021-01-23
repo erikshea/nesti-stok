@@ -1,8 +1,17 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import com.nesti.stock_manager.dao.BaseDao;
 
 
 /**
@@ -20,12 +29,15 @@ public class Packaging implements Serializable {
 	private int idPackaging;
 
 	private String name;
+	
+	private String flag;
 
 	//bi-directional many-to-one association to Article
 	@OneToMany(mappedBy="packaging")
 	private List<Article> articles;
 
 	public Packaging() {
+		this.setFlag(BaseDao.DEFAULT);
 	}
 	
 	public Packaging(String n) {
@@ -69,5 +81,11 @@ public class Packaging implements Serializable {
 
 		return article;
 	}
+	public String getFlag() {
+		return this.flag;
+	}
 
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
 }

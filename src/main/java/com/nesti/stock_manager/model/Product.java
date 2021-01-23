@@ -1,8 +1,20 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import com.nesti.stock_manager.dao.BaseDao;
 
 
 /**
@@ -23,25 +35,19 @@ public abstract class Product extends BaseEntity implements Serializable {
 	private String name;
 
 	private String reference;
+	
+	private String flag;
 
 	//bi-directional many-to-one association to Article
 	@OneToMany(mappedBy="product", cascade = CascadeType.REMOVE)
 	private List<Article> articles;
 	
-/*
-	//bi-directional one-to-one association to Ingredient
-	@OneToOne(mappedBy="product")
-	private Ingredient ingredient;
-*/
-	/*
-	//bi-directional one-to-one association to Utensil
-	@OneToOne(mappedBy="product")
-	private Utensil utensil;
-*/
 	public Product() {
+		this.setFlag(BaseDao.DEFAULT);
 	}
 	
 	public Product(String r, String n) {
+		this();
 		setReference(r);
 		setName(n);
 	}
@@ -91,21 +97,12 @@ public abstract class Product extends BaseEntity implements Serializable {
 
 		return article;
 	}
-/*
-	public Ingredient getIngredient() {
-		return this.ingredient;
+
+	public String getFlag() {
+		return this.flag;
 	}
 
-	public void setIngredient(Ingredient ingredient) {
-		this.ingredient = ingredient;
-	}*/
-/*
-	public Utensil getUtensil() {
-		return this.utensil;
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
-
-	public void setUtensil(Utensil utensil) {
-		this.utensil = utensil;
-	}*/
-
 }

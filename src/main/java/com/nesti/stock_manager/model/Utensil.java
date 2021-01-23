@@ -1,9 +1,9 @@
 package com.nesti.stock_manager.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.PrimaryKeyJoinColumn;
 
-import com.nesti.stock_manager.dao.BaseDao;
-import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.dao.UtensilDao;
 
 
@@ -16,6 +16,8 @@ import com.nesti.stock_manager.dao.UtensilDao;
 @NamedQuery(name="Utensil.findAll", query="SELECT u FROM Utensil u")
 public class Utensil extends Product {
 	private static final long serialVersionUID = 1L;
+	
+	private String flag;
 	private static UtensilDao dao;
 	
 	public Utensil() {
@@ -30,5 +32,13 @@ public class Utensil extends Product {
 	
 	public Utensil(String r, String n) {
 		super(r,n);
+	}
+
+	public String getFlag() {
+		return this.flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 }
