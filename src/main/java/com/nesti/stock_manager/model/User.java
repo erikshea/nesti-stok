@@ -59,7 +59,7 @@ public class User extends BaseEntity implements Serializable {
 	private static UserDao dao;
 
 	public User() {
-		this.setFlag(BaseDao.FLAG_DEFAULT);
+		this.setFlag(BaseDao.DEFAULT);
 	}
 
 	public User(String l, String n, Date d, String r) {

@@ -1,5 +1,6 @@
 package com.nesti.stock_manager.form;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 
@@ -24,7 +25,7 @@ public class BaseFieldContainer extends JPanel{
 		this.setPreferredSize(new Dimension(0,30));
 		this.setMaximumSize(new Dimension(Short.MAX_VALUE,0));
 		this.label = new JLabel(labelText);
-		this.label.setPreferredSize(new Dimension(120,0));
+		this.label.setPreferredSize(new Dimension(120, Short.MAX_VALUE));
 		this.add(label);
 	}
 	

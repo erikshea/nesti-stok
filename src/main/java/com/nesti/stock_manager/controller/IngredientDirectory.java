@@ -23,8 +23,8 @@ public class IngredientDirectory extends BaseDirectory<Ingredient> {
 	}
 	
 	@Override
-	public void setUpButtonListeners()  {
-		super.setUpButtonListeners();
+	public void setUpButtonBarListeners()  {
+		super.setUpButtonBarListeners();
 		this.buttonModify.addActionListener( e->{
 			var ref = this.table.getValueAt(this.table.getSelectedRow(), 0);
 			var selectedIngredient = (new IngredientDao()).findOneBy("reference",ref);
@@ -47,7 +47,7 @@ public class IngredientDirectory extends BaseDirectory<Ingredient> {
 	public void deleteRow(int rowIndex) {
 		var dao = new IngredientDao();
 		var entity = dao.findOneBy("reference", this.table.getValueAt(rowIndex, 0));
-		entity.setFlag(BaseDao.FLAG_DELETED);
+		entity.setFlag(BaseDao.DELETED);
 	}
 	
 	@Override

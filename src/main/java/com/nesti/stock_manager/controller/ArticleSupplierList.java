@@ -14,6 +14,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.model.Article;
 import com.nesti.stock_manager.model.Offer;
@@ -63,7 +64,7 @@ public class ArticleSupplierList extends BasePriceList<Article> {
 			} catch (Exception ex) {}
 		});
 		
-		var suppliers = (new SupplierDao()).findAll();
+		var suppliers = (new SupplierDao()).findAll(BaseDao.ACTIVE);
 		var listModel = (DefaultListModel<Object>)newPriceList.getModel();
 		suppliers.forEach(s -> listModel.addElement(s.getName()));
 		newPriceList.setSelectedIndex(0);

@@ -68,7 +68,7 @@ public class Supplier  extends BaseEntity implements Serializable {
 	private static SupplierDao dao;
 	
 	public Supplier() {
-		this.setFlag(BaseDao.FLAG_DEFAULT);
+		this.setFlag(BaseDao.DEFAULT);
 	}
 
 	public HashMap<Article,Offer> getLatestOffers(){

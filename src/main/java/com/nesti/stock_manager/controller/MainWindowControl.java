@@ -23,13 +23,14 @@ import com.nesti.stock_manager.util.HibernateUtil;
 
 public class MainWindowControl extends JTabbedPane {
 	private static final long serialVersionUID = 4705253258936419615L;
-	protected ArticleDirectory articleList;
-	protected SupplierDirectory supplierList;
-	protected IngredientDirectory ingredientList;
-	protected UserDirectory userList;
+	protected ArticleDirectory articleDirectory;
+	protected SupplierDirectory supplierDirectory;
+	protected IngredientDirectory ingredientDirectory;
+	protected UserDirectory userDirectory;
 	protected ConnectionForm connexionForm;
 	protected ShoppingCart shoppingCart;
-	private ShoppingCartDirectory shoppingCartList;
+	private OrderDirectory orderDirectory;
+	private ShoppingCartDirectory shoppingCartDirectory;
 
 
 	
@@ -50,22 +51,25 @@ public class MainWindowControl extends JTabbedPane {
 
 		this.setMaximumSize(new Dimension(600, 900));
 
-		this.articleList = new ArticleDirectory(this);
-		this.addTab("Article", this.articleList);
+		this.articleDirectory = new ArticleDirectory(this);
+		this.addTab("Article", this.articleDirectory);
 
-		this.supplierList = new SupplierDirectory(this);
-		this.addTab("Fournisseur", this.supplierList);
+		this.supplierDirectory = new SupplierDirectory(this);
+		this.addTab("Fournisseur", this.supplierDirectory);
 
-		this.ingredientList = new IngredientDirectory(this);
-		this.addTab("Ingrédient", this.ingredientList);
+		this.ingredientDirectory = new IngredientDirectory(this);
+		this.addTab("Ingrédient", this.ingredientDirectory);
 		
-		this.shoppingCartList = new ShoppingCartDirectory(this);
-		this.addTab("Panier", this.shoppingCartList);
+		this.orderDirectory = new OrderDirectory(this);
+		this.addTab("Commandes", this.orderDirectory);
+		
+		this.shoppingCartDirectory = new ShoppingCartDirectory(this);
+		this.addTab("Panier", this.shoppingCartDirectory);
 		
 		var user = getConnectedUser();
 		if (user.isSuperAdmin()) {
-			this.userList = new UserDirectory(this);
-			this.addTab("Utilisateur", this.userList);
+			this.userDirectory = new UserDirectory(this);
+			this.addTab("Utilisateur", this.userDirectory);
 		}
 		
 		((Tab) this.getComponent(0)).refreshTab(); // Must refresh first tab
@@ -157,20 +161,24 @@ public class MainWindowControl extends JTabbedPane {
 		}
 	}
 
-	public ArticleDirectory getArticleList() {
-		return articleList;
+	public ArticleDirectory getArticleDirectory() {
+		return articleDirectory;
 	}
 
-	public SupplierDirectory getSupplierList() {
-		return supplierList;
+	public SupplierDirectory getSupplierDirectory() {
+		return supplierDirectory;
 	}
 
-	public IngredientDirectory getIngredientList() {
-		return ingredientList;
+	public IngredientDirectory getIngredientDirectory() {
+		return ingredientDirectory;
 	}
 
-	public UserDirectory getUserList() {
-		return userList;
+	public OrderDirectory getOrderDirectory() {
+		return orderDirectory;
+	}
+	
+	public UserDirectory getUserDirectory() {
+		return userDirectory;
 	}
 
 	public User getConnectedUser() {
@@ -186,7 +194,7 @@ public class MainWindowControl extends JTabbedPane {
 		return shoppingCart;
 	}
 
-	public ShoppingCartDirectory getShoppingCartList() {
-		return shoppingCartList;
+	public ShoppingCartDirectory getShoppingCartDirectory() {
+		return shoppingCartDirectory;
 	}
 }

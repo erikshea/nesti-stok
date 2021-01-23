@@ -45,7 +45,7 @@ public class Unit extends BaseEntity implements Serializable {
 	private static UnitDao dao;
 	
 	public Unit() {
-		this.setFlag(BaseDao.FLAG_DEFAULT);
+		this.setFlag(BaseDao.DEFAULT);
 	}
 	
 	public Unit(String n) {

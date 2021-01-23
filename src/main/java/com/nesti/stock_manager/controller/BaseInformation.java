@@ -38,7 +38,10 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 	public void refreshTab() {
 		this.removeAll();
 		this.setLayout(new BorderLayout());
-
+		addBottomButtonBar();
+	}
+	
+	public void addBottomButtonBar() {
 		var buttonBottomBar = new JPanel();
 		buttonBottomBar.setLayout(new BoxLayout(buttonBottomBar, BoxLayout.X_AXIS));
 		this.buttonCancel = new JButton("Annuler");
@@ -51,10 +54,9 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 		buttonBottomBar.add(buttonCancel);
 		buttonBottomBar.add(buttonValidate);
 		this.add(buttonBottomBar, BorderLayout.PAGE_END);
-		
 	}
 	
-
+	
 	public void addButtonListeners() {
 		this.buttonCancel.addActionListener( ev->{
 			closeTab();

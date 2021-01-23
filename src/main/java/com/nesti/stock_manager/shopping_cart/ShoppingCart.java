@@ -38,7 +38,7 @@ public class ShoppingCart {
 		if (existingOrderLine != null) {
 			var newQuantity = quantity + existingOrderLine.getQuantity();
 			existingOrderLine.setQuantity(newQuantity);
-			mainController.getShoppingCartList().refreshTable();
+			mainController.getShoppingCartDirectory().refreshTable();
 		} else {
 			var currentOrder = orders.get(supplier);
 			var orderLine = new OrdersArticle();
@@ -46,7 +46,7 @@ public class ShoppingCart {
 			orderLine.setQuantity(quantity);
 			currentOrder.addOrdersArticle(orderLine);
 
-			mainController.getShoppingCartList().addRow(orderLine);
+			mainController.getShoppingCartDirectory().addRow(orderLine);
 
 		}
 

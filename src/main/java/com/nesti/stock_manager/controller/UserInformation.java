@@ -69,7 +69,7 @@ public class UserInformation extends BaseInformation<User> {
 	@Override
 	public void closeTab() {
 		super.closeTab();
-		this.mainControl.setSelectedComponent(this.mainControl.getUserList());
+		this.mainControl.setSelectedComponent(this.mainControl.getUserDirectory());
 	}
 
 	

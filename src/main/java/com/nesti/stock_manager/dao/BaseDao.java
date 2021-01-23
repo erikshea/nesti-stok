@@ -17,10 +17,10 @@ import com.nesti.stock_manager.util.HibernateUtil;
 @SuppressWarnings("unchecked")
 public  class BaseDao<E> {
 
-	public final static String FLAG_ACTIVE = "a";
-	public final static String FLAG_WAITING = "w";
-	public final static String FLAG_DELETED = "b";
-	public final static String FLAG_DEFAULT = FLAG_ACTIVE;
+	public final static String ACTIVE = "a";
+	public final static String WAITING = "w";
+	public final static String DELETED = "b";
+	public final static String DEFAULT = ACTIVE;
 	
 	protected Session getSession() {
 		return HibernateUtil.getSession();

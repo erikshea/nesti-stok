@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.nesti.stock_manager.dao.ArticleDao;
+import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UserDao;
 
@@ -28,7 +30,7 @@ import com.nesti.stock_manager.dao.UserDao;
 @Entity
 @Table(name = "orders")
 @NamedQuery(name = "Order.findAll", query = "SELECT o FROM Order o")
-public class Order implements Serializable {
+public class Order extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -59,11 +61,14 @@ public class Order implements Serializable {
 	// bi-directional many-to-one association to OrdersArticle
 	@OneToMany(mappedBy = "order")
 	private List<OrdersArticle> ordersArticles;
-
+	
+	private static OrderDao dao;
+	
 	public Order() {
 	}
 
 	public Order(String n, Date o, Date d) {
+		this();
 		setNumber(n);
 		setDateOrder(o);
 		setDateDelivery(d);
@@ -174,5 +179,13 @@ public class Order implements Serializable {
 		}
 		;
 		return result;
+	}
+	
+	@Override
+	public OrderDao getDao() {
+		if (dao == null) {
+			dao = new OrderDao();
+		}
+		return dao;
 	}
 }

@@ -83,7 +83,7 @@ public class Article extends BaseEntity implements Serializable {
 	private static ArticleDao dao;
 	
 	public Article() {
-		this.setFlag(BaseDao.FLAG_DEFAULT);
+		this.setFlag(BaseDao.DEFAULT);
 	}
 
 	public Article(String code, String name, String ean, double weight, double quantity, int stock) {

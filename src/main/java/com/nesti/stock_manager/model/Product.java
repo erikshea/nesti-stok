@@ -43,7 +43,7 @@ public abstract class Product extends BaseEntity implements Serializable {
 	private List<Article> articles;
 	
 	public Product() {
-		this.setFlag(BaseDao.FLAG_DEFAULT);
+		this.setFlag(BaseDao.DEFAULT);
 	}
 	
 	public Product(String r, String n) {

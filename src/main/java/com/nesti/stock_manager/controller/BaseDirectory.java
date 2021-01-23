@@ -32,6 +32,20 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 	
 	public BaseDirectory(MainWindowControl c) {
 		this.mainController = c;
+		createTable();	
+		addButtonBar();
+		// Title of the article List
+		var titleLabel = new JLabel(this.getTitle());
+		this.add(titleLabel);
+
+
+		var tableContainer = new JScrollPane(this.table);
+		this.add(tableContainer);
+		
+		this.setAlignmentX(Component.CENTER_ALIGNMENT);
+	}
+
+	public void addButtonBar() {
 		this.buttonAdd = new JButton("Créer");
 		
 		this.buttonDelete = new JButton("Supprimer");
@@ -41,7 +55,6 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		this.buttonModify.setEnabled(false);
 		this.buttonDuplicate.setEnabled(false);
 		
-		this.setPreferredSize(new Dimension(1500, 0));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		// Define all the button of the head on the article list
@@ -56,19 +69,9 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		this.buttonBar.add(Box.createHorizontalGlue());
 
 		this.add(buttonBar);
-
-		// Title of the article List
-		var titleLabel = new JLabel(this.getTitle());
-		this.add(titleLabel);
-
-		createTable();	
-		var tableContainer = new JScrollPane(this.table);
-		this.add(tableContainer);
-		
-		this.setAlignmentX(Component.CENTER_ALIGNMENT);
-		this.setUpButtonListeners();
+		this.setUpButtonBarListeners();
 	}
-
+	
 	public String getTitle() {
 		return "";
 	}
@@ -77,17 +80,9 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		this.tableModel = new DefaultTableModel();
 		tableModel.setColumnIdentifiers(getTableModelColumns());
 		this.table = new JTable(tableModel);
-
-		this.table.getSelectionModel().addListSelectionListener(e->{
-			this.buttonAdd.setEnabled(this.table.getSelectedRowCount() <= 1) ; //TODO: re-enable
-			this.buttonDelete.setEnabled(this.table.getSelectedRowCount() > 0) ;
-			this.buttonModify.setEnabled(this.table.getSelectedRowCount() == 0 || this.table.getSelectedRowCount() == 1) ;
-			this.buttonDuplicate.setEnabled(this.table.getSelectedRowCount() <= 1) ;
-			
-		});
 	}
 
-	public void setUpButtonListeners() {
+	public void setUpButtonBarListeners() {
 		buttonDelete.addActionListener( e->{
 
 			var options = new String[] {"Annuler", "Confirmer"};
@@ -111,14 +106,13 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 			HibernateUtil.getSession().getTransaction().commit();
 			refreshTable();
 		});
-		/*
-		this.buttonModify.addActionListener( e->{
-			
-		});
 		
-		this.buttonDuplicate.addActionListener( e->{
-			
-		});*/
+		this.table.getSelectionModel().addListSelectionListener(e->{
+			this.buttonAdd.setEnabled(this.table.getSelectedRowCount() <= 1) ; //TODO: re-enable
+			this.buttonDelete.setEnabled(this.table.getSelectedRowCount() > 0) ;
+			this.buttonModify.setEnabled(this.table.getSelectedRowCount() == 0 || this.table.getSelectedRowCount() == 1) ;
+			this.buttonDuplicate.setEnabled(this.table.getSelectedRowCount() <= 1) ;
+		});
 	}
 	public abstract void deleteRow(int rowIndex) ;
 	public abstract void addRow(E entity) ;
@@ -146,7 +140,8 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		// Detail of the article List
 		
 		var dao = BaseDao.getDao(getEntityClass());
-		var entities = dao.findAll(BaseDao.FLAG_ACTIVE);
+		var entities = dao.findAll(BaseDao.ACTIVE);
+
 		entities.forEach(e-> {
 			this.addRow((E) e);
 		});

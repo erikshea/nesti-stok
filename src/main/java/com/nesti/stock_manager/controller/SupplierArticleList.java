@@ -38,7 +38,7 @@ public class SupplierArticleList extends BasePriceList<Supplier> {
 				}
 			} catch (Exception ex) {}
 		});
-		var articles = (new ArticleDao()).findAll(BaseDao.FLAG_ACTIVE);
+		var articles = (new ArticleDao()).findAll(BaseDao.ACTIVE);
 		var listModel = (DefaultListModel<Object>)newPriceList.getModel();
 		articles.forEach(a -> listModel.addElement(a.getName()));
 		newPriceList.setSelectedIndex(0);

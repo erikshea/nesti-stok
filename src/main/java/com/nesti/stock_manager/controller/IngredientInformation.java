@@ -80,6 +80,6 @@ public class IngredientInformation extends BaseInformation<Ingredient> {
 	@Override
 	public void closeTab() {
 		super.closeTab();
-		this.mainControl.setSelectedComponent(this.mainControl.getIngredientList());
+		this.mainControl.setSelectedComponent(this.mainControl.getIngredientDirectory());
 	}
 }

@@ -37,7 +37,7 @@ public class Packaging implements Serializable {
 	private List<Article> articles;
 
 	public Packaging() {
-		this.setFlag(BaseDao.FLAG_DEFAULT);
+		this.setFlag(BaseDao.DEFAULT);
 	}
 	
 	public Packaging(String n) {

@@ -130,7 +130,7 @@ public class ArticleInformation extends BaseInformation<Article> {
 	@Override
 	public void closeTab() {
 		super.closeTab();
-		this.mainControl.setSelectedComponent(this.mainControl.getArticleList());
+		this.mainControl.setSelectedComponent(this.mainControl.getArticleDirectory());
 	}
 
 

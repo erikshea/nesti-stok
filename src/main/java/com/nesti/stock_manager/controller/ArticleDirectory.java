@@ -73,8 +73,8 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 	}
 
 	@Override
-	public void setUpButtonListeners() {
-		super.setUpButtonListeners();
+	public void setUpButtonBarListeners() {
+		super.setUpButtonBarListeners();
 		this.buttonModify.addActionListener(e -> {
 			var code = this.table.getValueAt(this.table.getSelectedRow(), 1);
 
@@ -144,7 +144,7 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 	public void deleteRow(int rowIndex) {
 		var articleDao = new ArticleDao();
 		var article = articleDao.findOneBy("code", this.table.getValueAt(rowIndex, 1));
-		article.setFlag(BaseDao.FLAG_DELETED);
+		article.setFlag(BaseDao.DELETED);
 	}
 
 	@Override

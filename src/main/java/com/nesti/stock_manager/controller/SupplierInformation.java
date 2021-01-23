@@ -59,7 +59,8 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 		var zipCodeFieldContainer = new FieldContainer("Code postal", this);
 		zipCodeFieldContainer.bind(
 				supplier.getZipCode(),
-				(s)-> supplier.setZipCode(s));
+				(s)-> supplier.setZipCode(s),
+				(fieldValue)->fieldValue.length()<=5);
 		supplierForm.add(zipCodeFieldContainer);
 		
 		var cityFieldContainer = new FieldContainer("Ville", this);
@@ -94,7 +95,7 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 	@Override
 	public void closeTab() {
 		super.closeTab();
-		this.mainControl.setSelectedComponent(this.mainControl.getSupplierList());
+		this.mainControl.setSelectedComponent(this.mainControl.getSupplierDirectory());
 	}
 
 	

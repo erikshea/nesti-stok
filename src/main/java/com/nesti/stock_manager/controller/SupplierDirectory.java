@@ -24,8 +24,8 @@ public class SupplierDirectory extends BaseDirectory<Supplier> {
 	}
 
 	@Override
-	public void setUpButtonListeners()  {
-		super.setUpButtonListeners();
+	public void setUpButtonBarListeners()  {
+		super.setUpButtonBarListeners();
 		this.buttonModify.addActionListener( e->{
 			var name = this.table.getValueAt(this.table.getSelectedRow(),0);
 			var a = (new SupplierDao()).findOneBy("name",name);
@@ -49,7 +49,7 @@ public class SupplierDirectory extends BaseDirectory<Supplier> {
 	public void deleteRow(int rowIndex) {
 		var dao = new SupplierDao();
 		var entity = dao.findOneBy("name", this.table.getValueAt(rowIndex, 0));
-		entity.setFlag(BaseDao.FLAG_DELETED);
+		entity.setFlag(BaseDao.DELETED);
 	}
 	
 	@Override

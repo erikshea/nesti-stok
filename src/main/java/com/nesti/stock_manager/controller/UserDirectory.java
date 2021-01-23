@@ -24,8 +24,8 @@ public class UserDirectory extends BaseDirectory<User> {
 	}
 	
 	@Override
-	public void setUpButtonListeners()  {
-		super.setUpButtonListeners();
+	public void setUpButtonBarListeners()  {
+		super.setUpButtonBarListeners();
 		this.buttonModify.addActionListener( e->{
 			var login = this.table.getValueAt(this.table.getSelectedRow(), 0);
 
@@ -73,7 +73,7 @@ public class UserDirectory extends BaseDirectory<User> {
 	public void deleteRow(int rowIndex) {
 		var dao = new UserDao();
 		var entity = dao.findOneBy("login", this.table.getValueAt(rowIndex, 0));
-		entity.setFlag(BaseDao.FLAG_DELETED);
+		entity.setFlag(BaseDao.DELETED);
 	}
 	
 	@Override
