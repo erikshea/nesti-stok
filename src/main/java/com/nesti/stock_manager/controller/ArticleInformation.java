@@ -17,7 +17,6 @@ import com.nesti.stock_manager.dao.UnitDao;
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.form.ListFieldContainer;
 import com.nesti.stock_manager.model.Article;
-import com.nesti.stock_manager.util.HibernateUtil;
 public class ArticleInformation extends BaseInformation<Article> {
 	private static final long serialVersionUID = 1775908299271902575L;
 

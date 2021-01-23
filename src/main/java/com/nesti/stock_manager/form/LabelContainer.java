@@ -7,7 +7,6 @@ import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.border.LineBorder;
 
 
 @SuppressWarnings("serial")

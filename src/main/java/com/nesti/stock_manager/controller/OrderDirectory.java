@@ -1,14 +1,12 @@
 package com.nesti.stock_manager.controller;
 
-import java.awt.Dimension;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import com.nesti.stock_manager.dao.*;
-import com.nesti.stock_manager.model.*;
+import com.nesti.stock_manager.dao.OrderDao;
+import com.nesti.stock_manager.model.Order;
 
 @SuppressWarnings("serial")
 public class OrderDirectory extends BaseDirectory<Order> {

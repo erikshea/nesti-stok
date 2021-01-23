@@ -18,7 +18,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UserDao;
@@ -163,11 +162,21 @@ public class Order extends BaseEntity implements Serializable {
 	}
 
 	public Double getSubTotal() {
-		return 0.0;
+		var result = 0.0;
+
+		for (var oa : this.getOrdersArticles()) {
+			result += oa.getQuantity() * oa.getOffer().getPrice();
+		}
+		return result;
 	}
 
 	public Double getSheepingFees() {
-		return 0.0;
+		var result = 0.0;
+		
+		for (var oa : this.getOrdersArticles()) {
+			result += oa.getOffer().getArticle().getWeight()*oa.getQuantity()*0.006;
+		}
+		return Math.round(result*100.0)/100.0;
 	}
 
 	public OrdersArticle getOrdersArticleFor(Article article) {

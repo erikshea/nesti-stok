@@ -1,8 +1,6 @@
 package com.nesti.stock_manager.test;
 
 import com.nesti.stock_manager.dao.ArticleDao;
-import com.nesti.stock_manager.dao.SupplierDao;
-import com.nesti.stock_manager.model.Offer;
 
 public class TestFeatures {
 	public static void main(String[] args) {

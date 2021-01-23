@@ -2,25 +2,17 @@ package com.nesti.stock_manager.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 
-import com.nesti.stock_manager.form.ButtonColumn;
-import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.form.LabelContainer;
 import com.nesti.stock_manager.model.Order;
-import com.nesti.stock_manager.model.Supplier;
 
 public class OrderInformation extends BaseInformation<Order> {
 	private static final long serialVersionUID = 1775908299271902575L;

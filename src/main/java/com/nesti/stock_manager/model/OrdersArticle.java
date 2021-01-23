@@ -117,4 +117,11 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 		}
 		return dao;
 	}
+	
+	public Offer getOffer() {
+		var article = this.getArticle();
+		var supplier = this.getOrder().getSupplier();
+		var offer = article.getCurrentOffers().get(supplier);
+		return offer;
+	}
 }

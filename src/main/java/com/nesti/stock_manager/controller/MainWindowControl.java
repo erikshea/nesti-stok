@@ -32,8 +32,6 @@ public class MainWindowControl extends JTabbedPane {
 	private OrderDirectory orderDirectory;
 	private ShoppingCartDirectory shoppingCartDirectory;
 
-
-	
 	public MainWindowControl() {
 		shoppingCart= new ShoppingCart(this); 
 		

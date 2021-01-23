@@ -1,5 +1,6 @@
 package com.nesti.stock_manager.shopping_cart;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.nesti.stock_manager.controller.MainWindowControl;
@@ -50,5 +51,31 @@ public class ShoppingCart {
 
 		}
 
+	}
+
+
+	public Double getTotal() {
+		var result = 0.0;
+		for(var o : orders.values()){
+			result += o.getSubTotal();
+		}
+		return result;
+	}
+
+	
+	public Double getSheepingFees() {
+		var result = 0.0;
+		for(var o :orders.values()){
+			result += o.getSheepingFees();
+		}
+		return result; 
+	}
+
+	public ArrayList<OrdersArticle>  getAllOrdersArticle() {
+		var orderlines = new ArrayList<OrdersArticle>();
+		orders.values().forEach(o -> {
+			orderlines.addAll(o.getOrdersArticles());
+		});
+		return orderlines;
 	}
 }
