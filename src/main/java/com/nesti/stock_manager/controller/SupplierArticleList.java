@@ -3,6 +3,7 @@ package com.nesti.stock_manager.controller;
 import javax.swing.DefaultListModel;
 
 import com.nesti.stock_manager.dao.ArticleDao;
+import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.model.Offer;
 import com.nesti.stock_manager.model.Supplier;
 
@@ -37,9 +38,10 @@ public class SupplierArticleList extends BasePriceList<Supplier> {
 				}
 			} catch (Exception ex) {}
 		});
-		var articles = (new ArticleDao()).findAll();
+		var articles = (new ArticleDao()).findAll(BaseDao.FLAG_ACTIVE);
 		var listModel = (DefaultListModel<Object>)newPriceList.getModel();
 		articles.forEach(a -> listModel.addElement(a.getName()));
+		newPriceList.setSelectedIndex(0);
 	}
 	
 	@Override

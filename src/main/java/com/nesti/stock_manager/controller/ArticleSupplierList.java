@@ -66,6 +66,7 @@ public class ArticleSupplierList extends BasePriceList<Article> {
 		var suppliers = (new SupplierDao()).findAll();
 		var listModel = (DefaultListModel<Object>)newPriceList.getModel();
 		suppliers.forEach(s -> listModel.addElement(s.getName()));
+		newPriceList.setSelectedIndex(0);
 	}
 	
 	@Override
