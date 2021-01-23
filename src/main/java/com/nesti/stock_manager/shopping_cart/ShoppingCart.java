@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.nesti.stock_manager.controller.MainWindowControl;
+import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.model.Article;
 import com.nesti.stock_manager.model.Offer;
 import com.nesti.stock_manager.model.Order;
@@ -52,6 +53,16 @@ public class ShoppingCart {
 
 	}
 
+	
+	public void saveOrder(Offer offer) {
+
+	
+		var order = new Order();
+	System.out.println(order);
+	//	order.getDao().saveOrUpdate(order);
+	
+		
+	}
 
 	public Double getTotal() {
 		var result = 0.0;
