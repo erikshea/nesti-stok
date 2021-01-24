@@ -1,5 +1,7 @@
 package com.nesti.stock_manager.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.query.Query;
@@ -28,6 +30,10 @@ import com.nesti.stock_manager.model.Utensil;
 public class PopulateDb {
 
 	public static void main(String[] args) {
+		populate();
+	}
+	
+	public static void populate() {
 		Query<?> query;
 		
 		query =
@@ -201,149 +207,149 @@ public class PopulateDb {
 		var offer = new Offer(2.55);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUF6");
-		offer.setStartDate("5-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("5-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(3.55);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUF6");
-		offer.setStartDate("13-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(4.55);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUF6");
-		offer.setStartDate("15-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(3.04);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUF6");
-		offer.setStartDate("18-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("18-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(3.45);
 		offer.setSupplierFromName("L'empire des fruits");
 		offer.setArticleFromCode("OEUF6");
-		offer.setStartDate("5-01-2021 11:15:55");
+		offer.setStartDate(stringToDate("5-01-2021 11:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(4.15);
 		offer.setSupplierFromName("L'empire des fruits");
 		offer.setArticleFromCode("OEUF6");
-		offer.setStartDate("13-01-2021 11:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 11:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(3.55);
 		offer.setSupplierFromName("L'empire des fruits");
 		offer.setArticleFromCode("OEUF6");
-		offer.setStartDate("15-01-2021 11:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 11:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(5.04);
 		offer.setSupplierFromName("L'empire des fruits");
 		offer.setArticleFromCode("OEUF6");
-		offer.setStartDate("18-01-2021 11:15:55");
+		offer.setStartDate(stringToDate("18-01-2021 11:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(3.45);
 		offer.setSupplierFromName("L'empire des fruits");
 		offer.setArticleFromCode("CHOC94");
-		offer.setStartDate("5-01-2021 10:15:55");
+		offer.setStartDate(stringToDate("5-01-2021 10:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(4.15);
 		offer.setSupplierFromName("L'empire des fruits");
 		offer.setArticleFromCode("CHOC94");
-		offer.setStartDate("13-01-2021 10:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 10:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(3.55);
 		offer.setSupplierFromName("L'empire des fruits");
 		offer.setArticleFromCode("CHOC94");
-		offer.setStartDate("15-01-2021 10:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 10:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(5.04);
 		offer.setSupplierFromName("L'empire des fruits");
 		offer.setArticleFromCode("CHOC94");
-		offer.setStartDate("18-01-2021 10:15:55");
+		offer.setStartDate(stringToDate("18-01-2021 10:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		
 		offer = new Offer(4.99);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUF12");
-		offer.setStartDate("12-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(5.99);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUF12");
-		offer.setStartDate("13-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(3.99);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUF12");
-		offer.setStartDate("14-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(2.8);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUF12");
-		offer.setStartDate("15-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(4.28);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("OEUF12");
-		offer.setStartDate("12-01-2021 10:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 10:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(3.28);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("OEUF12");
-		offer.setStartDate("13-01-2021 10:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 10:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		
 		offer = new Offer(5.28);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("OEUF12");
-		offer.setStartDate("14-01-2021 10:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 10:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(8.28);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("OEUF12");
-		offer.setStartDate("15-01-2021 10:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 10:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		
 		offer = new Offer(6.28);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("LAI85");
-		offer.setStartDate("12-01-2021 10:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 10:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(5.28);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("LAI85");
-		offer.setStartDate("13-01-2021 10:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 10:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		
 		offer = new Offer(4.28);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("LAI85");
-		offer.setStartDate("14-01-2021 10:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 10:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(3.28);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("LAI85");
-		offer.setStartDate("15-01-2021 10:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 10:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		
@@ -351,98 +357,98 @@ public class PopulateDb {
 		offer = new Offer(3.25);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("LAI85");
-		offer.setStartDate("12-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(4.72);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("LAI85");
-		offer.setStartDate("13-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(3.25);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("LAI85");
-		offer.setStartDate("14-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(8.72);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("LAI85");
-		offer.setStartDate("15-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(4.25);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("CHOC94");
-		offer.setStartDate("12-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(4.52);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("CHOC94");
-		offer.setStartDate("13-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(5.25);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("CHOC94");
-		offer.setStartDate("14-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(3.71);
 		offer.setSupplierFromName("O'Sel Fin");
 		offer.setArticleFromCode("CHOC94");
-		offer.setStartDate("15-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		
 		offer = new Offer(20.);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("LOUCH45");
-		offer.setStartDate("12-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(18.90);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("LOUCH45");
-		offer.setStartDate("13-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(15.);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("LOUCH45");
-		offer.setStartDate("14-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(30.90);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("LOUCH45");
-		offer.setStartDate("15-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(20.);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("CASS125");
-		offer.setStartDate("12-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(18.90);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("CASS125");
-		offer.setStartDate("13-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(15.);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("CASS125");
-		offer.setStartDate("14-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(30.90);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("CASS125");
-		offer.setStartDate("15-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		
@@ -450,241 +456,241 @@ public class PopulateDb {
 		offer = new Offer(17.);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("CASS125");
-		offer.setStartDate("12-01-2021 5:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 5:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(15.90);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("CASS125");
-		offer.setStartDate("13-01-2021 5:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 5:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(14.);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("CASS125");
-		offer.setStartDate("14-01-2021 5:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 5:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(17.90);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("CASS125");
-		offer.setStartDate("15-01-2021 5:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 5:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(14.);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("LOUCH45");
-		offer.setStartDate("12-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(16.60);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("LOUCH45");
-		offer.setStartDate("13-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(14.1);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("LOUCH45");
-		offer.setStartDate("14-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(13.90);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("LOUCH45");
-		offer.setStartDate("15-01-2021 1:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 1:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(3.45);
 		offer.setSupplierFromName("L'empire des fruits");
 		offer.setArticleFromCode("ORA150");
-		offer.setStartDate("5-01-2021 16:15:55");
+		offer.setStartDate(stringToDate("5-01-2021 16:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(4.15);
 		offer.setSupplierFromName("L'empire des fruits");
 		offer.setArticleFromCode("ORA150");
-		offer.setStartDate("13-01-2021 16:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 16:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(3.55);
 		offer.setSupplierFromName("L'empire des fruits");
 		offer.setArticleFromCode("ORA150");
-		offer.setStartDate("15-01-2021 16:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 16:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(5.04);
 		offer.setSupplierFromName("L'empire des fruits");
 		offer.setArticleFromCode("ORA150");
-		offer.setStartDate("18-01-2021 16:15:55");
+		offer.setStartDate(stringToDate("18-01-2021 16:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(7.99);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUFC10");
-		offer.setStartDate("12-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(6.99);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUFC10");
-		offer.setStartDate("13-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(9.90);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUFC10");
-		offer.setStartDate("14-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(7.87);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUFC10");
-		offer.setStartDate("15-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(13.99);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUFC20");
-		offer.setStartDate("12-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(14.99);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUFC20");
-		offer.setStartDate("13-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(12.90);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUFC20");
-		offer.setStartDate("14-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(18.87);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("OEUFC20");
-		offer.setStartDate("15-01-2021 19:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 19:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(12.);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("OEUFC20");
-		offer.setStartDate("12-01-2021 13:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 13:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(14.60);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("OEUFC20");
-		offer.setStartDate("13-01-2021 13:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 13:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(10.18);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("OEUFC20");
-		offer.setStartDate("14-01-2021 13:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 13:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(16.90);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("OEUFC20");
-		offer.setStartDate("15-01-2021 13:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 13:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(9.);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("LOUCH50B");
-		offer.setStartDate("12-01-2021 13:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 13:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(9.20);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("LOUCH50B");
-		offer.setStartDate("13-01-2021 13:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 13:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(10.99);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("LOUCH50B");
-		offer.setStartDate("14-01-2021 13:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 13:15:55"));
 		offerDao.saveOrUpdate(offer);
 
 		offer = new Offer(11.11);
 		offer.setSupplierFromName("Pacher Distribution");
 		offer.setArticleFromCode("LOUCH50B");
-		offer.setStartDate("15-01-2021 13:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 13:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(12.99);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("LOUCH50B");
-		offer.setStartDate("12-01-2021 11:15:55");
+		offer.setStartDate(stringToDate("12-01-2021 11:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(10.90);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("LOUCH50B");
-		offer.setStartDate("13-01-2021 11:15:55");
+		offer.setStartDate(stringToDate("13-01-2021 11:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(12.10);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("LOUCH50B");
-		offer.setStartDate("14-01-2021 11:15:55");
+		offer.setStartDate(stringToDate("14-01-2021 11:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		offer = new Offer(9.87);
 		offer.setSupplierFromName("Oeufs en folie");
 		offer.setArticleFromCode("LOUCH50B");
-		offer.setStartDate("15-01-2021 11:15:55");
+		offer.setStartDate(stringToDate("15-01-2021 11:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
 		var userDao = new UserDao();
-		var user = new User("james", "James Bond", "15-01-2018 1:15:55", "super-administrator");
+		var user = new User("james", "James Bond", stringToDate("15-01-2018 1:15:55"), "super-administrator");
 		user.setPasswordHashFromPlainText("1234");
 		userDao.saveOrUpdate(user);
 
-		user = new User("erik", "Erik Shea", "15-01-2017 1:15:55", "administrator");
+		user = new User("erik", "Erik Shea", stringToDate("15-01-2017 1:15:55"), "administrator");
 		user.setPasswordHashFromPlainText("1234");
 		userDao.saveOrUpdate(user);
 
 		var orderDao = new OrderDao();
-		var order = new Order("257", "13-01-2021 1:15:55", "17-01-2021 1:15:55");
+		var order = new Order("257", stringToDate("13-01-2021 1:15:55"), stringToDate("17-01-2021 1:15:55"));
 		order.setSupplierFromName("Oeufs en folie");
 		order.setUserFromLogin("james");
 		orderDao.saveOrUpdate(order);
 		
-		order = new Order("612", "14-01-2021 1:15:55", "21-01-2021 1:15:55");
+		order = new Order("612", stringToDate("14-01-2021 1:15:55"), stringToDate("21-01-2021 1:15:55"));
 		order.setSupplierFromName("Oeufs en folie");
 		order.setUserFromLogin("erik");
 		orderDao.saveOrUpdate(order);
 
-		order = new Order("546", "15-01-2021 1:15:55", "24-01-2021 1:15:55");
+		order = new Order("546", stringToDate("15-01-2021 1:15:55"), stringToDate("24-01-2021 1:15:55"));
 		order.setSupplierFromName("O'Sel Fin");
 		order.setUserFromLogin("erik");
 		orderDao.saveOrUpdate(order);
 
-		order = new Order("658", "12-01-2021 23:15:55", "16-01-2021 1:15:55");
+		order = new Order("658", stringToDate("12-01-2021 23:15:55"), stringToDate("16-01-2021 1:15:55"));
 		order.setSupplierFromName("O'Sel Fin");
 		order.setUserFromLogin("erik");
 		orderDao.saveOrUpdate(order);
 
-		order = new Order("555", "13-01-2021 23:15:55", "30-02-2021 1:15:55");
+		order = new Order("555", stringToDate("13-01-2021 23:15:55"), stringToDate("30-02-2021 1:15:55"));
 		order.setSupplierFromName("Perfect cooking");
 		order.setUserFromLogin("erik");
 		orderDao.saveOrUpdate(order);
 
-		order = new Order("567", "12-01-2021 23:15:55", "30-02-2021 1:15:55");
+		order = new Order("567", stringToDate("12-01-2021 23:15:55"), stringToDate("30-02-2021 1:15:55"));
 		order.setSupplierFromName("Pacher Distribution");
 		order.setUserFromLogin("james");
 		orderDao.saveOrUpdate(order);
 		
-		order = new Order("7467", "24-01-2021 23:15:55", "30-02-2021 1:15:55");
+		order = new Order("7467", stringToDate("24-01-2021 23:15:55"), stringToDate("30-02-2021 1:15:55"));
 		order.setSupplierFromName("Pacher Distribution");
 		order.setUserFromLogin("james");
 		orderDao.saveOrUpdate(order);
 		
-		order = new Order("10467", "13-01-2021 23:15:55", "30-02-2021 1:15:55");
+		order = new Order("10467", stringToDate("13-01-2021 23:15:55"), stringToDate("30-02-2021 1:15:55"));
 		order.setSupplierFromName("L'empire des fruits");
 		order.setUserFromLogin("james");
 		orderDao.saveOrUpdate(order);
@@ -788,6 +794,16 @@ public class PopulateDb {
 		
 		
 		HibernateUtil.getSession().getTransaction().commit();
-
+	}
+	
+	
+	public static Date stringToDate(String dateString) {
+		var formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+		Date result = null;
+		try{
+			result = formatter.parse(dateString);
+		}catch (Exception e) {}
+		
+		return result;
 	}
 }

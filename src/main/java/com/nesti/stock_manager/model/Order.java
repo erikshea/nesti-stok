@@ -69,7 +69,7 @@ public class Order extends BaseEntity implements Serializable {
 		this.setDateOrder(new Date());
 	}
 
-	public Order(String n, String dateO, String dateD) {
+	public Order(String n, Date dateO, Date dateD) {
 		this();
 		setNumber(n);
 		setDateOrder(dateO);
@@ -192,21 +192,7 @@ public class Order extends BaseEntity implements Serializable {
 		;
 		return result;
 	}
-	
-	
-	public void setDateOrder(String dateString) { 
-		var formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-		try{
-			setDateOrder(formatter.parse(dateString));
-		}catch (Exception e) {}
-	}
-	
-	public void setDateDelivery(String dateString) {
-		var formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-		try{
-			setDateDelivery(formatter.parse(dateString));
-		}catch (Exception e) {}
-	}
+
 	
 	@Override
 	public OrderDao getDao() {

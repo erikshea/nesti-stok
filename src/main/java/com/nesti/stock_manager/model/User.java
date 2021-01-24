@@ -64,7 +64,7 @@ public class User extends BaseEntity implements Serializable,Flagged {
 		this.setFlag(BaseDao.DEFAULT);
 	}
 
-	public User(String l, String n, String d, String r) {
+	public User(String l, String n, Date d, String r) {
 		this();
 		setLogin(l);
 		setName(n);
@@ -186,10 +186,5 @@ public class User extends BaseEntity implements Serializable,Flagged {
 		this.flag = flag;
 	}
 	
-	public void setDateCreation(String dateString) {
-		var formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-		try{
-			setDateCreation(formatter.parse(dateString));
-		}catch (Exception e) {}
-	}
+
 }
