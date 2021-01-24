@@ -187,7 +187,7 @@ public class PopulateDb {
 		offer.setStartDate(tomorrow);
 		offerDao.saveOrUpdate(offer);
 
-		offer = new Offer();
+		offer = new Offer(5.55);
 		offer.setSupplierFromName("Perfect cooking");
 		offer.setArticleFromCode("CASS125");
 		offer.setStartDate(now);
@@ -266,7 +266,7 @@ public class PopulateDb {
 		ordersArticle.setArticleFromCode("LAI85");
 		ordersArticleDao.saveOrUpdate(ordersArticle);
 
-		ordersArticle = new OrdersArticle(0);
+		ordersArticle = new OrdersArticle(12);
 		ordersArticle.setOrderFromNumber("555");
 		ordersArticle.setArticleFromCode("CASS125");
 		ordersArticleDao.saveOrUpdate(ordersArticle);

@@ -58,7 +58,6 @@ public class OrderInformation extends BaseInformation<Order> {
 
 		orderDetails.add(Box.createVerticalGlue());
 		
-		
 		addOrderItemTable();
 		
 		this.add(orderDetails, BorderLayout.WEST);
@@ -77,13 +76,13 @@ public class OrderInformation extends BaseInformation<Order> {
 			new Object[] { "Code d'Article", "Nom d'Article", "Prix d'achat", "Quantité" }
 		);
 
-		var date = item.getDateOrder();
+
 		
 		item.getOrdersArticles().forEach(oa->{
 			tableModel.addRow(new Object[] {
 				oa.getArticle().getCode(),
-				oa.getArticle().getName(),0,
-		//		oa.getOfferAt(date),
+				oa.getArticle().getName(),
+				oa.getOffer().getPrice(),
 				oa.getQuantity()
 			 });
 		});

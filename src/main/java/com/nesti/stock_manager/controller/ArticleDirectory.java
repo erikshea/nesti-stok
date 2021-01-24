@@ -41,7 +41,7 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 		addToCartButton = new JButton("Ajouter au panier");
 		addToCartButton.setEnabled(false);
 		addToCart.add(addToCartButton);
-		this.buttonBar.add(addToCart, 4);
+		this.buttonBar.add(addToCart, 8);
 		
 		addToCartButton.addActionListener(e -> {
 			if (!isNumeric(addToCartQuantity.getText()) || Double.parseDouble(addToCartQuantity.getText()) < 0) {

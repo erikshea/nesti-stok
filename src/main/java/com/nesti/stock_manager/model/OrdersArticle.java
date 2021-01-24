@@ -121,7 +121,7 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 	public Offer getOffer() {
 		var article = this.getArticle();
 		var supplier = this.getOrder().getSupplier();
-		var offer = article.getCurrentOffers().get(supplier);
+		var offer = article.getOfferAt(getOrder().getDateOrder(), supplier);
 		return offer;
 	}
 }
