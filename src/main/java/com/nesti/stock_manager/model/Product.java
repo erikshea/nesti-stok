@@ -39,7 +39,7 @@ public abstract class Product extends BaseEntity implements Serializable, Flagge
 	private String flag;
 
 	//bi-directional many-to-one association to Article
-	@OneToMany(mappedBy="product", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="product")
 	private List<Article> articles;
 	
 	public Product() {

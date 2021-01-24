@@ -21,6 +21,7 @@ import com.nesti.stock_manager.model.Article;
 import com.nesti.stock_manager.model.Ingredient;
 import com.nesti.stock_manager.model.Packaging;
 import com.nesti.stock_manager.model.Unit;
+import com.nesti.stock_manager.util.HibernateUtil;
 public class ArticleInformation extends BaseInformation<Article> {
 	private static final long serialVersionUID = 1775908299271902575L;
 
@@ -35,6 +36,7 @@ public class ArticleInformation extends BaseInformation<Article> {
 		super.refreshTab();
 
 		final var article = item;
+		
 		var dao = item.getDao();
 		var ingredientDao = new IngredientDao();
 		
@@ -104,9 +106,6 @@ public class ArticleInformation extends BaseInformation<Article> {
 
 		var unitDao = new UnitDao();
 		var unitListContainer = new EditableListFieldContainer("Unité:", "name", Unit.class);
-		unitDao.findAll().forEach(u -> {
-			unitListContainer.getListModel().addElement(u.getName());				
-		});
 		unitListContainer.bindSelection(
 			article.getUnit().getName(),
 			(s)->article.setUnit(unitDao.findOneBy("name",s)));
@@ -123,6 +122,7 @@ public class ArticleInformation extends BaseInformation<Article> {
 		articleForm.add(Box.createVerticalGlue());
 		
 		this.add(articleForm, BorderLayout.WEST);
+		HibernateUtil.getSession().evict(item);
 	}
 	
 	

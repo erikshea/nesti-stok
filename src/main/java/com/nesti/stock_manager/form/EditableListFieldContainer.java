@@ -34,7 +34,7 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		//If a string was returned, say so.
 		if ((newItemString != null) && (newItemString.length() > 0)) {
 			var dao = BaseDao.getDao(entityClass);
-			var existingItem = (Flagged) dao.finddOneBy(fieldName, newItemString);
+			var existingItem = (Flagged) dao.findOneBy(fieldName, newItemString);
 			
 			if ( existingItem == null ) {
 				try {
@@ -62,7 +62,7 @@ public class EditableListFieldContainer extends ListFieldContainer {
 	public void deleteFromList() {
 		var selected = this.list.getSelectedValue();
 		var dao = BaseDao.getDao(entityClass);
-		var existingItem = (Flagged) dao.finddOneBy(fieldName, selected);
+		var existingItem = (Flagged) dao.findOneBy(fieldName, selected);
 		if ( existingItem != null ) {
 			existingItem.setFlag(BaseDao.DELETED);
 			HibernateUtil.getSession().saveOrUpdate(existingItem);

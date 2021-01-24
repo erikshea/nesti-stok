@@ -15,6 +15,7 @@ import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.model.Ingredient;
 import com.nesti.stock_manager.model.Product;
 import com.nesti.stock_manager.model.Unit;
+import com.nesti.stock_manager.util.HibernateUtil;
 
 public class IngredientInformation extends BaseInformation<Ingredient> {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -63,6 +64,8 @@ public class IngredientInformation extends BaseInformation<Ingredient> {
 		ingredientForm.add(Box.createVerticalGlue());
 		
 		this.add(ingredientForm, BorderLayout.WEST);
+		
+		HibernateUtil.getSession().evict(item);
 	}
 	
 	@Override

@@ -13,6 +13,7 @@ import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.form.ListFieldContainer;
 import com.nesti.stock_manager.form.PasswordFieldContainer;
 import com.nesti.stock_manager.model.User;
+import com.nesti.stock_manager.util.HibernateUtil;
 
 public class UserInformation extends BaseInformation<User> {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -64,6 +65,7 @@ public class UserInformation extends BaseInformation<User> {
 		userForm.add(Box.createVerticalGlue());
 		
 		this.add(userForm, BorderLayout.WEST);
+		HibernateUtil.getSession().evict(item);
 	}
 
 	@Override
