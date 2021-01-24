@@ -1,6 +1,7 @@
 package com.nesti.stock_manager.controller;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.lang.reflect.ParameterizedType;
 
 import javax.swing.Box;
@@ -61,9 +62,13 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		this.buttonBar.setLayout(new BoxLayout(buttonBar, BoxLayout.X_AXIS));
 
 		this.buttonBar.add(buttonAdd);
+		this.buttonBar.add((Box.createRigidArea(new Dimension(20,0))));
 		this.buttonBar.add(buttonDelete);
+		this.buttonBar.add((Box.createRigidArea(new Dimension(20,0))));
 		this.buttonBar.add(buttonModify);
+		this.buttonBar.add((Box.createRigidArea(new Dimension(20,0))));
 		this.buttonBar.add(buttonDuplicate);
+	
 
 		this.buttonBar.add(Box.createHorizontalGlue());
 
