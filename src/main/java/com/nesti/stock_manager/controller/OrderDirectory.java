@@ -32,7 +32,7 @@ public class OrderDirectory extends BaseDirectory<Order> {
 			var number = this.table.getValueAt(this.table.getSelectedRow(),0);
 			var o = (new OrderDao()).findOneBy("number",number);
 
-			this.mainController.addCloseableTab(
+			this.mainController.getMainPane().addCloseableTab(
 					"Commande N° " + o.getNumber(),
 					new OrderInformation(this.mainController,o)
 			);

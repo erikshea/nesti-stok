@@ -95,7 +95,7 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 	@Override
 	public void closeTab() {
 		super.closeTab();
-		this.mainControl.setSelectedComponent(this.mainControl.getSupplierDirectory());
+		this.mainControl.getMainPane().setSelectedComponent(this.mainControl.getSupplierDirectory());
 	}
 
 	

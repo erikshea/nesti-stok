@@ -30,7 +30,7 @@ public class SupplierDirectory extends BaseDirectory<Supplier> {
 			var name = this.table.getValueAt(this.table.getSelectedRow(),0);
 			var a = (new SupplierDao()).findOneBy("name",name);
 
-			this.mainController.addCloseableTab(
+			this.mainController.getMainPane().addCloseableTab(
 					"Fournisseur: " + a.getName(),
 					new SupplierInformation(this.mainController,a)
 			);
@@ -38,7 +38,7 @@ public class SupplierDirectory extends BaseDirectory<Supplier> {
 		});
 		
 		this.buttonAdd.addActionListener( e->{
-			this.mainController.addCloseableTab(
+			this.mainController.getMainPane().addCloseableTab(
 					"Nouveau Fournisseur",
 					new SupplierInformation(this.mainController,new Supplier())
 			);

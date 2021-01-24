@@ -31,7 +31,7 @@ public class UserDirectory extends BaseDirectory<User> {
 
 			var a = (new UserDao()).findOneBy("login",login);
 
-			this.mainController.addCloseableTab(
+			this.mainController.getMainPane().addCloseableTab(
 					"Utilisateur: " + a.getName(),
 					new UserInformation(this.mainController,a)
 			);
@@ -39,7 +39,7 @@ public class UserDirectory extends BaseDirectory<User> {
 		});
 		
 		this.buttonAdd.addActionListener( e->{
-			this.mainController.addCloseableTab(
+			this.mainController.getMainPane().addCloseableTab(
 					"Nouvel Utilisateur",
 					new UserInformation(this.mainController,new User())
 			);

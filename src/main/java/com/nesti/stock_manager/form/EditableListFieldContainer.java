@@ -1,6 +1,7 @@
 package com.nesti.stock_manager.form;
 
 import java.awt.Dimension;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -8,18 +9,20 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.nesti.stock_manager.controller.BaseInformation;
+import com.nesti.stock_manager.dao.BaseDao;
+import com.nesti.stock_manager.model.Flagged;
+import com.nesti.stock_manager.util.HibernateUtil;
+import com.nesti.stock_manager.util.ReflectionProperty;
 
 @SuppressWarnings("serial")
 public class EditableListFieldContainer extends ListFieldContainer {
-
 	
 	/**
 	 * allows to add a element into the list from an input
 	 */
 	public void  addToList() {
 //		Object[] possibilities = null;
-		String s = (String)JOptionPane.showInputDialog(
+		String newItemString = (String)JOptionPane.showInputDialog(
 		                    this,
 		                    "Ajouter : ",
 		                    "Ajouter ...",
@@ -29,9 +32,27 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		                    null);
 
 		//If a string was returned, say so.
-		if ((s != null) && (s.length() > 0)) {
-		    System.out.println( s );
-		    return;
+		if ((newItemString != null) && (newItemString.length() > 0)) {
+			var dao = BaseDao.getDao(entityClass);
+			var existingItem = (Flagged) dao.finddOneBy(fieldName, newItemString);
+			
+			if ( existingItem == null ) {
+				try {
+					var newItem = entityClass.getConstructor().newInstance();
+					ReflectionProperty.set(newItem, "name", newItemString);
+					ReflectionProperty.set(newItem, "flag", BaseDao.ACTIVE);
+
+					HibernateUtil.getSession().saveOrUpdate(newItem);
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if ( existingItem.getFlag().equals(BaseDao.DELETED)) {
+				existingItem.setFlag(BaseDao.ACTIVE);
+				HibernateUtil.getSession().saveOrUpdate(existingItem);
+			}
+			refreshItems(newItemString);
 		}
 	}
 	
@@ -40,12 +61,18 @@ public class EditableListFieldContainer extends ListFieldContainer {
 	 */
 	public void deleteFromList() {
 		var selected = this.list.getSelectedValue();
-		getListModel().removeElement(selected);
+		var dao = BaseDao.getDao(entityClass);
+		var existingItem = (Flagged) dao.finddOneBy(fieldName, selected);
+		if ( existingItem != null ) {
+			existingItem.setFlag(BaseDao.DELETED);
+			HibernateUtil.getSession().saveOrUpdate(existingItem);
+		}
+		refreshItems(null);
 	}
 	
-	public EditableListFieldContainer(String labelText, BaseInformation<?> infoPane) {
-		super(labelText, infoPane);
-
+	public EditableListFieldContainer(String labelText, String fn, Class<?> ec) {
+		super(labelText, fn , ec);
+		
 		this.setPreferredSize(new Dimension(0, 120));
 
 		var buttonContainer = new JPanel();

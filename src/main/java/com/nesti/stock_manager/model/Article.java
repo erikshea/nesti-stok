@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.TemporalType;
 
 import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.BaseDao;
@@ -31,7 +30,7 @@ import com.nesti.stock_manager.util.HibernateUtil;
  */
 @Entity
 @NamedQuery(name = "Article.findAll", query = "SELECT a FROM Article a")
-public class Article extends BaseEntity implements Serializable {
+public class Article extends BaseEntity implements Serializable,Flagged {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -415,6 +414,7 @@ public class Article extends BaseEntity implements Serializable {
 	public String getFlag() {
 		return this.flag;
 	}
+
 
 	public void setFlag(String flag) {
 		this.flag = flag;

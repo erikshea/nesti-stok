@@ -135,7 +135,7 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 	
 	@SuppressWarnings("unchecked")
 	public void refreshTable() {
-		this.tableModel.getDataVector().removeAllElements();
+		this.tableModel.setRowCount(0);
 		// Detail of the article List
 		
 		var dao = BaseDao.getDao(getEntityClass());

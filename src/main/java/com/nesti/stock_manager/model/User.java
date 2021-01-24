@@ -1,6 +1,7 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,7 @@ import at.favre.lib.crypto.bcrypt.LongPasswordStrategies;
 @Entity
 @Table(name = "users")
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
-public class User extends BaseEntity implements Serializable {
+public class User extends BaseEntity implements Serializable,Flagged {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -59,10 +60,11 @@ public class User extends BaseEntity implements Serializable {
 	private static UserDao dao;
 
 	public User() {
+		this.setDateCreation(new Date());
 		this.setFlag(BaseDao.DEFAULT);
 	}
 
-	public User(String l, String n, Date d, String r) {
+	public User(String l, String n, String d, String r) {
 		this();
 		setLogin(l);
 		setName(n);
@@ -182,5 +184,12 @@ public class User extends BaseEntity implements Serializable {
 
 	public void setFlag(String flag) {
 		this.flag = flag;
+	}
+	
+	public void setDateCreation(String dateString) {
+		var formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+		try{
+			setDateCreation(formatter.parse(dateString));
+		}catch (Exception e) {}
 	}
 }

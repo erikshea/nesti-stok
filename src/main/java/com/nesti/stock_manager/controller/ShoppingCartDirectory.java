@@ -6,12 +6,9 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.model.OrdersArticle;
-import com.nesti.stock_manager.util.HibernateUtil;
 
 public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 	private static final long serialVersionUID = 1L;
@@ -113,31 +110,19 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		
 		orderButton.addActionListener( e->{
 			try{
-				saveOrders();
-				HibernateUtil.getSession().getTransaction().commit();
-				closeTab();
+				mainController.getShoppingCart().saveOrders();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-		});
-	}
-	
-	public void saveOrders() throws Exception{
-		var orders = mainController.getShoppingCart().getOrders();
-		var dao = new OrderDao();
-		
-		orders.values().forEach(o->{
-			System.out.println(o.getNumber());
-		//	var id = dao.saveOrUpdate(o);
+			refreshTab();
 		});
 	}
 	
 	
 	@Override
 	public void refreshTable() {
-		this.tableModel.getDataVector().removeAllElements();
+		this.tableModel.setRowCount(0);
 		// Detail of the article List
-		
 		var orderItems = mainController.getShoppingCart().getAllOrdersArticle();
 
 		orderItems.forEach(e-> {
@@ -146,9 +131,5 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		refreshTotal();
 		refreshSheepingFees();
 	}
-	
-
-	
-	
 	
 }

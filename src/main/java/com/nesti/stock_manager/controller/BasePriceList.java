@@ -81,7 +81,7 @@ public abstract class BasePriceList<E> extends JPanel {
 
 	
 	protected void refreshList() {
-		getPriceListTableModel().getDataVector().removeAllElements();
+		getPriceListTableModel().setRowCount(0);
 		// Rest to be implemented in subclasses
 	}
 

@@ -1,6 +1,7 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -65,13 +66,14 @@ public class Order extends BaseEntity implements Serializable {
 	private static OrderDao dao;
 	
 	public Order() {
+		this.setDateOrder(new Date());
 	}
 
-	public Order(String n, Date o, Date d) {
+	public Order(String n, String dateO, String dateD) {
 		this();
 		setNumber(n);
-		setDateOrder(o);
-		setDateDelivery(d);
+		setDateOrder(dateO);
+		setDateDelivery(dateD);
 	}
 
 	public int getIdOrders() {
@@ -189,6 +191,21 @@ public class Order extends BaseEntity implements Serializable {
 		}
 		;
 		return result;
+	}
+	
+	
+	public void setDateOrder(String dateString) { 
+		var formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+		try{
+			setDateOrder(formatter.parse(dateString));
+		}catch (Exception e) {}
+	}
+	
+	public void setDateDelivery(String dateString) {
+		var formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+		try{
+			setDateDelivery(formatter.parse(dateString));
+		}catch (Exception e) {}
 	}
 	
 	@Override

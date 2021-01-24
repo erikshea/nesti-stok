@@ -3,6 +3,7 @@ package com.nesti.stock_manager.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -43,7 +44,7 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 	private int quantity;
 
 	//bi-directional many-to-one association to Article
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="id_article", insertable=false, updatable=false)
 	private Article article;
 
@@ -56,6 +57,7 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 	}
 
 	public OrdersArticle(int q) {
+		this();
 		setQuantity(q);
 	}
 
@@ -117,11 +119,13 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 		}
 		return dao;
 	}
+
 	
 	public Offer getOffer() {
 		var article = this.getArticle();
-		var supplier = this.getOrder().getSupplier();
-		var offer = article.getCurrentOffers().get(supplier);
+		var supplier = getOrder().getSupplier();
+		
+		var offer = article.getOfferAt(getOrder().getDateOrder(), supplier);
 		return offer;
 	}
 }

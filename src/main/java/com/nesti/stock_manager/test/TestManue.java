@@ -4,9 +4,6 @@ import java.util.Date;
 
 import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.SupplierDao;
-import com.nesti.stock_manager.dao.*;
-import com.nesti.stock_manager.model.*;
-import com.nesti.stock_manager.util.HibernateUtil;
 
 public class TestManue {
 
