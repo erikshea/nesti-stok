@@ -25,6 +25,7 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 	
 	
 	public BaseInformation(MainWindowControl c, E e) {
+		this.setLayout(new BorderLayout());
 		this.item =  e;
 		this.mainControl = c;
 		validatedFields = new ArrayList<>();
@@ -32,12 +33,11 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 	
 	public void closeTab() {
 		HibernateUtil.getSession().getTransaction().rollback();
-		this.mainControl.remove(this);
+		this.mainControl.getMainPane().remove(this);
 	}
 	
 	public void refreshTab() {
 		this.removeAll();
-		this.setLayout(new BorderLayout());
 		addBottomButtonBar();
 	}
 	

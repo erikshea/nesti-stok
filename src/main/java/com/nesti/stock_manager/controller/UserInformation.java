@@ -47,7 +47,7 @@ public class UserInformation extends BaseInformation<User> {
 				(s)-> user.setName(s));
 		userForm.add(contactNameFieldContainer);
 		
-		var roleFieldContainer = new ListFieldContainer("Rôle:", this);
+		var roleFieldContainer = new ListFieldContainer("Rôle:");
 		roleFieldContainer.populateList( List.of("super-administrator","administrator"));
 		roleFieldContainer.bindSelection(
 				user.getRole(),
@@ -69,7 +69,7 @@ public class UserInformation extends BaseInformation<User> {
 	@Override
 	public void closeTab() {
 		super.closeTab();
-		this.mainControl.setSelectedComponent(this.mainControl.getUserDirectory());
+		this.mainControl.getMainPane().setSelectedComponent(this.mainControl.getUserDirectory());
 	}
 
 	

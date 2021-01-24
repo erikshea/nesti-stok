@@ -29,14 +29,14 @@ public class IngredientDirectory extends BaseDirectory<Ingredient> {
 			var ref = this.table.getValueAt(this.table.getSelectedRow(), 0);
 			var selectedIngredient = (new IngredientDao()).findOneBy("reference",ref);
 
-			this.mainController.addCloseableTab(
+			this.mainController.getMainPane().addCloseableTab(
 					"Ingrédient: " + selectedIngredient.getName(),
 					new IngredientInformation(this.mainController,selectedIngredient)
 			);
 		});
 		
 		this.buttonAdd.addActionListener( e->{
-			this.mainController.addCloseableTab(
+			this.mainController.getMainPane().addCloseableTab(
 					"Nouvel Ingrédient",
 					new IngredientInformation(this.mainController,new Ingredient())
 			);

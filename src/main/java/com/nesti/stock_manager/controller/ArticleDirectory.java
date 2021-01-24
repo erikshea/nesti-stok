@@ -80,7 +80,7 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 
 			var a = (new ArticleDao()).findOneBy("code", code);
 
-			this.mainController.addCloseableTab("Article: " + a.getName(),
+			this.mainController.getMainPane().addCloseableTab("Article: " + a.getName(),
 					new ArticleInformation(this.mainController, a));
 		});
 
@@ -89,7 +89,7 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 			public void actionPerformed(ActionEvent e) {
 				Article article = Article.createEmpty();
 				article.setProduct(new Ingredient());
-				mainController.addCloseableTab("Nouvel Article", new ArticleInformation(mainController, article));
+				mainController.getMainPane().addCloseableTab("Nouvel Article", new ArticleInformation(mainController, article));
 			}
 		});
 
@@ -97,7 +97,7 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 			public void actionPerformed(ActionEvent e) {
 				Article article = Article.createEmpty();
 				article.setProduct(new Utensil());
-				mainController.addCloseableTab("Nouvel Article", new ArticleInformation(mainController, article));
+				mainController.getMainPane().addCloseableTab("Nouvel Article", new ArticleInformation(mainController, article));
 			}
 		});
 

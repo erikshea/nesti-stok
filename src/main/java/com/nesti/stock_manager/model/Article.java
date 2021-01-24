@@ -2,6 +2,7 @@ package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,7 +30,7 @@ import com.nesti.stock_manager.util.HibernateUtil;
  */
 @Entity
 @NamedQuery(name = "Article.findAll", query = "SELECT a FROM Article a")
-public class Article extends BaseEntity implements Serializable {
+public class Article extends BaseEntity implements Serializable,Flagged {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -123,8 +124,30 @@ public class Article extends BaseEntity implements Serializable {
 		return latestOffer;
 	}
 
+	
+	
+	 public Offer getOfferAt(Date date, Supplier s) {
+	        var hql = "SELECT o FROM Offer o"
+	                + "     WHERE o.id.idArticle = :id_article "
+	                + "        AND o.id.idSupplier = :id_supplier"
+	                + "        AND o.price IS NOT NULL"
+	                + "        AND o.startDate < :date"
+	                + "        ORDER BY o.startDate DESC";
+	        var query = HibernateUtil.getSession().createQuery(hql);
+	        query.setParameter("id_article", this.getIdArticle());
+	        query.setParameter("id_supplier", s.getIdSupplier());
+	        query.setParameter("date", date);
+	        var results = query.list();
+	        Offer result = null;
+	        if (results.size() > 0) {
+	            result = (Offer) results.get(0);
+	        }
+	        return result;
+	    }
+
+	
 	public HashMap<Supplier,Offer> getCurrentOffersHQL() {
-		var hql = "Select o from Offer o "
+		var hql = "SELECT o FROM Offer o "
 				+ "WHERE o.id.idArticle = :id_article" 
 				+ "	AND o.price IS NOT NULL"
 				+ "	AND o.startDate = (SELECT MAX(oo.startDate) FROM Offer oo"
@@ -165,6 +188,7 @@ public class Article extends BaseEntity implements Serializable {
 		
 		return offersBySupplier;
 	}
+	
 	
 	public Offer getHighestOffer() {
 		var hql = "Select o from Offer o "
@@ -390,6 +414,7 @@ public class Article extends BaseEntity implements Serializable {
 	public String getFlag() {
 		return this.flag;
 	}
+
 
 	public void setFlag(String flag) {
 		this.flag = flag;

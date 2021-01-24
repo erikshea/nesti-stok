@@ -142,4 +142,5 @@ public  class BaseDao<E> {
 		
 		return result;
 	}
+
 }

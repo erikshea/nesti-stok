@@ -47,6 +47,7 @@ public class SupplierArticleList extends BasePriceList<Supplier> {
 	@Override
 	protected void onRowDelete(int modelRow) {
 		var article = (new ArticleDao()).findOneBy("name", this.table.getValueAt(modelRow, 1));
+		System.out.println(article);
 		var offer = entity.getCurrentOffers().get(article);
 		offer.setPrice(null);
 		if (	article.getDefaultSupplier() != null

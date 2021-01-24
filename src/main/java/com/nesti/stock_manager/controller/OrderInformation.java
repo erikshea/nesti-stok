@@ -67,7 +67,7 @@ public class OrderInformation extends BaseInformation<Order> {
 	@Override
 	public void closeTab() {
 		super.closeTab();
-		this.mainControl.setSelectedComponent(this.mainControl.getOrderDirectory());
+		this.mainControl.getMainPane().setSelectedComponent(this.mainControl.getOrderDirectory());
 	}
 
 	public void addOrderItemTable() {
@@ -77,11 +77,12 @@ public class OrderInformation extends BaseInformation<Order> {
 			new Object[] { "Code d'Article", "Nom d'Article", "Prix d'achat", "Quantité" }
 		);
 
+		
 		item.getOrdersArticles().forEach(oa->{
 			tableModel.addRow(new Object[] {
 				oa.getArticle().getCode(),
 				oa.getArticle().getName(),
-				0,
+				oa.getOffer().getPrice(),
 				oa.getQuantity()
 			 });
 		});
@@ -89,7 +90,6 @@ public class OrderInformation extends BaseInformation<Order> {
 		var tableContainer = new JScrollPane(table);
 		tableContainer.setPreferredSize(new Dimension(500, 300));
 		tableContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, 300));
-		System.out.println("SDSQDQSD");
 		this.add(tableContainer, BorderLayout.EAST);
 	}
 	

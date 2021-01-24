@@ -24,7 +24,6 @@ import com.nesti.stock_manager.model.Offer;
 @SuppressWarnings("serial")
 public class ArticleSupplierList extends BasePriceList<Article> {
 
-	// right of the screen, price's and supplier's informations
 
 	public ArticleSupplierList(Article a) {
 		super(a);

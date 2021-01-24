@@ -24,7 +24,7 @@ import com.nesti.stock_manager.dao.BaseDao;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
-public abstract class Product extends BaseEntity implements Serializable {
+public abstract class Product extends BaseEntity implements Serializable, Flagged {
 	private static final long serialVersionUID = 1L;
 
 	@Id

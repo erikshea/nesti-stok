@@ -22,7 +22,7 @@ import com.nesti.stock_manager.dao.UnitDao;
  */
 @Entity
 @NamedQuery(name="Unit.findAll", query="SELECT u FROM Unit u")
-public class Unit extends BaseEntity implements Serializable {
+public class Unit extends BaseEntity implements Serializable,Flagged {
 	private static final long serialVersionUID = 1L;
 
 	@Id
