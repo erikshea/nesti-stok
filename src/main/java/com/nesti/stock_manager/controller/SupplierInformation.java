@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.model.Supplier;
+import com.nesti.stock_manager.util.HibernateUtil;
 
 public class SupplierInformation extends BaseInformation<Supplier> {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -90,12 +91,13 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 		supplierForm.add(Box.createVerticalGlue());
 		
 		this.add(supplierForm, BorderLayout.WEST);
+		HibernateUtil.getSession().evict(item);
 	}
 
 	@Override
 	public void closeTab() {
 		super.closeTab();
-		this.mainControl.setSelectedComponent(this.mainControl.getSupplierDirectory());
+		this.mainControl.getMainPane().setSelectedComponent(this.mainControl.getSupplierDirectory());
 	}
 
 	

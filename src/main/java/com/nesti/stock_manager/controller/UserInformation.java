@@ -13,6 +13,7 @@ import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.form.ListFieldContainer;
 import com.nesti.stock_manager.form.PasswordFieldContainer;
 import com.nesti.stock_manager.model.User;
+import com.nesti.stock_manager.util.HibernateUtil;
 
 public class UserInformation extends BaseInformation<User> {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -47,7 +48,7 @@ public class UserInformation extends BaseInformation<User> {
 				(s)-> user.setName(s));
 		userForm.add(contactNameFieldContainer);
 		
-		var roleFieldContainer = new ListFieldContainer("Rôle:", this);
+		var roleFieldContainer = new ListFieldContainer("Rôle:");
 		roleFieldContainer.populateList( List.of("super-administrator","administrator"));
 		roleFieldContainer.bindSelection(
 				user.getRole(),
@@ -64,12 +65,13 @@ public class UserInformation extends BaseInformation<User> {
 		userForm.add(Box.createVerticalGlue());
 		
 		this.add(userForm, BorderLayout.WEST);
+		HibernateUtil.getSession().evict(item);
 	}
 
 	@Override
 	public void closeTab() {
 		super.closeTab();
-		this.mainControl.setSelectedComponent(this.mainControl.getUserDirectory());
+		this.mainControl.getMainPane().setSelectedComponent(this.mainControl.getUserDirectory());
 	}
 
 	

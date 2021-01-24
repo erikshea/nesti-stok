@@ -81,7 +81,7 @@ public  class BaseDao<E> {
 		getSession().flush();
 	}
 
-	public <T> E findOneBy(String propertyName, T value)  {
+	public <T> E findOneByHQL(String propertyName, T value)  {
 		String hql = "FROM " + getEntityClass().getSimpleName() + " X WHERE X." + propertyName + " = :value";
 		Query<E> query = getSession().createQuery(hql);
 		query.setParameter("value",value);
@@ -109,7 +109,7 @@ public  class BaseDao<E> {
 	}
 	
 	
-	public <T> E finddOneBy(String propertyName, T value) {
+	public <T> E findOneBy(String propertyName, T value) {
 			var cr = this.getCriteriaQuery();
 	        var root = cr.from(this.getEntityClass());
 	        var cb =this.getSession().getCriteriaBuilder();
@@ -142,4 +142,5 @@ public  class BaseDao<E> {
 		
 		return result;
 	}
+
 }

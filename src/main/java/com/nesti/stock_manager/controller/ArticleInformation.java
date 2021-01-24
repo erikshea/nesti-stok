@@ -14,9 +14,14 @@ import javax.swing.JTextField;
 import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.dao.PackagingDao;
 import com.nesti.stock_manager.dao.UnitDao;
+import com.nesti.stock_manager.form.EditableListFieldContainer;
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.form.ListFieldContainer;
 import com.nesti.stock_manager.model.Article;
+import com.nesti.stock_manager.model.Ingredient;
+import com.nesti.stock_manager.model.Packaging;
+import com.nesti.stock_manager.model.Unit;
+import com.nesti.stock_manager.util.HibernateUtil;
 public class ArticleInformation extends BaseInformation<Article> {
 	private static final long serialVersionUID = 1775908299271902575L;
 
@@ -31,6 +36,7 @@ public class ArticleInformation extends BaseInformation<Article> {
 		super.refreshTab();
 
 		final var article = item;
+		
 		var dao = item.getDao();
 		var ingredientDao = new IngredientDao();
 		
@@ -77,11 +83,9 @@ public class ArticleInformation extends BaseInformation<Article> {
 		articleForm.add(eanFieldContainer);
 		
 		if (!article.containsUtensil()) {
-			var ingredientListContainer = new ListFieldContainer("Ingrédient:", this);
-			var listModel = ingredientListContainer.getListModel();
-			ingredientDao.findAll().forEach(ing -> {
-				listModel.addElement(ing.getName());				
-			});
+			//var ingredientListContainer = new ListFieldContainer<Ingredient>("Ingrédient:", "name", ingredientDao);
+			var ingredientListContainer = new ListFieldContainer("Ingrédient:", "name", Ingredient.class);
+
 			ingredientListContainer.bindSelection(
 				article.getProduct().getName(),
 				(s)->article.setProduct(ingredientDao.findOneBy("name",s)));
@@ -100,21 +104,16 @@ public class ArticleInformation extends BaseInformation<Article> {
 			(s)->article.setWeight(Double.parseDouble(s)));
 		articleForm.add(weightFieldContainer);
 
-		var unitListContainer = new ListFieldContainer("Unité:", this);
 		var unitDao = new UnitDao();
-		unitDao.findAll().forEach(u -> {
-			unitListContainer.getListModel().addElement(u.getName());				
-		});
+		var unitListContainer = new EditableListFieldContainer("Unité:", "name", Unit.class);
 		unitListContainer.bindSelection(
 			article.getUnit().getName(),
 			(s)->article.setUnit(unitDao.findOneBy("name",s)));
 		articleForm.add(unitListContainer);
-		
-		var packagingListContainer = new ListFieldContainer("Emballage:", this);
+
 		var packagingDao = new PackagingDao();
-		packagingDao.findAll().forEach(p -> {
-			packagingListContainer.getListModel().addElement(p.getName());				
-		});
+		var packagingListContainer = new EditableListFieldContainer("Emballage:", "name", Packaging.class);
+
 		packagingListContainer.bindSelection(
 			article.getPackaging().getName(),
 			(s)->article.setPackaging(packagingDao.findOneBy("name",s)));
@@ -123,13 +122,14 @@ public class ArticleInformation extends BaseInformation<Article> {
 		articleForm.add(Box.createVerticalGlue());
 		
 		this.add(articleForm, BorderLayout.WEST);
+		HibernateUtil.getSession().evict(item);
 	}
 	
 	
 	@Override
 	public void closeTab() {
 		super.closeTab();
-		this.mainControl.setSelectedComponent(this.mainControl.getArticleDirectory());
+		this.mainControl.getMainPane().setSelectedComponent(this.mainControl.getArticleDirectory());
 	}
 
 

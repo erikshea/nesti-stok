@@ -10,6 +10,7 @@ import com.nesti.stock_manager.model.Offer;
 import com.nesti.stock_manager.model.Order;
 import com.nesti.stock_manager.model.OrdersArticle;
 import com.nesti.stock_manager.model.Supplier;
+import com.nesti.stock_manager.util.HibernateUtil;
 
 public class ShoppingCart {
 
@@ -49,20 +50,29 @@ public class ShoppingCart {
 			currentOrder.addOrdersArticle(orderLine);
 
 			mainController.getShoppingCartDirectory().addRow(orderLine);
-
 		}
 
 	}
 
 	
-	public void saveOrder(Offer offer) {
-
-	
-		var order = new Order();
-	System.out.println(order);
-	//	order.getDao().saveOrUpdate(order);
-	
+	public void saveOrders() throws Exception {
+		var orderDao = new OrderDao();
 		
+		getOrders().values().forEach(o->{
+			var id = orderDao.save(o);
+			var number = (int) (Math.random()*90+10);
+			o.setNumber((int) id +  "00" + String.valueOf(number));
+			
+			o.getOrdersArticles().forEach(oa->{ 
+				oa.getArticle().setStock( oa.getArticle().getStock() + oa.getQuantity());
+			});
+			
+			// Cascade saves order, which saves order item, which updates article (stock)
+			orderDao.saveOrUpdate(o);
+		});
+		
+		getOrders().clear();
+		HibernateUtil.getSession().getTransaction().commit();
 	}
 
 	public Double getTotal() {
@@ -82,6 +92,10 @@ public class ShoppingCart {
 		return result; 
 	}
 
+	public HashMap<Supplier, Order> getOrders() {
+		return orders;
+	}
+	
 	public ArrayList<OrdersArticle>  getAllOrdersArticle() {
 		var orderlines = new ArrayList<OrdersArticle>();
 		orders.values().forEach(o -> {
@@ -89,4 +103,6 @@ public class ShoppingCart {
 		});
 		return orderlines;
 	}
+	
+	
 }

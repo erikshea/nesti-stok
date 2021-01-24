@@ -12,6 +12,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import com.nesti.stock_manager.dao.BaseDao;
+import com.nesti.stock_manager.dao.PackagingDao;
 
 
 /**
@@ -20,7 +21,7 @@ import com.nesti.stock_manager.dao.BaseDao;
  */
 @Entity
 @NamedQuery(name="Packaging.findAll", query="SELECT p FROM Packaging p")
-public class Packaging implements Serializable {
+public class Packaging extends BaseEntity implements Serializable,Flagged {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -31,7 +32,9 @@ public class Packaging implements Serializable {
 	private String name;
 	
 	private String flag;
-
+	
+	private static PackagingDao dao;
+	
 	//bi-directional many-to-one association to Article
 	@OneToMany(mappedBy="packaging")
 	private List<Article> articles;
@@ -41,6 +44,7 @@ public class Packaging implements Serializable {
 	}
 	
 	public Packaging(String n) {
+		this();
 		setName(n);
 	}
 
@@ -87,5 +91,13 @@ public class Packaging implements Serializable {
 
 	public void setFlag(String flag) {
 		this.flag = flag;
+	}
+
+	@Override
+	public PackagingDao getDao() {
+		if (dao == null) {
+			dao = new PackagingDao();
+		}
+		return dao;
 	}
 }

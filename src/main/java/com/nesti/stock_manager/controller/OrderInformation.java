@@ -76,7 +76,7 @@ public class OrderInformation extends BaseInformation<Order> {
 			new Object[] { "Code d'Article", "Nom d'Article", "Prix d'achat", "Quantité" }
 		);
 
-
+		
 		
 		item.getOrdersArticles().forEach(oa->{
 			tableModel.addRow(new Object[] {

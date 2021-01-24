@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.transaction.Transactional;
 
 import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.dao.UnitDao;

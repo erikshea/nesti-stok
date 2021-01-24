@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.nesti.stock_manager.application.NestiStokMain;
 import com.nesti.stock_manager.dao.UserDao;
 import com.nesti.stock_manager.util.ApplicationSettings;
 
@@ -23,10 +24,8 @@ public class ConnectionForm extends JPanel {
 	protected JTextField loginField;
 	protected JFrame frame;
 
-
-	public ConnectionForm(JFrame f) {
+	public ConnectionForm() {
 		super();
-		this.frame = f;
 		this.setPreferredSize(new Dimension(800, 400));
 		// this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -44,19 +43,11 @@ public class ConnectionForm extends JPanel {
 		if (user != null && user.isPassword(plaintextPassword)) {
 			ApplicationSettings.set("login", login);
 			ApplicationSettings.set("password", plaintextPassword);
-			javax.swing.SwingUtilities.invokeLater(() -> changePanel(new MainWindowControl()));
+			javax.swing.SwingUtilities.invokeLater(() -> NestiStokMain.changeFrameContent(new MainWindowControl()));
 
 			result = true;
 		}
 		return result;
-	}
-
-	private void changePanel(MainWindowControl c) {
-		frame.getContentPane().removeAll();
-		frame.getContentPane().add(c);
-		frame.getContentPane().doLayout();
-		frame.pack();
-		frame.update(frame.getGraphics());
 	}
 
 	@SuppressWarnings("deprecation")

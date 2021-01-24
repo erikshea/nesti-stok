@@ -15,7 +15,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 
 	protected JLabel totalValue;
 	protected JLabel sheepingFeesValue;
-	
+	protected JButton orderButton,cancelButton;
 	
 	public ShoppingCartDirectory(MainWindowControl c) {
 		super(c);
@@ -58,8 +58,8 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		// buttons footer
 		var buttonBarContainer = new JPanel();
 
-		var orderButton = new JButton("Commander");
-		var cancelButton = new JButton("Annuler");
+		orderButton = new JButton("Commander");
+		cancelButton = new JButton("Annuler");
 
 		buttonBarContainer.add(Box.createHorizontalGlue());
 		buttonBarContainer.add(cancelButton);
@@ -68,6 +68,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		this.add(sheepingFeesContainer);
 		this.add(totalContainer);
 		this.add(buttonBarContainer);
+		addButtonListeners();
 	}
 
 	@Override
@@ -102,11 +103,26 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		sheepingFeesValue.setText(sheepingFees);
 	}
 	
+	public void addButtonListeners() {
+		cancelButton.addActionListener( ev->{
+			closeTab();
+		});
+		
+		orderButton.addActionListener( e->{
+			try{
+				mainController.getShoppingCart().saveOrders();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			refreshTab();
+		});
+	}
+	
+	
 	@Override
 	public void refreshTable() {
-		this.tableModel.getDataVector().removeAllElements();
+		this.tableModel.setRowCount(0);
 		// Detail of the article List
-		
 		var orderItems = mainController.getShoppingCart().getAllOrdersArticle();
 
 		orderItems.forEach(e-> {
@@ -115,9 +131,5 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		refreshTotal();
 		refreshSheepingFees();
 	}
-	
-
-	
-	
 	
 }

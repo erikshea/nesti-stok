@@ -24,7 +24,7 @@ import com.nesti.stock_manager.dao.BaseDao;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
-public abstract class Product extends BaseEntity implements Serializable {
+public abstract class Product extends BaseEntity implements Serializable, Flagged {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -39,7 +39,7 @@ public abstract class Product extends BaseEntity implements Serializable {
 	private String flag;
 
 	//bi-directional many-to-one association to Article
-	@OneToMany(mappedBy="product", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="product")
 	private List<Article> articles;
 	
 	public Product() {

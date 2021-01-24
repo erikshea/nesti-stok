@@ -1,6 +1,7 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -119,5 +120,13 @@ public class Offer implements Serializable {
 
 	public Boolean isValid() {
 		return this.getPrice() == null;
+	}
+	
+	
+	public void setStartDate(String dateString) {
+		var formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+		try{
+			setStartDate(formatter.parse(dateString));
+		}catch (Exception e) {}
 	}
 }
