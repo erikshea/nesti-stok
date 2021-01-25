@@ -1,21 +1,12 @@
 package com.nesti.stock_manager.controller;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.security.InvalidParameterException;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.dao.PackagingDao;
 import com.nesti.stock_manager.dao.UnitDao;
@@ -28,7 +19,7 @@ import com.nesti.stock_manager.model.Packaging;
 import com.nesti.stock_manager.model.Unit;
 import com.nesti.stock_manager.model.Utensil;
 import com.nesti.stock_manager.util.AppAppereance;
-import com.nesti.stock_manager.util.UnavailableArticleException;
+
 public class ArticleInformation extends BaseInformation<Article> {
 	private static final long serialVersionUID = 1775908299271902575L;
 
@@ -58,7 +49,6 @@ public class ArticleInformation extends BaseInformation<Article> {
 		super.preRefreshTab();
 
 		final var article = item;
-		this.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 
 		var dao = item.getDao();
 		var ingredientDao = new IngredientDao();

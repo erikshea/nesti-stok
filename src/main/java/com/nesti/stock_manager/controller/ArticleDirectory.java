@@ -47,11 +47,11 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 		addToCartQuantity.setMaximumSize(new Dimension(100, 30));
 		addToCartQuantity.setPreferredSize(new Dimension(100, 0));
 		addToCart.add((Box.createRigidArea(new Dimension(50, 0))));
-		addToCart.setBackground(AppAppereance.LIGHT_COLOR);
+	//	addToCart.setBackground(AppAppereance.LIGHT_COLOR);
 		addToCart.add(addToCartQuantity);
 		addToCart.add((Box.createRigidArea(new Dimension(5,0))));
 		addToCartButton = new JButton("Ajouter au panier");
-		addToCartButton.setBackground(AppAppereance.HIGHLIGHT);
+	//	addToCartButton.setBackground(AppAppereance.HIGHLIGHT);
 		addToCartButton.setForeground(new Color(255, 255, 255));
 		addToCartButton.setPreferredSize(AppAppereance.LARGE_BUTTON);
 		addToCartButton.setMaximumSize(AppAppereance.LARGE_BUTTON);

@@ -8,6 +8,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
@@ -20,6 +21,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
@@ -31,6 +33,7 @@ import com.nesti.stock_manager.form.ButtonColumn;
 import com.nesti.stock_manager.model.Offer;
 import com.nesti.stock_manager.model.OrdersArticle;
 import com.nesti.stock_manager.model.Supplier;
+import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.HibernateUtil;
 import com.nesti.stock_manager.util.SwingUtil;
 
@@ -38,7 +41,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 	private static final long serialVersionUID = 1L;
 
 	protected JLabel totalValue;
-	protected JLabel sheepingFeesValue;
+	protected JLabel shippingFeesValue;
 	protected JButton orderButton,clearButton;
 	
 	public ShoppingCartDirectory(MainWindowControl c) {
@@ -50,20 +53,25 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		
 		
 		
-		var sheepingFeesContainer = new JPanel();
-		sheepingFeesContainer.setLayout(new BoxLayout(sheepingFeesContainer, BoxLayout.X_AXIS));
-		sheepingFeesContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, Short.MAX_VALUE));
+		var shippingFeesContainer = new JPanel();
+		shippingFeesContainer.setLayout(new BoxLayout(shippingFeesContainer, BoxLayout.X_AXIS));
+		shippingFeesContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, Short.MAX_VALUE));
 
-		var sheepingFeesLabel = new JLabel("Frais de port");
-		sheepingFeesLabel.setPreferredSize(new Dimension(100, 40));
+		var shippingFeesLabel = new JLabel("Frais de port");
+		shippingFeesLabel.setFont(AppAppereance.TITLE_FONT);
+		shippingFeesLabel.setPreferredSize(new Dimension(100, 40));
 
-		sheepingFeesValue = new JLabel("0");
-		sheepingFeesValue.setPreferredSize(new Dimension(100, 40));
-		sheepingFeesValue.setMaximumSize(new Dimension(100, 40));
+		shippingFeesValue = new JLabel("0");
+		shippingFeesValue.setFont(AppAppereance.TITLE_FONT);
+		shippingFeesValue.setBorder(BorderFactory.createMatteBorder(2,2,2,2, AppAppereance.DARK));
+	
+		shippingFeesValue.setPreferredSize(new Dimension(100, 40));
+		shippingFeesValue.setMaximumSize(new Dimension(100, 40));
 
-		sheepingFeesContainer.add(Box.createHorizontalGlue());
-		sheepingFeesContainer.add(sheepingFeesLabel);
-		sheepingFeesContainer.add(sheepingFeesValue);
+		shippingFeesContainer.add(Box.createHorizontalGlue());
+		shippingFeesContainer.add(shippingFeesLabel);
+		shippingFeesContainer.add((Box.createRigidArea(new Dimension(5,0))));
+		shippingFeesContainer.add(shippingFeesValue);
 
 		// add element to display subTotal of order
 		var totalContainer = new JPanel();
@@ -71,14 +79,19 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		totalContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, Short.MAX_VALUE));
 
 		var totalLabel = new JLabel("Total");
+		totalLabel.setFont(AppAppereance.TITLE_FONT);
 		totalLabel.setPreferredSize(new Dimension(100, 40));
 
 		totalValue = new JLabel("0");
+		totalValue.setFont(AppAppereance.TITLE_FONT);
+		totalValue.setBorder(BorderFactory.createMatteBorder(2,2,2,2, AppAppereance.DARK));
+		
 		totalValue.setPreferredSize(new Dimension(100, 40));
 		totalValue.setMaximumSize(new Dimension(100, 40));
 
 		totalContainer.add(Box.createHorizontalGlue());
 		totalContainer.add(totalLabel);
+		totalContainer.add((Box.createRigidArea(new Dimension(5,0))));
 		totalContainer.add(totalValue);
 		
 		// buttons footer
@@ -86,12 +99,13 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 
 		orderButton = new JButton("Commander");
 		clearButton = new JButton("Tout effacer");
+		clearButton.setBackground(AppAppereance.DARK);
 
 		buttonBarContainer.add(Box.createHorizontalGlue());
 		buttonBarContainer.add(clearButton);
 		buttonBarContainer.add(orderButton);
 
-		this.add(sheepingFeesContainer);
+		this.add(shippingFeesContainer);
 		this.add(totalContainer);
 		this.add(buttonBarContainer);
 		addButtonListeners();
@@ -138,6 +152,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		
 		this.addRowData(new Object[] { orderLine.getArticle().getCode(), orderLine.getArticle().getName(),
 				orderLine.getQuantity(), offer.getPrice(), supplierComboBox, "-" });
+	
 	}
 	
 	public void refreshTotal() {
@@ -149,7 +164,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 
 	public void refreshSheepingFees() {
 		var sheepingFees = String.valueOf(mainController.getShoppingCart().getSheepingFees());
-		sheepingFeesValue.setText(sheepingFees);
+		shippingFeesValue.setText(sheepingFees);
 	}
 	
 	public void addButtonListeners() {

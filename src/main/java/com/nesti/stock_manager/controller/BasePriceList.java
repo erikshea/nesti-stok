@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.nesti.stock_manager.form.ButtonColumn;
 import com.nesti.stock_manager.model.BaseEntity;
+import com.nesti.stock_manager.util.AppAppereance;
 
 
 public abstract class BasePriceList<E> extends JPanel {
@@ -123,6 +124,9 @@ public abstract class BasePriceList<E> extends JPanel {
 		var priceTableContainer = new JScrollPane(table);
 		priceTableContainer.setPreferredSize(new Dimension(0, 150));
 		priceTableContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, 150));
+		
+		this.table.setSelectionBackground(AppAppereance.LIGHT_COLOR);
+		this.table.setSelectionForeground(AppAppereance.DARK);	
 		this.add(priceTableContainer);
 	}
 

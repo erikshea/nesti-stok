@@ -19,6 +19,8 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
+import com.nesti.stock_manager.util.AppAppereance;
+
 /**
  *  The ButtonColumn class provides a renderer and an editor that looks like a
  *  JButton. The renderer and editor will then be used for a specified column
@@ -63,10 +65,12 @@ public class ButtonColumn extends AbstractCellEditor
 
 		renderButton = new JButton();
 		editButton = new JButton();
+		
 		editButton.setFocusPainted( false );
 		editButton.addActionListener( this );
 		originalBorder = editButton.getBorder();
-		setFocusBorder( new LineBorder(Color.BLUE) );
+		
+		setFocusBorder( new LineBorder(AppAppereance.MEDIUM_COLOR) );
 
 		TableColumnModel columnModel = table.getColumnModel();
 		columnModel.getColumn(column).setCellRenderer( this );
@@ -151,13 +155,13 @@ public class ButtonColumn extends AbstractCellEditor
 	{
 		if (isSelected)
 		{
-			renderButton.setForeground(table.getSelectionForeground());
-	 		renderButton.setBackground(table.getSelectionBackground());
+			renderButton.setForeground(AppAppereance.DARK);
+			renderButton.setBackground(AppAppereance.LIGHT_COLOR);
 		}
 		else
 		{
-			renderButton.setForeground(table.getForeground());
-			renderButton.setBackground(UIManager.getColor("Button.background"));
+			renderButton.setForeground(AppAppereance.DARK);
+			renderButton.setBackground(AppAppereance.LIGHT_COLOR);
 		}
 
 		if (hasFocus)

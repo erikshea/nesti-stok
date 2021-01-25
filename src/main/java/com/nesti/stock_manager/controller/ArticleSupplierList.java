@@ -1,6 +1,7 @@
 package com.nesti.stock_manager.controller;
 
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -10,8 +11,10 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import com.nesti.stock_manager.dao.BaseDao;
@@ -29,7 +32,6 @@ public class ArticleSupplierList extends BasePriceList<Article> {
 
 	public ArticleSupplierList(Article a) {
 		super(a);
-		// HEAD OF THE SCREEN, SUPPLIERS OF THE ARTICLE
 		refreshList();
 	}
 	
@@ -37,8 +39,22 @@ public class ArticleSupplierList extends BasePriceList<Article> {
 	public void addPriceTableContainer() {
 		super.addPriceTableContainer();
 		this.radioGroup = new ButtonGroup();
+		
 		this.table.getColumn("Par défaut").setCellRenderer(new RadioButtonRenderer());
 		this.table.getColumn("Par défaut").setCellEditor(new RadioButtonEditor(new JCheckBox()));
+		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
+		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(0).setMaxWidth(100);
+		
+		table.getColumnModel().getColumn(3).setPreferredWidth(100);
+		table.getColumnModel().getColumn(3).setMaxWidth(100);
+
+
 	}
 	
 	@Override

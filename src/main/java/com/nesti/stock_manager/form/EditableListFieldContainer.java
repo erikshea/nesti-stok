@@ -85,8 +85,6 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		var buttonDimension = new Dimension(30, 30);
 
 		var plusButton = new JButton("+");
-		plusButton.setBackground(AppAppereance.HIGHLIGHT);
-		plusButton.setForeground(new Color(255,255,255));
 		plusButton.setPreferredSize(buttonDimension);
 		plusButton.setMaximumSize(buttonDimension);
 		plusButton.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));		
@@ -98,7 +96,7 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		var minusButton = new JButton("-");
 		
 		minusButton.setBackground(AppAppereance.DARK);
-		minusButton.setForeground(new Color(255,255,255));
+		minusButton.setForeground(AppAppereance.VERY_LIGHT_COLOR);
 		minusButton.setPreferredSize(buttonDimension);
 		minusButton.setMaximumSize(buttonDimension);
 		minusButton.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));

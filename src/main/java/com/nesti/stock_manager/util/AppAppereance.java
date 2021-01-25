@@ -44,7 +44,10 @@ public class AppAppereance {
 	     UIManager.put("Panel.background", LIGHT_COLOR);
 	     UIManager.put("ScrollBar.background", LIGHT_COLOR);
 	     UIManager.put("RadioButton.background", VERY_LIGHT_COLOR);
-	 
+	     UIManager.put("ComboBox.background", LIGHT_COLOR);
+	     UIManager.put("ScrollPane.background", LIGHT_COLOR);
+	     UIManager.put("OptionPane.background", LIGHT_COLOR);
+	     UIManager.put("button.OptionPane.background", DARK);
 	     
 	     UIManager.put("List.selectionBackground",HIGHLIGHT);
 	     UIManager.put("List.selectionForeground",VERY_LIGHT_COLOR);
