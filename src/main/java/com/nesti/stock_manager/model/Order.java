@@ -178,7 +178,7 @@ public class Order extends BaseEntity implements Serializable {
 		for (var oa : this.getOrdersArticles()) {
 			result += oa.getOffer().getArticle().getWeight()*oa.getQuantity()*0.006;
 		}
-		System.out.println(result);
+
 		return Math.round(result*100.0)/100.0;
 	}
 	

@@ -4,7 +4,7 @@
 <hibernate-configuration>
  <session-factory>
   <property name ="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-  <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/nesti_test</property>
+  <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/nesti_stok_test</property>
   <property name="hibernate.connection.username">root</property>
   <property name="hibernate.current_session_context_class">thread</property>
   <mapping class="com.nesti.stock_manager.model.Article"/>
