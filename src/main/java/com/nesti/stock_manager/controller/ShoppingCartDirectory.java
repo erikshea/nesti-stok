@@ -25,6 +25,8 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 			refreshSheepingFees();
 		});
 		
+		
+		
 		var sheepingFeesContainer = new JPanel();
 		sheepingFeesContainer.setLayout(new BoxLayout(sheepingFeesContainer, BoxLayout.X_AXIS));
 		sheepingFeesContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, Short.MAX_VALUE));
@@ -83,6 +85,10 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 
 	@Override
 	public void deleteRow(int rowIndex) {
+	}
+	
+	@Override
+	public void addButtonBar() {
 	}
 
 	@Override

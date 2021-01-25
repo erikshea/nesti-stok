@@ -172,13 +172,20 @@ public class Order extends BaseEntity implements Serializable {
 		return result;
 	}
 
-	public Double getSheepingFees() {
+	public Double getShippingFees() {
 		var result = 0.0;
 		
 		for (var oa : this.getOrdersArticles()) {
 			result += oa.getOffer().getArticle().getWeight()*oa.getQuantity()*0.006;
 		}
+		System.out.println(result);
 		return Math.round(result*100.0)/100.0;
+	}
+	
+	public Double getTotal() {
+		var total = getSubTotal() + getShippingFees();
+		return Math.round(total*100.0)/100.0;
+		
 	}
 
 	public OrdersArticle getOrdersArticleFor(Article article) {

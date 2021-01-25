@@ -16,6 +16,7 @@ import com.nesti.stock_manager.application.NestiStokMain;
 import com.nesti.stock_manager.dao.UserDao;
 import com.nesti.stock_manager.model.User;
 import com.nesti.stock_manager.shopping_cart.ShoppingCart;
+import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.ApplicationSettings;
 import com.nesti.stock_manager.util.HibernateUtil;
 
@@ -33,21 +34,23 @@ public class MainWindowControl extends JPanel {
 
 	public MainWindowControl() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.setBackground(new Color(244,225,181));
+		this.setBackground(AppAppereance.LIGHT_COLOR);
 		
-		UIManager.put("TabbedPane.selected", new Color(232,189,88));
+		UIManager.put("TabbedPane.selected", AppAppereance.LIGHT_COLOR);
 		
 		var connectedUserPane = new JPanel();
 		
 		connectedUserPane.setLayout(new BoxLayout(connectedUserPane, BoxLayout.X_AXIS));
 		connectedUserPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-		connectedUserPane.setBackground(new Color(244,225,181));
+		connectedUserPane.setBackground(AppAppereance.LIGHT_COLOR);
 		
 		var connectedUserLogin = new JLabel(getConnectedUser().getLogin());
 		
 		var disconnectButton = new JButton("Déconnecter");
-		disconnectButton.setBackground(new Color(179,133,4));
+		disconnectButton.setBackground(AppAppereance.DARK);
 		disconnectButton.setForeground(new Color(255,255,255));
+		disconnectButton.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
+		disconnectButton.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
 		disconnectButton.addActionListener(e->{
 			ApplicationSettings.set("login",null);
 			ApplicationSettings.set("password",null);
@@ -77,8 +80,7 @@ public class MainWindowControl extends JPanel {
 		mainPane.setPreferredSize(new Dimension(width, height));
 
 		mainPane.setMinimumSize(new Dimension(600, 900));
-		mainPane.setBackground(new Color(179,133,4));
-		mainPane.setForeground(new Color(255,255,255));
+		mainPane.setBackground(AppAppereance.MEDIUM_COLOR);
 
 		this.articleDirectory = new ArticleDirectory(this);
 		mainPane.addTab(this.articleDirectory);
