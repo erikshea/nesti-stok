@@ -7,6 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import com.nesti.stock_manager.model.OrdersArticle;
 
@@ -132,4 +133,15 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		refreshSheepingFees();
 	}
 	
+	
+	@Override
+	public void createTable() {
+		super.createTable();
+
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+		table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+		table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+	}
 }
