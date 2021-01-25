@@ -2,9 +2,12 @@ package com.nesti.stock_manager.controller;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
@@ -22,6 +25,9 @@ import javax.swing.table.TableCellRenderer;
 
 import com.nesti.stock_manager.controller.ArticleSupplierList.RadioButtonEditor;
 import com.nesti.stock_manager.controller.ArticleSupplierList.RadioButtonRenderer;
+import com.nesti.stock_manager.dao.ArticleDao;
+import com.nesti.stock_manager.dao.SupplierDao;
+import com.nesti.stock_manager.form.ButtonColumn;
 import com.nesti.stock_manager.model.Offer;
 import com.nesti.stock_manager.model.OrdersArticle;
 import com.nesti.stock_manager.model.Supplier;
@@ -33,7 +39,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 
 	protected JLabel totalValue;
 	protected JLabel sheepingFeesValue;
-	protected JButton orderButton,cancelButton;
+	protected JButton orderButton,clearButton;
 	
 	public ShoppingCartDirectory(MainWindowControl c) {
 		super(c);
@@ -79,10 +85,10 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		var buttonBarContainer = new JPanel();
 
 		orderButton = new JButton("Commander");
-		cancelButton = new JButton("Annuler");
+		clearButton = new JButton("Tout effacer");
 
 		buttonBarContainer.add(Box.createHorizontalGlue());
-		buttonBarContainer.add(cancelButton);
+		buttonBarContainer.add(clearButton);
 		buttonBarContainer.add(orderButton);
 
 		this.add(sheepingFeesContainer);
@@ -97,7 +103,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 	}
 
 	public Object[] getTableModelColumns() {
-		return new Object[] { "Réf", "Description", "Quantité", "Prix d'achat", "Fournisseur" };
+		return new Object[] { "Réf", "Description", "Quantité", "Prix d'achat", "Fournisseur", "Effacer"};
 	}
 
 	@Override
@@ -110,7 +116,10 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 
 	@Override
 	public void addRow(OrdersArticle orderLine) {
+		var offer = orderLine.getArticle().getCurrentOffers().get(orderLine.getOrder().getSupplier());
+		
 		var supplierComboBox = new JComboBox<Offer>();
+		
 		
 		orderLine.getArticle().getCurrentOffers().values().forEach( o->{
 			supplierComboBox.addItem(o);
@@ -118,19 +127,17 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		supplierComboBox.setSelectedItem(orderLine.getOffer());
 		
 		supplierComboBox.addActionListener( e->{
-			var oldOffer = (Offer) supplierComboBox.getSelectedItem();
-			var newOffer = orderLine.getArticle().getCurrentOffers().get(oldOffer.getSupplier());
+			var selectedOffer = (Offer) supplierComboBox.getSelectedItem();
 
-			orderLine.getOrder().removeOrdersArticle(orderLine);
-			mainController.getShoppingCart().addOffer(newOffer, orderLine.getQuantity());
+			mainController.getShoppingCart().removeOffer(offer);
+			mainController.getShoppingCart().addOffer(selectedOffer, orderLine.getQuantity());
 			this.refreshTab();
 		});
 		
 		supplierComboBox.setRenderer(new OfferListCellRenderer());
 		
-		var offer = orderLine.getArticle().getCurrentOffers().get(orderLine.getOrder().getSupplier());
 		this.addRowData(new Object[] { orderLine.getArticle().getCode(), orderLine.getArticle().getName(),
-				orderLine.getQuantity(), offer.getPrice(), supplierComboBox });
+				orderLine.getQuantity(), offer.getPrice(), supplierComboBox, "-" });
 	}
 	
 	public void refreshTotal() {
@@ -146,8 +153,9 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 	}
 	
 	public void addButtonListeners() {
-		cancelButton.addActionListener( ev->{
-			closeTab();
+		clearButton.addActionListener( ev->{
+			mainController.getShoppingCart().clearAll();
+			refreshTab();
 		});
 		
 		orderButton.addActionListener( e->{
@@ -172,6 +180,8 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		});
 		refreshTotal();
 		refreshSheepingFees();
+		
+		
 		SwingUtil.setUpTableAutoSort(table);
 	}
 	
@@ -187,8 +197,34 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		table.setRowHeight(20);
 		this.table.getColumn("Fournisseur").setCellRenderer(new ComboBoxCellRenderer());
 		this.table.getColumn("Fournisseur").setCellEditor(new ComboBoxCellEditor(new JCheckBox()));
+		
+		Action delete = new AbstractAction() {
+		    public void actionPerformed(ActionEvent e)
+		    {
+		        int modelRow = Integer.valueOf( e.getActionCommand() );
+		        onRowDelete(modelRow);
+		    }
+		};
+		ButtonColumn buttonColumn = new ButtonColumn(
+				table,
+				delete,
+				getTableModelColumns().length-1
+		);
 	}
+	
+
+	protected void onRowDelete(int modelRow) {
+		@SuppressWarnings("unchecked")
+		var comboBox = (JComboBox<Supplier>) this.table.getValueAt(modelRow, 4);
+		var offer = (Offer) comboBox.getSelectedItem();
+		mainController.getShoppingCart().removeOffer(offer);
+		refreshTab();
+	}
+	
 }
+
+
+
 
 
 //display radio button

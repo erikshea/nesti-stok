@@ -198,7 +198,10 @@ public class Order extends BaseEntity implements Serializable {
 		;
 		return result;
 	}
-
+	
+	public void removeOrdersArticleFor(Article article) {
+		removeOrdersArticle(getOrdersArticleFor(article));
+	}
 	
 	@Override
 	public OrderDao getDao() {

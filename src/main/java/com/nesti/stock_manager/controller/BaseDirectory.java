@@ -123,14 +123,15 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 			    null,     //do not use a custom Icon
 			    options,  //the titles of buttons
 			    options[0]); //default button title
-			
+			System.out.println(choice);
 			if ( choice == 1 ) {
 				for (var rowIndex : this.table.getSelectedRows()) {
 					this.deleteRow(rowIndex);
+					HibernateUtil.getSession().getTransaction().commit();
+					refreshTable();
 				}
 			}
-			HibernateUtil.getSession().getTransaction().commit();
-			refreshTable();
+
 		});
 		
 		this.table.getSelectionModel().addListSelectionListener(e->{
@@ -171,7 +172,9 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		entities.forEach(e-> {
 			this.addRow((E) e);
 		});
-		
+		if (table.getRowCount()>0) {
+			table.setRowSelectionInterval(0, 0);
+		}
 		SwingUtil.setUpTableAutoSort(table);
 	}
 	

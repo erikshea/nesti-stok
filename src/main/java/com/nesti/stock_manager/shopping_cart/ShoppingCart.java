@@ -71,6 +71,24 @@ public class ShoppingCart {
 
 	}
 
+	public void removeOffer(Offer offer) {
+		var order = orders.get(offer.getSupplier());
+		order.removeOrdersArticleFor(offer.getArticle());
+		
+		if (order.getOrdersArticles().size() == 0) {
+			orders.remove(offer.getSupplier());
+		}
+	}
+	
+	public void removeOrdersArticle(Article article, Supplier supplier) {
+		if (orders.containsKey(supplier)) {
+			orders.get(supplier).removeOrdersArticleFor(article);
+			if (orders.get(supplier).getOrdersArticles().size() == 0) {
+				orders.remove(supplier);
+			}
+		}
+	}
+	
 	public static boolean isNumeric(String strNum) {
 		try {
 			Double.parseDouble(strNum);
@@ -128,4 +146,8 @@ public class ShoppingCart {
 		return orderlines;
 	}
 
+	
+	public void clearAll() {
+		orders.clear();
+	}
 }
