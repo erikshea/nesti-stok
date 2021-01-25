@@ -33,58 +33,68 @@ public class FieldContainer extends BaseFieldContainer{
 		return this.field;
 	}
 	
-	public<E> void bind(String initialFieldValue, ValueSetter s) {
-
-		this.bind(initialFieldValue, s, null);
+	public void bind(String initialText, ValueSetter s) {
+		this.bind(initialText, s, null, false);
 	}
 	
-	public<E> void bind(String i, ValueSetter s, Predicate<String> validator) {
-		initialFieldValue = i;
+	public void bind(String initialText, ValueSetter s, boolean emptyAllowed) {
+		this.bind(initialText, s, null, emptyAllowed);
+	}
+	
+	public void bind(String initialText, ValueSetter s, Predicate<String> validator) {
+		this.bind(initialText, s, validator, false);
+	}
+	
+	public void bind(String initialText, ValueSetter s, Predicate<String> validator, boolean emptyAllowed) {
+		initialFieldValue = initialText;
 		getField().setText(initialFieldValue);
-		validateField(s, validator);
+		validateField(s, validator, emptyAllowed);
 		
 		getField().getDocument().addDocumentListener(new DocumentListener() {
 			  @Override
 			public void changedUpdate(DocumentEvent e) {
-				  validateField(s, validator);
+				  validateField(s, validator, emptyAllowed);
 			  }
 			  @Override
 			public void removeUpdate(DocumentEvent e) {
-				  validateField(s, validator);
+				  validateField(s, validator, emptyAllowed);
 			  }
 			  @Override
 			public void insertUpdate(DocumentEvent e) {
-				  validateField(s, validator);
+				  validateField(s, validator, emptyAllowed);
 			}
 		});
 	}
+
 	
-	public void validateField(ValueSetter s, Predicate<String> validator) {
+	public void validateField(ValueSetter s, Predicate<String> validator, boolean emptyAllowed) {
 		 getField().setBackground(COLOR_VALID);
 		 valid = true;
 		 try {
-			 
 			 if ( validator != null ) {
 				 valid =		getField().getText().equals(initialFieldValue) 	// always valid if text is same as initial value
 						 	||	validator.test(getField().getText()); 			// valid if validator passes
-
+			 }
+			 
+			 if ( !emptyAllowed ) {
 				 valid &= getField().getText().length()>0;
 			 }
-			 
-			 
-			 if (valid) {
-				 s.set(getField().getText());
-			 }  else {
-				 getField().setBackground(COLOR_INVALID);
-			 }
-			 
 		 } catch ( Exception e ) {	// exception when setting (ie entering letters for Double property)
 			 valid = false;
-			 getField().setBackground(COLOR_INVALID);
 		 } 
 
-		 infoPane.checkValidatedFields();
+
+		 if (valid) {
+			 s.set(getField().getText());
+		 }  else {
+			 getField().setBackground(COLOR_INVALID);
+		 }
+		 
+		 if ( infoPane != null ) {
+			 infoPane.checkValidatedFields();
+		 }
 	}
+	
 }
 		
 
