@@ -14,7 +14,7 @@ public class LabelContainer extends BaseFieldContainer{
 	protected JLabel infoLabel;
 	
 	public LabelContainer(String labelText, String infoText) {
-		super(labelText, null);
+		super(labelText);
 		this.infoLabel = new JLabel();
 		infoLabel.setText(infoText);
 		this.add(this.infoLabel);

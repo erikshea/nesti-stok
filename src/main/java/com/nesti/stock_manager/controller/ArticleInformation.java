@@ -21,7 +21,7 @@ import com.nesti.stock_manager.model.Article;
 import com.nesti.stock_manager.model.Ingredient;
 import com.nesti.stock_manager.model.Packaging;
 import com.nesti.stock_manager.model.Unit;
-import com.nesti.stock_manager.util.HibernateUtil;
+import com.nesti.stock_manager.model.Utensil;
 public class ArticleInformation extends BaseInformation<Article> {
 	private static final long serialVersionUID = 1775908299271902575L;
 
@@ -31,9 +31,24 @@ public class ArticleInformation extends BaseInformation<Article> {
 		super(c, article);
 	}
 	
+	public String getTitle() {
+		var result = "";
+		if (item.getName() == null) {
+			if ( item.getProduct() instanceof Utensil) {
+				result = "Nouvel Article (ustensile)";
+			} else {
+				result = "Nouvel Article (ingrédient)";
+			}
+		} else {
+			result = "Article : " + item.getName();
+		}
+		
+		return result;
+	}
+	
 	@Override
-	public void refreshTab() {
-		super.refreshTab();
+	public void preRefreshTab() {
+		super.preRefreshTab();
 
 		final var article = item;
 		
@@ -122,7 +137,6 @@ public class ArticleInformation extends BaseInformation<Article> {
 		articleForm.add(Box.createVerticalGlue());
 		
 		this.add(articleForm, BorderLayout.WEST);
-		HibernateUtil.getSession().evict(item);
 	}
 	
 	

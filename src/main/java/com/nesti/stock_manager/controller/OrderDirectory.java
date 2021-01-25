@@ -32,10 +32,7 @@ public class OrderDirectory extends BaseDirectory<Order> {
 			var number = this.table.getValueAt(this.table.getSelectedRow(),0);
 			var o = (new OrderDao()).findOneBy("number",number);
 
-			this.mainController.getMainPane().addCloseableTab(
-					"Commande N° " + o.getNumber(),
-					new OrderInformation(this.mainController,o)
-			);
+			this.mainController.getMainPane().addCloseableTab(new OrderInformation(this.mainController,o));
 		});
 			
 		this.table.getSelectionModel().addListSelectionListener(e->{
@@ -47,7 +44,7 @@ public class OrderDirectory extends BaseDirectory<Order> {
 	// Title of the article List
 	@Override
 	public String getTitle() {
-		return "Liste des commandes";
+		return "Commandes";
 	}
 
 	@Override

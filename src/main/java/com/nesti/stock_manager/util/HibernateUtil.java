@@ -2,11 +2,7 @@ package com.nesti.stock_manager.util;
 
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

@@ -1,8 +1,7 @@
 package com.nesti.stock_manager.test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.nesti.stock_manager.util.HibernateUtil;
 import com.nesti.stock_manager.util.PopulateDb;

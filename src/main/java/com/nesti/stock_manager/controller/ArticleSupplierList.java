@@ -18,6 +18,7 @@ import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.model.Article;
 import com.nesti.stock_manager.model.Offer;
+import com.nesti.stock_manager.util.SwingUtil;
 
 //RIGHT OF THE SCREEN, SUPPLIER'S INFORMATION OF THE ARTICLE
 
@@ -77,6 +78,9 @@ public class ArticleSupplierList extends BasePriceList<Article> {
 		entity.getCurrentOffers().values().forEach( o->{
 			this.addRowData(new Object[] { o.getSupplier().getName(), o.getPrice() }, o.getSupplier().equals(defaultSupplier) );
 		});
+
+
+		SwingUtil.setUpTableAutoSort(table);
 	}
 
 	@Override

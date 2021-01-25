@@ -17,11 +17,16 @@ public class FieldContainer extends BaseFieldContainer{
 	protected static final Color COLOR_VALID = Color.WHITE;
 	protected static final Color COLOR_INVALID = Color.ORANGE;
 	
-	public FieldContainer(String labelText, BaseInformation<?> infoPane) {
-		super(labelText, infoPane);
-		infoPane.addValidatedField(this);
+	public FieldContainer(String labelText) {
+		super(labelText);
 		this.field = new JTextField();
 		this.add(this.field);
+	}
+	
+	public FieldContainer(String labelText, BaseInformation<?> i) {
+		this(labelText);
+		setInfoPane(i);
+		infoPane.addValidatedField(this);
 	}
 	
 	public JTextField getField() {

@@ -9,13 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
-import com.nesti.stock_manager.dao.ProductDao;
 import com.nesti.stock_manager.form.EditableListFieldContainer;
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.model.Ingredient;
-import com.nesti.stock_manager.model.Product;
 import com.nesti.stock_manager.model.Unit;
-import com.nesti.stock_manager.util.HibernateUtil;
 
 public class IngredientInformation extends BaseInformation<Ingredient> {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -24,9 +21,20 @@ public class IngredientInformation extends BaseInformation<Ingredient> {
 		super(c, ingredient);
 	}
 	
+	public String getTitle() {
+		var result = "";
+		if (item.getName() == null) {
+			result = "Nouvel Ingrédient";
+		} else {
+			result = "Ingrédient : " + item.getName();
+		}
+		
+		return result;
+	}
+	
 	@Override
-	public void refreshTab() {
-		super.refreshTab();
+	public void preRefreshTab() {
+		super.preRefreshTab();
 		
 		final var product= item;
 		var dao = item.getDao();
@@ -65,14 +73,8 @@ public class IngredientInformation extends BaseInformation<Ingredient> {
 		
 		this.add(ingredientForm, BorderLayout.WEST);
 		
-		HibernateUtil.getSession().evict(item);
 	}
 	
-	@Override
-	public void saveItem() {
-		final var product= (Product) item;
-		(new ProductDao()).saveOrUpdate(product);
-	}
 	
 	@Override
 	public void closeTab() {

@@ -13,7 +13,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
-import javax.transaction.Transactional;
 
 import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.dao.UnitDao;
@@ -34,6 +33,13 @@ public class Ingredient extends Product  {
 	@Column(name="id_product")
 	private int idProduct;
 
+	// bi-directional many-to-one association to Product
+//	@OneToOne
+//	@JoinColumn(name = "id_product")
+//	public Product product;
+	
+	
+	
 	//bi-directional many-to-many association to Unit
 	@ManyToMany
 	@JoinTable(

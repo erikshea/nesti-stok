@@ -14,7 +14,7 @@ public class UserDirectory extends BaseDirectory<User> {
 	
 	@Override
 	public String getTitle() {
-		return "Liste des administrateurs";
+		return "Administrateurs";
 	}
 
 	
@@ -31,18 +31,12 @@ public class UserDirectory extends BaseDirectory<User> {
 
 			var a = (new UserDao()).findOneBy("login",login);
 
-			this.mainController.getMainPane().addCloseableTab(
-					"Utilisateur: " + a.getName(),
-					new UserInformation(this.mainController,a)
-			);
+			this.mainController.getMainPane().addCloseableTab(new UserInformation(this.mainController,a));
 
 		});
 		
 		this.buttonAdd.addActionListener( e->{
-			this.mainController.getMainPane().addCloseableTab(
-					"Nouvel Utilisateur",
-					new UserInformation(this.mainController,new User())
-			);
+			this.mainController.getMainPane().addCloseableTab(new UserInformation(this.mainController,new User()));
 		});
 		/*
 		this.buttonDelete.addActionListener( e->{

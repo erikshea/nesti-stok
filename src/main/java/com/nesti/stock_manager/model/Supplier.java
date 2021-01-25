@@ -56,7 +56,7 @@ public class Supplier  extends BaseEntity implements Serializable {
 	private List<Offer> offers;
 
 	//bi-directional many-to-one association to Order
-	@OneToMany(mappedBy="supplier", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="supplier")
 	private List<Order> orders;
 
 	//bi-directional many-to-one association to Article

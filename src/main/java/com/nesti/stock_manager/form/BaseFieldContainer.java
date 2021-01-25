@@ -13,10 +13,10 @@ import com.nesti.stock_manager.controller.BaseInformation;
 public class BaseFieldContainer extends JPanel{
 	protected JLabel label;
 	protected BaseInformation<?> infoPane; 
+
 	protected boolean valid;
 	
-	public BaseFieldContainer(String labelText, BaseInformation<?> i) {
-		infoPane = i;
+	public BaseFieldContainer(String labelText) {
 		valid=true;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -27,8 +27,21 @@ public class BaseFieldContainer extends JPanel{
 		this.label.setPreferredSize(new Dimension(120, Short.MAX_VALUE));
 		this.add(label);
 	}
-	
+
 	public boolean validates() {
 		return valid;
 	}
+	
+	public BaseInformation<?> getInfoPane() {
+		return infoPane;
+	}
+
+	public void setInfoPane(BaseInformation<?> infoPane) {
+		this.infoPane = infoPane;
+	}
+
+	public JLabel getLabel() {
+		return label;
+	}
+
 }

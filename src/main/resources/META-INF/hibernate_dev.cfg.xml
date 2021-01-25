@@ -15,7 +15,6 @@
   <mapping class="com.nesti.stock_manager.model.OrdersArticle"/>
   <mapping class="com.nesti.stock_manager.model.OrdersArticlePK"/>
   <mapping class="com.nesti.stock_manager.model.Packaging"/>
-  <mapping class="com.nesti.stock_manager.model.Product"/>
   <mapping class="com.nesti.stock_manager.model.Supplier"/>
   <mapping class="com.nesti.stock_manager.model.Unit"/>
   <mapping class="com.nesti.stock_manager.model.User"/>

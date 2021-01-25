@@ -20,7 +20,7 @@ public class ListFieldContainer extends BaseFieldContainer {
 	protected Boolean suspendBinding;
 	
 	public ListFieldContainer(String labelText) {
-		super(labelText,null);
+		super(labelText);
 		this.setPreferredSize(new Dimension(0, 80));
 		listModel = new DefaultListModel<String>();
 		this.list = new JList<>(listModel);

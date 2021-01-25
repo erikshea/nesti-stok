@@ -1,7 +1,6 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;

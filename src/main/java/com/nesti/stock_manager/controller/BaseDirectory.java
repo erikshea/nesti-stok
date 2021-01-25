@@ -7,7 +7,6 @@ import java.lang.reflect.ParameterizedType;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.util.HibernateUtil;
+import com.nesti.stock_manager.util.SwingUtil;
 
 @SuppressWarnings("serial")
 public abstract class BaseDirectory<E> extends JPanel implements Tab {
@@ -23,7 +23,7 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 	protected JPanel buttonBar;
 	protected DefaultTableModel tableModel;
 	protected JTable table;
-
+	protected TableSearchBar searchBar;
 	protected JButton buttonAdd;
 	protected JButton buttonDelete;
 	protected JButton buttonModify;
@@ -33,11 +33,9 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 	public BaseDirectory(MainWindowControl c) {
 		this.mainController = c;
 		createTable();	
+		searchBar = new TableSearchBar(table);
 		addButtonBar();
-		// Title of the article List
-		var titleLabel = new JLabel(this.getTitle());
-		this.add(titleLabel);
-
+		this.add(searchBar);
 
 		var tableContainer = new JScrollPane(this.table);
 		this.add(tableContainer);
@@ -83,7 +81,7 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 	public void createTable() {
 		this.tableModel = new DefaultTableModel();
 		tableModel.setColumnIdentifiers(getTableModelColumns());
-		this.table = new JTable(tableModel);
+		table = new JTable(tableModel);
 	}
 
 	public void setUpButtonBarListeners() {
@@ -149,6 +147,8 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		entities.forEach(e-> {
 			this.addRow((E) e);
 		});
+		
+		SwingUtil.setUpTableAutoSort(table);
 	}
 	
 	@SuppressWarnings("unchecked")

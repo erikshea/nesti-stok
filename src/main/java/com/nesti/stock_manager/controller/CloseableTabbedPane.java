@@ -13,8 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.plaf.metal.MetalIconFactory;
 
-import com.nesti.stock_manager.util.HibernateUtil;
-
 public class CloseableTabbedPane extends JTabbedPane {
 	private static final long serialVersionUID = 1L;
 
@@ -28,10 +26,12 @@ public class CloseableTabbedPane extends JTabbedPane {
 	public void addTab(String title, Icon icon, Component component, String tip) {
 		// TODO Auto-generated method stub
 		super.addTab(title, icon, component, tip);
-		HibernateUtil.getSession().clear();
 	}
 	
 
+	public void addTab(Tab tab) {
+		super.addTab(tab.getTitle(), null, (Component) tab);
+	}
 	
 	@Override
 	public void setSelectedComponent(Component c) {
@@ -46,7 +46,8 @@ public class CloseableTabbedPane extends JTabbedPane {
 		this.setTabComponentAt(count, new CloseButtonTab(component, title, icon));
 		this.setSelectedIndex(count);
 	}
-
+	
+	
 	public void addCloseableTab(String title, Icon icon, Component component) {
 		this.addCloseableTab(title, icon, component, null);
 	}
@@ -55,6 +56,10 @@ public class CloseableTabbedPane extends JTabbedPane {
 		this.addCloseableTab(title, null, component);
 	}
 
+	public void addCloseableTab(Tab tab) {
+		this.addCloseableTab(tab.getTitle(), null, (Component) tab);
+	}
+	
 	/* Button */
 	public class CloseButtonTab extends JPanel {
 		private static final long serialVersionUID = 1L;

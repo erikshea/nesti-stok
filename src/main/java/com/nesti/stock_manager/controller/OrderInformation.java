@@ -23,10 +23,14 @@ public class OrderInformation extends BaseInformation<Order> {
 	public OrderInformation(MainWindowControl c, Order order) {
 		super(c, order);
 	}
+
+	public String getTitle() {
+		return "Commande N°" + item.getNumber();
+	}
 	
 	@Override
-	public void refreshTab() {
-		super.refreshTab();
+	public void preRefreshTab() {
+		super.preRefreshTab();
 		final var order = item;
 		
 		var orderDetails = new JPanel();
@@ -99,7 +103,4 @@ public class OrderInformation extends BaseInformation<Order> {
 	
 	@Override
 	public void addBottomButtonBar() {}
-
-	@Override
-	public void saveItem() {}
 }

@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.model.Supplier;
-import com.nesti.stock_manager.util.HibernateUtil;
 
 public class SupplierInformation extends BaseInformation<Supplier> {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -22,9 +21,20 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 		super(c, supplier);
 	}
 	
+	public String getTitle() {
+		var result = "";
+		if (item.getName() == null) {
+			result = "Nouveau Fournisseur";
+		} else {
+			result = "Fournisseur : " + item.getName();
+		}
+		
+		return result;
+	}
+	
 	@Override
-	public void refreshTab() {
-		super.refreshTab();
+	public void preRefreshTab() {
+		super.preRefreshTab();
 		final var supplier = item;
 		var dao = item.getDao();
 		
@@ -91,19 +101,11 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 		supplierForm.add(Box.createVerticalGlue());
 		
 		this.add(supplierForm, BorderLayout.WEST);
-		HibernateUtil.getSession().evict(item);
 	}
 
 	@Override
 	public void closeTab() {
 		super.closeTab();
 		this.mainControl.getMainPane().setSelectedComponent(this.mainControl.getSupplierDirectory());
-	}
-
-	
-	@Override
-	public void saveItem() {
-		final var supplier= (Supplier) item;
-		supplier.getDao().saveOrUpdate(supplier);
 	}
 }
