@@ -1,5 +1,6 @@
 package com.nesti.stock_manager.controller;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -29,10 +30,12 @@ public class MainWindowControl extends JPanel {
 
 	public MainWindowControl() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setBackground(new Color(66,42,23));
 		
 		var connectedUserPane = new JPanel();
 		
 		connectedUserPane.setLayout(new BoxLayout(connectedUserPane, BoxLayout.X_AXIS));
+		
 		var connectedUserLogin = new JLabel(getConnectedUser().getLogin());
 		var disconnectButton = new JButton("Déconnecter");
 		disconnectButton.addActionListener(e->{

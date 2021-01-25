@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
@@ -36,12 +37,12 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 
 		addToCartQuantity.setMaximumSize(new Dimension(100, 30));
 		addToCartQuantity.setPreferredSize(new Dimension(100, 0));
-
+		addToCart.add((Box.createRigidArea(new Dimension(50,0))));
 		addToCart.add(addToCartQuantity);
 		addToCartButton = new JButton("Ajouter au panier");
 		addToCartButton.setEnabled(false);
 		addToCart.add(addToCartButton);
-		this.buttonBar.add(addToCart, 8);
+		this.buttonBar.add(addToCart, 7);
 		
 		addToCartButton.addActionListener(e -> {
 			if (!isNumeric(addToCartQuantity.getText()) || Double.parseDouble(addToCartQuantity.getText()) < 0) {

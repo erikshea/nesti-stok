@@ -1,5 +1,6 @@
 package com.nesti.stock_manager.controller;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -23,6 +24,7 @@ public class OrderDirectory extends BaseDirectory<Order> {
 		// Define all the button of the head on the article list
 		this.buttonBar = new JPanel();
 		this.buttonBar.setLayout(new BoxLayout(buttonBar, BoxLayout.X_AXIS));
+		this.buttonBar.setBorder(BorderFactory.createEmptyBorder(20,10,10,10));
 		this.buttonBar.add(buttonInfo);
 		this.buttonBar.add(Box.createHorizontalGlue());
 

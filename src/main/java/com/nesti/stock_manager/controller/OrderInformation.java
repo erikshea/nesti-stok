@@ -66,7 +66,7 @@ public class OrderInformation extends BaseInformation<Order> {
 	@Override
 	public void closeTab() {
 		super.closeTab();
-		this.mainControl.setSelectedComponent(this.mainControl.getOrderDirectory());
+		this.mainControl.getMainPane().setSelectedComponent(this.mainControl.getOrderDirectory());
 	}
 
 	public void addOrderItemTable() {

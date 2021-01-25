@@ -1,9 +1,11 @@
 package com.nesti.stock_manager.controller;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.lang.reflect.ParameterizedType;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -37,7 +39,7 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		// Title of the article List
 		var titleLabel = new JLabel(this.getTitle());
 		this.add(titleLabel);
-
+	
 
 		var tableContainer = new JScrollPane(this.table);
 		this.add(tableContainer);
@@ -47,7 +49,6 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 
 	public void addButtonBar() {
 		this.buttonAdd = new JButton("Créer");
-		
 		this.buttonDelete = new JButton("Supprimer");
 		this.buttonModify = new JButton("Modifier");
 		this.buttonDuplicate = new JButton("Dupliquer");
@@ -55,12 +56,15 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		this.buttonModify.setEnabled(false);
 		this.buttonDuplicate.setEnabled(false);
 		
+		
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		// Define all the button of the head on the article list
 		this.buttonBar = new JPanel();
 		this.buttonBar.setLayout(new BoxLayout(buttonBar, BoxLayout.X_AXIS));
-
+		this.buttonBar.setBorder(BorderFactory.createEmptyBorder(20,10,10,10));
+		this.buttonBar.setBackground(new Color(232,189,88));
+		
 		this.buttonBar.add(buttonAdd);
 		this.buttonBar.add((Box.createRigidArea(new Dimension(20,0))));
 		this.buttonBar.add(buttonDelete);
@@ -68,7 +72,7 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		this.buttonBar.add(buttonModify);
 		this.buttonBar.add((Box.createRigidArea(new Dimension(20,0))));
 		this.buttonBar.add(buttonDuplicate);
-	
+		
 
 		this.buttonBar.add(Box.createHorizontalGlue());
 
