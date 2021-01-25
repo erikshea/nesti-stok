@@ -73,7 +73,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 
 	@Override
 	public String getTitle() {
-		return "Liste d'articles à commander";
+		return "Panier";
 	}
 
 	public Object[] getTableModelColumns() {

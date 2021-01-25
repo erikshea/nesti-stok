@@ -15,6 +15,7 @@ import com.nesti.stock_manager.dao.UserDao;
 import com.nesti.stock_manager.model.User;
 import com.nesti.stock_manager.shopping_cart.ShoppingCart;
 import com.nesti.stock_manager.util.ApplicationSettings;
+import com.nesti.stock_manager.util.HibernateUtil;
 
 public class MainWindowControl extends JPanel {
 	private static final long serialVersionUID = 4705253258936419615L;
@@ -68,29 +69,29 @@ public class MainWindowControl extends JPanel {
 		mainPane.setMinimumSize(new Dimension(600, 900));
 
 		this.articleDirectory = new ArticleDirectory(this);
-		mainPane.addTab("Article", this.articleDirectory);
+		mainPane.addTab(this.articleDirectory);
 
 		this.supplierDirectory = new SupplierDirectory(this);
-		mainPane.addTab("Fournisseur", this.supplierDirectory);
+		mainPane.addTab(this.supplierDirectory);
 
 		this.ingredientDirectory = new IngredientDirectory(this);
-		mainPane.addTab("Ingrédient", this.ingredientDirectory);
+		mainPane.addTab(this.ingredientDirectory);
 		
 		this.orderDirectory = new OrderDirectory(this);
-		mainPane.addTab("Commandes", this.orderDirectory);
+		mainPane.addTab(this.orderDirectory);
 		
 		this.shoppingCartDirectory = new ShoppingCartDirectory(this);
-		mainPane.addTab("Panier", this.shoppingCartDirectory);
+		mainPane.addTab(this.shoppingCartDirectory);
 		
 		var user = getConnectedUser();
 		if (user.isSuperAdmin()) {
 			this.userDirectory = new UserDirectory(this);
-			mainPane.addTab("Utilisateur", this.userDirectory);
+			mainPane.addTab(this.userDirectory);
 		}
 		
 		this.add(mainPane);
 		
-		((Tab) mainPane.getComponent(0)).refreshTab(); // Must refresh first tab
+		HibernateUtil.getSession().clear();
 	}
 
 

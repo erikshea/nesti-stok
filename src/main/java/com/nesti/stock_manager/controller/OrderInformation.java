@@ -23,10 +23,14 @@ public class OrderInformation extends BaseInformation<Order> {
 	public OrderInformation(MainWindowControl c, Order order) {
 		super(c, order);
 	}
+
+	public String getTitle() {
+		return "Commande N°" + item.getNumber();
+	}
 	
 	@Override
-	public void refreshTab() {
-		super.refreshTab();
+	public void preRefreshTab() {
+		super.preRefreshTab();
 		final var order = item;
 		
 		var orderDetails = new JPanel();
@@ -58,6 +62,7 @@ public class OrderInformation extends BaseInformation<Order> {
 
 		orderDetails.add(Box.createVerticalGlue());
 		
+		
 		addOrderItemTable();
 		
 		this.add(orderDetails, BorderLayout.WEST);
@@ -77,7 +82,6 @@ public class OrderInformation extends BaseInformation<Order> {
 		);
 
 		
-		
 		item.getOrdersArticles().forEach(oa->{
 			tableModel.addRow(new Object[] {
 				oa.getArticle().getCode(),
@@ -90,7 +94,6 @@ public class OrderInformation extends BaseInformation<Order> {
 		var tableContainer = new JScrollPane(table);
 		tableContainer.setPreferredSize(new Dimension(500, 300));
 		tableContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, 300));
-		System.out.println("SDSQDQSD");
 		this.add(tableContainer, BorderLayout.EAST);
 	}
 	
@@ -100,7 +103,4 @@ public class OrderInformation extends BaseInformation<Order> {
 	
 	@Override
 	public void addBottomButtonBar() {}
-
-	@Override
-	public void saveItem() {}
 }

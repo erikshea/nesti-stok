@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.nesti.stock_manager.form.FieldContainer;
@@ -32,16 +31,27 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 	}
 	
 	public void closeTab() {
-		HibernateUtil.getSession().getTransaction().rollback();
 		this.mainControl.getMainPane().remove(this);
 	}
+
 	
-	public void refreshTab() {
+	public void preRefreshTab() {
 		this.removeAll();
 		addBottomButtonBar();
 	}
 	
-	public void addBottomButtonBar() {
+	public void postRefreshTab() {;
+		HibernateUtil.getSession().evict(item); // Changes to item not reflected in session cache until next saveOrUpdate
+		HibernateUtil.getSession().clear();
+	}
+	
+	
+	public void refreshTab() {
+		preRefreshTab();
+		postRefreshTab();
+	}
+	
+	public void addBottomButtonBar() {	
 		var buttonBottomBar = new JPanel();
 		buttonBottomBar.setLayout(new BoxLayout(buttonBottomBar, BoxLayout.X_AXIS));
 		this.buttonCancel = new JButton("Annuler");
@@ -64,19 +74,14 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 		
 		this.buttonValidate.addActionListener( e->{
 			try{
-				saveItem();
-				HibernateUtil.getSession().getTransaction().commit();
+				HibernateUtil.getSession().saveOrUpdate(item); 			// Item is back in session cache
+				HibernateUtil.getSession().getTransaction().commit(); 	// Save to data source
 				closeTab();
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this,
-				    "Veuillez vérifier les champs en orange.",
-				    "Paramétres invalides",
-				    JOptionPane.WARNING_MESSAGE);
+				ex.printStackTrace();
 			}
 		});
 	}
-	
-	public abstract void saveItem();
 	
 	public void addValidatedField(FieldContainer fieldContainer) {
 		validatedFields.add(fieldContainer);

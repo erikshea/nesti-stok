@@ -15,7 +15,7 @@ public class SupplierDirectory extends BaseDirectory<Supplier> {
 	// Title of the article List
 	@Override
 	public String getTitle() {
-		return "Liste des fournisseurs";
+		return "Fournisseurs";
 	}
 
 	@Override
@@ -30,18 +30,12 @@ public class SupplierDirectory extends BaseDirectory<Supplier> {
 			var name = this.table.getValueAt(this.table.getSelectedRow(),0);
 			var a = (new SupplierDao()).findOneBy("name",name);
 
-			this.mainController.getMainPane().addCloseableTab(
-					"Fournisseur: " + a.getName(),
-					new SupplierInformation(this.mainController,a)
-			);
+			this.mainController.getMainPane().addCloseableTab(new SupplierInformation(this.mainController,a));
 
 		});
 		
 		this.buttonAdd.addActionListener( e->{
-			this.mainController.getMainPane().addCloseableTab(
-					"Nouveau Fournisseur",
-					new SupplierInformation(this.mainController,new Supplier())
-			);
+			this.mainController.getMainPane().addCloseableTab(new SupplierInformation(this.mainController,new Supplier()));
 		});
 	}
 	

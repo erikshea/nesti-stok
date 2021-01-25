@@ -98,8 +98,7 @@ public abstract class BasePriceList<E> extends JPanel {
 			}
 		};
 
-		Action delete = new AbstractAction()
-		{
+		Action delete = new AbstractAction() {
 		    public void actionPerformed(ActionEvent e)
 		    {
 		        int modelRow = Integer.valueOf( e.getActionCommand() );
@@ -107,7 +106,11 @@ public abstract class BasePriceList<E> extends JPanel {
 		    }
 		};
 		 
-		ButtonColumn buttonColumn = new ButtonColumn(table, delete, getTableModelColumns().length-1);
+		ButtonColumn buttonColumn = new ButtonColumn(
+			table,
+			delete,
+			getTableModelColumns().length-1
+		);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
 		var priceTableContainer = new JScrollPane(table);

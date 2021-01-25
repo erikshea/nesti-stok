@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 //import org.graalvm.compiler.core.common.spi.JavaConstantFieldProvider_OptionDescriptors;
 
@@ -64,7 +66,7 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 
 	@Override
 	public String getTitle() {
-		return "Liste d'article";
+		return "Articles";
 	}
 
 	@Override
@@ -81,8 +83,7 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 
 			var a = (new ArticleDao()).findOneBy("code", code);
 
-			this.mainController.getMainPane().addCloseableTab("Article: " + a.getName(),
-					new ArticleInformation(this.mainController, a));
+			this.mainController.getMainPane().addCloseableTab(new ArticleInformation(this.mainController, a));
 		});
 
 		final JPopupMenu popup = new JPopupMenu();
@@ -90,7 +91,7 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 			public void actionPerformed(ActionEvent e) {
 				Article article = Article.createEmpty();
 				article.setProduct(new Ingredient());
-				mainController.getMainPane().addCloseableTab("Nouvel Article", new ArticleInformation(mainController, article));
+				mainController.getMainPane().addCloseableTab(new ArticleInformation(mainController, article));
 			}
 		});
 
@@ -98,7 +99,7 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 			public void actionPerformed(ActionEvent e) {
 				Article article = Article.createEmpty();
 				article.setProduct(new Utensil());
-				mainController.getMainPane().addCloseableTab("Nouvel Article", new ArticleInformation(mainController, article));
+				mainController.getMainPane().addCloseableTab(new ArticleInformation(mainController, article));
 			}
 		});
 
@@ -139,8 +140,42 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 		this.table.getSelectionModel().addListSelectionListener(e -> {
 			addToCartButton.setEnabled(this.table.getSelectedRowCount() > 0);
 		});
+		
+		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+
+
+
+//	    var numberComparator = new Comparator<String>() {
+//			@Override
+//			public int compare(String o1, String o2) {
+//				try {
+//					var v1 = Double.parseDouble(o1) ;
+//					var v2 = Double.parseDouble(o2) ;
+//
+//					
+//				}catch (Exception e) {
+//					
+//				}
+//				// TODO Auto-generated method stub
+//				return 0;
+//			}
+//	    };
+//	    sorter.setComparator(1, numberComparator);
+//	    sorter.setComparator(2, numberComparator);
+//	    sorter.setComparator(3, numberComparator);
+//	    sorter.setComparator(4, numberComparator);
+//	    sorter.setComparator(5, numberComparator);
+//	    table.setRowSorter(sorter);
+		
 	}
 
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void refreshTab() {
+		super.refreshTab();
+	}
+	
 	@Override
 	public void deleteRow(int rowIndex) {
 		var articleDao = new ArticleDao();
@@ -155,11 +190,11 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 			defaultSupplierName = entity.getDefaultSupplier().getName();
 		}
 
-		var purchasePrice = "Non disponible";
+		Double purchasePrice = null;
 		Double sellingPrice = 0.0;
 		if (entity.getCurrentOffers().get(entity.getDefaultSupplier()) != null) {
 			var offer = entity.getCurrentOffers().get(entity.getDefaultSupplier());
-			purchasePrice = String.valueOf(offer.getPrice());
+			purchasePrice = offer.getPrice();
 			sellingPrice = (double) Math.round((offer.getPrice() * 1.2) * 100) / 100;
 
 		}

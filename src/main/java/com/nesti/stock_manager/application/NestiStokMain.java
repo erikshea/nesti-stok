@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.nesti.stock_manager.controller.ConnectionForm;
+import com.nesti.stock_manager.util.HibernateUtil;
 
 public class NestiStokMain {
 	static JFrame frame;
@@ -21,6 +22,7 @@ public class NestiStokMain {
    public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
+	   	HibernateUtil.setCurrentEnvironment("dev");
         javax.swing.SwingUtilities.invokeLater( () -> createAndShowGUI() );
     }
    

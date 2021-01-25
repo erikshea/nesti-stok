@@ -22,9 +22,20 @@ public class UserInformation extends BaseInformation<User> {
 		super(c, user);
 	}
 	
+	public String getTitle() {
+		var result = "";
+		if (item.getLogin() == null) {
+			result = "Nouvel Utilisateur";
+		} else {
+			result = "Utilisateur : " + item.getLogin();
+		}
+		
+		return result;
+	}
+	
 	@Override
-	public void refreshTab() {
-		super.refreshTab();
+	public void preRefreshTab() {
+		super.preRefreshTab();
 		final var user= item;
 		var dao = item.getDao();
 	
@@ -73,12 +84,4 @@ public class UserInformation extends BaseInformation<User> {
 		super.closeTab();
 		this.mainControl.getMainPane().setSelectedComponent(this.mainControl.getUserDirectory());
 	}
-
-	
-	@Override
-	public void saveItem() {
-		final var user= (User) item;
-		user.getDao().saveOrUpdate(user);
-	}
-	
 }

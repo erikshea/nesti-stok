@@ -1,15 +1,12 @@
 package com.nesti.stock_manager.controller;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.lang.reflect.ParameterizedType;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.util.HibernateUtil;
+import com.nesti.stock_manager.util.SwingUtil;
 
 @SuppressWarnings("serial")
 public abstract class BaseDirectory<E> extends JPanel implements Tab {
@@ -25,7 +23,7 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 	protected JPanel buttonBar;
 	protected DefaultTableModel tableModel;
 	protected JTable table;
-
+	protected TableSearchBar searchBar;
 	protected JButton buttonAdd;
 	protected JButton buttonDelete;
 	protected JButton buttonModify;
@@ -35,11 +33,9 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 	public BaseDirectory(MainWindowControl c) {
 		this.mainController = c;
 		createTable();	
+		searchBar = new TableSearchBar(table);
 		addButtonBar();
-		// Title of the article List
-		var titleLabel = new JLabel(this.getTitle());
-		this.add(titleLabel);
-	
+		this.add(searchBar);
 
 		var tableContainer = new JScrollPane(this.table);
 		this.add(tableContainer);
@@ -49,6 +45,7 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 
 	public void addButtonBar() {
 		this.buttonAdd = new JButton("Créer");
+		
 		this.buttonDelete = new JButton("Supprimer");
 		this.buttonModify = new JButton("Modifier");
 		this.buttonDuplicate = new JButton("Dupliquer");
@@ -56,15 +53,12 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		this.buttonModify.setEnabled(false);
 		this.buttonDuplicate.setEnabled(false);
 		
-		
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		// Define all the button of the head on the article list
 		this.buttonBar = new JPanel();
 		this.buttonBar.setLayout(new BoxLayout(buttonBar, BoxLayout.X_AXIS));
-		this.buttonBar.setBorder(BorderFactory.createEmptyBorder(20,10,10,10));
-		this.buttonBar.setBackground(new Color(232,189,88));
-		
+
 		this.buttonBar.add(buttonAdd);
 		this.buttonBar.add((Box.createRigidArea(new Dimension(20,0))));
 		this.buttonBar.add(buttonDelete);
@@ -72,7 +66,7 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		this.buttonBar.add(buttonModify);
 		this.buttonBar.add((Box.createRigidArea(new Dimension(20,0))));
 		this.buttonBar.add(buttonDuplicate);
-		
+	
 
 		this.buttonBar.add(Box.createHorizontalGlue());
 
@@ -87,7 +81,7 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 	public void createTable() {
 		this.tableModel = new DefaultTableModel();
 		tableModel.setColumnIdentifiers(getTableModelColumns());
-		this.table = new JTable(tableModel);
+		table = new JTable(tableModel);
 	}
 
 	public void setUpButtonBarListeners() {
@@ -153,6 +147,8 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		entities.forEach(e-> {
 			this.addRow((E) e);
 		});
+		
+		SwingUtil.setUpTableAutoSort(table);
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -4,7 +4,7 @@
 <hibernate-configuration>
  <session-factory>
   <property name ="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-  <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/nesti_stok?serverTimezone=UTC</property>
+  <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/nesti_test</property>
   <property name="hibernate.connection.username">root</property>
   <property name="hibernate.current_session_context_class">thread</property>
   <mapping class="com.nesti.stock_manager.model.Article"/>
@@ -15,7 +15,6 @@
   <mapping class="com.nesti.stock_manager.model.OrdersArticle"/>
   <mapping class="com.nesti.stock_manager.model.OrdersArticlePK"/>
   <mapping class="com.nesti.stock_manager.model.Packaging"/>
-  <mapping class="com.nesti.stock_manager.model.Product"/>
   <mapping class="com.nesti.stock_manager.model.Supplier"/>
   <mapping class="com.nesti.stock_manager.model.Unit"/>
   <mapping class="com.nesti.stock_manager.model.User"/>

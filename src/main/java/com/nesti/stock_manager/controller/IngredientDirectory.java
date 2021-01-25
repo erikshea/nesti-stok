@@ -14,7 +14,7 @@ public class IngredientDirectory extends BaseDirectory<Ingredient> {
 	// Title of the article List
 	@Override
 	public String getTitle() {
-		return "Liste des ingrédients";
+		return "Ingrédients";
 	}
 
 	@Override
@@ -29,17 +29,11 @@ public class IngredientDirectory extends BaseDirectory<Ingredient> {
 			var ref = this.table.getValueAt(this.table.getSelectedRow(), 0);
 			var selectedIngredient = (new IngredientDao()).findOneBy("reference",ref);
 
-			this.mainController.getMainPane().addCloseableTab(
-					"Ingrédient: " + selectedIngredient.getName(),
-					new IngredientInformation(this.mainController,selectedIngredient)
-			);
+			this.mainController.getMainPane().addCloseableTab(new IngredientInformation(this.mainController,selectedIngredient));
 		});
 		
 		this.buttonAdd.addActionListener( e->{
-			this.mainController.getMainPane().addCloseableTab(
-					"Nouvel Ingrédient",
-					new IngredientInformation(this.mainController,new Ingredient())
-			);
+			this.mainController.getMainPane().addCloseableTab(new IngredientInformation(this.mainController,new Ingredient()));
 		});
 
 	}
@@ -52,6 +46,6 @@ public class IngredientDirectory extends BaseDirectory<Ingredient> {
 	
 	@Override
 	public void addRow(Ingredient entity) {
-		this.addRowData(new Object[] {entity.getReference(),entity.getName()," "});//TODO 
+		this.addRowData(new Object[] {entity.getReference(),entity.getName(), String.join(", ", entity.getUnitsNames())});//TODO 
 	}
 }
