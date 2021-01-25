@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.lang.reflect.InvocationTargetException;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -81,13 +82,14 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		buttonContainer.setBackground(AppAppereance.LIGHT_COLOR);
 		buttonContainer.setLayout(new BoxLayout(buttonContainer, BoxLayout.Y_AXIS));
 
-		var buttonDimension = new Dimension(50, 50);
+		var buttonDimension = new Dimension(30, 30);
 
 		var plusButton = new JButton("+");
 		plusButton.setBackground(AppAppereance.HIGHLIGHT);
 		plusButton.setForeground(new Color(255,255,255));
 		plusButton.setPreferredSize(buttonDimension);
-		
+		plusButton.setMaximumSize(buttonDimension);
+		plusButton.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));		
 
 		plusButton.addActionListener((e) -> {
 			this.addToList();
@@ -95,17 +97,21 @@ public class EditableListFieldContainer extends ListFieldContainer {
 
 		var minusButton = new JButton("-");
 		
-		minusButton.setPreferredSize(buttonDimension);
 		minusButton.setBackground(AppAppereance.DARK);
 		minusButton.setForeground(new Color(255,255,255));
+		minusButton.setPreferredSize(buttonDimension);
+		minusButton.setMaximumSize(buttonDimension);
+		minusButton.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
 		
 		minusButton.addActionListener((e) -> {
 			this.deleteFromList();
 		});
 
+		buttonContainer.add(Box.createVerticalGlue());
 		buttonContainer.add(plusButton);
 		buttonContainer.add(Box.createVerticalGlue());
 		buttonContainer.add(minusButton);
+		buttonContainer.add(Box.createVerticalGlue());
 
 		this.add(buttonContainer);
 
