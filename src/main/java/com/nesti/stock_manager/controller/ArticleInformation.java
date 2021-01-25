@@ -1,6 +1,7 @@
 package com.nesti.stock_manager.controller;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 
@@ -68,6 +69,10 @@ public class ArticleInformation extends BaseInformation<Article> {
 		addToCartField.setMaximumSize(new Dimension(40, 30));
 		addToCart.add(addToCartField);
 		var addToCartButton = new JButton("Ajouter au panier");
+		
+		addToCartButton.setBackground(new Color(91,148,4));
+		addToCartButton.setForeground(new Color(255,255,255));
+		
 		addToCart.add(addToCartButton);
 
 		addToCart.setAlignmentX(Component.LEFT_ALIGNMENT);

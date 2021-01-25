@@ -1,5 +1,8 @@
 package com.nesti.stock_manager.controller;
 
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
+
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.model.Supplier;
@@ -49,5 +52,15 @@ public class SupplierDirectory extends BaseDirectory<Supplier> {
 	@Override
 	public void addRow(Supplier entity) {
 		this.addRowData(new Object[] {entity.getName(), entity.getContactName(), entity.getCity(), entity.getPhoneNumber()});
+	}
+	
+	@Override
+	public void createTable() {
+		super.createTable();
+
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+		table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
 	}
 }

@@ -28,6 +28,7 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 		this.item =  e;
 		this.mainControl = c;
 		validatedFields = new ArrayList<>();
+		this.setBackground(new Color(244,225,181));
 	}
 	
 	public void closeTab() {

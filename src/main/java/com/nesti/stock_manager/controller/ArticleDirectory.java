@@ -1,5 +1,6 @@
 package com.nesti.stock_manager.controller;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -8,11 +9,13 @@ import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -29,23 +32,26 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 
 	protected JButton addToCartButton;
 	protected JTextField addToCartQuantity;
-	
+
 	public ArticleDirectory(MainWindowControl c) {
 		super(c);
-		
+
 		var addToCart = new JPanel();
 		addToCart.setLayout(new BoxLayout(addToCart, BoxLayout.X_AXIS));
 		addToCartQuantity = new JTextField();
 
 		addToCartQuantity.setMaximumSize(new Dimension(100, 30));
 		addToCartQuantity.setPreferredSize(new Dimension(100, 0));
-		addToCart.add((Box.createRigidArea(new Dimension(50,0))));
+		addToCart.add((Box.createRigidArea(new Dimension(50, 0))));
+		addToCart.setBackground(new Color(244, 225, 181));
 		addToCart.add(addToCartQuantity);
 		addToCartButton = new JButton("Ajouter au panier");
+		addToCartButton.setBackground(new Color(91,148,4));
+		addToCartButton.setForeground(new Color(255,255,255));
 		addToCartButton.setEnabled(false);
 		addToCart.add(addToCartButton);
 		this.buttonBar.add(addToCart, 7);
-		
+
 		addToCartButton.addActionListener(e -> {
 			if (!isNumeric(addToCartQuantity.getText()) || Double.parseDouble(addToCartQuantity.getText()) < 0) {
 				JOptionPane.showMessageDialog(this, "Vous devez saisir une quantité à ajouter au panier");
@@ -111,7 +117,6 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 
 		});
 
-
 	}
 
 	public static boolean isNumeric(String strNum) {
@@ -137,13 +142,18 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 	@Override
 	public void createTable() {
 		super.createTable();
+
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+		table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+		table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+
 		this.table.getSelectionModel().addListSelectionListener(e -> {
 			addToCartButton.setEnabled(this.table.getSelectedRowCount() > 0);
 		});
-		
+
 		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-
-
 
 //	    var numberComparator = new Comparator<String>() {
 //			@Override
@@ -166,16 +176,15 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 //	    sorter.setComparator(4, numberComparator);
 //	    sorter.setComparator(5, numberComparator);
 //	    table.setRowSorter(sorter);
-		
+
 	}
 
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void refreshTab() {
 		super.refreshTab();
 	}
-	
+
 	@Override
 	public void deleteRow(int rowIndex) {
 		var articleDao = new ArticleDao();
