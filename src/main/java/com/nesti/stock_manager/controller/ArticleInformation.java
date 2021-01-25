@@ -59,28 +59,23 @@ public class ArticleInformation extends BaseInformation<Article> {
 
 		final var article = item;
 		this.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
-	//	this.setBackground(AppAppereance.LIGHT_COLOR);
-		
-		
+
 		var dao = item.getDao();
 		var ingredientDao = new IngredientDao();
 		
 		var supplierPriceList = new ArticleSupplierList(article);
-		supplierPriceList.setBackground(AppAppereance.LIGHT_COLOR);
 		this.add(supplierPriceList, BorderLayout.EAST);
 		
-
 		var articleForm = new JPanel();
-		articleForm.setBackground(AppAppereance.LIGHT_COLOR);
 		articleForm.setPreferredSize(new Dimension(500, 0));
 		articleForm.setLayout(new BoxLayout(articleForm, BoxLayout.Y_AXIS));
 
 		var titleArticleInformation = new JLabel("Article");
-		titleArticleInformation.setBackground(AppAppereance.LIGHT_COLOR);
+		titleArticleInformation.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		titleArticleInformation.setFont(AppAppereance.TITLE_FONT);
 		articleForm.add(titleArticleInformation);
 
 		var descriptionFieldContainer = new FieldContainer("Description", this);
-		descriptionFieldContainer.setBackground(AppAppereance.LIGHT_COLOR);
 		descriptionFieldContainer.bind(
 			article.getName(),
 			(s)-> article.setName(s),
@@ -88,7 +83,6 @@ public class ArticleInformation extends BaseInformation<Article> {
 		articleForm.add(descriptionFieldContainer);
 
 		var codeFieldContainer = new FieldContainer("Code Article", this);
-		codeFieldContainer.setBackground(AppAppereance.LIGHT_COLOR);
 		codeFieldContainer.bind(
 			article.getCode(),
 			(s)->article.setCode(s),
@@ -96,7 +90,6 @@ public class ArticleInformation extends BaseInformation<Article> {
 		articleForm.add(codeFieldContainer);
 
 		var eanFieldContainer = new FieldContainer("EAN", this);
-		eanFieldContainer.setBackground(AppAppereance.LIGHT_COLOR);
 		eanFieldContainer.bind(
 			article.getEan(),
 			(s)->article.setEan(s),
@@ -105,7 +98,6 @@ public class ArticleInformation extends BaseInformation<Article> {
 		
 		if (!article.containsUtensil()) {
 			var ingredientListContainer = new ListFieldContainer("Ingrédient:", "name", Ingredient.class);
-			ingredientListContainer.setBackground(AppAppereance.LIGHT_COLOR);
 			ingredientListContainer.bindSelection(
 				article.getProduct().getName(),
 				(s)->article.setProduct(ingredientDao.findOneBy("name",s)));
@@ -113,14 +105,12 @@ public class ArticleInformation extends BaseInformation<Article> {
 		}
 
 		var quantityFieldContainer = new FieldContainer("Quantité", this);
-		quantityFieldContainer.setBackground(AppAppereance.LIGHT_COLOR);
 		quantityFieldContainer.bind(
 			String.valueOf(article.getQuantity()),
 			(s)->article.setQuantity(Double.parseDouble(s)));
 		articleForm.add(quantityFieldContainer);
 
 		var weightFieldContainer = new FieldContainer("Poids", this);
-		weightFieldContainer.setBackground(AppAppereance.LIGHT_COLOR);
 		weightFieldContainer.bind(
 			String.valueOf(article.getWeight()),
 			(s)->article.setWeight(Double.parseDouble(s)));
@@ -128,7 +118,6 @@ public class ArticleInformation extends BaseInformation<Article> {
 
 		var unitDao = new UnitDao();
 		var unitListContainer = new EditableListFieldContainer("Unité:", "name", Unit.class);
-		unitListContainer.setBackground(AppAppereance.LIGHT_COLOR);
 		unitListContainer.bindSelection(
 			article.getUnit().getName(),
 			(s)->article.setUnit(unitDao.findOneBy("name",s)));
@@ -136,7 +125,6 @@ public class ArticleInformation extends BaseInformation<Article> {
 
 		var packagingDao = new PackagingDao();
 		var packagingListContainer = new EditableListFieldContainer("Emballage:", "name", Packaging.class);
-		packagingListContainer.setBackground(AppAppereance.LIGHT_COLOR);
 		packagingListContainer.bindSelection(
 			article.getPackaging().getName(),
 			(s)->article.setPackaging(packagingDao.findOneBy("name",s)));

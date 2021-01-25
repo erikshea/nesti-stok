@@ -59,7 +59,7 @@ public abstract class BasePriceList<E> extends JPanel {
 
 	protected void addNewPriceContainer() {
 		var addPriceContainer = new JPanel();
-		addPriceContainer.setPreferredSize(new Dimension(500, 100));
+		addPriceContainer.setPreferredSize(new Dimension(800, 100));
 		addPriceContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, 100));
 		addPriceContainer.setLayout(new BoxLayout(addPriceContainer, BoxLayout.X_AXIS));
 
@@ -68,13 +68,20 @@ public abstract class BasePriceList<E> extends JPanel {
 		newPriceList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		var scrollPane = new JScrollPane(newPriceList);
+		scrollPane.setPreferredSize(new Dimension(500,100));
+		scrollPane.setMaximumSize(new Dimension(500,100));
 		addPriceContainer.add(scrollPane);
 
-		newPriceField = new JTextField();
+		newPriceField = new JTextField("0.0");
+		newPriceField.setPreferredSize(new Dimension(50,30));
+		newPriceField.setMaximumSize(new Dimension(50,30));
+		
+		addPriceContainer.add(Box.createHorizontalGlue());
 		addPriceContainer.add(newPriceField);
 
 		addButton = new JButton("+");
 		addPriceContainer.add(addButton);
+		addPriceContainer.add(Box.createHorizontalGlue());
 		this.add(addPriceContainer);
 	}
 

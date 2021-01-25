@@ -62,16 +62,7 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		this.buttonDelete.setEnabled(false);
 		this.buttonModify.setEnabled(false);
 		this.buttonDuplicate.setEnabled(false);
-		
-		this.buttonAdd.setBackground(AppAppereance.HIGHLIGHT);
-		this.buttonAdd.setForeground(new Color(255,255,255));
-		this.buttonDelete.setBackground(AppAppereance.HIGHLIGHT);
-		this.buttonDelete.setForeground(new Color(255,255,255));
-		this.buttonModify.setBackground(AppAppereance.HIGHLIGHT);
-		this.buttonModify.setForeground(new Color(255,255,255));
-		this.buttonDuplicate.setBackground(AppAppereance.HIGHLIGHT);
-		this.buttonDuplicate.setForeground(new Color(255,255,255));
-		
+
 		this.buttonAdd.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
 		this.buttonAdd.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
 		this.buttonDelete.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
@@ -82,7 +73,6 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		this.buttonDuplicate.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
 		
 
-		
 		this.buttonBar = new JPanel();
 		this.buttonBar.setLayout(new BoxLayout(buttonBar, BoxLayout.X_AXIS));
 		this.buttonBar.setBorder(BorderFactory.createEmptyBorder(30,10,20,10));
@@ -114,13 +104,8 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		table = new JTable(tableModel);
 				
 		JTableHeader header = table.getTableHeader();
-		header.setBackground(AppAppereance.DARK);
-	    header.setForeground(new Color(255,255,255));
 	    header.setPreferredSize(new Dimension(0,30));
-		table.setBackground(AppAppereance.VERY_LIGHT_COLOR);
-		table.setSelectionBackground(AppAppereance.HIGHLIGHT);
-		table.setSelectionForeground(new Color(255,255,255));
-		
+
 	}
 
 	public void setUpButtonBarListeners() {

@@ -1,8 +1,10 @@
 package com.nesti.stock_manager.controller;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -13,6 +15,7 @@ import com.nesti.stock_manager.form.EditableListFieldContainer;
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.model.Ingredient;
 import com.nesti.stock_manager.model.Unit;
+import com.nesti.stock_manager.util.AppAppereance;
 
 public class IngredientInformation extends BaseInformation<Ingredient> {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -45,6 +48,8 @@ public class IngredientInformation extends BaseInformation<Ingredient> {
 		ingredientForm.setLayout(new BoxLayout(ingredientForm, BoxLayout.Y_AXIS));
 		
 		var titleIngredientInformation = new JLabel("Ingrédient");
+		titleIngredientInformation.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		titleIngredientInformation.setFont(AppAppereance.TITLE_FONT);
 		ingredientForm.add(titleIngredientInformation);
 		
 		var descriptionFieldContainer = new FieldContainer("Description", this);
@@ -63,6 +68,7 @@ public class IngredientInformation extends BaseInformation<Ingredient> {
 		
 		var unitListContainer = new EditableListFieldContainer("Unité", "name", Unit.class);
 		unitListContainer.getList().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		
 		
 		unitListContainer.bindMultiple(
 				product.getUnitsNames(),

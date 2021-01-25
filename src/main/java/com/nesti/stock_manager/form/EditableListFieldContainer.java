@@ -27,7 +27,7 @@ public class EditableListFieldContainer extends ListFieldContainer {
 //		Object[] possibilities = null;
 		String newItemString = (String)JOptionPane.showInputDialog(
 		                    this,
-		                    "Ajouter : ",
+		                    "Nom :  ",
 		                    "Ajouter ...",
 		                    JOptionPane.PLAIN_MESSAGE,
 		                    null,

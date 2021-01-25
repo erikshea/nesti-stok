@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
+
 public class AppAppereance {
 
 	public static final Color VERY_LIGHT_COLOR = new Color(251,242,221);
@@ -13,10 +16,40 @@ public class AppAppereance {
 	public static final Color HIGHLIGHT = new Color(91,148,4);
 
 	public static final Font DEFAULT_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
-    public static final Font BUTTON_FONT = DEFAULT_FONT.deriveFont(Font.BOLD);
-    public static final Font TAB_FONT = DEFAULT_FONT.deriveFont(Font.BOLD,14);
+	public static final Font TITLE_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 15);
 	
 	public static final Dimension CLASSIC_BUTTON = new Dimension(130,30);
-	public static final Dimension LARGE_BUTTON = new Dimension(140,30);
+	public static final Dimension LARGE_BUTTON = new Dimension(150,30);
 	
+
+	
+	public static void setDefault() {
+		 UIManager.put("Button.font", new Font ("Font.SANS_SERIF", Font.PLAIN, 15));
+	     UIManager.put("Button.background", HIGHLIGHT);
+	     UIManager.put("Button.foreground", VERY_LIGHT_COLOR);
+	     
+	     UIManager.put("Table.background",VERY_LIGHT_COLOR);
+	     UIManager.put("Table.selectionBackground",HIGHLIGHT);
+	     UIManager.put("Table.selectionForeground",VERY_LIGHT_COLOR);
+	     UIManager.put("Table.font", new Font ("Font.SANS_SERIF", Font.PLAIN, 12));
+	     
+	     UIManager.put("TableHeader.background",DARK);
+	     UIManager.put("TableHeader.foreground",VERY_LIGHT_COLOR);
+	     UIManager.put("TableHeader.font", new Font ("Font.SANS_SERIF", Font.PLAIN, 13));
+
+	     UIManager.put("Label.background", LIGHT_COLOR);
+	     UIManager.put("Label.font", new Font ("Font.SANS_SERIF", Font.PLAIN, 12));
+	     
+	     UIManager.put("Panel.background", LIGHT_COLOR);
+	     UIManager.put("Panel.background", LIGHT_COLOR);
+	     UIManager.put("ScrollBar.background", LIGHT_COLOR);
+	     UIManager.put("RadioButton.background", VERY_LIGHT_COLOR);
+	 
+	     
+	     UIManager.put("List.selectionBackground",HIGHLIGHT);
+	     UIManager.put("List.selectionForeground",VERY_LIGHT_COLOR);
+	     UIManager.put("List.font", new Font ("Font.SANS_SERIF", Font.PLAIN, 12));
+	     
+	}
+
 }

@@ -3,6 +3,7 @@ package com.nesti.stock_manager.controller;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -10,6 +11,7 @@ import javax.swing.JPanel;
 
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.model.Supplier;
+import com.nesti.stock_manager.util.AppAppereance;
 
 public class SupplierInformation extends BaseInformation<Supplier> {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -39,13 +41,17 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 		var dao = item.getDao();
 		
 		var articlePriceList = new SupplierArticleList(supplier);
+		articlePriceList.setBackground(AppAppereance.LIGHT_COLOR);
 		this.add(articlePriceList, BorderLayout.EAST);
 		
 		var supplierForm = new JPanel();
 		supplierForm.setPreferredSize(new Dimension(500, 0));
 		supplierForm.setLayout(new BoxLayout(supplierForm, BoxLayout.Y_AXIS));
+		supplierForm.setBackground(AppAppereance.LIGHT_COLOR);
 		
 		var titleSupplierInformation = new JLabel("Fournisseur");
+		titleSupplierInformation.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		titleSupplierInformation.setFont(AppAppereance.TITLE_FONT);
 		supplierForm.add(titleSupplierInformation);
 		
 		var nameFieldContainer = new FieldContainer("Nom", this);
@@ -87,6 +93,7 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 		supplierForm.add(countryFieldContainer);
 	
 		var phoneFieldContainer = new FieldContainer("Téléphone", this);
+		phoneFieldContainer.setBackground(AppAppereance.LIGHT_COLOR);
 		phoneFieldContainer.bind(
 				supplier.getPhoneNumber(),
 				(s)-> supplier.setPhoneNumber(s));

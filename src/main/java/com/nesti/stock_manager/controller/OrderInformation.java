@@ -3,6 +3,7 @@ package com.nesti.stock_manager.controller;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -13,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.nesti.stock_manager.form.LabelContainer;
 import com.nesti.stock_manager.model.Order;
+import com.nesti.stock_manager.util.AppAppereance;
 
 public class OrderInformation extends BaseInformation<Order> {
 	private static final long serialVersionUID = 1775908299271902575L;
@@ -38,6 +40,8 @@ public class OrderInformation extends BaseInformation<Order> {
 		orderDetails.setLayout(new BoxLayout(orderDetails, BoxLayout.Y_AXIS));
 		
 		var titleSupplierInformation = new JLabel("Commande :");
+		titleSupplierInformation.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		titleSupplierInformation.setFont(AppAppereance.TITLE_FONT);
 		orderDetails.add(titleSupplierInformation);
 
 		orderDetails.add(

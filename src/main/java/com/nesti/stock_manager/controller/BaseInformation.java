@@ -58,7 +58,7 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 	public void addBottomButtonBar() {	
 		var buttonBottomBar = new JPanel();
 		buttonBottomBar.setLayout(new BoxLayout(buttonBottomBar, BoxLayout.X_AXIS));
-		buttonBottomBar.setBackground(AppAppereance.LIGHT_COLOR);
+//		buttonBottomBar.setBackground(AppAppereance.LIGHT_COLOR);
 		this.buttonCancel = new JButton("Annuler");
 		this.buttonCancel.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
 		this.buttonCancel.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
@@ -67,8 +67,8 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 		this.buttonCancel.setForeground(new Color(255,255,255));
 		
 		this.buttonValidate = new JButton("Enregistrer");
-		this.buttonValidate.setBackground(AppAppereance.HIGHLIGHT);
-		this.buttonValidate.setForeground(new Color(255,255,255));
+//		this.buttonValidate.setBackground(AppAppereance.HIGHLIGHT);
+//		this.buttonValidate.setForeground(new Color(255,255,255));
 		this.buttonValidate.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
 		this.buttonValidate.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
 		

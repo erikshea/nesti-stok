@@ -18,6 +18,7 @@ import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.model.Article;
 import com.nesti.stock_manager.model.Offer;
+import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.SwingUtil;
 
 //RIGHT OF THE SCREEN, SUPPLIER'S INFORMATION OF THE ARTICLE

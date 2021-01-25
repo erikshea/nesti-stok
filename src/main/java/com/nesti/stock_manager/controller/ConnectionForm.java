@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import com.nesti.stock_manager.application.NestiStokMain;
 import com.nesti.stock_manager.dao.UserDao;
+import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.ApplicationSettings;
 
 @SuppressWarnings("serial")
@@ -78,12 +79,17 @@ public class ConnectionForm extends JPanel {
 		var buttonBottomBar = new JPanel();
 		buttonBottomBar.setLayout(new BoxLayout(buttonBottomBar, BoxLayout.X_AXIS));
 		var buttonCancel = new JButton("Annuler");
+		buttonCancel.setBackground(AppAppereance.DARK);
+		buttonCancel.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
+		buttonCancel.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
 		buttonCancel.addActionListener(e -> {
 			loginField.setText("");
 			passwordField.setText("");
 		});
 
 		var buttonValidate = new JButton("Se connecter");
+		buttonValidate.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
+		buttonValidate.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
 		buttonValidate.addActionListener(e -> {
 
 			if (!authenticate(loginField.getText(), passwordField.getText())) {

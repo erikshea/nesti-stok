@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.nesti.stock_manager.controller.ConnectionForm;
+import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.HibernateUtil;
 
 public class NestiStokMain {
@@ -18,6 +19,7 @@ public class NestiStokMain {
 		changeFrameContent(new ConnectionForm());
 
         frame.setVisible(true);
+        AppAppereance.setDefault();
        
 	}
    public static void main(String[] args) {
