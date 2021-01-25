@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import com.nesti.stock_manager.dao.BaseDao;
+import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.HibernateUtil;
 import com.nesti.stock_manager.util.SwingUtil;
 
@@ -35,19 +36,22 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 	protected JButton buttonDuplicate;
 	protected MainWindowControl mainController;
 	
+	@SuppressWarnings("static-access")
 	public BaseDirectory(MainWindowControl c) {
 		this.mainController = c;
 		createTable();	
 		searchBar = new TableSearchBar(table);
-		addButtonBar();
 		this.add(searchBar);
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		addButtonBar();
+		this.setBackground(new AppAppereance().LIGHT_COLOR);
 
 		var tableContainer = new JScrollPane(this.table);
 		tableContainer.getViewport().setBackground(new Color(244,225,181));
 		this.add(tableContainer);
 		
-	//	this.setAlignmentX(Component.CENTER_ALIGNMENT);
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
 	}
 
 	public void addButtonBar() {
@@ -59,21 +63,30 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		this.buttonModify.setEnabled(false);
 		this.buttonDuplicate.setEnabled(false);
 		
-		this.buttonAdd.setBackground(new Color(91,148,4));
+		this.buttonAdd.setBackground(AppAppereance.HIGHLIGHT);
 		this.buttonAdd.setForeground(new Color(255,255,255));
-		this.buttonDelete.setBackground(new Color(91,148,4));
+		this.buttonDelete.setBackground(AppAppereance.HIGHLIGHT);
 		this.buttonDelete.setForeground(new Color(255,255,255));
-		this.buttonModify.setBackground(new Color(91,148,4));
+		this.buttonModify.setBackground(AppAppereance.HIGHLIGHT);
 		this.buttonModify.setForeground(new Color(255,255,255));
-		this.buttonDuplicate.setBackground(new Color(91,148,4));
+		this.buttonDuplicate.setBackground(AppAppereance.HIGHLIGHT);
 		this.buttonDuplicate.setForeground(new Color(255,255,255));
 		
+		this.buttonAdd.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
+		this.buttonAdd.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
+		this.buttonDelete.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
+		this.buttonDelete.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
+		this.buttonModify.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
+		this.buttonModify.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
+		this.buttonDuplicate.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
+		this.buttonDuplicate.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
+		
 
-		// Define all the button of the head on the article list
+		
 		this.buttonBar = new JPanel();
 		this.buttonBar.setLayout(new BoxLayout(buttonBar, BoxLayout.X_AXIS));
-		this.buttonBar.setBorder(BorderFactory.createEmptyBorder(20,10,10,10));
-		this.buttonBar.setBackground(new Color(244,225,181));
+		this.buttonBar.setBorder(BorderFactory.createEmptyBorder(30,10,20,10));
+		this.buttonBar.setBackground(AppAppereance.LIGHT_COLOR);
 
 		this.buttonBar.add(buttonAdd);
 		this.buttonBar.add((Box.createRigidArea(new Dimension(20,0))));
@@ -101,11 +114,11 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		table = new JTable(tableModel);
 				
 		JTableHeader header = table.getTableHeader();
-		header.setBackground(new Color(179,133,4));
+		header.setBackground(AppAppereance.DARK);
 	    header.setForeground(new Color(255,255,255));
 	    header.setPreferredSize(new Dimension(0,30));
-		table.setBackground(new Color(251,242,221));
-		table.setSelectionBackground(new Color(91,148,4));
+		table.setBackground(AppAppereance.VERY_LIGHT_COLOR);
+		table.setSelectionBackground(AppAppereance.HIGHLIGHT);
 		table.setSelectionForeground(new Color(255,255,255));
 		
 	}

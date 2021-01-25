@@ -77,7 +77,7 @@ public class OrderDirectory extends BaseDirectory<Order> {
 				entity.getSupplier().getName(),
 				entity.getUser().getName(),
 				entity.getDateOrder(),
-				entity.getSubTotal()
+				entity.getTotal()
 			}
 		);
 	}

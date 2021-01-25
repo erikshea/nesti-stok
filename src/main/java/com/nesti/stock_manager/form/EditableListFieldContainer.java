@@ -1,5 +1,6 @@
 package com.nesti.stock_manager.form;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.lang.reflect.InvocationTargetException;
 
@@ -11,6 +12,7 @@ import javax.swing.JPanel;
 
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.model.Flagged;
+import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.HibernateUtil;
 import com.nesti.stock_manager.util.ReflectionProperty;
 
@@ -76,19 +78,26 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		this.setPreferredSize(new Dimension(0, 120));
 
 		var buttonContainer = new JPanel();
+		buttonContainer.setBackground(AppAppereance.LIGHT_COLOR);
 		buttonContainer.setLayout(new BoxLayout(buttonContainer, BoxLayout.Y_AXIS));
 
 		var buttonDimension = new Dimension(50, 50);
 
 		var plusButton = new JButton("+");
+		plusButton.setBackground(AppAppereance.HIGHLIGHT);
+		plusButton.setForeground(new Color(255,255,255));
 		plusButton.setPreferredSize(buttonDimension);
+		
 
 		plusButton.addActionListener((e) -> {
 			this.addToList();
 		});
 
 		var minusButton = new JButton("-");
+		
 		minusButton.setPreferredSize(buttonDimension);
+		minusButton.setBackground(AppAppereance.DARK);
+		minusButton.setForeground(new Color(255,255,255));
 		
 		minusButton.addActionListener((e) -> {
 			this.deleteFromList();

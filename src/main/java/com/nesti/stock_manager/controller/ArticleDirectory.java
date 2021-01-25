@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.security.InvalidParameterException;
 
 import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -26,6 +28,8 @@ import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.model.Article;
 import com.nesti.stock_manager.model.Ingredient;
 import com.nesti.stock_manager.model.Utensil;
+import com.nesti.stock_manager.util.AppAppereance;
+import com.nesti.stock_manager.util.UnavailableArticleException;
 
 @SuppressWarnings("serial")
 public class ArticleDirectory extends BaseDirectory<Article> {
@@ -43,30 +47,34 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 		addToCartQuantity.setMaximumSize(new Dimension(100, 30));
 		addToCartQuantity.setPreferredSize(new Dimension(100, 0));
 		addToCart.add((Box.createRigidArea(new Dimension(50, 0))));
-		addToCart.setBackground(new Color(244, 225, 181));
+		addToCart.setBackground(AppAppereance.LIGHT_COLOR);
 		addToCart.add(addToCartQuantity);
+		addToCart.add((Box.createRigidArea(new Dimension(5,0))));
 		addToCartButton = new JButton("Ajouter au panier");
-		addToCartButton.setBackground(new Color(91,148,4));
-		addToCartButton.setForeground(new Color(255,255,255));
+		addToCartButton.setBackground(AppAppereance.HIGHLIGHT);
+		addToCartButton.setForeground(new Color(255, 255, 255));
+		addToCartButton.setPreferredSize(AppAppereance.LARGE_BUTTON);
+		addToCartButton.setMaximumSize(AppAppereance.LARGE_BUTTON);
+
 		addToCartButton.setEnabled(false);
 		addToCart.add(addToCartButton);
 		this.buttonBar.add(addToCart, 7);
 
 		addToCartButton.addActionListener(e -> {
-			if (!isNumeric(addToCartQuantity.getText()) || Double.parseDouble(addToCartQuantity.getText()) < 0) {
-				JOptionPane.showMessageDialog(this, "Vous devez saisir une quantité à ajouter au panier");
-			} else if (defaultSupplierExistsForAll(this.table.getSelectedRows())) {
-				for (var rowIndex : this.table.getSelectedRows()) {
-					var code = this.table.getValueAt(rowIndex, 1);
-					var article = (new ArticleDao()).findOneBy("code", code);
-
-					var quantity = (int) Double.parseDouble(addToCartQuantity.getText());
-
-					this.mainController.getShoppingCart().addArticle(article, quantity);
+			for (var rowIndex : this.table.getSelectedRows()) {
+				var code = this.table.getValueAt(rowIndex, 1);
+				var article = (new ArticleDao()).findOneBy("code", code);
+				try {
+					this.mainController.getShoppingCart().addArticle(article, addToCartQuantity.getText());
+				} catch (InvalidParameterException ex) {
+					JOptionPane.showMessageDialog(this,
+							"Vous devez saisir un chiffre correspondant à la quantité souhaitée");
+				} catch (UnavailableArticleException ec) {
+					JOptionPane.showMessageDialog(this,
+							"Un ou plusieurs article(s) n'a pas été ajouté au panier car il est indisponible.");
 				}
-			} else {
-				JOptionPane.showMessageDialog(this, "Un article n'est pas disponible, merci de vérifier la sélection");
 			}
+
 		});
 	}
 
@@ -119,25 +127,6 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 
 	}
 
-	public static boolean isNumeric(String strNum) {
-		try {
-			Double.parseDouble(strNum);
-		} catch (NumberFormatException | NullPointerException nfe) {
-			return false;
-		}
-		return true;
-	}
-
-	public boolean defaultSupplierExistsForAll(int[] rowIndexes) {
-		var selectionIsValid = true;
-		for (var rowIndex : rowIndexes) {
-			var defaultSupplierName = this.table.getValueAt(rowIndex, 2);
-			if (defaultSupplierName.equals("")) {
-				selectionIsValid = false;
-			}
-		}
-		return selectionIsValid;
-	}
 
 	@Override
 	public void createTable() {

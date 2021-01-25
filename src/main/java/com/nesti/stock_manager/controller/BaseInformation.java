@@ -3,9 +3,11 @@ package com.nesti.stock_manager.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -13,6 +15,7 @@ import javax.swing.JPanel;
 
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.model.BaseEntity;
+import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.HibernateUtil;
 
 public abstract class BaseInformation<E extends BaseEntity> extends JPanel implements Tab {
@@ -28,7 +31,7 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 		this.item =  e;
 		this.mainControl = c;
 		validatedFields = new ArrayList<>();
-		this.setBackground(new Color(244,225,181));
+		this.setBackground(AppAppereance.LIGHT_COLOR);
 	}
 	
 	public void closeTab() {
@@ -55,15 +58,27 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 	public void addBottomButtonBar() {	
 		var buttonBottomBar = new JPanel();
 		buttonBottomBar.setLayout(new BoxLayout(buttonBottomBar, BoxLayout.X_AXIS));
+		buttonBottomBar.setBackground(AppAppereance.LIGHT_COLOR);
 		this.buttonCancel = new JButton("Annuler");
-		this.buttonValidate = new JButton("Enregistrer");
+		this.buttonCancel.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
+		this.buttonCancel.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
 		
-		this.buttonValidate.setBackground(new Color(91,148,4));
-		this.buttonCancel.setBackground(new Color(179,133,4));
+		this.buttonCancel.setBackground(AppAppereance.DARK);
+		this.buttonCancel.setForeground(new Color(255,255,255));
+		
+		this.buttonValidate = new JButton("Enregistrer");
+		this.buttonValidate.setBackground(AppAppereance.HIGHLIGHT);
+		this.buttonValidate.setForeground(new Color(255,255,255));
+		this.buttonValidate.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
+		this.buttonValidate.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
+		
 		addButtonListeners();
 		buttonBottomBar.add(Box.createHorizontalGlue());
+		
 		buttonBottomBar.add(buttonCancel);
+		buttonBottomBar.add((Box.createRigidArea(new Dimension(50,0))));
 		buttonBottomBar.add(buttonValidate);
+		buttonBottomBar.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		this.add(buttonBottomBar, BorderLayout.PAGE_END);
 	}
 	
