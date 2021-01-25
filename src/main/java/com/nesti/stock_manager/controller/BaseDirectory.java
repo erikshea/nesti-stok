@@ -41,6 +41,7 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		searchBar = new TableSearchBar(table);
 		addButtonBar();
 		this.add(searchBar);
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		var tableContainer = new JScrollPane(this.table);
 		tableContainer.getViewport().setBackground(new Color(244,225,181));
@@ -67,7 +68,6 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		this.buttonDuplicate.setBackground(new Color(91,148,4));
 		this.buttonDuplicate.setForeground(new Color(255,255,255));
 		
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		// Define all the button of the head on the article list
 		this.buttonBar = new JPanel();

@@ -157,3 +157,5 @@ public class ArticleInformation extends BaseInformation<Article> {
 		article.getDao().saveOrUpdate(article);
 	};
 }
+
+

@@ -1,15 +1,32 @@
 package com.nesti.stock_manager.controller;
 
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
+import com.nesti.stock_manager.controller.ArticleSupplierList.RadioButtonEditor;
+import com.nesti.stock_manager.controller.ArticleSupplierList.RadioButtonRenderer;
+import com.nesti.stock_manager.model.Offer;
 import com.nesti.stock_manager.model.OrdersArticle;
+import com.nesti.stock_manager.model.Supplier;
+import com.nesti.stock_manager.util.HibernateUtil;
+import com.nesti.stock_manager.util.SwingUtil;
 
 public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 	private static final long serialVersionUID = 1L;
@@ -87,9 +104,27 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 
 	@Override
 	public void addRow(OrdersArticle orderLine) {
+		var supplierComboBox = new JComboBox<Offer>();
+		
+		orderLine.getArticle().getCurrentOffers().values().forEach( o->{
+			supplierComboBox.addItem(o);
+		});
+		supplierComboBox.setSelectedItem(orderLine.getOffer());
+		
+		supplierComboBox.addActionListener( e->{
+			var oldOffer = (Offer) supplierComboBox.getSelectedItem();
+			var newOffer = orderLine.getArticle().getCurrentOffers().get(oldOffer.getSupplier());
+
+			orderLine.getOrder().removeOrdersArticle(orderLine);
+			mainController.getShoppingCart().addOffer(newOffer, orderLine.getQuantity());
+			this.refreshTab();
+		});
+		
+		supplierComboBox.setRenderer(new OfferListCellRenderer());
+		
 		var offer = orderLine.getArticle().getCurrentOffers().get(orderLine.getOrder().getSupplier());
 		this.addRowData(new Object[] { orderLine.getArticle().getCode(), orderLine.getArticle().getName(),
-				orderLine.getQuantity(), offer.getPrice(), orderLine.getOrder().getSupplier().getName() });
+				orderLine.getQuantity(), offer.getPrice(), supplierComboBox });
 	}
 	
 	public void refreshTotal() {
@@ -131,6 +166,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		});
 		refreshTotal();
 		refreshSheepingFees();
+		SwingUtil.setUpTableAutoSort(table);
 	}
 	
 	
@@ -142,6 +178,67 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 		table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-		table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+		table.setRowHeight(20);
+		this.table.getColumn("Fournisseur").setCellRenderer(new ComboBoxCellRenderer());
+		this.table.getColumn("Fournisseur").setCellEditor(new ComboBoxCellEditor(new JCheckBox()));
 	}
 }
+
+
+//display radio button
+	class ComboBoxCellRenderer implements TableCellRenderer {
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			if (value == null)
+				return null;
+			return (Component) value;
+		}
+	}
+
+//click radio button
+
+	class ComboBoxCellEditor extends DefaultCellEditor implements ItemListener {
+	private static final long serialVersionUID = 1L;
+		private JComboBox<Supplier> comboBox;
+
+		public ComboBoxCellEditor(JCheckBox checkBox) {
+			super(checkBox);
+		}
+
+		@SuppressWarnings("unchecked")
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+				int column) {
+			if (value == null)
+				return null;
+			comboBox = (JComboBox<Supplier>) value;
+			comboBox.addItemListener(this);
+			return (Component) value;
+		}
+
+		public Object getCellEditorValue() {
+			comboBox.removeItemListener(this);
+			return comboBox;
+		}
+
+		public void itemStateChanged(ItemEvent e) {
+			super.fireEditingStopped();
+		}
+	}
+
+	 class OfferListCellRenderer extends DefaultListCellRenderer {
+		private static final long serialVersionUID = 1L;
+
+		public Component getListCellRendererComponent(
+	                                   JList list,
+	                                   Object value,
+	                                   int index,
+	                                   boolean isSelected,
+	                                   boolean cellHasFocus) {
+	        if (value instanceof Offer) {
+	        	var offer = (Offer)value;
+	            value = offer.getSupplier().getName() + " (" + offer.getPrice() + ")";
+	        }
+	        super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+	        return this;
+	    }
+	}

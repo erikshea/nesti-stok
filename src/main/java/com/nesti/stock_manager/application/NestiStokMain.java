@@ -1,5 +1,7 @@
 package com.nesti.stock_manager.application;
 
+import java.awt.Font;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -8,7 +10,6 @@ import com.nesti.stock_manager.util.HibernateUtil;
 
 public class NestiStokMain {
 	static JFrame frame;
-	
 	public static void createAndShowGUI() {
         //Create and set up the window.
         frame = new JFrame("Nesti Stok");
