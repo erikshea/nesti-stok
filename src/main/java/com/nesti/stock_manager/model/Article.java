@@ -392,17 +392,23 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	
 	public Article duplicate() {
 		var newArticle = new Article();
-		newArticle.setCode(this.getCode()+DUPLICATE_SUFFIX);
-		newArticle.setEan(this.getEan()+DUPLICATE_SUFFIX);
-		newArticle.setName(this.getName()+DUPLICATE_SUFFIX);
-		newArticle.setProduct(this.getProduct().duplicate());
+		newArticle.setCode(getDuplicatedFieldValue("code"));
+		newArticle.setEan(getDuplicatedFieldValue("ean"));
+		newArticle.setName(getDuplicatedFieldValue("name"));
+		newArticle.setProduct(this.getProduct());
 		newArticle.setQuantity(this.getQuantity());
 		newArticle.setWeight(this.getWeight());
 		newArticle.setStock(this.getStock());
 		newArticle.setUnit(this.getUnit());
 		newArticle.setPackaging(this.getPackaging());
-//		newArticle.setOffers(this.getOffers());
-//		newArticle.supplier = this.supplier;
+		this.getOffers().forEach(o->{
+			var newOffer = new Offer();
+			newOffer.setSupplier(o.getSupplier());
+			newOffer.setPrice(o.getPrice());
+			newOffer.setStartDate(o.getStartDate());
+			newArticle.addOffer(newOffer);
+		});
+		newArticle.setSupplier(getSupplier());
 		newArticle.setFlag(this.getFlag());
 		return newArticle;
 	}
@@ -444,4 +450,14 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	public int hashCode() {
 		return java.util.Objects.hashCode(getCode());
 	}
+	
+	
+	protected void setSupplier(Supplier s) {
+		this.supplier = s;
+	}
+	
+	protected Supplier getSupplier() {
+		return this.supplier;
+	}
+	
 }

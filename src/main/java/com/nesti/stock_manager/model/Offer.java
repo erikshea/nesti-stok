@@ -138,4 +138,5 @@ public class Offer implements Serializable {
 	public int hashCode() {
 		return java.util.Objects.hashCode(getId());
 	}
+
 }

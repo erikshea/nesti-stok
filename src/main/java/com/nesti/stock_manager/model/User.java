@@ -205,8 +205,8 @@ public class User extends BaseEntity implements Serializable,Flagged {
 	
 	public User duplicate() {
 		var duplicate = new User();
-		duplicate.setLogin(this.getLogin()+DUPLICATE_SUFFIX);
-		duplicate.setName(this.getName()+DUPLICATE_SUFFIX);
+		duplicate.setLogin(getDuplicatedFieldValue("login"));
+		duplicate.setName(this.getName());
 		duplicate.setPasswordHash(this.getPasswordHash());
 		duplicate.setRole(this.getRole());
 		duplicate.setFlag(this.getFlag());

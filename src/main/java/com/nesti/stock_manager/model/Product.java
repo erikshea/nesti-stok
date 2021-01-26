@@ -134,8 +134,8 @@ public class Product extends BaseEntity implements Serializable, Flagged {
 	public Product duplicate() {
 		try {
 			var duplicate = this.getClass().getConstructor().newInstance();
-			duplicate.setReference(this.getReference()+DUPLICATE_SUFFIX);
-			duplicate.setName(this.getName()+DUPLICATE_SUFFIX);
+			duplicate.setReference(getDuplicatedFieldValue("reference"));
+			duplicate.setName(getDuplicatedFieldValue("name"));
 			duplicate.setFlag(this.getFlag());
 			return duplicate;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException

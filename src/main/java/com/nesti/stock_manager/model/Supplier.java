@@ -290,7 +290,7 @@ public class Supplier  extends BaseEntity implements Serializable {
 	
 	public Supplier duplicate() {
 		var duplicate = new Supplier();
-		duplicate.setName(this.getName()+DUPLICATE_SUFFIX);
+		duplicate.setName(getDuplicatedFieldValue("name"));
 		duplicate.setAddress1(this.getAddress1());
 		duplicate.setAddress2(this.getAddress2());
 		duplicate.setCity(this.getCity());
@@ -299,6 +299,15 @@ public class Supplier  extends BaseEntity implements Serializable {
 		duplicate.setPhoneNumber(this.getPhoneNumber());
 		duplicate.setZipCode(this.getZipCode());
 		duplicate.setFlag(this.getFlag());
+		
+		
+		this.getOffers().forEach(o->{
+			var newOffer = new Offer();
+			newOffer.setArticle(o.getArticle());
+			newOffer.setPrice(o.getPrice());
+			newOffer.setStartDate(o.getStartDate());
+			duplicate.addOffer(newOffer);
+		});
 		
 		return duplicate;
 	}
