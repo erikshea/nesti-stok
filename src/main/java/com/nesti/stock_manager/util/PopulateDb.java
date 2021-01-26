@@ -252,6 +252,18 @@ public class PopulateDb {
 		offer.setStartDate(stringToDate("18-01-2021 11:15:55"));
 		offerDao.saveOrUpdate(offer);
 		
+		offer = new Offer(null);
+		offer.setSupplierFromName("L'empire des fruits");
+		offer.setArticleFromCode("OEUF6");
+		offer.setStartDate(stringToDate("18-03-2021 11:15:55"));
+		offerDao.saveOrUpdate(offer);
+		
+		offer = new Offer(3.92);
+		offer.setSupplierFromName("L'empire des fruits");
+		offer.setArticleFromCode("OEUF6");
+		offer.setStartDate(stringToDate("18-07-2021 11:15:55"));
+		offerDao.saveOrUpdate(offer);
+		
 		offer = new Offer(3.45);
 		offer.setSupplierFromName("L'empire des fruits");
 		offer.setArticleFromCode("CHOC94");
