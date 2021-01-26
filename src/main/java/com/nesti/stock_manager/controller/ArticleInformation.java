@@ -2,11 +2,13 @@ package com.nesti.stock_manager.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.dao.PackagingDao;
 import com.nesti.stock_manager.dao.UnitDao;

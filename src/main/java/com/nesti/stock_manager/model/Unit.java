@@ -28,7 +28,7 @@ public class Unit extends BaseEntity implements Serializable,Flagged {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_unit")
-	private int idUnit;
+	private Integer idUnit;
 
 	private String name;
 
@@ -53,11 +53,11 @@ public class Unit extends BaseEntity implements Serializable,Flagged {
 		setName(n);
 	}
 
-	public int getIdUnit() {
+	public Integer getIdUnit() {
 		return this.idUnit;
 	}
 
-	public void setIdUnit(int idUnit) {
+	public void setIdUnit(Integer idUnit) {
 		this.idUnit = idUnit;
 	}
 
@@ -113,4 +113,23 @@ public class Unit extends BaseEntity implements Serializable,Flagged {
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Unit))
+            return false;
+ 
+        var other = (Unit) o;
+ 
+        return  getName() != null &&
+        		getName().equals(other.getName());
+    }
+	 
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getName());
+	}
+	
 }

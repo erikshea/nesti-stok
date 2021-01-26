@@ -36,7 +36,7 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_article")
-	private int idArticle;
+	private Integer idArticle;
 
 	private String code;
 
@@ -128,14 +128,14 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	
 	 public Offer getOfferAt(Date date, Supplier s) {
 	        var hql = "SELECT o FROM Offer o"
-	                + "     WHERE o.id.idArticle = :id_article "
-	                + "        AND o.id.idSupplier = :id_supplier"
+	                + "     WHERE o.article = :p_article "
+	                + "        AND o.supplier = :p_supplier"
 	                + "        AND o.price IS NOT NULL"
 	                + "        AND o.startDate < :date"
 	                + "        ORDER BY o.startDate DESC";
 	        var query = HibernateUtil.getSession().createQuery(hql);
-	        query.setParameter("id_article", this.getIdArticle());
-	        query.setParameter("id_supplier", s.getIdSupplier());
+	        query.setParameter("p_article", this);
+	        query.setParameter("p_supplier", s);
 	        query.setParameter("date", date);
 	        var results = query.list();
 	        Offer result = null;
@@ -145,19 +145,19 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	        return result;
 	    }
 
-	
-	public HashMap<Supplier,Offer> getCurrentOffersHQL() {
+
+	public HashMap<Supplier,Offer> getCurrentOffers2() {
 		var hql = "SELECT o FROM Offer o "
-				+ "WHERE o.id.idArticle = :id_article" 
+				+ "WHERE o.article = :p_article" 
 				+ "	AND o.price IS NOT NULL"
 				+ "	AND o.startDate = (SELECT MAX(oo.startDate) FROM Offer oo"
-				+ "	 					WHERE oo.id.idArticle = o.id.idArticle"
-				+ "						AND oo.id.idSupplier = o.id.idSupplier)";
+				+ "	 					WHERE oo.article = o.article"
+				+ "						AND oo.supplier = o.supplier)";
 		var query = HibernateUtil.getSession().createQuery(hql);
-		query.setParameter("id_article", this.getIdArticle());
+		query.setParameter("p_article", this);
 		@SuppressWarnings("unchecked")
 		List<Offer> results = query.list();
-		HashMap<Supplier,Offer> offersBySupplier = new HashMap<>();
+		var offersBySupplier = new HashMap<Supplier,Offer>();
 		results.forEach( o-> offersBySupplier.put(o.getSupplier(), o));
 		
 		return offersBySupplier;
@@ -177,6 +177,9 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 		return offersBySupplier;
 	}
 
+	/*
+	 * Used with a detached instance in BasePriceLists, so no HQL
+	 */
 	public HashMap<Supplier,Offer> getCurrentOffers() {
 		var offersBySupplier = new HashMap<Supplier,Offer>();
 
@@ -203,11 +206,11 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 		return result;
 	}
 
-	public int getIdArticle() {
+	public Integer getIdArticle() {
 		return this.idArticle;
 	}
 
-	public void setIdArticle(int idArticle) {
+	public void setIdArticle(Integer idArticle) {
 		this.idArticle = idArticle;
 	}
 
@@ -300,6 +303,7 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 		var product = productDao.findOneBy("reference", r);
 		setProduct(product);
 	}
+	
 
 	public List<Offer> getOffers() {
 		if (this.offers == null) {
@@ -311,6 +315,7 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	public void setOffers(List<Offer> offers) {
 		this.offers = offers;
 	}
+	
 
 	public Offer addOffer(Offer offer) {
 		getOffers().add(offer);
@@ -386,17 +391,19 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	
 	
 	public Article duplicate() {
-		final String suffix = "_NEW";
-		
 		var newArticle = new Article();
-		newArticle.setCode(this.getCode()+suffix);
-		newArticle.setEan(this.getEan()+suffix);
-		newArticle.setName(this.getName()+suffix);
-		newArticle.setProduct(this.getProduct());
+		newArticle.setCode(this.getCode()+DUPLICATE_SUFFIX);
+		newArticle.setEan(this.getEan()+DUPLICATE_SUFFIX);
+		newArticle.setName(this.getName()+DUPLICATE_SUFFIX);
+		newArticle.setProduct(this.getProduct().duplicate());
 		newArticle.setQuantity(this.getQuantity());
 		newArticle.setWeight(this.getWeight());
 		newArticle.setStock(this.getStock());
-
+		newArticle.setUnit(this.getUnit());
+		newArticle.setPackaging(this.getPackaging());
+//		newArticle.setOffers(this.getOffers());
+//		newArticle.supplier = this.supplier;
+		newArticle.setFlag(this.getFlag());
 		return newArticle;
 	}
 	
@@ -420,4 +427,21 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 		this.flag = flag;
 	}
 	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Article))
+            return false;
+ 
+        var other = (Article) o;
+ 
+        return  getCode() != null &&
+        		getCode().equals(other.getCode());
+    }
+	 
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getCode());
+	}
 }

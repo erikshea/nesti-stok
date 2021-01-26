@@ -1,7 +1,5 @@
 package com.nesti.stock_manager.application;
 
-import java.awt.Font;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 

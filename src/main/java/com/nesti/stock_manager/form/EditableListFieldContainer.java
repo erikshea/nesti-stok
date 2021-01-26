@@ -1,6 +1,5 @@
 package com.nesti.stock_manager.form;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.lang.reflect.InvocationTargetException;
 

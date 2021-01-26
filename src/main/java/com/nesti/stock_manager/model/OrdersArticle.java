@@ -41,7 +41,7 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 	@EmbeddedId
 	private OrdersArticlePK id;
 
-	private int quantity;
+	private Integer quantity;
 
 	//bi-directional many-to-one association to Article
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -56,7 +56,7 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 	public OrdersArticle() {
 	}
 
-	public OrdersArticle(int q) {
+	public OrdersArticle(Integer q) {
 		this();
 		setQuantity(q);
 	}
@@ -69,14 +69,21 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 		this.id = id;
 	}
 
-	public int getQuantity() {
+	public Integer getQuantity() {
 		return this.quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
+	public void setQuantity(String quantityString) {
+		try {
+			this.quantity = Integer.parseInt(quantityString);
+		}catch(Exception e) {}
+	}
+	
+	
 	public Article getArticle() {
 		return this.article;
 	}
@@ -127,5 +134,23 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 		
 		var offer = article.getOfferAt(getOrder().getDateOrder(), supplier);
 		return offer;
+	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof OrdersArticle))
+            return false;
+ 
+        var other = (OrdersArticle) o;
+ 
+        return  getId() != null &&
+        		getId().equals(other.getId());
+    }
+	 
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getId());
 	}
 }

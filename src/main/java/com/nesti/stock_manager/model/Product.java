@@ -1,6 +1,7 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -29,7 +30,7 @@ public class Product extends BaseEntity implements Serializable, Flagged {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_product")
-	private int idProduct;
+	private Integer idProduct;
 
 	private String name;
 
@@ -51,11 +52,11 @@ public class Product extends BaseEntity implements Serializable, Flagged {
 		setName(n);
 	}
 
-	public int getIdProduct() {
+	public Integer getIdProduct() {
 		return this.idProduct;
 	}
 
-	public void setIdProduct(int idProduct) {
+	public void setIdProduct(Integer idProduct) {
 		this.idProduct = idProduct;
 	}
 
@@ -108,6 +109,40 @@ public class Product extends BaseEntity implements Serializable, Flagged {
 	@Override
 	public BaseDao<?> getDao() {
 		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Product))
+            return false;
+ 
+        var other = (Product) o;
+ 
+        return  getReference() != null &&
+        		getReference().equals(other.getReference());
+    }
+	 
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getReference());
+	}
+	
+	public Product duplicate() {
+		try {
+			var duplicate = this.getClass().getConstructor().newInstance();
+			duplicate.setReference(this.getReference()+DUPLICATE_SUFFIX);
+			duplicate.setName(this.getName()+DUPLICATE_SUFFIX);
+			duplicate.setFlag(this.getFlag());
+			return duplicate;
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

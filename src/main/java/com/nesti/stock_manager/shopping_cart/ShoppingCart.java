@@ -4,10 +4,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JOptionPane;
-
 import com.nesti.stock_manager.controller.MainWindowControl;
-import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.model.Article;
 import com.nesti.stock_manager.model.Offer;
@@ -118,7 +115,7 @@ public class ShoppingCart {
 		HibernateUtil.getSession().getTransaction().commit();
 	}
 
-	public Double getTotal() {
+	public Double getSubTotal() {
 		var result = 0.0;
 		for (var o : orders.values()) {
 			result += o.getSubTotal();
@@ -126,7 +123,7 @@ public class ShoppingCart {
 		return result;
 	}
 
-	public Double getSheepingFees() {
+	public Double getShipingFees() {
 		var result = 0.0;
 		for (var o : orders.values()) {
 			result += o.getShippingFees();
@@ -134,6 +131,10 @@ public class ShoppingCart {
 		return result;
 	}
 
+	public Double getTotal() {
+		return getSubTotal() + getShipingFees();
+	}
+	
 	public HashMap<Supplier, Order> getOrders() {
 		return orders;
 	}

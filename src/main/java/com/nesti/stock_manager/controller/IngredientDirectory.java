@@ -1,5 +1,6 @@
 package com.nesti.stock_manager.controller;
 
+import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.model.Ingredient;
@@ -36,6 +37,12 @@ public class IngredientDirectory extends BaseDirectory<Ingredient> {
 			this.mainController.getMainPane().addCloseableTab(new IngredientInformation(this.mainController,new Ingredient()));
 		});
 
+		
+		this.buttonDuplicate.addActionListener(e -> {
+			var ref = this.table.getValueAt(this.table.getSelectedRow(), 0);
+			var selectedIngredient = (new IngredientDao()).findOneBy("reference",ref);
+			mainController.getMainPane().addCloseableTab(new IngredientInformation(mainController, selectedIngredient.duplicate()));
+		});
 	}
 	@Override
 	public void deleteRow(int rowIndex) {

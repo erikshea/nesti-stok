@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.security.InvalidParameterException;
 
 import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -120,9 +119,14 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 		popup.add(addIngredient);
 		popup.add(addUtensil);
 
-		this.buttonAdd.addActionListener(e -> { // TODO
+		this.buttonAdd.addActionListener(e -> {
 			popup.show((Component) e.getSource(), 0, 0);
-
+		});
+		
+		this.buttonDuplicate.addActionListener(e -> {
+			var code = this.table.getValueAt(this.table.getSelectedRow(), 1);
+			var a = (new ArticleDao()).findOneBy("code", code);
+			mainController.getMainPane().addCloseableTab(new ArticleInformation(mainController, a.duplicate()));
 		});
 
 	}
@@ -141,34 +145,9 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 		this.table.getSelectionModel().addListSelectionListener(e -> {
 			addToCartButton.setEnabled(this.table.getSelectedRowCount() > 0);
 		});
-
-		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-
-//	    var numberComparator = new Comparator<String>() {
-//			@Override
-//			public int compare(String o1, String o2) {
-//				try {
-//					var v1 = Double.parseDouble(o1) ;
-//					var v2 = Double.parseDouble(o2) ;
-//
-//					
-//				}catch (Exception e) {
-//					
-//				}
-//				// TODO Auto-generated method stub
-//				return 0;
-//			}
-//	    };
-//	    sorter.setComparator(1, numberComparator);
-//	    sorter.setComparator(2, numberComparator);
-//	    sorter.setComparator(3, numberComparator);
-//	    sorter.setComparator(4, numberComparator);
-//	    sorter.setComparator(5, numberComparator);
-//	    table.setRowSorter(sorter);
-
 	}
 
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public void refreshTab() {
 		super.refreshTab();

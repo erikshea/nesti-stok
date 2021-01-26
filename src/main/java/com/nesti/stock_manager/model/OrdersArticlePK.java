@@ -15,23 +15,23 @@ public class OrdersArticlePK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="id_article", insertable=false, updatable=false)
-	private int idArticle;
+	private Integer idArticle;
 
 	@Column(name="id_orders", insertable=false, updatable=false)
-	private int idOrders;
+	private Integer idOrders;
 
 	public OrdersArticlePK() {
 	}
-	public int getIdArticle() {
+	public Integer getIdArticle() {
 		return this.idArticle;
 	}
-	public void setIdArticle(int idArticle) {
+	public void setIdArticle(Integer idArticle) {
 		this.idArticle = idArticle;
 	}
-	public int getIdOrders() {
+	public Integer getIdOrders() {
 		return this.idOrders;
 	}
-	public void setIdOrders(int idOrders) {
+	public void setIdOrders(Integer idOrders) {
 		this.idOrders = idOrders;
 	}
 

@@ -17,10 +17,10 @@ public class OfferPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="id_article")
-	private int idArticle;
+	private Integer idArticle;
 
 	@Column(name="id_supplier")
-	private int idSupplier;
+	private Integer idSupplier;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="start_date")
@@ -28,16 +28,16 @@ public class OfferPK implements Serializable {
 	
 	public OfferPK() {
 	}
-	public int getIdArticle() {
+	public Integer getIdArticle() {
 		return this.idArticle;
 	}
-	public void setIdArticle(int idArticle) {
+	public void setIdArticle(Integer idArticle) {
 		this.idArticle = idArticle;
 	}
-	public int getIdSupplier() {
+	public Integer getIdSupplier() {
 		return this.idSupplier;
 	}
-	public void setIdSupplier(int idSupplier) {
+	public void setIdSupplier(Integer idSupplier) {
 		this.idSupplier = idSupplier;
 	}
 

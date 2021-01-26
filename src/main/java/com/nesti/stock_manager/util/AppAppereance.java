@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.UIManager;
-import javax.swing.plaf.FontUIResource;
 
 public class AppAppereance {
 
