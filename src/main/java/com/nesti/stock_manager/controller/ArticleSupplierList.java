@@ -1,7 +1,6 @@
 package com.nesti.stock_manager.controller;
 
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.model.Article;
 import com.nesti.stock_manager.model.Offer;
-import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.SwingUtil;
 
 //RIGHT OF THE SCREEN, SUPPLIER'S INFORMATION OF THE ARTICLE
@@ -78,7 +76,7 @@ public class ArticleSupplierList extends BasePriceList<Article> {
 					entity.addOffer(offer);
 					refreshList();
 				}
-			} catch (Exception ex) {}
+			} catch (Exception ex) {ex.printStackTrace();}
 		});
 		
 		var suppliers = (new SupplierDao()).findAll(BaseDao.ACTIVE);
@@ -104,6 +102,7 @@ public class ArticleSupplierList extends BasePriceList<Article> {
 	protected void onRowDelete(int modelRow) {
 		var supplier = (new SupplierDao()).findOneBy("name", this.table.getValueAt(modelRow, 1));
 		var offer = entity.getCurrentOffers().get(supplier);
+		
 		offer.setPrice(null);
 		if (	entity.getDefaultSupplier() != null
 			&&  entity.getDefaultSupplier().equals(supplier)) {

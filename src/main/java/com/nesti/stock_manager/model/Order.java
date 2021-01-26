@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
 import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UserDao;
+import com.nesti.stock_manager.util.MathUtil;
 
 /**
  * The persistent class for the orders database table.
@@ -36,7 +37,7 @@ public class Order extends BaseEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_orders")
-	private int idOrders;
+	private Integer idOrders;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_delivery")
@@ -75,11 +76,11 @@ public class Order extends BaseEntity implements Serializable {
 		setDateDelivery(dateD);
 	}
 
-	public int getIdOrders() {
+	public Integer getIdOrders() {
 		return this.idOrders;
 	}
 
-	public void setIdOrders(int idOrders) {
+	public void setIdOrders(Integer idOrders) {
 		this.idOrders = idOrders;
 	}
 
@@ -179,13 +180,11 @@ public class Order extends BaseEntity implements Serializable {
 			result += oa.getOffer().getArticle().getWeight()*oa.getQuantity()*0.006;
 		}
 
-		return Math.round(result*100.0)/100.0;
+		return result;
 	}
 	
 	public Double getTotal() {
-		var total = getSubTotal() + getShippingFees();
-		return Math.round(total*100.0)/100.0;
-		
+		return getSubTotal() + getShippingFees();
 	}
 
 	public OrdersArticle getOrdersArticleFor(Article article) {
@@ -209,5 +208,23 @@ public class Order extends BaseEntity implements Serializable {
 			dao = new OrderDao();
 		}
 		return dao;
+	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Order))
+            return false;
+ 
+        var other = (Order) o;
+ 
+        return  getNumber() != null &&
+        		getNumber().equals(other.getNumber());
+    }
+	 
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getNumber());
 	}
 }

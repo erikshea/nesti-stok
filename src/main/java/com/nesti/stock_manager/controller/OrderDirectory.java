@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.model.Order;
+import com.nesti.stock_manager.util.MathUtil;
 
 @SuppressWarnings("serial")
 public class OrderDirectory extends BaseDirectory<Order> {
@@ -77,7 +78,7 @@ public class OrderDirectory extends BaseDirectory<Order> {
 				entity.getSupplier().getName(),
 				entity.getUser().getName(),
 				entity.getDateOrder(),
-				entity.getTotal()
+				MathUtil.round(entity.getTotal(),2),
 			}
 		);
 	}

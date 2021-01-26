@@ -4,6 +4,7 @@ import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.nesti.stock_manager.dao.BaseDao;
+import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UserDao;
 import com.nesti.stock_manager.model.User;
 
@@ -31,7 +32,6 @@ public class UserDirectory extends BaseDirectory<User> {
 		super.setUpButtonBarListeners();
 		this.buttonModify.addActionListener( e->{
 			var login = this.table.getValueAt(this.table.getSelectedRow(), 0);
-
 			var a = (new UserDao()).findOneBy("login",login);
 
 			this.mainController.getMainPane().addCloseableTab(new UserInformation(this.mainController,a));
@@ -41,29 +41,13 @@ public class UserDirectory extends BaseDirectory<User> {
 		this.buttonAdd.addActionListener( e->{
 			this.mainController.getMainPane().addCloseableTab(new UserInformation(this.mainController,new User()));
 		});
-		/*
-		this.buttonDelete.addActionListener( e->{
-			var dao = new UserDao();
-			
-			for ( var rowIndex : this.table.getSelectedRows()) {
-				var user = dao.findOneBy("login", this.table.getValueAt(rowIndex, 0));
-				dao.delete(user);
-			}
-			
-			refresh();
-		});
 		
-		this.buttonDuplicate.addActionListener( e->{
-			var dao = new UserDao();
-			var user = dao.findOneBy("login", this.table.getValueAt(this.table.getSelectedRow(), 0));
-			user.setIdUser(0);
-			user.setLogin(null);
+		this.buttonDuplicate.addActionListener(e -> {
+			var login = this.table.getValueAt(this.table.getSelectedRow(), 0);
+			var a = (new UserDao()).findOneBy("login",login);
 			
-			this.mainController.addCloseableTab(
-					"Nouvel Utilisateur",
-					new UserInformation(this.mainController,user)
-			);
-		});*/
+			mainController.getMainPane().addCloseableTab(new UserInformation(mainController, a.duplicate()));
+		});
 	}
 	
 	@Override

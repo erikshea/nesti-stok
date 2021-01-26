@@ -90,6 +90,7 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 		
 		this.buttonValidate.addActionListener( e->{
 			try{
+				HibernateUtil.getSession().clear();
 				HibernateUtil.getSession().saveOrUpdate(item); 			// Item is back in session cache
 				HibernateUtil.getSession().getTransaction().commit(); 	// Save to data source
 				closeTab();

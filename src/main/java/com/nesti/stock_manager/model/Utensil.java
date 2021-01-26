@@ -41,4 +41,8 @@ public class Utensil extends Product {
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
+	
+	public Utensil duplicate() {
+		return (Utensil) super.duplicate();
+	}
 }

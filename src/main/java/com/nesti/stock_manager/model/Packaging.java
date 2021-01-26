@@ -27,7 +27,7 @@ public class Packaging extends BaseEntity implements Serializable,Flagged {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_packaging")
-	private int idPackaging;
+	private Integer idPackaging;
 
 	private String name;
 	
@@ -48,11 +48,11 @@ public class Packaging extends BaseEntity implements Serializable,Flagged {
 		setName(n);
 	}
 
-	public int getIdPackaging() {
+	public Integer getIdPackaging() {
 		return this.idPackaging;
 	}
 
-	public void setIdPackaging(int idPackaging) {
+	public void setIdPackaging(Integer idPackaging) {
 		this.idPackaging = idPackaging;
 	}
 
@@ -99,5 +99,23 @@ public class Packaging extends BaseEntity implements Serializable,Flagged {
 			dao = new PackagingDao();
 		}
 		return dao;
+	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Packaging))
+            return false;
+ 
+        var other = (Packaging) o;
+ 
+        return  getName() != null &&
+        		getName().equals(other.getName());
+    }
+	 
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getName());
 	}
 }

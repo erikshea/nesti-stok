@@ -4,6 +4,7 @@ import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.nesti.stock_manager.dao.BaseDao;
+import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.model.Supplier;
 
@@ -39,6 +40,12 @@ public class SupplierDirectory extends BaseDirectory<Supplier> {
 		
 		this.buttonAdd.addActionListener( e->{
 			this.mainController.getMainPane().addCloseableTab(new SupplierInformation(this.mainController,new Supplier()));
+		});
+		
+		this.buttonDuplicate.addActionListener(e -> {
+			var name = this.table.getValueAt(this.table.getSelectedRow(),0);
+			var a = (new SupplierDao()).findOneBy("name",name);
+			mainController.getMainPane().addCloseableTab(new SupplierInformation(mainController, a.duplicate()));
 		});
 	}
 	

@@ -13,7 +13,6 @@ import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.form.ListFieldContainer;
 import com.nesti.stock_manager.form.PasswordFieldContainer;
 import com.nesti.stock_manager.model.User;
-import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.HibernateUtil;
 
 public class UserInformation extends BaseInformation<User> {

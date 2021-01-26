@@ -1,7 +1,6 @@
 package com.nesti.stock_manager.controller;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;

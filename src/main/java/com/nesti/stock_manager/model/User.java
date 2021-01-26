@@ -36,7 +36,7 @@ public class User extends BaseEntity implements Serializable,Flagged {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_user")
-	private int idUser;
+	private Integer idUser;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_creation")
@@ -71,11 +71,11 @@ public class User extends BaseEntity implements Serializable,Flagged {
 		setRole(r);
 	}
 
-	public int getIdUser() {
+	public Integer getIdUser() {
 		return this.idUser;
 	}
 
-	public void setIdUser(int idUser) {
+	public void setIdUser(Integer idUser) {
 		this.idUser = idUser;
 	}
 
@@ -185,5 +185,34 @@ public class User extends BaseEntity implements Serializable,Flagged {
 		this.flag = flag;
 	}
 	
-
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof User))
+            return false;
+ 
+        var other = (User) o;
+ 
+        return  getLogin() != null &&
+        		getLogin().equals(other.getLogin());
+    }
+	 
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getLogin());
+	}
+	
+	public User duplicate() {
+		var duplicate = new User();
+		duplicate.setLogin(getDuplicatedFieldValue("login"));
+		duplicate.setName(this.getName());
+		duplicate.setPasswordHash(this.getPasswordHash());
+		duplicate.setRole(this.getRole());
+		duplicate.setFlag(this.getFlag());
+		
+		return duplicate;
+	}
+	
+	
 }

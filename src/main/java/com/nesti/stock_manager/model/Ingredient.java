@@ -31,7 +31,7 @@ public class Ingredient extends Product  {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_product")
-	private int idProduct;
+	private Integer idProduct;
 
 	// bi-directional many-to-one association to Product
 //	@OneToOne
@@ -97,6 +97,14 @@ public class Ingredient extends Product  {
 
 		return unit;
 	}
+	
+	public Ingredient duplicate() {
+		var duplicate = (Ingredient) super.duplicate();
+		duplicate.setUnits(this.getUnits());
+		
+		return duplicate;
+	}
+	
 	
 	@Override
 	public IngredientDao getDao() {

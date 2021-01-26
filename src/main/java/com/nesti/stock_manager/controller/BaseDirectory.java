@@ -1,7 +1,6 @@
 package com.nesti.stock_manager.controller;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.lang.reflect.ParameterizedType;
 
@@ -9,12 +8,10 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 

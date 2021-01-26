@@ -120,4 +120,23 @@ public class Offer implements Serializable {
 	public Boolean isValid() {
 		return this.getPrice() == null;
 	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Offer))
+            return false;
+ 
+        var other = (Offer) o;
+ 
+        return  getId() != null &&
+        		getId().equals(other.getId());
+    }
+	 
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getId());
+	}
+
 }

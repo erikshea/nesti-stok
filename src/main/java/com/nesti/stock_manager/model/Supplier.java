@@ -30,7 +30,7 @@ public class Supplier  extends BaseEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_supplier")
-	private int idSupplier;
+	private Integer idSupplier;
 
 	private String address1;
 
@@ -109,11 +109,11 @@ public class Supplier  extends BaseEntity implements Serializable {
 		setPhoneNumber(phone);
 	}
 
-	public int getIdSupplier() {
+	public Integer getIdSupplier() {
 		return this.idSupplier;
 	}
 
-	public void setIdSupplier(int idSupplier) {
+	public void setIdSupplier(Integer idSupplier) {
 		this.idSupplier = idSupplier;
 	}
 
@@ -268,5 +268,47 @@ public class Supplier  extends BaseEntity implements Serializable {
 	@Override
 	public String toString() {
 		return this.getName();
+	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Supplier))
+            return false;
+ 
+        var other = (Supplier) o;
+ 
+        return  getName() != null &&
+        		getName().equals(other.getName());
+    }
+	 
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getName());
+	}
+	
+	public Supplier duplicate() {
+		var duplicate = new Supplier();
+		duplicate.setName(getDuplicatedFieldValue("name"));
+		duplicate.setAddress1(this.getAddress1());
+		duplicate.setAddress2(this.getAddress2());
+		duplicate.setCity(this.getCity());
+		duplicate.setContactName(this.getContactName());
+		duplicate.setCountry(this.getCountry());
+		duplicate.setPhoneNumber(this.getPhoneNumber());
+		duplicate.setZipCode(this.getZipCode());
+		duplicate.setFlag(this.getFlag());
+		
+		
+		this.getOffers().forEach(o->{
+			var newOffer = new Offer();
+			newOffer.setArticle(o.getArticle());
+			newOffer.setPrice(o.getPrice());
+			newOffer.setStartDate(o.getStartDate());
+			duplicate.addOffer(newOffer);
+		});
+		
+		return duplicate;
 	}
 }

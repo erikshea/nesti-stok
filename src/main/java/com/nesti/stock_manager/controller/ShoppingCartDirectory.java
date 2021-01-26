@@ -19,22 +19,19 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-import com.nesti.stock_manager.controller.ArticleSupplierList.RadioButtonEditor;
-import com.nesti.stock_manager.controller.ArticleSupplierList.RadioButtonRenderer;
-import com.nesti.stock_manager.dao.ArticleDao;
-import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.form.ButtonColumn;
 import com.nesti.stock_manager.model.Offer;
 import com.nesti.stock_manager.model.OrdersArticle;
 import com.nesti.stock_manager.model.Supplier;
 import com.nesti.stock_manager.util.AppAppereance;
-import com.nesti.stock_manager.util.HibernateUtil;
+import com.nesti.stock_manager.util.MathUtil;
 import com.nesti.stock_manager.util.SwingUtil;
 
 public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
@@ -47,8 +44,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 	public ShoppingCartDirectory(MainWindowControl c) {
 		super(c);
 		this.table.getModel().addTableModelListener(e -> {
-			refreshTotal();
-			refreshSheepingFees();
+			refreshTotals();
 		});
 		
 		
@@ -148,24 +144,52 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 			this.refreshTab();
 		});
 		
+		// First declare any component, say a JTextField
+		JTextField quantityField = new JTextField();
+		quantityField.setText(orderLine.getQuantity().toString());
+		quantityField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void changedUpdate(DocumentEvent e) { update(); }
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) { update(); }
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) { update(); }
+			  
+			public void update() {
+				try {
+					orderLine.setQuantity(Integer.parseInt(quantityField.getText()));
+					refreshTotals();
+				} catch (Exception e) {}
+			}
+		});
+		
+		
 		supplierComboBox.setRenderer(new OfferListCellRenderer());
 		
-		this.addRowData(new Object[] { orderLine.getArticle().getCode(), orderLine.getArticle().getName(),
-				orderLine.getQuantity(), offer.getPrice(), supplierComboBox, "-" });
+		this.addRowData(new Object[] {
+			orderLine.getArticle().getCode(),
+			orderLine.getArticle().getName(),
+			quantityField,
+			MathUtil.round(offer.getPrice(),2),
+			supplierComboBox,
+			"-"
+		});
 	
 	}
 	
-	public void refreshTotal() {
-		var total = String.valueOf(Math.round(
-				(mainController.getShoppingCart().getTotal() + mainController.getShoppingCart().getSheepingFees()) * 100.0)
-				/ 100.0);
-		totalValue.setText(total);
+
+	
+	public void refreshTotals() {
+		var total = MathUtil.round(mainController.getShoppingCart().getTotal(), 2);
+		totalValue.setText(String.valueOf(total));
+		
+		var shippingFees = MathUtil.round(mainController.getShoppingCart().getShipingFees(), 2);
+		shippingFeesValue.setText(String.valueOf(shippingFees));
 	}
 
-	public void refreshSheepingFees() {
-		var sheepingFees = String.valueOf(mainController.getShoppingCart().getSheepingFees());
-		shippingFeesValue.setText(sheepingFees);
-	}
+
 	
 	public void addButtonListeners() {
 		clearButton.addActionListener( ev->{
@@ -193,8 +217,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		orderItems.forEach(e-> {
 			this.addRow( e);
 		});
-		refreshTotal();
-		refreshSheepingFees();
+		refreshTotals();
 		
 		
 		SwingUtil.setUpTableAutoSort(table);
@@ -212,6 +235,11 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		table.setRowHeight(20);
 		this.table.getColumn("Fournisseur").setCellRenderer(new ComboBoxCellRenderer());
 		this.table.getColumn("Fournisseur").setCellEditor(new ComboBoxCellEditor(new JCheckBox()));
+
+		// The code below adds the component to the JTable column
+		
+		this.table.getColumn("Quantité").setCellRenderer(new TextFieldCellRenderer());
+		this.table.getColumn("Quantité").setCellEditor(new TextFieldCellEditor(new JCheckBox()));
 		
 		Action delete = new AbstractAction() {
 		    public void actionPerformed(ActionEvent e)
@@ -299,3 +327,45 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 	        return this;
 	    }
 	}
+	 
+		class TextFieldCellEditor extends DefaultCellEditor implements ItemListener {
+			private static final long serialVersionUID = 1L;
+				private JTextField textField;
+
+				public TextFieldCellEditor(JCheckBox checkBox) {
+					super(checkBox);
+				}
+
+				@SuppressWarnings("unchecked")
+				public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+						int column) {
+					if (value == null)
+						return null;
+					textField = (JTextField) value;
+					//textField.getDocument().addDocumentListener((DocumentListener) this);
+					return (Component) value;
+				}
+
+				public Object getCellEditorValue() {
+					//textField.getDocument().removeDocumentListener((DocumentListener) this);
+					return textField;
+				}
+
+				public void itemStateChanged(ItemEvent e) {
+					super.fireEditingStopped();
+				}
+			}
+
+			 class TextFieldCellRenderer  implements TableCellRenderer {
+				private static final long serialVersionUID = 1L;
+
+
+				@Override
+				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+						boolean hasFocus, int row, int column) {
+					// TODO Auto-generated method stub
+					if (value == null)
+						return null;
+					return (Component) value;
+				}
+			}

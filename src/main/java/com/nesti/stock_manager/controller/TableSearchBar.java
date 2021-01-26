@@ -1,6 +1,5 @@
 package com.nesti.stock_manager.controller;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +11,7 @@ import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.util.AppAppereance;
 

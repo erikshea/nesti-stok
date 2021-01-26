@@ -34,7 +34,7 @@ public class FieldContainer extends BaseFieldContainer{
 	}
 	
 	public void bind(String initialText, ValueSetter s) {
-		this.bind(initialText, s, null, false);
+		this.bind(initialText, s, null, true);
 	}
 	
 	public void bind(String initialText, ValueSetter s, boolean emptyAllowed) {
