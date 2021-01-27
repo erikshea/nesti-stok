@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
 import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UserDao;
-import com.nesti.stock_manager.util.MathUtil;
+import com.nesti.stock_manager.util.FormatUtil;
 
 /**
  * The persistent class for the orders database table.

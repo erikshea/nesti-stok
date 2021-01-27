@@ -31,7 +31,7 @@ import com.nesti.stock_manager.model.Offer;
 import com.nesti.stock_manager.model.OrdersArticle;
 import com.nesti.stock_manager.model.Supplier;
 import com.nesti.stock_manager.util.AppAppereance;
-import com.nesti.stock_manager.util.MathUtil;
+import com.nesti.stock_manager.util.FormatUtil;
 import com.nesti.stock_manager.util.SwingUtil;
 
 public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
@@ -172,7 +172,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 			orderLine.getArticle().getCode(),
 			orderLine.getArticle().getName(),
 			quantityField,
-			MathUtil.round(offer.getPrice(),2),
+			FormatUtil.round(offer.getPrice(),2),
 			supplierComboBox,
 			"-"
 		});
@@ -182,10 +182,10 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 
 	
 	public void refreshTotals() {
-		var total = MathUtil.round(mainController.getShoppingCart().getTotal(), 2);
+		var total = FormatUtil.round(mainController.getShoppingCart().getTotal(), 2);
 		totalValue.setText(String.valueOf(total));
 		
-		var shippingFees = MathUtil.round(mainController.getShoppingCart().getShipingFees(), 2);
+		var shippingFees = FormatUtil.round(mainController.getShoppingCart().getShipingFees(), 2);
 		shippingFeesValue.setText(String.valueOf(shippingFees));
 	}
 

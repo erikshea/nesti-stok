@@ -13,11 +13,11 @@ public class NestiStokMain {
         //Create and set up the window.
         frame = new JFrame("Nesti Stok");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        AppAppereance.setDefault();
 		changeFrameContent(new ConnectionForm());
 
         frame.setVisible(true);
-        AppAppereance.setDefault();
+
        
 	}
    public static void main(String[] args) {
