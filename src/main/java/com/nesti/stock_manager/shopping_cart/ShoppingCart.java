@@ -23,6 +23,10 @@ public class ShoppingCart {
 		mainController = c;
 		orders = new HashMap<>();
 	}
+	
+	public ShoppingCart() {
+		
+	}
 
 	public void addArticle(Article article, int quantity) {
 		var offers = article.getLatestOffers();

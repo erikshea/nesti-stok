@@ -131,13 +131,13 @@ public class PopulateDb {
 		article.setProductFromReference("LOU");
 		articleDao.saveOrUpdate(article);
 
-		article = new Article("OEUF6", "une boite de six oeufs", "3354654123401", 0.58, 6, 4);
+		article = new Article("OEUF6", "une boite de six oeufs", "3354654123401", 132, 6, 4);
 		article.setUnitFromName("pièce");
 		article.setPackagingFromName("boite");
 		article.setProductFromReference("OEUF");
 		articleDao.saveOrUpdate(article);
 
-		article = new Article("OEUF12", "une boite de douze oeufs", "3354654123457", 136, 12, 6);
+		article = new Article("OEUF12", "une boite de douze oeufs", "3354654123457", 256, 12, 6);
 		article.setUnitFromName("pièce");
 		article.setPackagingFromName("boite");
 		article.setProductFromReference("OEUF");
