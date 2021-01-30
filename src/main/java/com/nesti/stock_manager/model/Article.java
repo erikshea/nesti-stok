@@ -25,7 +25,7 @@ import com.nesti.stock_manager.dao.UnitDao;
 import com.nesti.stock_manager.util.HibernateUtil;
 
 /**
- * Persistent class corresponding to the article table.
+ * Persistent entity class corresponding to the article table.
  * 
  * @author Emmanuelle Gay, Erik Shea
  */
@@ -100,7 +100,8 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 
 	
 	/**
-	 * @return
+	 * Get lowest offer among currently valid offers
+	 * @return lowest offer
 	 */
 	public Offer getLowestOffer() {
 		Offer result = null;
@@ -114,26 +115,19 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 		return result;
 	}
 	
-	public Offer getLatestDefaultOffer() {
-		Offer latestOffer = null;
-		var offers = getCurrentOffers().values();
-		
-		for (var offer:offers) {
-			if (	this.getDefaultSupplier() != null
-				&&  offer.getSupplier().equals(this.getDefaultSupplier()) 
-				&&  ( latestOffer == null || latestOffer.getStartDate().before(offer.getStartDate()))	) {
-				latestOffer = offer;
-			}
-		}
-		return latestOffer;
-	}
 
 	
 	
-	 public Offer getOfferAt(Date date, Supplier s) {
+	/**
+	 * Get the closest anterior offer to a given a date, for a given supplier
+	 * @param date that must come after returned offer's date
+	 * @param s supplier whose offers we must check
+	 * @return offer, or null if no anterior valid offers
+	 */
+	public Offer getOfferAt(Date date, Supplier s) {
 	        var hql = "SELECT o FROM Offer o"
-	                + "     WHERE o.article = :p_article "
-	                + "        AND o.supplier = :p_supplier"
+	                + "     WHERE o.article = :p_article "  // article must match offer's composite key article
+	                + "        AND o.supplier = :p_supplier"// supplier must match offer's composite key supplier
 	                + "        AND o.price IS NOT NULL"
 	                + "        AND o.startDate < :date"
 	                + "        ORDER BY o.startDate DESC";
@@ -143,8 +137,8 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	        query.setParameter("date", date);
 	        var results = query.list();
 	        Offer result = null;
-	        if (results.size() > 0) {
-	            result = (Offer) results.get(0);
+	        if (results.size() > 0) { // TODO: simplify
+	            result = (Offer) results.get(0); // if offer exists, get it from result set and cast it 
 	        }
 	        return result;
 	    }
@@ -152,11 +146,16 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 
 
 	
+	/**
+	 * get latest offers for article, regardless of validity (price could be null)
+	 * @return list of latest offers
+	 */
 	public HashMap<Supplier,Offer> getLatestOffers(){
 		var offersBySupplier = new HashMap<Supplier,Offer>();
 		
 		this.getOffers().forEach(o->{
-			if (	!offersBySupplier.containsKey( o.getSupplier() )
+			if (	!offersBySupplier.containsKey( o.getSupplier() ) // if supplier hasn't been added in hashmap of latest offers
+					// or if the offer at we're looking at is posterior in time to the one for the same supplier in hashmap
 				||   offersBySupplier.get(o.getSupplier()).getStartDate().before(o.getStartDate()) ){
 					offersBySupplier.put(o.getSupplier(), o);
 				}
@@ -172,7 +171,7 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 		var offersBySupplier = new HashMap<Supplier,Offer>();
 
 		getLatestOffers().forEach((s,o)->{
-			if(o.getPrice()!=null) {
+			if(o.getPrice()!=null) { // if price is null (invalid offer), don't include it in results
 				offersBySupplier.put(s,o);
 			}
 		});
@@ -181,6 +180,10 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	}
 	
 	
+	/**
+	 * get highest priced offer amongst all offers (valid offers take priority in comparison over null/invalid ones)
+	 * @return
+	 */
 	public Offer getHighestOffer() {
 		var hql = "Select o from Offer o "
 				+ "WHERE o.price = (SELECT MAX(oo.price) FROM Offer oo WHERE oo.id.idArticle = :id_article) ";
@@ -194,6 +197,9 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 		return result;
 	}
 
+	/**
+	 *	Persistent entities need to override equals for consistent behavior. Uses unique field for comparison.
+	 */
 	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -207,30 +213,58 @@ public class Article extends BaseEntity implements Serializable,Flagged {
         		getCode().equals(other.getCode());
     }
 	 
+	
+	/**
+	 * Generate hashCode using unique field as base. Used in Hash-based collections.
+	 */
 	@Override
 	public int hashCode() {
 		return java.util.Objects.hashCode(getCode());
 	}
 	
 
+	/**
+	 * set associated unit by name 
+	 * @param n name of unit to associate
+	 */
 	public void setUnitFromName(String n) {
 		var unitDao = new UnitDao();
 		var unit = unitDao.findOneBy("name", n);
-		setUnit(unit);
+		if (unit != null) {
+			setUnit(unit);
+		}
 	}
 
+	/**
+	 * set packaging from name
+	 * @param n name of packaging to associate
+	 */
 	public void setPackagingFromName(String n) {
 		var packagingDao = new PackagingDao();
 		var packaging = packagingDao.findOneBy("name", n);
-		setPackaging(packaging);
+		if (packaging != null) {
+			setPackaging(packaging);
+		}
 	}
 	
+	/**
+	 * set associated product from reference
+	 * @param r reference of product to associate
+	 */
 	public void setProductFromReference(String r) {
 		var productDao = new ProductDao();
 		var product = productDao.findOneBy("reference", r);
-		setProduct(product);
+		if (packaging != null) {
+			setProduct(product);
+		}
 	}
 	
+	
+	/**
+	 * Duplicate article into another with the same offers, unit, packaging, and default supplier
+	 * as well as unique fields derived from original 
+	 * @return
+	 */
 	public Article duplicate() {
 		var newArticle = new Article();
 		newArticle.setCode(getDuplicatedFieldValue("code"));
@@ -255,6 +289,10 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	}
 	
 	
+	/**
+	 * Create new empty article, with default unit and packaging
+	 * @return
+	 */
 	public static Article createEmpty() {
 		var newArticle = new Article();
 		newArticle.setUnit( (new UnitDao()).findOneBy("name", "pièce") );
@@ -452,24 +490,6 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	protected Supplier getSupplier() {
 		return this.supplier;
 	}
-	
-	
-/*
-	public HashMap<Supplier,Offer> getCurrentOffers2() {
-		var hql = "SELECT o FROM Offer o "
-				+ "WHERE o.article = :p_article" 
-				+ "	AND o.price IS NOT NULL"
-				+ "	AND o.startDate = (SELECT MAX(oo.startDate) FROM Offer oo"
-				+ "	 					WHERE oo.article = o.article"
-				+ "						AND oo.supplier = o.supplier)";
-		var query = HibernateUtil.getSession().createQuery(hql);
-		query.setParameter("p_article", this);
-		@SuppressWarnings("unchecked")
-		List<Offer> results = query.list();
-		var offersBySupplier = new HashMap<Supplier,Offer>();
-		results.forEach( o-> offersBySupplier.put(o.getSupplier(), o));
-		
-		return offersBySupplier;
-	}*/
+
 	
 }

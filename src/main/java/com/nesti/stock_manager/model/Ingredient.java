@@ -19,7 +19,7 @@ import com.nesti.stock_manager.dao.UnitDao;
 
 
 /**
- * Persistent class corresponding to the ingredient table.
+ * Persistent entity class corresponding to the ingredient table.
  * 
  * @author Emmanuelle Gay, Erik Shea
  */
@@ -72,6 +72,10 @@ public class Ingredient extends Product  {
 		this.units = units;
 	}
 
+	/**
+	 * Get a list of names of all units associated with ingredient
+	 * @return list of String names, or empty array if no units associated with Ingredient
+	 */
 	public List<String> getUnitsNames() {
 		List<String>  names = new ArrayList<>();
 		if (this.units != null) {
@@ -80,6 +84,10 @@ public class Ingredient extends Product  {
 		return names;
 	}
 	
+	/**
+	 * Set unit associations from a list of String names
+	 * @param ingredientNames  list of String names of units to associate with Ingredient
+	 */
 	public void setUnitsFromNames(List<String> ingredientNames) {
 		var unitDao = new UnitDao();
 		setUnits(new ArrayList<>());
@@ -99,6 +107,10 @@ public class Ingredient extends Product  {
 		return unit;
 	}
 	
+	/**
+	 * Duplicate Ingredient into another with the same units, and unique fields derived from original 
+	 * @return
+	 */
 	public Ingredient duplicate() {
 		var duplicate = (Ingredient) super.duplicate();
 		duplicate.setUnits(this.getUnits());

@@ -8,7 +8,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * The primary key class for the offers database table.
+ * The composite primary key class for the offers database table.
  * 
  * @author Emmanuelle Gay, Erik Shea
  */
@@ -49,7 +49,9 @@ public class OfferPK implements Serializable {
 		this.startDate = d;
 	}
 
-	
+	/**
+	 *	Persistent entities need to override equals for consistent behavior. Uses unique field for comparison.
+	 */
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) {
@@ -61,15 +63,20 @@ public class OfferPK implements Serializable {
 		OfferPK castOther = (OfferPK)other;
 		return 
 			(this.idArticle == castOther.idArticle)
-			&& (this.idSupplier == castOther.idSupplier);
+			&& (this.idSupplier == castOther.idSupplier)
+			&& (this.startDate.getTime() == castOther.startDate.getTime());
 	}
-
+	
+	/**
+	 * Generate hashCode using a combination of composite key members. Used in Hash-based collections.
+	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int hash = 17;
+		final int prime = 31; 	// prime number to multiply by (no common denominators ensures unique hash)
+		int hash = 17; 			// prime seed
 		hash = hash * prime + this.idArticle;
 		hash = hash * prime + this.idSupplier;
+		hash = hash * prime + (int) startDate.getTime();
 		
 		return hash;
 	}

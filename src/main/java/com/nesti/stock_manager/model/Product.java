@@ -18,7 +18,7 @@ import com.nesti.stock_manager.dao.BaseDao;
 
 
 /**
- * Persistent class corresponding to the product table.
+ * Persistent entity class corresponding to the product table.
  * 
  * @author Emmanuelle Gay, Erik Shea
  */
@@ -53,6 +53,58 @@ public class Product extends BaseEntity implements Serializable, Flagged {
 		setName(n);
 	}
 
+	/**
+	 *	Persistent entities need to override equals for consistent behavior. Uses unique field for comparison.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Product))
+            return false;
+ 
+        var other = (Product) o;
+ 
+        return  getReference() != null &&
+        		getReference().equals(other.getReference());
+    }
+	 
+	/**
+	 * Generate hashCode using unique field as base. Used in Hash-based collections.
+	 */
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getReference());
+	}
+	
+	/**
+	 * Duplicate Product subclass into another with unique properties derived from original 
+	 * @return
+	 */
+	public Product duplicate() {
+		try {
+			// get class constructor to generate instance of correct subclass, not product superclass
+			var duplicate = this.getClass().getConstructor().newInstance();
+			duplicate.setReference(getDuplicatedFieldValue("reference"));
+			duplicate.setName(getDuplicatedFieldValue("name"));
+			duplicate.setFlag(this.getFlag());
+			return duplicate;
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+
+	@Override
+	public BaseDao<?> getDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 	public Integer getIdProduct() {
 		return this.idProduct;
 	}
@@ -107,43 +159,6 @@ public class Product extends BaseEntity implements Serializable, Flagged {
 		this.flag = flag;
 	}
 
-	@Override
-	public BaseDao<?> getDao() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
-	
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
- 
-        if (!(o instanceof Product))
-            return false;
- 
-        var other = (Product) o;
- 
-        return  getReference() != null &&
-        		getReference().equals(other.getReference());
-    }
-	 
-	@Override
-	public int hashCode() {
-		return java.util.Objects.hashCode(getReference());
-	}
-	
-	public Product duplicate() {
-		try {
-			var duplicate = this.getClass().getConstructor().newInstance();
-			duplicate.setReference(getDuplicatedFieldValue("reference"));
-			duplicate.setName(getDuplicatedFieldValue("name"));
-			duplicate.setFlag(this.getFlag());
-			return duplicate;
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+
 }

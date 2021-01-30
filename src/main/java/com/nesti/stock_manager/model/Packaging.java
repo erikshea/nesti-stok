@@ -16,7 +16,7 @@ import com.nesti.stock_manager.dao.PackagingDao;
 
 
 /**
- * Persistent class corresponding to the packaging table.
+ * Persistent entity class corresponding to the packaging table.
  * 
  * @author Emmanuelle Gay, Erik Shea
  */
@@ -49,6 +49,39 @@ public class Packaging extends BaseEntity implements Serializable,Flagged {
 		setName(n);
 	}
 
+
+	@Override
+	public PackagingDao getDao() {
+		if (dao == null) {
+			dao = new PackagingDao();
+		}
+		return dao;
+	}
+	
+	/**
+	 *	Persistent entities need to override equals for consistent behavior. Uses unique field for comparison.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Packaging))
+            return false;
+ 
+        var other = (Packaging) o;
+ 
+        return  getName() != null &&
+        		getName().equals(other.getName());
+    }
+	 
+	/**
+	 * Generate hashCode using unique field as base. Used in Hash-based collections.
+	 */
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getName());
+	}
+	
 	public Integer getIdPackaging() {
 		return this.idPackaging;
 	}
@@ -94,29 +127,4 @@ public class Packaging extends BaseEntity implements Serializable,Flagged {
 		this.flag = flag;
 	}
 
-	@Override
-	public PackagingDao getDao() {
-		if (dao == null) {
-			dao = new PackagingDao();
-		}
-		return dao;
-	}
-	
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
- 
-        if (!(o instanceof Packaging))
-            return false;
- 
-        var other = (Packaging) o;
- 
-        return  getName() != null &&
-        		getName().equals(other.getName());
-    }
-	 
-	@Override
-	public int hashCode() {
-		return java.util.Objects.hashCode(getName());
-	}
 }

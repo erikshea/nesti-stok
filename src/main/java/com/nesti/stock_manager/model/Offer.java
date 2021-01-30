@@ -18,7 +18,7 @@ import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 
 /**
- * Persistent class corresponding to the offers table.
+ * Persistent entity class corresponding to the offers table.
  * 
  * @author Emmanuelle Gay, Erik Shea
  */
@@ -61,6 +61,9 @@ public class Offer implements Serializable {
 	@JoinColumn(name = "id_supplier", insertable = false, updatable = false)
 	private Supplier supplier;
 
+	/**
+	 *	Persistent entities need to override equals for consistent behavior. Uses unique field for comparison.
+	 */
 	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,30 +77,45 @@ public class Offer implements Serializable {
         		getId().equals(other.getId());
     }
 	 
+	/**
+	 * Generate hashCode using unique field as base. Used in Hash-based collections.
+	 */
 	@Override
 	public int hashCode() {
 		return java.util.Objects.hashCode(getId());
 	}
 	
+	/**
+	 * Set associated supplier for a name
+	 * @param n name of supplier to associate
+	 */
 	public void setSupplierFromName(String n) {
 		var supplierDao = new SupplierDao();
 		var supplier = supplierDao.findOneBy("name", n);
 		setSupplier(supplier);
 	}
 	
+	/**
+	 * Set associated article from a name
+	 * @param c code of article to associate
+	 */
 	public void setArticleFromCode(String c) {
 		var articleDao = new ArticleDao();
 		var article = articleDao.findOneBy("code", c);
 		setArticle(article);
 	}
 
+	/**
+	 * if offer valid?
+	 * @return true if valid, false otherwise
+	 */
 	public Boolean isValid() {
 		return this.getPrice() == null;
 	}
 	
-	
+
 	public Offer() {
-		this.setStartDate(new Date());
+		this.setStartDate(new Date()); // initialize date parameter in constructor for in-memory operations
 	}
 
 	public Offer(Double p) {

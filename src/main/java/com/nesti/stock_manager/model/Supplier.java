@@ -19,7 +19,7 @@ import com.nesti.stock_manager.dao.SupplierDao;
 
 
 /**
- * Persistent class corresponding to the supplier table.
+ * Persistent entity class corresponding to the supplier table.
  * 
  * @author Emmanuelle Gay, Erik Shea
  */
@@ -121,6 +121,71 @@ public class Supplier  extends BaseEntity implements Serializable {
 		setPhoneNumber(phone);
 	}
 
+	@Override
+	public String toString() {
+		return this.getName();
+	}
+	
+	public SupplierDao getDao() {
+		if (dao == null) {
+			dao = new SupplierDao();
+		}
+		return dao;
+	}
+	
+	/**
+	 *	Persistent entities need to override equals for consistent behavior. Uses unique field for comparison.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Supplier))
+            return false;
+ 
+        var other = (Supplier) o;
+ 
+        return  getName() != null &&
+        		getName().equals(other.getName());
+    }
+	 
+	/**
+	 * Generate hashCode using unique field as base. Used in Hash-based collections.
+	 */
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getName());
+	}
+	
+	/**
+	 * Duplicate Supplier into another with the same offers, and unique properties derived from original 
+	 * @return
+	 */
+	public Supplier duplicate() {
+		var duplicate = new Supplier();
+		duplicate.setName(getDuplicatedFieldValue("name"));
+		duplicate.setAddress1(this.getAddress1());
+		duplicate.setAddress2(this.getAddress2());
+		duplicate.setCity(this.getCity());
+		duplicate.setContactName(this.getContactName());
+		duplicate.setCountry(this.getCountry());
+		duplicate.setPhoneNumber(this.getPhoneNumber());
+		duplicate.setZipCode(this.getZipCode());
+		duplicate.setFlag(this.getFlag());
+		
+		
+		this.getOffers().forEach(o->{
+			var newOffer = new Offer();
+			newOffer.setArticle(o.getArticle());
+			newOffer.setPrice(o.getPrice());
+			newOffer.setStartDate(o.getStartDate());
+			duplicate.addOffer(newOffer);
+		});
+		
+		return duplicate;
+	}
+	
+	
 	public Integer getIdSupplier() {
 		return this.idSupplier;
 	}
@@ -261,13 +326,7 @@ public class Supplier  extends BaseEntity implements Serializable {
 
 		return article;
 	}
-	
-	public SupplierDao getDao() {
-		if (dao == null) {
-			dao = new SupplierDao();
-		}
-		return dao;
-	}
+
 
 	public String getFlag() {
 		return this.flag;
@@ -277,50 +336,5 @@ public class Supplier  extends BaseEntity implements Serializable {
 		this.flag = flag;
 	}
 	
-	@Override
-	public String toString() {
-		return this.getName();
-	}
 	
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
- 
-        if (!(o instanceof Supplier))
-            return false;
- 
-        var other = (Supplier) o;
- 
-        return  getName() != null &&
-        		getName().equals(other.getName());
-    }
-	 
-	@Override
-	public int hashCode() {
-		return java.util.Objects.hashCode(getName());
-	}
-	
-	public Supplier duplicate() {
-		var duplicate = new Supplier();
-		duplicate.setName(getDuplicatedFieldValue("name"));
-		duplicate.setAddress1(this.getAddress1());
-		duplicate.setAddress2(this.getAddress2());
-		duplicate.setCity(this.getCity());
-		duplicate.setContactName(this.getContactName());
-		duplicate.setCountry(this.getCountry());
-		duplicate.setPhoneNumber(this.getPhoneNumber());
-		duplicate.setZipCode(this.getZipCode());
-		duplicate.setFlag(this.getFlag());
-		
-		
-		this.getOffers().forEach(o->{
-			var newOffer = new Offer();
-			newOffer.setArticle(o.getArticle());
-			newOffer.setPrice(o.getPrice());
-			newOffer.setStartDate(o.getStartDate());
-			duplicate.addOffer(newOffer);
-		});
-		
-		return duplicate;
-	}
 }

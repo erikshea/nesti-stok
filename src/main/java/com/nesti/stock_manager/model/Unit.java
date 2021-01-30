@@ -17,7 +17,7 @@ import com.nesti.stock_manager.dao.UnitDao;
 
 
 /**
- * Persistent class corresponding to the unit table.
+ * Persistent entity class corresponding to the unit table.
  * 
  * @author Emmanuelle Gay, Erik Shea
  */
@@ -54,6 +54,39 @@ public class Unit extends BaseEntity implements Serializable,Flagged {
 		setName(n);
 	}
 
+
+	@Override
+	public UnitDao getDao() {
+		if (dao == null) {
+			dao = new UnitDao();
+		}
+		return dao;
+	}
+	
+	/**
+	 *	Persistent entities need to override equals for consistent behavior. Uses unique field for comparison.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Unit))
+            return false;
+ 
+        var other = (Unit) o;
+ 
+        return  getName() != null &&
+        		getName().equals(other.getName());
+    }
+	 
+	/**
+	 * Generate hashCode using unique field as base. Used in Hash-based collections.
+	 */
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getName());
+	}
+	
 	public Integer getIdUnit() {
 		return this.idUnit;
 	}
@@ -95,17 +128,8 @@ public class Unit extends BaseEntity implements Serializable,Flagged {
 	public List<Ingredient> getIngredients() {
 		return this.ingredients;
 	}
-/*
-	public void setIngredients(List<Ingredient> ingredients) {
-		this.ingredients = ingredients;
-	}*/
-	@Override
-	public UnitDao getDao() {
-		if (dao == null) {
-			dao = new UnitDao();
-		}
-		return dao;
-	}
+
+
 
 	public String getFlag() {
 		return this.flag;
@@ -115,22 +139,5 @@ public class Unit extends BaseEntity implements Serializable,Flagged {
 		this.flag = flag;
 	}
 	
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
- 
-        if (!(o instanceof Unit))
-            return false;
- 
-        var other = (Unit) o;
- 
-        return  getName() != null &&
-        		getName().equals(other.getName());
-    }
-	 
-	@Override
-	public int hashCode() {
-		return java.util.Objects.hashCode(getName());
-	}
 	
 }
