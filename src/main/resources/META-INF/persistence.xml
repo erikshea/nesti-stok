@@ -11,7 +11,6 @@
     <class>com.nesti.stock_manager.model.OrdersArticle</class>
     <class>com.nesti.stock_manager.model.OrdersArticlePK</class>
     <class>com.nesti.stock_manager.model.Packaging</class>
-    <class>com.nesti.stock_manager.model.Product</class>
     <class>com.nesti.stock_manager.model.Supplier</class>
     <class>com.nesti.stock_manager.model.Unit</class>
     <class>com.nesti.stock_manager.model.User</class>

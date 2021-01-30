@@ -1,7 +1,6 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,10 +22,12 @@ import javax.persistence.TemporalType;
 import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UserDao;
+import com.nesti.stock_manager.util.FormatUtil;
 
 /**
- * The persistent class for the orders database table.
+ * Persistent entity class corresponding to the order table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @Table(name = "orders")
@@ -37,7 +38,7 @@ public class Order extends BaseEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_orders")
-	private int idOrders;
+	private Integer idOrders;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_delivery")
@@ -60,27 +61,27 @@ public class Order extends BaseEntity implements Serializable {
 	private User user;
 
 	// bi-directional many-to-one association to OrdersArticle
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL) // changes to order in data source propagate to order items
 	private List<OrdersArticle> ordersArticles;
 	
 	private static OrderDao dao;
 	
 	public Order() {
-		this.setDateOrder(new Date());
+		this.setDateOrder(new Date()); // initialize date parameter in constructor for in-memory operations
 	}
 
-	public Order(String n, String dateO, String dateD) {
+	public Order(String n, Date dateO, Date dateD) {
 		this();
 		setNumber(n);
 		setDateOrder(dateO);
 		setDateDelivery(dateD);
 	}
 
-	public int getIdOrders() {
+	public Integer getIdOrders() {
 		return this.idOrders;
 	}
 
-	public void setIdOrders(int idOrders) {
+	public void setIdOrders(Integer idOrders) {
 		this.idOrders = idOrders;
 	}
 
@@ -152,18 +153,32 @@ public class Order extends BaseEntity implements Serializable {
 		return ordersArticle;
 	}
 
+	/**
+	 * Set supplier association from a supplier name
+	 * @param n name of supplier to associate
+	 */
 	public void setSupplierFromName(String n) {
 		var supplierDao = new SupplierDao();
 		var supplier = supplierDao.findOneBy("name", n);
 		setSupplier(supplier);
 	}
 
+
+	/**
+	 * Set user association from a login
+	 * @param l login of user to associate
+	 */
 	public void setUserFromLogin(String l) {
 		var userDao = new UserDao();
 		var user = userDao.findOneBy("login", l);
 		setUser(user);
 	}
 
+	
+	/**
+	 * get subtotal: the sum of all order item prices without shipping
+	 * @return
+	 */
 	public Double getSubTotal() {
 		var result = 0.0;
 
@@ -172,16 +187,28 @@ public class Order extends BaseEntity implements Serializable {
 		}
 		return result;
 	}
+	
 
-	public Double getSheepingFees() {
+	/**
+	 * calculate shipping fees according to weight of items in order
+	 * @return
+	 */
+	public Double getShippingFees() {
 		var result = 0.0;
 		
 		for (var oa : this.getOrdersArticles()) {
 			result += oa.getOffer().getArticle().getWeight()*oa.getQuantity()*0.006;
 		}
-		return Math.round(result*100.0)/100.0;
-	}
 
+		return result;
+	}
+	
+	
+	/**
+	 * get the order item associated with an Article
+	 * @param article associated with order item
+	 * @return single order item (only one per article in an order)
+	 */
 	public OrdersArticle getOrdersArticleFor(Article article) {
 		OrdersArticle result = null;
 		for (var oa : getOrdersArticles()) {
@@ -194,20 +221,15 @@ public class Order extends BaseEntity implements Serializable {
 	}
 	
 	
-	public void setDateOrder(String dateString) { 
-		var formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-		try{
-			setDateOrder(formatter.parse(dateString));
-		}catch (Exception e) {}
+	/**
+	 * remove the order item associated with an Article (only one per article in an order)
+	 * @param article associated with order item
+	 */
+	public void removeOrdersArticleFor(Article article) {
+		removeOrdersArticle(getOrdersArticleFor(article));
 	}
 	
-	public void setDateDelivery(String dateString) {
-		var formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-		try{
-			setDateDelivery(formatter.parse(dateString));
-		}catch (Exception e) {}
-	}
-	
+
 	@Override
 	public OrderDao getDao() {
 		if (dao == null) {
@@ -215,4 +237,34 @@ public class Order extends BaseEntity implements Serializable {
 		}
 		return dao;
 	}
+	
+	/**
+	 *	Persistent entities need to override equals for consistent behavior. Uses unique field for comparison.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Order))
+            return false;
+ 
+        var other = (Order) o;
+ 
+        return  getNumber() != null &&
+        		getNumber().equals(other.getNumber());
+    }
+	 
+	/**
+	 * Generate hashCode using unique field as base. Used in Hash-based collections.
+	 */
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getNumber());
+	}
+	
+	public Double getTotal() {
+		return getSubTotal() + getShippingFees();
+	}
+
+
 }

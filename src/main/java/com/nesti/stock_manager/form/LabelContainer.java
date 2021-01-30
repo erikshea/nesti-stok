@@ -8,17 +8,20 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
-
+/**
+ * simple label container (no editable field)
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 @SuppressWarnings("serial")
 public class LabelContainer extends BaseFieldContainer{
 	protected JLabel infoLabel;
 	
 	public LabelContainer(String labelText, String infoText) {
-		super(labelText, null);
+		super(labelText);
 		this.infoLabel = new JLabel();
 		infoLabel.setText(infoText);
 		this.add(this.infoLabel);
-		this.setBackground(Color.getHSBColor(0f, 0f, 0.9f));
 		label.setMaximumSize(new Dimension(label.getPreferredSize().width, Short.MAX_VALUE));
 		this.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.GRAY));
 	}
@@ -27,7 +30,7 @@ public class LabelContainer extends BaseFieldContainer{
 		return this.infoLabel;
 	}
 	
-	public void setText(String infoText) {
+	public void setInfoText(String infoText) {
 		this.infoLabel.setText(infoText);
 	}
 }

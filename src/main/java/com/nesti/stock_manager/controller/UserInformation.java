@@ -15,6 +15,11 @@ import com.nesti.stock_manager.form.PasswordFieldContainer;
 import com.nesti.stock_manager.model.User;
 import com.nesti.stock_manager.util.HibernateUtil;
 
+/**
+ * See and edit a User's information and role.
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 public class UserInformation extends BaseInformation<User> {
 	private static final long serialVersionUID = 1775908299271902575L;
 
@@ -22,9 +27,23 @@ public class UserInformation extends BaseInformation<User> {
 		super(c, user);
 	}
 	
+	public String getTitle() {
+		var result = "";
+		if (item.getLogin() == null) { // If newly created user
+			result = "Nouvel Utilisateur";
+		} else {  // Else, show login
+			result = "Utilisateur : " + item.getLogin();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Called first at tab refresh. Build and add swing elements.
+	 */
 	@Override
-	public void refreshTab() {
-		super.refreshTab();
+	public void preRefreshTab() {
+		super.preRefreshTab();
 		final var user= item;
 		var dao = item.getDao();
 	
@@ -37,9 +56,9 @@ public class UserInformation extends BaseInformation<User> {
 		
 		var nameUserFieldContainer = new FieldContainer("Nom d'utilisateur", this);
 		nameUserFieldContainer.bind(
-				user.getLogin(),
-				(s)-> user.setLogin(s),
-				(fieldValue)->dao.findOneBy("login", fieldValue) == null);
+				user.getLogin(), // Starting value
+				(s)-> user.setLogin(s), // On change, update corresponding user property
+				(fieldValue)->dao.findOneBy("login", fieldValue) == null); // Only valid if no other user exists with the same property
 		userForm.add(nameUserFieldContainer);
 		
 		var contactNameFieldContainer = new FieldContainer("Nom de contact", this);
@@ -73,12 +92,4 @@ public class UserInformation extends BaseInformation<User> {
 		super.closeTab();
 		this.mainControl.getMainPane().setSelectedComponent(this.mainControl.getUserDirectory());
 	}
-
-	
-	@Override
-	public void saveItem() {
-		final var user= (User) item;
-		user.getDao().saveOrUpdate(user);
-	}
-	
 }

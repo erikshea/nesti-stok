@@ -19,8 +19,9 @@ import com.nesti.stock_manager.dao.SupplierDao;
 
 
 /**
- * The persistent class for the supplier database table.
+ * Persistent entity class corresponding to the supplier table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @NamedQuery(name="Supplier.findAll", query="SELECT s FROM Supplier s")
@@ -30,7 +31,7 @@ public class Supplier  extends BaseEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_supplier")
-	private int idSupplier;
+	private Integer idSupplier;
 
 	private String address1;
 
@@ -56,7 +57,7 @@ public class Supplier  extends BaseEntity implements Serializable {
 	private List<Offer> offers;
 
 	//bi-directional many-to-one association to Order
-	@OneToMany(mappedBy="supplier", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="supplier")
 	private List<Order> orders;
 
 	//bi-directional many-to-one association to Article
@@ -71,6 +72,12 @@ public class Supplier  extends BaseEntity implements Serializable {
 		this.setFlag(BaseDao.DEFAULT);
 	}
 
+	
+	/**
+	 * Get most recent offers.
+	 * 
+	 * @return hashmap of most recent offers with corresponding articles as keys
+	 */
 	public HashMap<Article,Offer> getLatestOffers(){
 		var offersByArticle = new HashMap<Article,Offer>();
 		
@@ -84,6 +91,11 @@ public class Supplier  extends BaseEntity implements Serializable {
 		return offersByArticle;
 	}
 
+	/**
+	 * Get currently active offers (price not null).
+	 * 
+	 * @return hashmap of active offers with corresponding articles as keys
+	 */
 	public HashMap<Article,Offer> getCurrentOffers() {
 		var offersByArticle = new HashMap<Article,Offer>();
 
@@ -109,11 +121,76 @@ public class Supplier  extends BaseEntity implements Serializable {
 		setPhoneNumber(phone);
 	}
 
-	public int getIdSupplier() {
+	@Override
+	public String toString() {
+		return this.getName();
+	}
+	
+	public SupplierDao getDao() {
+		if (dao == null) {
+			dao = new SupplierDao();
+		}
+		return dao;
+	}
+	
+	/**
+	 *	Persistent entities need to override equals for consistent behavior. Uses unique field for comparison.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Supplier))
+            return false;
+ 
+        var other = (Supplier) o;
+ 
+        return  getName() != null &&
+        		getName().equals(other.getName());
+    }
+	 
+	/**
+	 * Generate hashCode using unique field as base. Used in Hash-based collections.
+	 */
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getName());
+	}
+	
+	/**
+	 * Duplicate Supplier into another with the same offers, and unique properties derived from original 
+	 * @return
+	 */
+	public Supplier duplicate() {
+		var duplicate = new Supplier();
+		duplicate.setName(getDuplicatedFieldValue("name"));
+		duplicate.setAddress1(this.getAddress1());
+		duplicate.setAddress2(this.getAddress2());
+		duplicate.setCity(this.getCity());
+		duplicate.setContactName(this.getContactName());
+		duplicate.setCountry(this.getCountry());
+		duplicate.setPhoneNumber(this.getPhoneNumber());
+		duplicate.setZipCode(this.getZipCode());
+		duplicate.setFlag(this.getFlag());
+		
+		
+		this.getOffers().forEach(o->{
+			var newOffer = new Offer();
+			newOffer.setArticle(o.getArticle());
+			newOffer.setPrice(o.getPrice());
+			newOffer.setStartDate(o.getStartDate());
+			duplicate.addOffer(newOffer);
+		});
+		
+		return duplicate;
+	}
+	
+	
+	public Integer getIdSupplier() {
 		return this.idSupplier;
 	}
 
-	public void setIdSupplier(int idSupplier) {
+	public void setIdSupplier(Integer idSupplier) {
 		this.idSupplier = idSupplier;
 	}
 
@@ -249,13 +326,7 @@ public class Supplier  extends BaseEntity implements Serializable {
 
 		return article;
 	}
-	
-	public SupplierDao getDao() {
-		if (dao == null) {
-			dao = new SupplierDao();
-		}
-		return dao;
-	}
+
 
 	public String getFlag() {
 		return this.flag;
@@ -264,4 +335,6 @@ public class Supplier  extends BaseEntity implements Serializable {
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
+	
+	
 }

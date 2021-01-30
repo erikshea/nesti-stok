@@ -1,9 +1,9 @@
 package com.nesti.stock_manager.model;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,19 +18,20 @@ import com.nesti.stock_manager.dao.BaseDao;
 
 
 /**
- * The persistent class for the product database table.
+ * Persistent entity class corresponding to the product table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
-public abstract class Product extends BaseEntity implements Serializable, Flagged {
+public class Product extends BaseEntity implements Serializable, Flagged {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_product")
-	private int idProduct;
+	private Integer idProduct;
 
 	private String name;
 
@@ -52,11 +53,63 @@ public abstract class Product extends BaseEntity implements Serializable, Flagge
 		setName(n);
 	}
 
-	public int getIdProduct() {
+	/**
+	 *	Persistent entities need to override equals for consistent behavior. Uses unique field for comparison.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Product))
+            return false;
+ 
+        var other = (Product) o;
+ 
+        return  getReference() != null &&
+        		getReference().equals(other.getReference());
+    }
+	 
+	/**
+	 * Generate hashCode using unique field as base. Used in Hash-based collections.
+	 */
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getReference());
+	}
+	
+	/**
+	 * Duplicate Product subclass into another with unique properties derived from original 
+	 * @return
+	 */
+	public Product duplicate() {
+		try {
+			// get class constructor to generate instance of correct subclass, not product superclass
+			var duplicate = this.getClass().getConstructor().newInstance();
+			duplicate.setReference(getDuplicatedFieldValue("reference"));
+			duplicate.setName(getDuplicatedFieldValue("name"));
+			duplicate.setFlag(this.getFlag());
+			return duplicate;
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+
+	@Override
+	public BaseDao<?> getDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	public Integer getIdProduct() {
 		return this.idProduct;
 	}
 
-	public void setIdProduct(int idProduct) {
+	public void setIdProduct(Integer idProduct) {
 		this.idProduct = idProduct;
 	}
 
@@ -105,4 +158,7 @@ public abstract class Product extends BaseEntity implements Serializable, Flagge
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
+
+	
+
 }

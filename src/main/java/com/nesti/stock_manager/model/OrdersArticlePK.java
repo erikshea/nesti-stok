@@ -6,8 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
- * The primary key class for the orders_article database table.
+ * The composite primary key class for the orders_article database table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Embeddable
 public class OrdersArticlePK implements Serializable {
@@ -15,26 +16,14 @@ public class OrdersArticlePK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="id_article", insertable=false, updatable=false)
-	private int idArticle;
+	private Integer idArticle;
 
 	@Column(name="id_orders", insertable=false, updatable=false)
-	private int idOrders;
+	private Integer idOrders;
 
-	public OrdersArticlePK() {
-	}
-	public int getIdArticle() {
-		return this.idArticle;
-	}
-	public void setIdArticle(int idArticle) {
-		this.idArticle = idArticle;
-	}
-	public int getIdOrders() {
-		return this.idOrders;
-	}
-	public void setIdOrders(int idOrders) {
-		this.idOrders = idOrders;
-	}
-
+	/**
+	 *	Persistent entities need to override equals for consistent behavior. Uses unique field for comparison.
+	 */
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) {
@@ -49,13 +38,33 @@ public class OrdersArticlePK implements Serializable {
 			&& (this.idOrders == castOther.idOrders);
 	}
 
+	/**
+	 * Generate hashCode using unique field as base. Used in Hash-based collections.
+	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int hash = 17;
+		final int prime = 31; 	// prime number to multiply by (no common denominators ensures unique hash)
+		int hash = 17; 			// prime seed
 		hash = hash * prime + this.idArticle;
 		hash = hash * prime + this.idOrders;
 		
 		return hash;
 	}
+	
+	
+	public OrdersArticlePK() {
+	}
+	public Integer getIdArticle() {
+		return this.idArticle;
+	}
+	public void setIdArticle(Integer idArticle) {
+		this.idArticle = idArticle;
+	}
+	public Integer getIdOrders() {
+		return this.idOrders;
+	}
+	public void setIdOrders(Integer idOrders) {
+		this.idOrders = idOrders;
+	}
+
 }

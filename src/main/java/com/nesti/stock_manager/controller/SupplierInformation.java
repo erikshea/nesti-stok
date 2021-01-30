@@ -3,6 +3,7 @@ package com.nesti.stock_manager.controller;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -10,8 +11,13 @@ import javax.swing.JPanel;
 
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.model.Supplier;
-import com.nesti.stock_manager.util.HibernateUtil;
+import com.nesti.stock_manager.util.AppAppereance;
 
+/**
+ * See and edit a supplier's information, and a list of articles offered by that supplier.
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 public class SupplierInformation extends BaseInformation<Supplier> {
 	private static final long serialVersionUID = 1775908299271902575L;
 	/**
@@ -22,27 +28,46 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 		super(c, supplier);
 	}
 	
+	public String getTitle() {
+		var result = "";
+		if (item.getName() == null) { // If newly created
+			result = "Nouveau Fournisseur";
+		} else { // Else, show name
+			result = "Fournisseur : " + item.getName();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Called first at tab refresh. Build and add swing elements.
+	 */
 	@Override
-	public void refreshTab() {
-		super.refreshTab();
+	public void preRefreshTab() {
+		super.preRefreshTab();
 		final var supplier = item;
 		var dao = item.getDao();
 		
+		// Create price list, add to the right of border pane
 		var articlePriceList = new SupplierArticleList(supplier);
+		articlePriceList.setBackground(AppAppereance.LIGHT_COLOR);
 		this.add(articlePriceList, BorderLayout.EAST);
 		
 		var supplierForm = new JPanel();
 		supplierForm.setPreferredSize(new Dimension(500, 0));
 		supplierForm.setLayout(new BoxLayout(supplierForm, BoxLayout.Y_AXIS));
+		supplierForm.setBackground(AppAppereance.LIGHT_COLOR);
 		
 		var titleSupplierInformation = new JLabel("Fournisseur");
+		titleSupplierInformation.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		titleSupplierInformation.setFont(AppAppereance.TITLE_FONT);
 		supplierForm.add(titleSupplierInformation);
 		
 		var nameFieldContainer = new FieldContainer("Nom", this);
 		nameFieldContainer.bind(
-				supplier.getName(),
-				(s)-> supplier.setName(s),
-				(fieldValue)->dao.findOneBy("name", fieldValue) == null);
+				supplier.getName(), // Starting value
+				(s)-> supplier.setName(s), // On change, update corresponding supplier property
+				(fieldValue)->dao.findOneBy("name", fieldValue) == null); // Only valid if no other supplier exists with the same property
 		supplierForm.add(nameFieldContainer);
 		
 		var adress1FieldContainer = new FieldContainer("Adresse 1", this);
@@ -77,6 +102,7 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 		supplierForm.add(countryFieldContainer);
 	
 		var phoneFieldContainer = new FieldContainer("Téléphone", this);
+		phoneFieldContainer.setBackground(AppAppereance.LIGHT_COLOR);
 		phoneFieldContainer.bind(
 				supplier.getPhoneNumber(),
 				(s)-> supplier.setPhoneNumber(s));
@@ -91,19 +117,12 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 		supplierForm.add(Box.createVerticalGlue());
 		
 		this.add(supplierForm, BorderLayout.WEST);
-		HibernateUtil.getSession().evict(item);
 	}
 
 	@Override
 	public void closeTab() {
 		super.closeTab();
+		// On tab close, go back to supplier directory
 		this.mainControl.getMainPane().setSelectedComponent(this.mainControl.getSupplierDirectory());
-	}
-
-	
-	@Override
-	public void saveItem() {
-		final var supplier= (Supplier) item;
-		supplier.getDao().saveOrUpdate(supplier);
 	}
 }

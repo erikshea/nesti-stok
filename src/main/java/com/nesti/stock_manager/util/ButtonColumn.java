@@ -1,6 +1,5 @@
-package com.nesti.stock_manager.form;
+package com.nesti.stock_manager.util;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +11,6 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JTable;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableCellEditor;
@@ -63,10 +61,12 @@ public class ButtonColumn extends AbstractCellEditor
 
 		renderButton = new JButton();
 		editButton = new JButton();
+		
 		editButton.setFocusPainted( false );
 		editButton.addActionListener( this );
 		originalBorder = editButton.getBorder();
-		setFocusBorder( new LineBorder(Color.BLUE) );
+		
+		setFocusBorder( new LineBorder(AppAppereance.MEDIUM_COLOR) );
 
 		TableColumnModel columnModel = table.getColumnModel();
 		columnModel.getColumn(column).setCellRenderer( this );
@@ -151,13 +151,13 @@ public class ButtonColumn extends AbstractCellEditor
 	{
 		if (isSelected)
 		{
-			renderButton.setForeground(table.getSelectionForeground());
-	 		renderButton.setBackground(table.getSelectionBackground());
+			renderButton.setForeground(AppAppereance.DARK);
+			renderButton.setBackground(AppAppereance.LIGHT_COLOR);
 		}
 		else
 		{
-			renderButton.setForeground(table.getForeground());
-			renderButton.setBackground(UIManager.getColor("Button.background"));
+			renderButton.setForeground(AppAppereance.DARK);
+			renderButton.setBackground(AppAppereance.LIGHT_COLOR);
 		}
 
 		if (hasFocus)
