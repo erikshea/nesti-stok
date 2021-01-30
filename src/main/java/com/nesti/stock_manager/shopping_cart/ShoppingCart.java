@@ -36,6 +36,10 @@ public class ShoppingCart {
 		mainController = c;
 		orders = new HashMap<>();
 	}
+	
+	public ShoppingCart() {
+		
+	}
 
 	/**
 	 * Add an article to order list

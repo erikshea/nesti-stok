@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,16 +44,24 @@ public class MainWindowControl extends JPanel {
 		
 		// Shows currently connected user, and a disconnect button
 		var connectedUserPane = new JPanel();
-		
+
 		connectedUserPane.setLayout(new BoxLayout(connectedUserPane, BoxLayout.X_AXIS));
-		connectedUserPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-		connectedUserPane.setBackground(AppAppereance.LIGHT_COLOR);
-		
+		connectedUserPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
 		var connectedUserLogin = new JLabel(getConnectedUser().getLogin());
-		
+		connectedUserLogin.setFont(AppAppereance.TITLE_FONT);
+
+		var imageUrl = this.getClass().getResource("/images/loginPicture.png");
+		var image = Toolkit.getDefaultToolkit().getImage(imageUrl).getScaledInstance(30, 30,
+				java.awt.Image.SCALE_SMOOTH);
+
+		var profilPicture = new ImageIcon(image);
+
+		connectedUserLogin.setIcon(profilPicture);
+
 		var disconnectButton = new JButton("Déconnecter");
 		disconnectButton.setBackground(AppAppereance.DARK);
-		disconnectButton.setForeground(new Color(255,255,255));
+		disconnectButton.setForeground(new Color(255, 255, 255));
 		disconnectButton.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
 		disconnectButton.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
 		// Disconnect button action

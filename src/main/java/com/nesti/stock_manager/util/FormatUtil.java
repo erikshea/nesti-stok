@@ -2,6 +2,8 @@ package com.nesti.stock_manager.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Holds formatting-related convenience methods
@@ -24,5 +26,16 @@ public class FormatUtil {
 	    BigDecimal bd = new BigDecimal(Double.toString(value));
 	    bd = bd.setScale(places, RoundingMode.HALF_UP); // Rounds to nearest neighbor, or upwards if equidistant
 	    return bd.doubleValue(); // Convert back into Double
+	}
+	
+	
+	public static Date stringToDate(String dateString) {
+		var formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+		Date result = null;
+		try{
+			result = formatter.parse(dateString);
+		}catch (Exception e) {}
+		
+		return result;
 	}
 }

@@ -18,12 +18,12 @@ public class NestiStokMain {
         //Create and set up the window.
         frame = new JFrame("Nesti Stok");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
+        AppAppereance.setDefault();
 	   	HibernateUtil.setCurrentEnvironment("dev"); // Database environment for app
 		changeFrameContent(new ConnectionForm());	// Show connection form (which may immediately redirect to main controller if user has already logged in)
 
         frame.setVisible(true);
-        AppAppereance.setDefault();
        
 	}
    public static void main(String[] args) {
