@@ -20,6 +20,5 @@ public class TestFeatures {
 		
 		
 		System.out.println(article.getCurrentOffers());
-		System.out.println(article.getCurrentOffers2());
 	}
 }

@@ -8,20 +8,34 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
  
+/**
+ * @author Emmanuelle Gay, Erik Shea
+ * Class through which all hibernate sessions are accessed
+ */
 public class HibernateUtil {
+	// Hashmap of session factories by environment (in case we want to switch on the fly)
     private static Map<String,SessionFactory> sessionFactories;
-    private static final String DEFAULT_ENVIRONMENT = "dev";
+    private static final String DEFAULT_ENVIRONMENT = "dev"; 
+    
+    // environment determines which .cfg.xml hibernate uses
     private static String currentEnvironment = DEFAULT_ENVIRONMENT;
 
 
+	/**
+	 * Session factory provides access to sessions
+	 * @param environment environment for database settings cfg file ("prod", "dev", "test"...)
+	 * @return session factory
+	 */
 	public static SessionFactory getSessionFactory(String environment) {
     	if ( sessionFactories == null ) {
-    		sessionFactories = new HashMap<>();
+    		sessionFactories = new HashMap<>(); // Create hashmap if it doesn't exist
     	}
 
     	if (!sessionFactories.containsKey(environment)) {
+    		// Load configuration that corresponds to environment (ie "hibernate_dev.cfg.xml")
     		Configuration configuration = new Configuration().configure("META-INF/hibernate_" + environment + ".cfg.xml");
     		
+    		// set with environment as key, session facory as value
     		sessionFactories.put(environment,configuration.buildSessionFactory());
         }
          

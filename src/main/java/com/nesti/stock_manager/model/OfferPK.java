@@ -10,6 +10,7 @@ import javax.persistence.TemporalType;
 /**
  * The primary key class for the offers database table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Embeddable
 public class OfferPK implements Serializable {

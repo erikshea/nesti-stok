@@ -12,8 +12,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.model.Order;
-import com.nesti.stock_manager.util.MathUtil;
+import com.nesti.stock_manager.util.FormatUtil;
 
+/**
+ * Shows all completed orders
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 @SuppressWarnings("serial")
 public class OrderDirectory extends BaseDirectory<Order> {
 
@@ -58,7 +63,7 @@ public class OrderDirectory extends BaseDirectory<Order> {
 	}
 
 	@Override
-	public Object[] getTableModelColumns() {
+	public Object[] getTableModelColumnNames() {
 		return new Object[] {"Numéro", "Fournisseur", "Auteur", "Date", "Total"};
 	}
 
@@ -78,7 +83,7 @@ public class OrderDirectory extends BaseDirectory<Order> {
 				entity.getSupplier().getName(),
 				entity.getUser().getName(),
 				entity.getDateOrder(),
-				MathUtil.round(entity.getTotal(),2),
+				FormatUtil.round(entity.getTotal(),2),
 			}
 		);
 	}

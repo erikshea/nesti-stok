@@ -18,8 +18,9 @@ import com.nesti.stock_manager.dao.OrdersArticleDao;
 
 
 /**
- * The persistent class for the orders_article database table.
+ * Persistent class corresponding to the orders_article table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @Table(name="orders_article")
@@ -28,6 +29,9 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static OrdersArticleDao dao;
 	
+	/**
+	 * Need to generate a composite PK at initiation of a persisted item to be able to fetch and set associations in memory
+	 */
 	@PrePersist
 	private void prePersist() {
 		if (getId() == null) {
@@ -53,6 +57,26 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 	@JoinColumn(name="id_orders", insertable=false, updatable=false)
 	private Order order;
 
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof OrdersArticle))
+            return false;
+ 
+        var other = (OrdersArticle) o;
+ 
+        return  getId() != null &&
+        		getId().equals(other.getId());
+    }
+	 
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getId());
+	}
+	
+	
 	public OrdersArticle() {
 	}
 
@@ -112,12 +136,13 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 		setArticle(article);
 	}
 	
-	public Double getOfferAt(Date date) {
-		
-		
-		return null;
+	public Offer getOfferAt(Date date) {
+		return getArticle().getOfferAt(date, getSupplier());
 	}
 	
+	public Supplier getSupplier() {
+		return this.getOrder().getSupplier();
+	}
 	
 	@Override
 	public OrdersArticleDao getDao() {
@@ -135,22 +160,5 @@ public class OrdersArticle extends BaseEntity implements Serializable {
 		var offer = article.getOfferAt(getOrder().getDateOrder(), supplier);
 		return offer;
 	}
-	
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
- 
-        if (!(o instanceof OrdersArticle))
-            return false;
- 
-        var other = (OrdersArticle) o;
- 
-        return  getId() != null &&
-        		getId().equals(other.getId());
-    }
-	 
-	@Override
-	public int hashCode() {
-		return java.util.Objects.hashCode(getId());
-	}
+
 }

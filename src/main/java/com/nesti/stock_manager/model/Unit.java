@@ -17,8 +17,9 @@ import com.nesti.stock_manager.dao.UnitDao;
 
 
 /**
- * The persistent class for the unit database table.
+ * Persistent class corresponding to the unit table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @NamedQuery(name="Unit.findAll", query="SELECT u FROM Unit u")

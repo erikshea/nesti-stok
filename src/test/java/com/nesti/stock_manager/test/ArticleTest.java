@@ -16,7 +16,7 @@ public class ArticleTest {
 	
 	@Test
 	public void FindCurrentOffersTest() {
-		
+	
 	}
 	
 	@Test

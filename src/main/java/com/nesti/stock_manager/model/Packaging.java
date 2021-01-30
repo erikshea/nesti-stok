@@ -16,8 +16,9 @@ import com.nesti.stock_manager.dao.PackagingDao;
 
 
 /**
- * The persistent class for the packaging database table.
+ * Persistent class corresponding to the packaging table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @NamedQuery(name="Packaging.findAll", query="SELECT p FROM Packaging p")

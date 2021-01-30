@@ -22,11 +22,12 @@ import javax.persistence.TemporalType;
 import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UserDao;
-import com.nesti.stock_manager.util.MathUtil;
+import com.nesti.stock_manager.util.FormatUtil;
 
 /**
- * The persistent class for the orders database table.
+ * Persistent class corresponding to the order table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @Table(name = "orders")
@@ -60,7 +61,7 @@ public class Order extends BaseEntity implements Serializable {
 	private User user;
 
 	// bi-directional many-to-one association to OrdersArticle
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL) // changes to order in data source propagate to order items
 	private List<OrdersArticle> ordersArticles;
 	
 	private static OrderDao dao;
@@ -183,10 +184,6 @@ public class Order extends BaseEntity implements Serializable {
 		return result;
 	}
 	
-	public Double getTotal() {
-		return getSubTotal() + getShippingFees();
-	}
-
 	public OrdersArticle getOrdersArticleFor(Article article) {
 		OrdersArticle result = null;
 		for (var oa : getOrdersArticles()) {
@@ -227,4 +224,10 @@ public class Order extends BaseEntity implements Serializable {
 	public int hashCode() {
 		return java.util.Objects.hashCode(getNumber());
 	}
+	
+	public Double getTotal() {
+		return getSubTotal() + getShippingFees();
+	}
+
+
 }

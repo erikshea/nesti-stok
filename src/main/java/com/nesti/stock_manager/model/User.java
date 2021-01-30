@@ -24,8 +24,9 @@ import at.favre.lib.crypto.bcrypt.BCrypt.Version;
 import at.favre.lib.crypto.bcrypt.LongPasswordStrategies;
 
 /**
- * The persistent class for the users database table.
+ * Persistent class corresponding to the user table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @Table(name = "users")
@@ -51,7 +52,7 @@ public class User extends BaseEntity implements Serializable,Flagged {
 
 	private String role;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "user")
 	private List<Order> orders;
 	
 	private String flag;

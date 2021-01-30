@@ -18,6 +18,11 @@ import com.nesti.stock_manager.dao.UserDao;
 import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.ApplicationSettings;
 
+/**
+ * Tries to authenticate user from previous session, otherwise shows a connection form
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 @SuppressWarnings("serial")
 public class ConnectionForm extends JPanel {
 
@@ -30,6 +35,7 @@ public class ConnectionForm extends JPanel {
 		this.setPreferredSize(new Dimension(800, 400));
 		// this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+		// If no valid user from previous session, show form
 		if (!authenticate(ApplicationSettings.get("login"), ApplicationSettings.get("password"))) {
 			showForm();
 		}
@@ -41,9 +47,13 @@ public class ConnectionForm extends JPanel {
 		var userDao = new UserDao();
 		var user = userDao.findOneBy("login", login);
 
+		// if user exists and passwords match
 		if (user != null && user.isPassword(plaintextPassword)) {
-			ApplicationSettings.set("login", login);
+			// add logged in user's login and password to permanent app settings
+			ApplicationSettings.set("login", login);	
 			ApplicationSettings.set("password", plaintextPassword);
+			
+			// Switch to main window controller
 			javax.swing.SwingUtilities.invokeLater(() -> NestiStokMain.changeFrameContent(new MainWindowControl()));
 
 			result = true;
@@ -82,16 +92,16 @@ public class ConnectionForm extends JPanel {
 		buttonCancel.setBackground(AppAppereance.DARK);
 		buttonCancel.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
 		buttonCancel.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
-		buttonCancel.addActionListener(e -> {
-			loginField.setText("");
-			passwordField.setText("");
+		buttonCancel.addActionListener(e -> { 
+			loginField.setText("");		// clear fields on cancel button press
+			passwordField.setText("");	//
 		});
 
 		var buttonValidate = new JButton("Se connecter");
 		buttonValidate.setPreferredSize(AppAppereance.CLASSIC_BUTTON);
 		buttonValidate.setMaximumSize(AppAppereance.CLASSIC_BUTTON);
 		buttonValidate.addActionListener(e -> {
-
+			// Try to authenticate with entered login and password
 			if (!authenticate(loginField.getText(), passwordField.getText())) {
 				JOptionPane.showMessageDialog(this, "Nom d'utilisateur ou mot de passe incorrect");
 			}

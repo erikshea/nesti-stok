@@ -13,6 +13,11 @@ import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.model.Supplier;
 import com.nesti.stock_manager.util.AppAppereance;
 
+/**
+ * See and edit a supplier's information, and a list of articles offered by that supplier.
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 public class SupplierInformation extends BaseInformation<Supplier> {
 	private static final long serialVersionUID = 1775908299271902575L;
 	/**
@@ -25,21 +30,25 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 	
 	public String getTitle() {
 		var result = "";
-		if (item.getName() == null) {
+		if (item.getName() == null) { // If newly created
 			result = "Nouveau Fournisseur";
-		} else {
+		} else { // Else, show name
 			result = "Fournisseur : " + item.getName();
 		}
 		
 		return result;
 	}
 	
+	/**
+	 * Called first at tab refresh. Build and add swing elements.
+	 */
 	@Override
 	public void preRefreshTab() {
 		super.preRefreshTab();
 		final var supplier = item;
 		var dao = item.getDao();
 		
+		// Create price list, add to the right of border pane
 		var articlePriceList = new SupplierArticleList(supplier);
 		articlePriceList.setBackground(AppAppereance.LIGHT_COLOR);
 		this.add(articlePriceList, BorderLayout.EAST);
@@ -56,9 +65,9 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 		
 		var nameFieldContainer = new FieldContainer("Nom", this);
 		nameFieldContainer.bind(
-				supplier.getName(),
-				(s)-> supplier.setName(s),
-				(fieldValue)->dao.findOneBy("name", fieldValue) == null);
+				supplier.getName(), // Starting value
+				(s)-> supplier.setName(s), // On change, update corresponding supplier property
+				(fieldValue)->dao.findOneBy("name", fieldValue) == null); // Only valid if no other supplier exists with the same property
 		supplierForm.add(nameFieldContainer);
 		
 		var adress1FieldContainer = new FieldContainer("Adresse 1", this);
@@ -113,6 +122,7 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 	@Override
 	public void closeTab() {
 		super.closeTab();
+		// On tab close, go back to supplier directory
 		this.mainControl.getMainPane().setSelectedComponent(this.mainControl.getSupplierDirectory());
 	}
 }

@@ -8,6 +8,7 @@ import javax.persistence.Embeddable;
 /**
  * The primary key class for the orders_article database table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Embeddable
 public class OrdersArticlePK implements Serializable {

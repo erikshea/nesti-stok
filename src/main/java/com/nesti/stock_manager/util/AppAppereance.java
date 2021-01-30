@@ -5,7 +5,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
 
+/**
+ * @author Emmanuelle Gay, Erik Shea
+ * Holds view-related constants, and sets UIManager values
+ */
 public class AppAppereance {
 
 	public static final Color VERY_LIGHT_COLOR = new Color(251,242,221);
@@ -22,7 +27,11 @@ public class AppAppereance {
 	
 
 	
+	/**
+	 * Uses UIManager to skin app
+	 */
 	public static void setDefault() {
+		UIManager.put("TabbedPane.selected", AppAppereance.LIGHT_COLOR);
 		 UIManager.put("Button.font", new Font ("Font.SANS_SERIF", Font.PLAIN, 15));
 	     UIManager.put("Button.background", HIGHLIGHT);
 	     UIManager.put("Button.foreground", VERY_LIGHT_COLOR);

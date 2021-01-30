@@ -20,6 +20,12 @@ import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.HibernateUtil;
 import com.nesti.stock_manager.util.SwingUtil;
 
+/**
+ * Shows list all entities (E defined in subclass), and provides buttons to manipulate them 
+ * 
+ * @param <E> Entity representing a single row of directory
+ * @author Emmanuelle Gay, Erik Shea
+ */
 @SuppressWarnings("serial")
 public abstract class BaseDirectory<E> extends JPanel implements Tab {
 
@@ -33,11 +39,15 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 	protected JButton buttonDuplicate;
 	protected MainWindowControl mainController;
 	
+	/**
+	 * 
+	 * @param c main controller, to talk with other tabs
+	 */
 	@SuppressWarnings("static-access")
 	public BaseDirectory(MainWindowControl c) {
 		this.mainController = c;
 		createTable();	
-		searchBar = new TableSearchBar(table);
+		searchBar = new TableSearchBar(table);	// Sea
 		this.add(searchBar);
 		
 		addButtonBar();
@@ -51,6 +61,9 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		
 	}
 
+	/**
+	 * Adds buttons that allow manipulation of entity list (add, delete, modify, duplicate...)
+	 */
 	public void addButtonBar() {
 		this.buttonAdd = new JButton("Créer");
 		this.buttonDelete = new JButton("Supprimer");
@@ -91,13 +104,14 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		this.setUpButtonBarListeners();
 	}
 	
-	public String getTitle() {
-		return "";
-	}
+	/**
+	 *	Returns the tab title, to be shown in the list of tabs
+	 */
+	public abstract String getTitle();
 
 	public void createTable() {
 		this.tableModel = new DefaultTableModel();
-		tableModel.setColumnIdentifiers(getTableModelColumns());
+		tableModel.setColumnIdentifiers(getTableModelColumnNames());
 		table = new JTable(tableModel);
 				
 		JTableHeader header = table.getTableHeader();
@@ -120,11 +134,11 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 			    null,     //do not use a custom Icon
 			    options,  //the titles of buttons
 			    options[0]); //default button title
-			System.out.println(choice);
-			if ( choice == 1 ) {
-				for (var rowIndex : this.table.getSelectedRows()) {
-					this.deleteRow(rowIndex);
-					HibernateUtil.getSession().getTransaction().commit();
+
+			if ( choice == 1 ) { // If "Confirm" clicked
+				for (var rowIndex : this.table.getSelectedRows()) { // Loop through selected rows
+					this.deleteRow(rowIndex);	// delete table method is implemented in all subclassess
+					HibernateUtil.getSession().getTransaction().commit(); // Save DB
 					refreshTable();
 				}
 			}
@@ -132,60 +146,88 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 		});
 		
 		this.table.getSelectionModel().addListSelectionListener(e->{
-			this.buttonAdd.setEnabled(this.table.getSelectedRowCount() <= 1) ; //TODO: re-enable
+			// If no row selected, disable delete button
 			this.buttonDelete.setEnabled(this.table.getSelectedRowCount() > 0) ;
-			this.buttonModify.setEnabled(this.table.getSelectedRowCount() == 0 || this.table.getSelectedRowCount() == 1) ;
-			this.buttonDuplicate.setEnabled(this.table.getSelectedRowCount() <= 1) ;
+			
+			// Modify and duplicate buttons only enabled if one row selected
+			this.buttonModify.setEnabled(this.table.getSelectedRowCount() == 1) ;
+			this.buttonDuplicate.setEnabled(this.table.getSelectedRowCount() == 1) ;
 		});
 	}
+	
+	
+	/**
+	 * Performs row deletion logic (includes deleting entity)
+	 * @param rowIndex index (in table model) of row to delete
+	 */
 	public abstract void deleteRow(int rowIndex) ;
+	
+	
+	
+	/**
+	 * Adds a row to table that corresponds to a given entity
+	 * @param entity with which to fill row values
+	 */
 	public abstract void addRow(E entity) ;
 	
-	public Object[] getTableModelColumns() {
-		return new Object[] {};
-	}
+	
+	/**
+	 * Returns an array of all the table column names
+	 * @return array of names
+	 */
+	public abstract Object[] getTableModelColumnNames();
 
+	
+	
+	/**
+	 * 	Adds a row to the table (to be overriden if needed by subclasses)
+	 * @param data
+	 */
 	public void addRowData(Object[] data) {
 		this.tableModel.addRow(data);
 	}
 	
-
-	public void duplicate() {
-		//var dao = BaseDao.getDao(getEntityClass());
-		
-		//var entity = dao.findOneBy("code", this.table.getValueAt(rowIndex, 1));
-	}
-	
-	//public abstract  Pair<Integer,String> getFindableColumn();
-	
+	/**
+	 * Refresh the directory table.
+	 */
 	@SuppressWarnings("unchecked")
 	public void refreshTable() {
-		this.tableModel.setRowCount(0);
+		this.tableModel.setRowCount(0); // remove all rows
 		// Detail of the article List
 		
-		var dao = BaseDao.getDao(getEntityClass());
-		var entities = dao.findAll(BaseDao.ACTIVE);
+		var dao = BaseDao.getDao(getEntityClass());  // get E's dao
+		var entities = dao.findAll(BaseDao.ACTIVE);	// get all flagged active
 
 		entities.forEach(e-> {
-			this.addRow((E) e);
+			this.addRow((E) e); // Loop throuch them and perform add row logic
 		});
 		if (table.getRowCount()>0) {
-			table.setRowSelectionInterval(0, 0);
+			table.setRowSelectionInterval(0, 0); // Select first row
 		}
-		SwingUtil.setUpTableAutoSort(table);
+		SwingUtil.setUpTableAutoSort(table); // enable auto-sorting (logic will only run once)
 	}
 	
+	/**
+	 *  Uses a popular trick to get the class of E
+	 * @return E's class
+	 */
 	@SuppressWarnings("unchecked")
 	public Class<E> getEntityClass() {
 		return (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 	
+	/**
+	 * Called whenever the tab needs to be refreshed (at initialization, when re-focused...)
+	 */
 	public void refreshTab() {
 		refreshTable();
-		if (table.getRowCount() > 0) {
+		if (table.getRowCount() > 0) { 
 			this.table.setRowSelectionInterval(0, 0);
 		}
 	}
 	
-	public void closeTab() {}
+	/**
+	 * Called whenever tab is closed
+	 */
+	public void closeTab() {};
 }

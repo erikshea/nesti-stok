@@ -19,8 +19,9 @@ import com.nesti.stock_manager.dao.SupplierDao;
 
 
 /**
- * The persistent class for the supplier database table.
+ * Persistent class corresponding to the supplier table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @NamedQuery(name="Supplier.findAll", query="SELECT s FROM Supplier s")
@@ -71,6 +72,12 @@ public class Supplier  extends BaseEntity implements Serializable {
 		this.setFlag(BaseDao.DEFAULT);
 	}
 
+	
+	/**
+	 * Get most recent offers.
+	 * 
+	 * @return hashmap of most recent offers with corresponding articles as keys
+	 */
 	public HashMap<Article,Offer> getLatestOffers(){
 		var offersByArticle = new HashMap<Article,Offer>();
 		
@@ -84,6 +91,11 @@ public class Supplier  extends BaseEntity implements Serializable {
 		return offersByArticle;
 	}
 
+	/**
+	 * Get currently active offers (price not null).
+	 * 
+	 * @return hashmap of active offers with corresponding articles as keys
+	 */
 	public HashMap<Article,Offer> getCurrentOffers() {
 		var offersByArticle = new HashMap<Article,Offer>();
 

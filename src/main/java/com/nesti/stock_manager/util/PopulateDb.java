@@ -27,6 +27,10 @@ import com.nesti.stock_manager.model.Unit;
 import com.nesti.stock_manager.model.User;
 import com.nesti.stock_manager.model.Utensil;
 
+/**
+ * @author Emmanuelle Gay, Erik Shea
+ * clears then populates Database with test values 
+ */
 public class PopulateDb {
 
 	public static void main(String[] args) {

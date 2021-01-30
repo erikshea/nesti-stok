@@ -30,26 +30,32 @@ import com.nesti.stock_manager.model.Utensil;
 import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.UnavailableArticleException;
 
+/**
+ * Shows all articles, and provides buttons to manipulate them and add them to the cart
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 @SuppressWarnings("serial")
 public class ArticleDirectory extends BaseDirectory<Article> {
-
-	protected JButton addToCartButton;
-	protected JTextField addToCartQuantity;
 
 	public ArticleDirectory(MainWindowControl c) {
 		super(c);
 
+		
 		var addToCart = new JPanel();
 		addToCart.setLayout(new BoxLayout(addToCart, BoxLayout.X_AXIS));
-		addToCartQuantity = new JTextField();
+		
+		
+		var addToCartQuantity = new JTextField();
 
 		addToCartQuantity.setMaximumSize(new Dimension(100, 30));
 		addToCartQuantity.setPreferredSize(new Dimension(100, 0));
 		addToCart.add((Box.createRigidArea(new Dimension(50, 0))));
 	//	addToCart.setBackground(AppAppereance.LIGHT_COLOR);
 		addToCart.add(addToCartQuantity);
-		addToCart.add((Box.createRigidArea(new Dimension(5,0))));
-		addToCartButton = new JButton("Ajouter au panier");
+		addToCart.add((Box.createRigidArea(new Dimension(5,0)))); 
+		
+		var addToCartButton = new JButton("Ajouter au panier");
 	//	addToCartButton.setBackground(AppAppereance.HIGHLIGHT);
 		addToCartButton.setForeground(new Color(255, 255, 255));
 		addToCartButton.setPreferredSize(AppAppereance.LARGE_BUTTON);
@@ -60,10 +66,10 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 		this.buttonBar.add(addToCart, 7);
 
 		addToCartButton.addActionListener(e -> {
-			for (var rowIndex : this.table.getSelectedRows()) {
-				var code = this.table.getValueAt(rowIndex, 1);
-				var article = (new ArticleDao()).findOneBy("code", code);
-				try {
+			for (var rowIndex : this.table.getSelectedRows()) { // loop through each selected row of table
+				var code = this.table.getValueAt(rowIndex, 1);	
+				var article = (new ArticleDao()).findOneBy("code", code); // get article code, find corresponding article
+				try { // try to add to cart
 					this.mainController.getShoppingCart().addArticle(article, addToCartQuantity.getText());
 				} catch (InvalidParameterException ex) {
 					JOptionPane.showMessageDialog(this,
@@ -75,15 +81,21 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 			}
 
 		});
+		
+		// Can only add to cart if a row is selected
+		this.table.getSelectionModel().addListSelectionListener(e -> {
+			addToCartButton.setEnabled(this.table.getSelectedRowCount() > 0);
+		});
 	}
 
+	
 	@Override
 	public String getTitle() {
 		return "Articles";
 	}
 
 	@Override
-	public Object[] getTableModelColumns() {
+	public Object[] getTableModelColumnNames() {
 		return new Object[] { "Description", "Code", "Fournisseur par défaut", "Prix d'achat", "Stock",
 				"PV Conseillé" };
 	}
@@ -91,38 +103,41 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 	@Override
 	public void setUpButtonBarListeners() {
 		super.setUpButtonBarListeners();
+		// "Modify" button action
 		this.buttonModify.addActionListener(e -> {
 			var code = this.table.getValueAt(this.table.getSelectedRow(), 1);
-
+			// find article from code
 			var a = (new ArticleDao()).findOneBy("code", code);
-
+			// create new information tab, passing it the selected article
 			this.mainController.getMainPane().addCloseableTab(new ArticleInformation(this.mainController, a));
 		});
 
-		final JPopupMenu popup = new JPopupMenu();
+		final JPopupMenu popup = new JPopupMenu(); // select ingredient or utensil product on new article creation
+		// New ingredient popup menu action
 		var addIngredient = new JMenuItem(new AbstractAction("Ingrédient") {
 			public void actionPerformed(ActionEvent e) {
-				Article article = Article.createEmpty();
-				article.setProduct(new Ingredient());
+				Article article = Article.createEmpty(); // empty has default packaging and unit
+				article.setProduct(new Ingredient()); // TODO: just set default ingredient?
 				mainController.getMainPane().addCloseableTab(new ArticleInformation(mainController, article));
 			}
 		});
-
+		// New ustensil popup menu action
 		var addUtensil = new JMenuItem(new AbstractAction("Ustensile") {
 			public void actionPerformed(ActionEvent e) {
 				Article article = Article.createEmpty();
-				article.setProduct(new Utensil());
+				article.setProduct(new Utensil()); // create new utensil to associate with article
 				mainController.getMainPane().addCloseableTab(new ArticleInformation(mainController, article));
 			}
 		});
 
 		popup.add(addIngredient);
 		popup.add(addUtensil);
-
+		// "New" button action
 		this.buttonAdd.addActionListener(e -> {
-			popup.show((Component) e.getSource(), 0, 0);
+			popup.show((Component) e.getSource(), 0, 0); // Show popup above button on click
 		});
 		
+		// "Duplicate" button action
 		this.buttonDuplicate.addActionListener(e -> {
 			var code = this.table.getValueAt(this.table.getSelectedRow(), 1);
 			var a = (new ArticleDao()).findOneBy("code", code);
@@ -141,10 +156,6 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 		table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
 		table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 		table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
-
-		this.table.getSelectionModel().addListSelectionListener(e -> {
-			addToCartButton.setEnabled(this.table.getSelectedRowCount() > 0);
-		});
 	}
 
 
@@ -163,6 +174,7 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 	@Override
 	public void addRow(Article entity) {
 		var defaultSupplierName = "";
+		// Get default supplier name
 		if (entity.getDefaultSupplier() != null) {
 			defaultSupplierName = entity.getDefaultSupplier().getName();
 		}
@@ -170,7 +182,7 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 		Double purchasePrice = null;
 		Double sellingPrice = 0.0;
 		if (entity.getCurrentOffers().get(entity.getDefaultSupplier()) != null) {
-			var offer = entity.getCurrentOffers().get(entity.getDefaultSupplier());
+			var offer = entity.getCurrentOffers().get(entity.getDefaultSupplier()); // TODO: change to last valid
 			purchasePrice = offer.getPrice();
 			sellingPrice = (double) Math.round((offer.getPrice() * 1.2) * 100) / 100;
 

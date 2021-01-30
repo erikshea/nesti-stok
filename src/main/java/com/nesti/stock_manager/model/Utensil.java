@@ -8,8 +8,9 @@ import com.nesti.stock_manager.dao.UtensilDao;
 
 
 /**
- * The persistent class for the utensil database table.
+ * Persistent class corresponding to the utensil table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @PrimaryKeyJoinColumn(name = "id_product")

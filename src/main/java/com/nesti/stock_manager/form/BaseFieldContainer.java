@@ -9,17 +9,22 @@ import javax.swing.JPanel;
 
 import com.nesti.stock_manager.controller.BaseInformation;
 
+/**
+ *	Base for all field containers. Contains just the label, and basic methods
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 @SuppressWarnings("serial")
 public class BaseFieldContainer extends JPanel{
-	protected JLabel label;
-	protected BaseInformation<?> infoPane; 
+	protected JLabel label; // Field label
+	protected BaseInformation<?> formContainer;  // Corresponding pane that holds the form
 
-	protected boolean valid;
+	protected boolean valid; // true if field is valid
 	
 	public BaseFieldContainer(String labelText) {
-		valid=true;
+		valid=true; // Starts valid
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		this.setAlignmentX(Component.LEFT_ALIGNMENT);
+		this.setAlignmentX(Component.LEFT_ALIGNMENT); 
 		
 		this.setPreferredSize(new Dimension(0,30));
 		this.setMaximumSize(new Dimension(Short.MAX_VALUE,0));
@@ -32,12 +37,12 @@ public class BaseFieldContainer extends JPanel{
 		return valid;
 	}
 	
-	public BaseInformation<?> getInfoPane() {
-		return infoPane;
+	public BaseInformation<?> getFormContainer() {
+		return formContainer;
 	}
 
-	public void setInfoPane(BaseInformation<?> infoPane) {
-		this.infoPane = infoPane;
+	public void setFormContainer(BaseInformation<?> container) {
+		this.formContainer = container;
 	}
 
 	public JLabel getLabel() {

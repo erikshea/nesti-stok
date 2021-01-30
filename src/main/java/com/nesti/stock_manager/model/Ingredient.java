@@ -19,8 +19,9 @@ import com.nesti.stock_manager.dao.UnitDao;
 
 
 /**
- * The persistent class for the ingredient database table.
+ * Persistent class corresponding to the ingredient table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @PrimaryKeyJoinColumn(name = "id_product")

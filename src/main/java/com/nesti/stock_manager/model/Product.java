@@ -18,8 +18,9 @@ import com.nesti.stock_manager.dao.BaseDao;
 
 
 /**
- * The persistent class for the product database table.
+ * Persistent class corresponding to the product table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

@@ -25,8 +25,9 @@ import com.nesti.stock_manager.dao.UnitDao;
 import com.nesti.stock_manager.util.HibernateUtil;
 
 /**
- * The persistent class for the article database table.
+ * Persistent class corresponding to the article table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @NamedQuery(name = "Article.findAll", query = "SELECT a FROM Article a")
@@ -68,11 +69,11 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	private Unit unit;
 
 	// bi-directional many-to-one association to Offer
-	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL) // updates to article in data source propate to offers
 	private List<Offer> offers;
 
 	// bi-directional many-to-one association to OrdersArticle
-	@OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE) // updates to article in data source propate to order items
 	private List<OrdersArticle> ordersArticles;
 
 	//bi-directional many-to-one association to Supplier
@@ -98,6 +99,9 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	}
 
 	
+	/**
+	 * @return
+	 */
 	public Offer getLowestOffer() {
 		Offer result = null;
 		var offers = getCurrentOffers().values();
@@ -146,22 +150,6 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	    }
 
 
-	public HashMap<Supplier,Offer> getCurrentOffers2() {
-		var hql = "SELECT o FROM Offer o "
-				+ "WHERE o.article = :p_article" 
-				+ "	AND o.price IS NOT NULL"
-				+ "	AND o.startDate = (SELECT MAX(oo.startDate) FROM Offer oo"
-				+ "	 					WHERE oo.article = o.article"
-				+ "						AND oo.supplier = o.supplier)";
-		var query = HibernateUtil.getSession().createQuery(hql);
-		query.setParameter("p_article", this);
-		@SuppressWarnings("unchecked")
-		List<Offer> results = query.list();
-		var offersBySupplier = new HashMap<Supplier,Offer>();
-		results.forEach( o-> offersBySupplier.put(o.getSupplier(), o));
-		
-		return offersBySupplier;
-	}
 
 	
 	public HashMap<Supplier,Offer> getLatestOffers(){
@@ -206,6 +194,77 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 		return result;
 	}
 
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Article))
+            return false;
+ 
+        var other = (Article) o;
+ 
+        return  getCode() != null &&
+        		getCode().equals(other.getCode());
+    }
+	 
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getCode());
+	}
+	
+
+	public void setUnitFromName(String n) {
+		var unitDao = new UnitDao();
+		var unit = unitDao.findOneBy("name", n);
+		setUnit(unit);
+	}
+
+	public void setPackagingFromName(String n) {
+		var packagingDao = new PackagingDao();
+		var packaging = packagingDao.findOneBy("name", n);
+		setPackaging(packaging);
+	}
+	
+	public void setProductFromReference(String r) {
+		var productDao = new ProductDao();
+		var product = productDao.findOneBy("reference", r);
+		setProduct(product);
+	}
+	
+	public Article duplicate() {
+		var newArticle = new Article();
+		newArticle.setCode(getDuplicatedFieldValue("code"));
+		newArticle.setEan(getDuplicatedFieldValue("ean"));
+		newArticle.setName(getDuplicatedFieldValue("name"));
+		newArticle.setProduct(this.getProduct());
+		newArticle.setQuantity(this.getQuantity());
+		newArticle.setWeight(this.getWeight());
+		newArticle.setStock(this.getStock());
+		newArticle.setUnit(this.getUnit());
+		newArticle.setPackaging(this.getPackaging());
+		this.getOffers().forEach(o->{
+			var newOffer = new Offer();
+			newOffer.setSupplier(o.getSupplier());
+			newOffer.setPrice(o.getPrice());
+			newOffer.setStartDate(o.getStartDate());
+			newArticle.addOffer(newOffer);
+		});
+		newArticle.setSupplier(getSupplier());
+		newArticle.setFlag(this.getFlag());
+		return newArticle;
+	}
+	
+	
+	public static Article createEmpty() {
+		var newArticle = new Article();
+		newArticle.setUnit( (new UnitDao()).findOneBy("name", "pièce") );
+		newArticle.setPackaging( (new PackagingDao()).findOneBy("name", "boîte") );
+		
+		return newArticle;
+	}
+	
+
+	
 	public Integer getIdArticle() {
 		return this.idArticle;
 	}
@@ -286,23 +345,7 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 		this.unit = unit;
 	}
 	
-	public void setUnitFromName(String n) {
-		var unitDao = new UnitDao();
-		var unit = unitDao.findOneBy("name", n);
-		setUnit(unit);
-	}
 
-	public void setPackagingFromName(String n) {
-		var packagingDao = new PackagingDao();
-		var packaging = packagingDao.findOneBy("name", n);
-		setPackaging(packaging);
-	}
-	
-	public void setProductFromReference(String r) {
-		var productDao = new ProductDao();
-		var product = productDao.findOneBy("reference", r);
-		setProduct(product);
-	}
 	
 
 	public List<Offer> getOffers() {
@@ -389,40 +432,6 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 		return dao;
 	}
 	
-	
-	public Article duplicate() {
-		var newArticle = new Article();
-		newArticle.setCode(getDuplicatedFieldValue("code"));
-		newArticle.setEan(getDuplicatedFieldValue("ean"));
-		newArticle.setName(getDuplicatedFieldValue("name"));
-		newArticle.setProduct(this.getProduct());
-		newArticle.setQuantity(this.getQuantity());
-		newArticle.setWeight(this.getWeight());
-		newArticle.setStock(this.getStock());
-		newArticle.setUnit(this.getUnit());
-		newArticle.setPackaging(this.getPackaging());
-		this.getOffers().forEach(o->{
-			var newOffer = new Offer();
-			newOffer.setSupplier(o.getSupplier());
-			newOffer.setPrice(o.getPrice());
-			newOffer.setStartDate(o.getStartDate());
-			newArticle.addOffer(newOffer);
-		});
-		newArticle.setSupplier(getSupplier());
-		newArticle.setFlag(this.getFlag());
-		return newArticle;
-	}
-	
-	
-	public static Article createEmpty() {
-		var newArticle = new Article();
-		newArticle.setUnit( (new UnitDao()).findOneBy("name", "pièce") );
-		newArticle.setPackaging( (new PackagingDao()).findOneBy("name", "boîte") );
-		
-		return newArticle;
-	}
-	
-
 
 	public String getFlag() {
 		return this.flag;
@@ -433,23 +442,7 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 		this.flag = flag;
 	}
 	
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
- 
-        if (!(o instanceof Article))
-            return false;
- 
-        var other = (Article) o;
- 
-        return  getCode() != null &&
-        		getCode().equals(other.getCode());
-    }
-	 
-	@Override
-	public int hashCode() {
-		return java.util.Objects.hashCode(getCode());
-	}
+	
 	
 	
 	protected void setSupplier(Supplier s) {
@@ -459,5 +452,24 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	protected Supplier getSupplier() {
 		return this.supplier;
 	}
+	
+	
+/*
+	public HashMap<Supplier,Offer> getCurrentOffers2() {
+		var hql = "SELECT o FROM Offer o "
+				+ "WHERE o.article = :p_article" 
+				+ "	AND o.price IS NOT NULL"
+				+ "	AND o.startDate = (SELECT MAX(oo.startDate) FROM Offer oo"
+				+ "	 					WHERE oo.article = o.article"
+				+ "						AND oo.supplier = o.supplier)";
+		var query = HibernateUtil.getSession().createQuery(hql);
+		query.setParameter("p_article", this);
+		@SuppressWarnings("unchecked")
+		List<Offer> results = query.list();
+		var offersBySupplier = new HashMap<Supplier,Offer>();
+		results.forEach( o-> offersBySupplier.put(o.getSupplier(), o));
+		
+		return offersBySupplier;
+	}*/
 	
 }

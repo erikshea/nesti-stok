@@ -8,6 +8,11 @@ import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UserDao;
 import com.nesti.stock_manager.model.User;
 
+/**
+ * Shows list of all users, and provides buttons to manipulate them
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 @SuppressWarnings("serial")
 public class UserDirectory extends BaseDirectory<User> {
 
@@ -23,13 +28,15 @@ public class UserDirectory extends BaseDirectory<User> {
 
 	
 	@Override
-	public Object[] getTableModelColumns() {
+	public Object[] getTableModelColumnNames() {
 		return new Object[] { "Nom d'utilisateur", "Rôle", "Date d'inscription", "Nom du contact" };
 	}
 	
 	@Override
 	public void setUpButtonBarListeners()  {
 		super.setUpButtonBarListeners();
+		
+		// "Modify" button action
 		this.buttonModify.addActionListener( e->{
 			var login = this.table.getValueAt(this.table.getSelectedRow(), 0);
 			var a = (new UserDao()).findOneBy("login",login);
@@ -38,10 +45,12 @@ public class UserDirectory extends BaseDirectory<User> {
 
 		});
 		
+		// New article action
 		this.buttonAdd.addActionListener( e->{
 			this.mainController.getMainPane().addCloseableTab(new UserInformation(this.mainController,new User()));
 		});
 		
+		// "Duplicate" button action
 		this.buttonDuplicate.addActionListener(e -> {
 			var login = this.table.getValueAt(this.table.getSelectedRow(), 0);
 			var a = (new UserDao()).findOneBy("login",login);
