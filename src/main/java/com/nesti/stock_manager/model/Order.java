@@ -22,7 +22,6 @@ import javax.persistence.TemporalType;
 import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UserDao;
-import com.nesti.stock_manager.util.FormatUtil;
 
 /**
  * Persistent entity class corresponding to the order table.

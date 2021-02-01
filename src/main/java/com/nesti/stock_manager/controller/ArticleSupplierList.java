@@ -1,22 +1,17 @@
 package com.nesti.stock_manager.controller;
 
-import java.awt.Component;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 
-import com.nesti.stock_manager.cells.*;
+import com.nesti.stock_manager.cells.RadioButtonEditor;
+import com.nesti.stock_manager.cells.RadioButtonRenderer;
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.model.Article;

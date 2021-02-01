@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 import com.nesti.stock_manager.application.NestiStokMain;
 import com.nesti.stock_manager.dao.UserDao;

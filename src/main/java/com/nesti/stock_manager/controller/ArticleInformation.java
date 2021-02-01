@@ -2,7 +2,6 @@ package com.nesti.stock_manager.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;

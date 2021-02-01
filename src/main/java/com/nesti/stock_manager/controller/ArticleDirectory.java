@@ -17,8 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 //import org.graalvm.compiler.core.common.spi.JavaConstantFieldProvider_OptionDescriptors;
 

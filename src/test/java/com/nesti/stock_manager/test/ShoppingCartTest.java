@@ -1,11 +1,7 @@
 package com.nesti.stock_manager.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.Date;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,10 +11,6 @@ import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.model.Order;
 import com.nesti.stock_manager.shopping_cart.ShoppingCart;
-
-import static com.nesti.stock_manager.util.FormatUtil.*;
-
-import com.nesti.stock_manager.util.FormatUtil;
 import com.nesti.stock_manager.util.HibernateUtil;
 import com.nesti.stock_manager.util.PopulateDb;
 

@@ -1,6 +1,5 @@
 package com.nesti.stock_manager.controller;
 
-import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.model.Ingredient;
