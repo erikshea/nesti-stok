@@ -5,7 +5,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.UserDao;
-import com.nesti.stock_manager.model.User;
+import com.nesti.stock_manager.entity.User;
 
 /**
  * Shows list of all users, and provides buttons to manipulate them

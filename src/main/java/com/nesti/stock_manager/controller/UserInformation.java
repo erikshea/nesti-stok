@@ -10,10 +10,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.nesti.stock_manager.entity.User;
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.form.ListFieldContainer;
 import com.nesti.stock_manager.form.PasswordFieldContainer;
-import com.nesti.stock_manager.model.User;
 import com.nesti.stock_manager.util.HibernateUtil;
 
 /**

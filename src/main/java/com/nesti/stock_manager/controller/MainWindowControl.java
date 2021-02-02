@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 import com.nesti.stock_manager.application.NestiStokMain;
 import com.nesti.stock_manager.dao.UserDao;
-import com.nesti.stock_manager.model.User;
+import com.nesti.stock_manager.entity.User;
 import com.nesti.stock_manager.shopping_cart.ShoppingCart;
 import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.ApplicationSettings;

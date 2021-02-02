@@ -9,7 +9,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 
-import com.nesti.stock_manager.model.Supplier;
+import com.nesti.stock_manager.entity.Supplier;
 
 /**
  * Cell editor for a Combo Box

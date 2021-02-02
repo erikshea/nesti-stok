@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.dao.SupplierDao;
-import com.nesti.stock_manager.model.Order;
+import com.nesti.stock_manager.entity.Order;
 import com.nesti.stock_manager.util.FormatUtil;
 import com.nesti.stock_manager.util.HibernateUtil;
 import com.nesti.stock_manager.util.PopulateDb;

@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.SupplierDao;
-import com.nesti.stock_manager.model.Article;
-import com.nesti.stock_manager.model.Utensil;
+import com.nesti.stock_manager.entity.Article;
+import com.nesti.stock_manager.entity.Utensil;
 import com.nesti.stock_manager.util.HibernateUtil;
 import com.nesti.stock_manager.util.PopulateDb;
 

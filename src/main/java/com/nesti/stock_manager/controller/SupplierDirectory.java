@@ -5,7 +5,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.SupplierDao;
-import com.nesti.stock_manager.model.Supplier;
+import com.nesti.stock_manager.entity.Supplier;
 
 /**
  * Shows all suppliers, and provides buttons to manipulate them
