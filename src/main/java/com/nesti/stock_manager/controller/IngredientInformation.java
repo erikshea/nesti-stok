@@ -10,10 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
+import com.nesti.stock_manager.entity.Ingredient;
+import com.nesti.stock_manager.entity.Unit;
 import com.nesti.stock_manager.form.EditableListFieldContainer;
 import com.nesti.stock_manager.form.FieldContainer;
-import com.nesti.stock_manager.model.Ingredient;
-import com.nesti.stock_manager.model.Unit;
 import com.nesti.stock_manager.util.AppAppereance;
 
 /**

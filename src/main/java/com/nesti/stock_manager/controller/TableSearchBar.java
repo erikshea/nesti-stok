@@ -44,24 +44,26 @@ public class TableSearchBar extends JPanel{
 	public void buildSearchFields() {
 		filters = new HashMap<>(); // Each field has its individual table filter
 		for ( var i = 0; i < table.getColumnCount(); i++) { // Loop through each column
-			final var colIndex = i;
-			// create new field container with column name as label text
-			var fieldContainer = new FieldContainer(table.getColumnName(i));
-			
-			fieldContainer.setLayout(new BoxLayout(fieldContainer, BoxLayout.Y_AXIS));
-			fieldContainer.setMaximumSize( new Dimension(200,Short.MAX_VALUE) );
-			fieldContainer.getLabel().setMaximumSize( new Dimension(Short.MAX_VALUE,50) );
-			fieldContainer.getField().setMinimumSize( new Dimension(0,30) );
-			
-			this.add(fieldContainer);
-			fieldContainer.setBackground(AppAppereance.LIGHT_COLOR);
-			fieldContainer.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-			
-			fieldContainer.bind(
-				"", // Field empty initially
-				(s)->updateFilter(s, colIndex), // When field changes, update table filters to reflect it
-				true // allow empty field (no filter)
-			); 
+			if ( table.getColumnName(i) != "Suppression") {
+				final var colIndex = i;
+				// create new field container with column name as label text
+				var fieldContainer = new FieldContainer(table.getColumnName(i));
+				
+				fieldContainer.setLayout(new BoxLayout(fieldContainer, BoxLayout.Y_AXIS));
+				fieldContainer.setMaximumSize( new Dimension(200,Short.MAX_VALUE) );
+				fieldContainer.getLabel().setMaximumSize( new Dimension(Short.MAX_VALUE,50) );
+				fieldContainer.getField().setMinimumSize( new Dimension(0,30) );
+				
+				this.add(fieldContainer);
+				fieldContainer.setBackground(AppAppereance.LIGHT_COLOR);
+				fieldContainer.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+				
+				fieldContainer.bind(
+					"", // Field empty initially
+					(s)->updateFilter(s, colIndex), // When field changes, update table filters to reflect it
+					true // allow empty field (no filter)
+				); 
+			}
 		}
 	}
 

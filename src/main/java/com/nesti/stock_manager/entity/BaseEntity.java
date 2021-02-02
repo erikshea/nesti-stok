@@ -1,4 +1,4 @@
-package com.nesti.stock_manager.model;
+package com.nesti.stock_manager.entity;
 
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.util.ReflectionProperty;

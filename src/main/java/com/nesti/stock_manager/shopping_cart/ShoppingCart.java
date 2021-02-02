@@ -6,12 +6,12 @@ import java.util.HashMap;
 
 import com.nesti.stock_manager.controller.MainWindowControl;
 import com.nesti.stock_manager.dao.OrderDao;
-import com.nesti.stock_manager.model.Article;
-import com.nesti.stock_manager.model.Offer;
-import com.nesti.stock_manager.model.Order;
-import com.nesti.stock_manager.model.OrdersArticle;
-import com.nesti.stock_manager.model.Supplier;
-import com.nesti.stock_manager.model.User;
+import com.nesti.stock_manager.entity.Article;
+import com.nesti.stock_manager.entity.Offer;
+import com.nesti.stock_manager.entity.Order;
+import com.nesti.stock_manager.entity.OrdersArticle;
+import com.nesti.stock_manager.entity.Supplier;
+import com.nesti.stock_manager.entity.User;
 import com.nesti.stock_manager.util.HibernateUtil;
 import com.nesti.stock_manager.util.UnavailableArticleException;
 
@@ -136,11 +136,12 @@ public class ShoppingCart {
 	 * @param oa
 	 */
 	public void removeOrdersArticle(OrdersArticle oa) {
+		var supplier = oa.getSupplier();
 		oa.getOrder().removeOrdersArticle(oa); // Remove order line from corresponding order
 		
 		// If order is now empty, remove it
-		if (orders.get(oa.getSupplier()).getOrdersArticles().size() == 0) {
-			orders.remove(oa.getSupplier());
+		if (orders.get(supplier).getOrdersArticles().size() == 0) {
+			orders.remove(supplier);
 		}
 	}
 	

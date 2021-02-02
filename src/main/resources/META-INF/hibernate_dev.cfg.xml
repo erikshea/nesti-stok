@@ -7,15 +7,15 @@
   <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/nesti_stok</property>
   <property name="hibernate.connection.username">root</property>
   <property name="hibernate.current_session_context_class">thread</property>
-  <mapping class="com.nesti.stock_manager.model.Article"/>
-  <mapping class="com.nesti.stock_manager.model.Ingredient"/>
-  <mapping class="com.nesti.stock_manager.model.Offer"/>
-  <mapping class="com.nesti.stock_manager.model.Order"/>
-  <mapping class="com.nesti.stock_manager.model.OrdersArticle"/>
-  <mapping class="com.nesti.stock_manager.model.Packaging"/>
-  <mapping class="com.nesti.stock_manager.model.Supplier"/>
-  <mapping class="com.nesti.stock_manager.model.Unit"/>
-  <mapping class="com.nesti.stock_manager.model.User"/>
-  <mapping class="com.nesti.stock_manager.model.Utensil"/>
+  <mapping class="com.nesti.stock_manager.entity.Article"/>
+  <mapping class="com.nesti.stock_manager.entity.Ingredient"/>
+  <mapping class="com.nesti.stock_manager.entity.Offer"/>
+  <mapping class="com.nesti.stock_manager.entity.Order"/>
+  <mapping class="com.nesti.stock_manager.entity.OrdersArticle"/>
+  <mapping class="com.nesti.stock_manager.entity.Packaging"/>
+  <mapping class="com.nesti.stock_manager.entity.Supplier"/>
+  <mapping class="com.nesti.stock_manager.entity.Unit"/>
+  <mapping class="com.nesti.stock_manager.entity.User"/>
+  <mapping class="com.nesti.stock_manager.entity.Utensil"/>
  </session-factory>
 </hibernate-configuration>

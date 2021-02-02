@@ -23,8 +23,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.IngredientDao;
-import com.nesti.stock_manager.model.Article;
-import com.nesti.stock_manager.model.Utensil;
+import com.nesti.stock_manager.entity.Article;
+import com.nesti.stock_manager.entity.Utensil;
 import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.UnavailableArticleException;
 

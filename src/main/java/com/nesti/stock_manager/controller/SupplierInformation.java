@@ -9,8 +9,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.nesti.stock_manager.entity.Supplier;
 import com.nesti.stock_manager.form.FieldContainer;
-import com.nesti.stock_manager.model.Supplier;
 import com.nesti.stock_manager.util.AppAppereance;
 
 /**

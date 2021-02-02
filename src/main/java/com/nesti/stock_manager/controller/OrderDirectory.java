@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.nesti.stock_manager.dao.OrderDao;
-import com.nesti.stock_manager.model.Order;
+import com.nesti.stock_manager.entity.Order;
 import com.nesti.stock_manager.util.FormatUtil;
 
 /**
