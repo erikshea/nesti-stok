@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -50,7 +51,7 @@ public class UserInformation extends BaseInformation<User> {
 		var userForm = new JPanel();
 		userForm.setPreferredSize(new Dimension(500, 0));
 		userForm.setLayout(new BoxLayout(userForm, BoxLayout.Y_AXIS));
-		
+		userForm.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		var titleUserInformation = new JLabel(getTitle());
 		userForm.add(titleUserInformation);
 		
