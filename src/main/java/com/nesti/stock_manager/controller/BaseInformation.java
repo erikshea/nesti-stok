@@ -13,8 +13,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import com.nesti.stock_manager.entity.BaseEntity;
 import com.nesti.stock_manager.form.FieldContainer;
-import com.nesti.stock_manager.model.BaseEntity;
 import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.HibernateUtil;
 

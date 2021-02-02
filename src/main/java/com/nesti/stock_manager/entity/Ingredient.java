@@ -1,4 +1,4 @@
-package com.nesti.stock_manager.model;
+package com.nesti.stock_manager.entity;
 
 import java.util.ArrayList;
 import java.util.List;

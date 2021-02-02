@@ -22,7 +22,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 
-import com.nesti.stock_manager.model.BaseEntity;
+import com.nesti.stock_manager.entity.BaseEntity;
 import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.ButtonColumn;
 

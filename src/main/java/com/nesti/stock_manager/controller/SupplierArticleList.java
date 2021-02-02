@@ -6,8 +6,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.BaseDao;
-import com.nesti.stock_manager.model.Offer;
-import com.nesti.stock_manager.model.Supplier;
+import com.nesti.stock_manager.entity.Offer;
+import com.nesti.stock_manager.entity.Supplier;
 import com.nesti.stock_manager.util.SwingUtil;
 
 /**

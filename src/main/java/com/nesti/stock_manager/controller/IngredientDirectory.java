@@ -2,7 +2,7 @@ package com.nesti.stock_manager.controller;
 
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.IngredientDao;
-import com.nesti.stock_manager.model.Ingredient;
+import com.nesti.stock_manager.entity.Ingredient;
 
 /**
  * Shows list of all ingredients, and provides buttons to manipulate them 

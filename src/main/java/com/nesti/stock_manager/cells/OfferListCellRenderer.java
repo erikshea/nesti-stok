@@ -5,7 +5,7 @@ import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-import com.nesti.stock_manager.model.Offer;
+import com.nesti.stock_manager.entity.Offer;
 
 /**
  * Offer list item renderer

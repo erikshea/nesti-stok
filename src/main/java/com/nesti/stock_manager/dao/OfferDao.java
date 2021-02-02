@@ -1,6 +1,6 @@
 package com.nesti.stock_manager.dao;
 
-import com.nesti.stock_manager.model.Offer;
+import com.nesti.stock_manager.entity.Offer;
 
 /**
  * Dao Class for the Offer entity

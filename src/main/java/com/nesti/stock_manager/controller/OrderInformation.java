@@ -13,8 +13,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import com.nesti.stock_manager.entity.Order;
 import com.nesti.stock_manager.form.LabelContainer;
-import com.nesti.stock_manager.model.Order;
 import com.nesti.stock_manager.util.AppAppereance;
 
 /**

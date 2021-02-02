@@ -14,16 +14,16 @@ import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.dao.UnitDao;
 import com.nesti.stock_manager.dao.UserDao;
 import com.nesti.stock_manager.dao.UtensilDao;
-import com.nesti.stock_manager.model.Article;
-import com.nesti.stock_manager.model.Ingredient;
-import com.nesti.stock_manager.model.Offer;
-import com.nesti.stock_manager.model.Order;
-import com.nesti.stock_manager.model.OrdersArticle;
-import com.nesti.stock_manager.model.Packaging;
-import com.nesti.stock_manager.model.Supplier;
-import com.nesti.stock_manager.model.Unit;
-import com.nesti.stock_manager.model.User;
-import com.nesti.stock_manager.model.Utensil;
+import com.nesti.stock_manager.entity.Article;
+import com.nesti.stock_manager.entity.Ingredient;
+import com.nesti.stock_manager.entity.Offer;
+import com.nesti.stock_manager.entity.Order;
+import com.nesti.stock_manager.entity.OrdersArticle;
+import com.nesti.stock_manager.entity.Packaging;
+import com.nesti.stock_manager.entity.Supplier;
+import com.nesti.stock_manager.entity.Unit;
+import com.nesti.stock_manager.entity.User;
+import com.nesti.stock_manager.entity.Utensil;
 
 /**
  * @author Emmanuelle Gay, Erik Shea

@@ -1,4 +1,4 @@
-package com.nesti.stock_manager.model;
+package com.nesti.stock_manager.entity;
 
 /**
  * Interface for an entity that has a "flag" parameter

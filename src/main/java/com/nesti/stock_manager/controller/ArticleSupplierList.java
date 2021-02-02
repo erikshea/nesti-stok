@@ -14,8 +14,8 @@ import com.nesti.stock_manager.cells.RadioButtonEditor;
 import com.nesti.stock_manager.cells.RadioButtonRenderer;
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.SupplierDao;
-import com.nesti.stock_manager.model.Article;
-import com.nesti.stock_manager.model.Offer;
+import com.nesti.stock_manager.entity.Article;
+import com.nesti.stock_manager.entity.Offer;
 import com.nesti.stock_manager.util.SwingUtil;
 
 /**

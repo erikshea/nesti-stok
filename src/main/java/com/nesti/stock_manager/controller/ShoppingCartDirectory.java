@@ -23,9 +23,9 @@ import com.nesti.stock_manager.cells.ComboBoxCellRenderer;
 import com.nesti.stock_manager.cells.OfferListCellRenderer;
 import com.nesti.stock_manager.cells.TextFieldCellEditor;
 import com.nesti.stock_manager.cells.TextFieldCellRenderer;
-import com.nesti.stock_manager.model.Offer;
-import com.nesti.stock_manager.model.OrdersArticle;
-import com.nesti.stock_manager.model.Supplier;
+import com.nesti.stock_manager.entity.Offer;
+import com.nesti.stock_manager.entity.OrdersArticle;
+import com.nesti.stock_manager.entity.Supplier;
 import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.ButtonColumn;
 import com.nesti.stock_manager.util.FormatUtil;
@@ -115,7 +115,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 	}
 
 	public Object[] getTableModelColumnNames() {
-		return new Object[] { "Réf", "Description", "Quantité", "Prix d'achat", "Fournisseur", "Effacer"};
+		return new Object[] { "Réf", "Description", "Quantité", "Prix d'achat", "Fournisseur", "Suppression"};
 	}
 
 	@Override

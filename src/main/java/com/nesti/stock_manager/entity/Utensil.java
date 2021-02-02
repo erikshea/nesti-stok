@@ -1,4 +1,4 @@
-package com.nesti.stock_manager.model;
+package com.nesti.stock_manager.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;

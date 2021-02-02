@@ -10,7 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.Session;
 
-import com.nesti.stock_manager.model.BaseEntity;
+import com.nesti.stock_manager.entity.BaseEntity;
 import com.nesti.stock_manager.util.HibernateUtil;
 
 

@@ -12,14 +12,14 @@ import javax.swing.JPanel;
 import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.dao.PackagingDao;
 import com.nesti.stock_manager.dao.UnitDao;
+import com.nesti.stock_manager.entity.Article;
+import com.nesti.stock_manager.entity.Ingredient;
+import com.nesti.stock_manager.entity.Packaging;
+import com.nesti.stock_manager.entity.Unit;
+import com.nesti.stock_manager.entity.Utensil;
 import com.nesti.stock_manager.form.EditableListFieldContainer;
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.form.ListFieldContainer;
-import com.nesti.stock_manager.model.Article;
-import com.nesti.stock_manager.model.Ingredient;
-import com.nesti.stock_manager.model.Packaging;
-import com.nesti.stock_manager.model.Unit;
-import com.nesti.stock_manager.model.Utensil;
 import com.nesti.stock_manager.util.AppAppereance;
 
 /**

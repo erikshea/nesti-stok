@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.nesti.stock_manager.dao.BaseDao;
-import com.nesti.stock_manager.model.Flagged;
+import com.nesti.stock_manager.entity.Flagged;
 import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.HibernateUtil;
 import com.nesti.stock_manager.util.ReflectionProperty;
