@@ -1,5 +1,7 @@
 package com.nesti.stock_manager.util;
 
+import java.awt.Component;
+import java.awt.Toolkit;
 import java.util.Date;
 
 import javax.swing.JTable;
@@ -19,7 +21,7 @@ public class SwingUtil {
 	 */
 	public static void setUpTableAutoSort(JTable table) {
 		var model = (DefaultTableModel) table.getModel();
-		// If we did not already add a row sorter, and the first row has been added
+		// If we did not already add a row sorter, and the first row has been added (will thus only run once per table)
 		if (table.getRowSorter() == null && model.getRowCount()>0) {
 			
 			TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
@@ -36,7 +38,7 @@ public class SwingUtil {
 					    	} else if ( (v1 instanceof Integer &&  (Integer)v1 > (Integer)v2 )
 					    			||  (v1 instanceof Double &&  (Double)v1 > (Double)v2 )
 					    			||  (v1 instanceof Date &&  ((Date)v1).after((Date)v2)) ){
-						    	result = 1; // if one of these checks out, v1 is considered larger than v2 for row sorting pupses
+						    	result = 1; // if one of these checks out, v1 is considered larger than v2 for row sorting purposes
 					    	}
 					    	
 					    	return result;
@@ -47,5 +49,16 @@ public class SwingUtil {
 			
 			table.setRowSorter(sorter);
 		};
+	}
+	
+	/**
+	 * move a frame or root application component to the center of the screen
+	 * @param c component to center
+	 */
+	public static void centerFrame (Component c) {
+		// location is set from top left corner
+		int centeredWindowX = (int) (Toolkit.getDefaultToolkit().getScreenSize().width - c.getPreferredSize().getWidth() )/2;
+		int centeredWindowY = (int) (Toolkit.getDefaultToolkit().getScreenSize().height - c.getPreferredSize().getHeight() )/2;
+		c.setLocation(centeredWindowX,centeredWindowY);
 	}
 }

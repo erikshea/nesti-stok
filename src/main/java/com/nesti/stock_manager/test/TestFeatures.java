@@ -3,7 +3,6 @@ package com.nesti.stock_manager.test;
 import com.nesti.stock_manager.dao.ArticleDao;
 
 public class TestFeatures {
-	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		var article = (new ArticleDao()).findOneBy("code","OEUF6");
 //		var supplier = (new SupplierDao()).findById(56);

@@ -84,21 +84,7 @@ public class MainWindowControl extends JPanel {
 		// shopping cart item keeps track of current orders
 		shoppingCart= new ShoppingCart(this, getConnectedUser()); 
 		
-		// Window starts at 80% of screen width
-		var width = (int) (Toolkit.getDefaultToolkit().getScreenSize().width * 0.8);
-		if (width > 1600) { 
-			width = 1600;
-		}
-		
-		// Window starts at 80% of screen height
-		var height = (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.8);
-		if (height > 900) {
-			height = 900;
-		}
 
-		mainPane.setPreferredSize(new Dimension(width, height));
-
-		mainPane.setMinimumSize(new Dimension(600, 900));
 		mainPane.setBackground(AppAppereance.MEDIUM_COLOR);
 
 		// Directories of all entities

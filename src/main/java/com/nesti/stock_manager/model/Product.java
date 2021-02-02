@@ -91,7 +91,6 @@ public class Product extends BaseEntity implements Serializable, Flagged {
 			return duplicate;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -100,7 +99,6 @@ public class Product extends BaseEntity implements Serializable, Flagged {
 
 	@Override
 	public BaseDao<?> getDao() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

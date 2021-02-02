@@ -51,7 +51,7 @@ public class UserInformation extends BaseInformation<User> {
 		userForm.setPreferredSize(new Dimension(500, 0));
 		userForm.setLayout(new BoxLayout(userForm, BoxLayout.Y_AXIS));
 		
-		var titleUserInformation = new JLabel("Utilisateur");
+		var titleUserInformation = new JLabel(getTitle());
 		userForm.add(titleUserInformation);
 		
 		var nameUserFieldContainer = new FieldContainer("Nom d'utilisateur", this);

@@ -91,10 +91,13 @@ public class SupplierArticleList extends BasePriceList<Supplier> {
 		// Get article from its name in table row
 		var article = (new ArticleDao()).findOneBy("name", this.table.getValueAt(modelRow, 1));
 		// find corresponding offer
-		var offer = entity.getCurrentOffers().get(article);
-		
+		var offerToInvalidate = entity.getCurrentOffers().get(article);
+		var newInvalidOffer = new Offer();
+		newInvalidOffer.setArticle(offerToInvalidate.getArticle());
+		newInvalidOffer.setSupplier(offerToInvalidate.getSupplier());
 		// null price signals offer is no longer valid
-		offer.setPrice(null); // TODO: create new null offer instead?
+		newInvalidOffer.setPrice(null);
+		entity.addOffer(newInvalidOffer);
 		
 		// if supplier was default, unset
 		if (	article.getDefaultSupplier() != null

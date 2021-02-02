@@ -53,7 +53,7 @@ public class IngredientInformation extends BaseInformation<Ingredient> {
 		ingredientForm.setPreferredSize(new Dimension(500, 0));
 		ingredientForm.setLayout(new BoxLayout(ingredientForm, BoxLayout.Y_AXIS));
 		
-		var titleIngredientInformation = new JLabel("Ingrédient");
+		var titleIngredientInformation = new JLabel(getTitle());
 		titleIngredientInformation.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		titleIngredientInformation.setFont(AppAppereance.TITLE_FONT);
 		ingredientForm.add(titleIngredientInformation);

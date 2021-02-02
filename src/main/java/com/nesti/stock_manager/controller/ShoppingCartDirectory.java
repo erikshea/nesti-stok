@@ -143,7 +143,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		
 		// Change combo box selection action
 		supplierComboBox.addActionListener( e->{
-			var selectedOffer = (Offer) supplierComboBox.getSelectedItem(); // TODO: check 
+			var selectedOffer = (Offer) supplierComboBox.getSelectedItem(); 
 			// Remove order line from shopping cart order list
 			mainController.getShoppingCart().removeOrdersArticle(orderLine);
 			

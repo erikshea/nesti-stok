@@ -118,8 +118,8 @@ public class EditableListFieldContainer extends ListFieldContainer {
 				}
 			} else if ( existingItem.getFlag().equals(BaseDao.DELETED)) {
 				// If item already exists, but has a "deleted" flag
-				existingItem.setFlag(BaseDao.ACTIVE); // Set flag back to a ctive
-				HibernateUtil.getSession().saveOrUpdate(existingItem); // TODO: Commit?
+				existingItem.setFlag(BaseDao.ACTIVE); // Set flag back to active
+				HibernateUtil.getSession().saveOrUpdate(existingItem); 
 			}
 			refreshItems(newItemString); // refresh list and select new item
 		}

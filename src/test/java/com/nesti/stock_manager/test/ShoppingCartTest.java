@@ -10,7 +10,6 @@ import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.model.Order;
-import com.nesti.stock_manager.shopping_cart.ShoppingCart;
 import com.nesti.stock_manager.util.HibernateUtil;
 import com.nesti.stock_manager.util.PopulateDb;
 
@@ -28,9 +27,6 @@ public class ShoppingCartTest {
 
 	@Test
 	public void cascadeOrderOnCommitTest() {
-		var shoppingCart = new ShoppingCart();
-		var article = articleDao.findOneBy("code", "OEUF6");
-
 		var order = new Order();
 		order.setSupplierFromName("Oeufs en folie");
 		order.setUserFromLogin("james");

@@ -58,7 +58,7 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 		supplierForm.setLayout(new BoxLayout(supplierForm, BoxLayout.Y_AXIS));
 		supplierForm.setBackground(AppAppereance.LIGHT_COLOR);
 		
-		var titleSupplierInformation = new JLabel("Fournisseur");
+		var titleSupplierInformation = new JLabel(getTitle());
 		titleSupplierInformation.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		titleSupplierInformation.setFont(AppAppereance.TITLE_FONT);
 		supplierForm.add(titleSupplierInformation);

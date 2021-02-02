@@ -3,6 +3,7 @@ package com.nesti.stock_manager.controller;
 import java.awt.Component;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -32,7 +33,8 @@ public class ConnectionForm extends JPanel {
 
 	public ConnectionForm() {
 		super();
-		this.setPreferredSize(new Dimension(800, 400));
+		
+		this.setPreferredSize(new Dimension(450, 250));
 		// this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		// If no valid user from previous session, show form
@@ -64,6 +66,7 @@ public class ConnectionForm extends JPanel {
 	@SuppressWarnings("deprecation")
 	public void showForm() {
 		var formContainer = new JPanel();
+		formContainer.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 		formContainer.setLayout(new BoxLayout(formContainer, BoxLayout.Y_AXIS));
 		formContainer.setPreferredSize(new Dimension(400, 200));
 		this.add(formContainer);
@@ -72,7 +75,7 @@ public class ConnectionForm extends JPanel {
 		var labelLogin = new JLabel("Login");
 		loginField = new JTextField("");
 		labelLogin.setPreferredSize(new Dimension(100, 35));
-		loginField.setPreferredSize(new Dimension(200, 35));
+		loginField.setPreferredSize(new Dimension(250, 35));
 		LoginContainer.add(labelLogin);
 		LoginContainer.add(loginField);
 		LoginContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -81,7 +84,7 @@ public class ConnectionForm extends JPanel {
 		var labelPassword = new JLabel("Mot de passe");
 		passwordField = new JPasswordField();
 		labelPassword.setPreferredSize(new Dimension(100, 35));
-		passwordField.setPreferredSize(new Dimension(200, 35));
+		passwordField.setPreferredSize(new Dimension(250, 35));
 		passwordContainer.add(labelPassword);
 		passwordContainer.add(passwordField);
 		passwordContainer.setAlignmentX(Component.CENTER_ALIGNMENT);

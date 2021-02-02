@@ -43,7 +43,6 @@ public class CloseableTabbedPane extends JTabbedPane {
 	 */
 	@Override
 	public void setSelectedComponent(Component c) {
-		// TODO Auto-generated method stub
 		super.setSelectedComponent(c);
 		((Tab) c).refreshTab();
 	}
