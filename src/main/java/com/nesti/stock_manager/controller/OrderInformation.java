@@ -43,6 +43,7 @@ public class OrderInformation extends BaseInformation<Order> {
 		final var order = item;
 		
 		var orderDetails = new JPanel();
+		orderDetails.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		orderDetails.setPreferredSize(new Dimension(500, 0));
 		orderDetails.setLayout(new BoxLayout(orderDetails, BoxLayout.Y_AXIS));
 		

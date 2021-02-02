@@ -50,10 +50,12 @@ public class SupplierInformation extends BaseInformation<Supplier> {
 		
 		// Create price list, add to the right of border pane
 		var articlePriceList = new SupplierArticleList(supplier);
+		
 		articlePriceList.setBackground(AppAppereance.LIGHT_COLOR);
 		this.add(articlePriceList, BorderLayout.EAST);
 		
 		var supplierForm = new JPanel();
+		supplierForm.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		supplierForm.setPreferredSize(new Dimension(500, 0));
 		supplierForm.setLayout(new BoxLayout(supplierForm, BoxLayout.Y_AXIS));
 		supplierForm.setBackground(AppAppereance.LIGHT_COLOR);

@@ -50,6 +50,7 @@ public class IngredientInformation extends BaseInformation<Ingredient> {
 		var dao = item.getDao();
 		
 		var ingredientForm = new JPanel();
+		ingredientForm.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		ingredientForm.setPreferredSize(new Dimension(500, 0));
 		ingredientForm.setLayout(new BoxLayout(ingredientForm, BoxLayout.Y_AXIS));
 		
