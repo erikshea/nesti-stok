@@ -1,32 +1,28 @@
 package com.nesti.stock_manager.controller;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 
-import com.nesti.stock_manager.cells.*;
+import com.nesti.stock_manager.cells.ComboBoxCellEditor;
+import com.nesti.stock_manager.cells.ComboBoxCellRenderer;
+import com.nesti.stock_manager.cells.OfferListCellRenderer;
+import com.nesti.stock_manager.cells.TextFieldCellEditor;
+import com.nesti.stock_manager.cells.TextFieldCellRenderer;
 import com.nesti.stock_manager.model.Offer;
 import com.nesti.stock_manager.model.OrdersArticle;
 import com.nesti.stock_manager.model.Supplier;
@@ -147,7 +143,7 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 		
 		// Change combo box selection action
 		supplierComboBox.addActionListener( e->{
-			var selectedOffer = (Offer) supplierComboBox.getSelectedItem(); // TODO: check 
+			var selectedOffer = (Offer) supplierComboBox.getSelectedItem(); 
 			// Remove order line from shopping cart order list
 			mainController.getShoppingCart().removeOrdersArticle(orderLine);
 			

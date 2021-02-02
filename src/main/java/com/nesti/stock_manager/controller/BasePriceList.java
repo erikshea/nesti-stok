@@ -1,25 +1,20 @@
 
 package com.nesti.stock_manager.controller;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -50,7 +45,7 @@ public abstract class BasePriceList<E> extends JPanel {
 	@SuppressWarnings("unchecked")
 	public BasePriceList(BaseEntity e) {
 		entity = (E) e; // Cast passed entity to E (class defined in subclass declaration)
-		this.setPreferredSize(new Dimension(800, 0));
+		this.setPreferredSize(new Dimension(700, 0));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		addPriceTableContainer();	// Builds price table
 		addNewPriceContainer();		// Holds all components needed to add a new offer

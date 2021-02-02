@@ -1,7 +1,5 @@
 package com.nesti.stock_manager.util;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.query.Query;

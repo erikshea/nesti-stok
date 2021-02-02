@@ -22,7 +22,7 @@ public class TextFieldCellEditor extends DefaultCellEditor implements ItemListen
 		super(checkBox);
 	}
 
-	@SuppressWarnings("unchecked")
+
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
 			int column) {
 		if (value == null) {

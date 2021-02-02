@@ -1,6 +1,5 @@
 package com.nesti.stock_manager.controller;
 
-import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.model.Ingredient;
@@ -25,7 +24,7 @@ public class IngredientDirectory extends BaseDirectory<Ingredient> {
 
 	@Override
 	public Object[] getTableModelColumnNames() {
-		return new Object[] {"Réf","Nom","Unité"};
+		return new Object[] {"Réf","Nom","Unités"};
 	}
 	
 	@Override
@@ -61,6 +60,6 @@ public class IngredientDirectory extends BaseDirectory<Ingredient> {
 	
 	@Override
 	public void addRow(Ingredient entity) {
-		this.addRowData(new Object[] {entity.getReference(),entity.getName(), String.join(", ", entity.getUnitsNames())});//TODO 
+		this.addRowData(new Object[] {entity.getReference(),entity.getName(), String.join(", ", entity.getUnitsNames())});
 	}
 }

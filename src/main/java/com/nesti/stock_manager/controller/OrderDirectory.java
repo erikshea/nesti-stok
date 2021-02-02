@@ -51,7 +51,7 @@ public class OrderDirectory extends BaseDirectory<Order> {
 		});
 			
 		this.table.getSelectionModel().addListSelectionListener(e->{
-			buttonInfo.setEnabled(this.table.getSelectedRowCount() == 1) ; //TODO: re-enable
+			buttonInfo.setEnabled(this.table.getSelectedRowCount() == 1) ;
 		});
 	}
 	

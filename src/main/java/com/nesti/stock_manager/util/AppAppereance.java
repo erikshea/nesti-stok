@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.UIManager;
-import javax.swing.plaf.ColorUIResource;
 
 /**
  * @author Emmanuelle Gay, Erik Shea
@@ -20,6 +19,7 @@ public class AppAppereance {
 	public static final Color HIGHLIGHT = new Color(91,148,4);
 
 	public static final Font DEFAULT_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+	public static final Font DEFAULT_BOLD = new Font(Font.SANS_SERIF, Font.BOLD, 12);
 	public static final Font TITLE_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 15);
 	
 	public static final Dimension CLASSIC_BUTTON = new Dimension(130,30);
@@ -46,7 +46,7 @@ public class AppAppereance {
 	     UIManager.put("TableHeader.font", new Font ("Font.SANS_SERIF", Font.PLAIN, 13));
 
 	     UIManager.put("Label.background", LIGHT_COLOR);
-	     UIManager.put("Label.font", new Font ("Font.SANS_SERIF", Font.PLAIN, 12));
+	     UIManager.put("Label.font", new Font ("Font.SANS_SERIF", Font.BOLD, 13));
 	     
 	     UIManager.put("Panel.background", LIGHT_COLOR);
 	     UIManager.put("Panel.background", LIGHT_COLOR);

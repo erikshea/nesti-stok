@@ -137,7 +137,7 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	        query.setParameter("date", date);
 	        var results = query.list();
 	        Offer result = null;
-	        if (results.size() > 0) { // TODO: simplify
+	        if (results.size() > 0) {
 	            result = (Offer) results.get(0); // if offer exists, get it from result set and cast it 
 	        }
 	        return result;

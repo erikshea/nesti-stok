@@ -2,7 +2,6 @@ package com.nesti.stock_manager.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -68,12 +67,11 @@ public class ArticleInformation extends BaseInformation<Article> {
 		// Create price list, add to the right of border pane
 		var supplierPriceList = new ArticleSupplierList(article);
 		this.add(supplierPriceList, BorderLayout.EAST);
-		
 		var articleForm = new JPanel();
 		articleForm.setPreferredSize(new Dimension(500, 0));
 		articleForm.setLayout(new BoxLayout(articleForm, BoxLayout.Y_AXIS));
 
-		var titleArticleInformation = new JLabel("Article");
+		var titleArticleInformation = new JLabel(getTitle());
 		titleArticleInformation.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		titleArticleInformation.setFont(AppAppereance.TITLE_FONT);
 		articleForm.add(titleArticleInformation);

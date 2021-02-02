@@ -16,6 +16,7 @@ public class OfferListCellRenderer extends DefaultListCellRenderer {
 	private static final long serialVersionUID = 1L;
 
 	public Component getListCellRendererComponent(
+			@SuppressWarnings("rawtypes")
 			JList list,
 			Object value,
 			int index,

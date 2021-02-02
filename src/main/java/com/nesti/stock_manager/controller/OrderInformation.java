@@ -46,7 +46,7 @@ public class OrderInformation extends BaseInformation<Order> {
 		orderDetails.setPreferredSize(new Dimension(500, 0));
 		orderDetails.setLayout(new BoxLayout(orderDetails, BoxLayout.Y_AXIS));
 		
-		var titleSupplierInformation = new JLabel("Commande :");
+		var titleSupplierInformation = new JLabel(getTitle());
 		titleSupplierInformation.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		titleSupplierInformation.setFont(AppAppereance.TITLE_FONT);
 		orderDetails.add(titleSupplierInformation);

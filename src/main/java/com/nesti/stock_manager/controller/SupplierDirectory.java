@@ -4,7 +4,6 @@ import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.nesti.stock_manager.dao.BaseDao;
-import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.model.Supplier;
 

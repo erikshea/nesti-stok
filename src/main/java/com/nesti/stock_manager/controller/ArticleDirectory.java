@@ -17,15 +17,13 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 //import org.graalvm.compiler.core.common.spi.JavaConstantFieldProvider_OptionDescriptors;
 
 import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.BaseDao;
+import com.nesti.stock_manager.dao.IngredientDao;
 import com.nesti.stock_manager.model.Article;
-import com.nesti.stock_manager.model.Ingredient;
 import com.nesti.stock_manager.model.Utensil;
 import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.UnavailableArticleException;
@@ -117,7 +115,7 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 		var addIngredient = new JMenuItem(new AbstractAction("Ingrédient") {
 			public void actionPerformed(ActionEvent e) {
 				Article article = Article.createEmpty(); // empty has default packaging and unit
-				article.setProduct(new Ingredient()); // TODO: just set default ingredient?
+				article.setProduct((new IngredientDao()).getFirstInTable());
 				mainController.getMainPane().addCloseableTab(new ArticleInformation(mainController, article));
 			}
 		});
@@ -181,8 +179,9 @@ public class ArticleDirectory extends BaseDirectory<Article> {
 
 		Double purchasePrice = null;
 		Double sellingPrice = 0.0;
+
 		if (entity.getCurrentOffers().get(entity.getDefaultSupplier()) != null) {
-			var offer = entity.getCurrentOffers().get(entity.getDefaultSupplier()); // TODO: change to last valid
+			var offer = entity.getCurrentOffers().get(entity.getDefaultSupplier());
 			purchasePrice = offer.getPrice();
 			sellingPrice = (double) Math.round((offer.getPrice() * 1.2) * 100) / 100;
 
