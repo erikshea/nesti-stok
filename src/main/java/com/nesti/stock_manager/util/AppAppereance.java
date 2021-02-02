@@ -6,6 +6,10 @@ import java.awt.Font;
 
 import javax.swing.UIManager;
 
+/**
+ * @author Emmanuelle Gay, Erik Shea
+ * Holds view-related constants, and sets UIManager values
+ */
 public class AppAppereance {
 
 	public static final Color VERY_LIGHT_COLOR = new Color(251,242,221);
@@ -15,6 +19,7 @@ public class AppAppereance {
 	public static final Color HIGHLIGHT = new Color(91,148,4);
 
 	public static final Font DEFAULT_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+	public static final Font DEFAULT_BOLD = new Font(Font.SANS_SERIF, Font.BOLD, 12);
 	public static final Font TITLE_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 15);
 	
 	public static final Dimension CLASSIC_BUTTON = new Dimension(130,30);
@@ -22,7 +27,11 @@ public class AppAppereance {
 	
 
 	
+	/**
+	 * Uses UIManager to skin app
+	 */
 	public static void setDefault() {
+		UIManager.put("TabbedPane.selected", AppAppereance.LIGHT_COLOR);
 		 UIManager.put("Button.font", new Font ("Font.SANS_SERIF", Font.PLAIN, 15));
 	     UIManager.put("Button.background", HIGHLIGHT);
 	     UIManager.put("Button.foreground", VERY_LIGHT_COLOR);
@@ -37,7 +46,7 @@ public class AppAppereance {
 	     UIManager.put("TableHeader.font", new Font ("Font.SANS_SERIF", Font.PLAIN, 13));
 
 	     UIManager.put("Label.background", LIGHT_COLOR);
-	     UIManager.put("Label.font", new Font ("Font.SANS_SERIF", Font.PLAIN, 12));
+	     UIManager.put("Label.font", new Font ("Font.SANS_SERIF", Font.BOLD, 13));
 	     
 	     UIManager.put("Panel.background", LIGHT_COLOR);
 	     UIManager.put("Panel.background", LIGHT_COLOR);

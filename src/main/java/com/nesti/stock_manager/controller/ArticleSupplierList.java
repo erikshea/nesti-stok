@@ -1,36 +1,36 @@
 package com.nesti.stock_manager.controller;
 
-import java.awt.Component;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 
+import com.nesti.stock_manager.cells.RadioButtonEditor;
+import com.nesti.stock_manager.cells.RadioButtonRenderer;
 import com.nesti.stock_manager.dao.BaseDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.model.Article;
 import com.nesti.stock_manager.model.Offer;
 import com.nesti.stock_manager.util.SwingUtil;
 
-//RIGHT OF THE SCREEN, SUPPLIER'S INFORMATION OF THE ARTICLE
-
+/**
+ * Shows a table containing all suppliers offering an article, and controls to change those suppliers and offers
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 @SuppressWarnings("serial")
 public class ArticleSupplierList extends BasePriceList<Article> {
-
+	// group for  default supplier selection radio buttons. determines which radio button de-activates when another is clicked
+	protected ButtonGroup radioGroup; 
 
 	public ArticleSupplierList(Article a) {
 		super(a);
-		refreshList();
+		refreshList(); // refresh article at end of constructor
 	}
 	
 	@Override
@@ -51,27 +51,29 @@ public class ArticleSupplierList extends BasePriceList<Article> {
 		
 		table.getColumnModel().getColumn(3).setPreferredWidth(100);
 		table.getColumnModel().getColumn(3).setMaxWidth(100);
-
-
 	}
 	
 	@Override
 	protected void addNewPriceContainer(){
 		super.addNewPriceContainer();
+		// Add new price action
 		addButton.addActionListener(e->{
+			// Get supplier entity from selected value in list
 			var supplier = (new SupplierDao()).findOneBy("name", newPriceList.getSelectedValue());
+			// Create offer for selected supplier
 			var offer = new Offer();
 			offer.setSupplier(supplier);
 			try {
+				// Set price as entered in text field
 				offer.setPrice(Double.parseDouble(newPriceField.getText()));
-	
 				var currentOffers = entity.getCurrentOffers();
 				
 				long offerTimeForSupplier = 0;
+				// Get last offer time for selected supplier (if exists) 
 				if ( currentOffers.containsKey(supplier) ) {
 					offerTimeForSupplier = currentOffers.get(supplier).getStartDate().getTime();
 				}
-		
+				// Don't add a new price to article if last one added for supplier was less than 1 second ago  
 				if ( offer.getStartDate().getTime() - offerTimeForSupplier > 1000) {
 					entity.addOffer(offer);
 					refreshList();
@@ -81,29 +83,39 @@ public class ArticleSupplierList extends BasePriceList<Article> {
 		
 		var suppliers = (new SupplierDao()).findAll(BaseDao.ACTIVE);
 		var listModel = (DefaultListModel<Object>)newPriceList.getModel();
+		// populate list with all suppliers
 		suppliers.forEach(s -> listModel.addElement(s.getName()));
-		newPriceList.setSelectedIndex(0);
+		newPriceList.setSelectedIndex(0); // first item selected by default
 	}
 	
 	@Override
 	protected void refreshList() {
 		super.refreshList();
 		var defaultSupplier = entity.getDefaultSupplier();
-		
+		// Fill price list table with all current offers for that article
 		entity.getCurrentOffers().values().forEach( o->{
 			this.addRowData(new Object[] { o.getSupplier().getName(), o.getPrice() }, o.getSupplier().equals(defaultSupplier) );
 		});
-
-
+		// Set up column sorting (logic will only run once)
 		SwingUtil.setUpTableAutoSort(table);
 	}
 
 	@Override
 	protected void onRowDelete(int modelRow) {
+		// Get supplier from its name in table row
 		var supplier = (new SupplierDao()).findOneBy("name", this.table.getValueAt(modelRow, 1));
-		var offer = entity.getCurrentOffers().get(supplier);
+		// find corresponding offer
+		var offerToInvalidate = entity.getCurrentOffers().get(supplier);
+		var newInvalidOffer = new Offer();
+		newInvalidOffer.setArticle(offerToInvalidate.getArticle());
+		newInvalidOffer.setSupplier(offerToInvalidate.getSupplier());
+		// null price signals offer is no longer valid
+		newInvalidOffer.setPrice(null);
+		// New invalid offer will make previous valid offer no longer appear as valid
+		entity.addOffer(newInvalidOffer);
+
 		
-		offer.setPrice(null);
+		// if supplier was default, unset
 		if (	entity.getDefaultSupplier() != null
 			&&  entity.getDefaultSupplier().equals(supplier)) {
 			entity.setDefaultSupplier(null);
@@ -121,64 +133,38 @@ public class ArticleSupplierList extends BasePriceList<Article> {
 		return new Object[] { "Par défaut", "Fournisseur", "Prix d'achat", "Suppression" };
 	}
 
+	public void addRowData(Object[] data, boolean isDefault) {
+		this.addRowData(data);
+		// Default supplier datio button
+		var radioButton = (JRadioButton) this.table.getValueAt(getPriceListTableModel().getRowCount() - 1, 0);
+		radioButton.setSelected(isDefault);
+	}
+	
 	@Override
 	public void addRowData(Object[] data) {
+		// Convert data array to list
 		var tabData = new ArrayList<Object>(Arrays.asList(data));
+		
+		// Create default supplier radio button
 		var radioButton = new JRadioButton("");
+		
+		// Get supplier from data (to see if it's the default one)
 		var supplier = (new SupplierDao()).findOneBy("name", data[0]);
 		
 		radioButton.addActionListener(e->{
 			if (radioButton.isSelected()) {
-				entity.setDefaultSupplier(supplier);
+				entity.setDefaultSupplier(supplier); // If default supplier, radio button is selected
 			}
 			
 		});
-		tabData.add(0, radioButton);
+		tabData.add(0, radioButton); // Radio button is inserted at start of list
 		
-		tabData.add("-");
+		tabData.add("-");	// Text that will be inside delete button 
 
 		
 		getPriceListTableModel().addRow(tabData.toArray());
 
+		 // Add radio button to radio group (determines which gets unselected when another gets selected).
 		radioGroup.add((JRadioButton) tabData.get(0));
 	}
-
-//display radio button
-	class RadioButtonRenderer implements TableCellRenderer {
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-			if (value == null)
-				return null;
-			return (Component) value;
-		}
-	}
-
-//click radio button
-
-	class RadioButtonEditor extends DefaultCellEditor implements ItemListener {
-		private JRadioButton button;
-
-		public RadioButtonEditor(JCheckBox checkBox) {
-			super(checkBox);
-		}
-
-		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
-				int column) {
-			if (value == null)
-				return null;
-			button = (JRadioButton) value;
-			button.addItemListener(this);
-			return (Component) value;
-		}
-
-		public Object getCellEditorValue() {
-			button.removeItemListener(this);
-			return button;
-		}
-
-		public void itemStateChanged(ItemEvent e) {
-			super.fireEditingStopped();
-		}
-	}
-
 }

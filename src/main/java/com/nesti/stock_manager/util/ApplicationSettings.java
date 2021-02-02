@@ -8,7 +8,7 @@ import java.sql.SQLException;
  *
  */
 /**
- * @author hoops
+ * @author Emmanuelle Gay, Erik Shea
  *
  */
 public class ApplicationSettings {

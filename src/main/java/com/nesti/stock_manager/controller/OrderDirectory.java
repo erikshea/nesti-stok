@@ -14,6 +14,11 @@ import com.nesti.stock_manager.dao.OrderDao;
 import com.nesti.stock_manager.model.Order;
 import com.nesti.stock_manager.util.FormatUtil;
 
+/**
+ * Shows all completed orders
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 @SuppressWarnings("serial")
 public class OrderDirectory extends BaseDirectory<Order> {
 
@@ -46,7 +51,7 @@ public class OrderDirectory extends BaseDirectory<Order> {
 		});
 			
 		this.table.getSelectionModel().addListSelectionListener(e->{
-			buttonInfo.setEnabled(this.table.getSelectedRowCount() == 1) ; //TODO: re-enable
+			buttonInfo.setEnabled(this.table.getSelectedRowCount() == 1) ;
 		});
 	}
 	
@@ -58,7 +63,7 @@ public class OrderDirectory extends BaseDirectory<Order> {
 	}
 
 	@Override
-	public Object[] getTableModelColumns() {
+	public Object[] getTableModelColumnNames() {
 		return new Object[] {"Numéro", "Fournisseur", "Auteur", "Date", "Total"};
 	}
 

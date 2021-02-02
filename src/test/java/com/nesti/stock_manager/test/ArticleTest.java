@@ -1,10 +1,9 @@
 package com.nesti.stock_manager.test;
 
+import static com.nesti.stock_manager.util.FormatUtil.stringToDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-
-import java.util.Date;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,12 +11,7 @@ import org.junit.jupiter.api.Test;
 import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 import com.nesti.stock_manager.model.Article;
-import com.nesti.stock_manager.model.Offer;
 import com.nesti.stock_manager.model.Utensil;
-
-import static com.nesti.stock_manager.util.FormatUtil.*;
-
-import com.nesti.stock_manager.util.FormatUtil;
 import com.nesti.stock_manager.util.HibernateUtil;
 import com.nesti.stock_manager.util.PopulateDb;
 

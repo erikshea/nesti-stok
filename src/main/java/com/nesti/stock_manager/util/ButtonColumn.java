@@ -1,4 +1,4 @@
-package com.nesti.stock_manager.form;
+package com.nesti.stock_manager.util;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -16,8 +16,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-
-import com.nesti.stock_manager.util.AppAppereance;
 
 /**
  *  The ButtonColumn class provides a renderer and an editor that looks like a

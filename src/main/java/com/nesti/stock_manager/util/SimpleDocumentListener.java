@@ -3,6 +3,10 @@ package com.nesti.stock_manager.util;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+/**
+ * @author Emmanuelle Gay, Erik Shea
+ * interface for a document listener (ie TextField change)
+ */
 @FunctionalInterface
 public interface SimpleDocumentListener extends DocumentListener {
     void update(DocumentEvent e);

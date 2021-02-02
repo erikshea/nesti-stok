@@ -8,7 +8,11 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
-
+/**
+ * simple label container (no editable field)
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 @SuppressWarnings("serial")
 public class LabelContainer extends BaseFieldContainer{
 	protected JLabel infoLabel;
@@ -26,7 +30,7 @@ public class LabelContainer extends BaseFieldContainer{
 		return this.infoLabel;
 	}
 	
-	public void setText(String infoText) {
+	public void setInfoText(String infoText) {
 		this.infoLabel.setText(infoText);
 	}
 }

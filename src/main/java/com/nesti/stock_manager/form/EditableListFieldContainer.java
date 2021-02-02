@@ -16,67 +16,20 @@ import com.nesti.stock_manager.util.AppAppereance;
 import com.nesti.stock_manager.util.HibernateUtil;
 import com.nesti.stock_manager.util.ReflectionProperty;
 
+/**
+ * List field with add and remove item buttons and corresponding logic
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 @SuppressWarnings("serial")
 public class EditableListFieldContainer extends ListFieldContainer {
-	
-	/**
-	 * allows to add a element into the list from an input
-	 */
-	public void  addToList() {
-//		Object[] possibilities = null;
-		String newItemString = (String)JOptionPane.showInputDialog(
-		                    this,
-		                    "Nom :  ",
-		                    "Ajouter ...",
-		                    JOptionPane.PLAIN_MESSAGE,
-		                    null,
-		                    null,
-		                    null);
-
-		//If a string was returned, say so.
-		if ((newItemString != null) && (newItemString.length() > 0)) {
-			var dao = BaseDao.getDao(entityClass);
-			var existingItem = (Flagged) dao.findOneBy(fieldName, newItemString);
-			
-			if ( existingItem == null ) {
-				try {
-					var newItem = entityClass.getConstructor().newInstance();
-					ReflectionProperty.set(newItem, "name", newItemString);
-					ReflectionProperty.set(newItem, "flag", BaseDao.ACTIVE);
-
-					HibernateUtil.getSession().saveOrUpdate(newItem);
-				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} else if ( existingItem.getFlag().equals(BaseDao.DELETED)) {
-				existingItem.setFlag(BaseDao.ACTIVE);
-				HibernateUtil.getSession().saveOrUpdate(existingItem);
-			}
-			refreshItems(newItemString);
-		}
-	}
-	
-	/**
-	 * Remove an element from the list
-	 */
-	public void deleteFromList() {
-		var selected = this.list.getSelectedValue();
-		var dao = BaseDao.getDao(entityClass);
-		var existingItem = (Flagged) dao.findOneBy(fieldName, selected);
-		if ( existingItem != null ) {
-			existingItem.setFlag(BaseDao.DELETED);
-			HibernateUtil.getSession().saveOrUpdate(existingItem);
-		}
-		refreshItems(null);
-	}
 	
 	public EditableListFieldContainer(String labelText, String fn, Class<?> ec) {
 		super(labelText, fn , ec);
 		
 		this.setPreferredSize(new Dimension(0, 120));
 
+		// Holds plus and minus buttons at right of field container
 		var buttonContainer = new JPanel();
 		buttonContainer.setBackground(AppAppereance.LIGHT_COLOR);
 		buttonContainer.setLayout(new BoxLayout(buttonContainer, BoxLayout.Y_AXIS));
@@ -88,6 +41,7 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		plusButton.setMaximumSize(buttonDimension);
 		plusButton.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));		
 
+		// Plus button action
 		plusButton.addActionListener((e) -> {
 			this.addToList();
 		});
@@ -100,8 +54,22 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		minusButton.setMaximumSize(buttonDimension);
 		minusButton.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
 		
+		// Minus button action
 		minusButton.addActionListener((e) -> {
-			this.deleteFromList();
+			var options = new String[] {"Annuler", "Confirmer"};
+			// Show dialog
+			int choice = JOptionPane.showOptionDialog(this,
+				"êtes-vous certain de vouloir supprimer cet élément? Ceci est irréversible.",
+				"Supprimer",
+			    JOptionPane.YES_NO_OPTION,
+			    JOptionPane.WARNING_MESSAGE,
+			    null,     //do not use a custom Icon
+			    options,  //the titles of buttons
+			    options[0]); //default button title
+
+			if ( choice == 1 ) { // If "Confirm" clicked
+				deleteFromList();
+			}
 		});
 
 		buttonContainer.add(Box.createVerticalGlue());
@@ -113,5 +81,67 @@ public class EditableListFieldContainer extends ListFieldContainer {
 		this.add(buttonContainer);
 
 	}
+	
+	
+	/**
+	 *  Add a element to the list
+	 */
+	public void  addToList() {
+		String newItemString = (String)JOptionPane.showInputDialog(
+		                    this,
+		                    "Nom :  ",
+		                    "Ajouter ...",
+		                    JOptionPane.PLAIN_MESSAGE,
+		                    null,
+		                    null,
+		                    null);
+
+		//If a non-empty string was returned
+		if ((newItemString != null) && (newItemString.length() > 0)) {
+			var dao = BaseDao.getDao(entityClass);
+			// Get corresponding entity as Flagged (has flag column)
+			var existingItem = (Flagged) dao.findOneBy(fieldName, newItemString);
+			
+			if ( existingItem == null ) { // If item doesn't already exust
+				try {
+					// Create a new one
+					var newItem = entityClass.getConstructor().newInstance();
+					
+					// Use reflection to set its properties
+					ReflectionProperty.set(newItem, "name", newItemString);
+					ReflectionProperty.set(newItem, "flag", BaseDao.ACTIVE);
+
+					HibernateUtil.getSession().saveOrUpdate(newItem); // Save at next commit
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+					e.printStackTrace();
+				}
+			} else if ( existingItem.getFlag().equals(BaseDao.DELETED)) {
+				// If item already exists, but has a "deleted" flag
+				existingItem.setFlag(BaseDao.ACTIVE); // Set flag back to active
+				HibernateUtil.getSession().saveOrUpdate(existingItem); 
+			}
+			refreshItems(newItemString); // refresh list and select new item
+		}
+	}
+	
+	/**
+	 * Remove an element from the list
+	 */
+	public void deleteFromList() {
+		// Get selected element
+		var selected = this.list.getSelectedValue();
+		var dao = BaseDao.getDao(entityClass);
+		// Find corresponding entity as Flagged
+		var existingItem = (Flagged) dao.findOneBy(fieldName, selected);
+		if ( existingItem != null ) { // if item exists
+			existingItem.setFlag(BaseDao.DELETED); // set deleted flag
+			HibernateUtil.getSession().saveOrUpdate(existingItem);
+		}
+		refreshItems(null); // refresh list without specifying selected item
+	}
+	
+	
+
 
 }

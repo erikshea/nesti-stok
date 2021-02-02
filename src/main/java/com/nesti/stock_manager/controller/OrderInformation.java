@@ -17,6 +17,11 @@ import com.nesti.stock_manager.form.LabelContainer;
 import com.nesti.stock_manager.model.Order;
 import com.nesti.stock_manager.util.AppAppereance;
 
+/**
+ * See an order information, as well as all associated order items
+ * 
+ * @author Emmanuelle Gay, Erik Shea
+ */
 public class OrderInformation extends BaseInformation<Order> {
 	private static final long serialVersionUID = 1775908299271902575L;
 	/**
@@ -27,6 +32,7 @@ public class OrderInformation extends BaseInformation<Order> {
 		super(c, order);
 	}
 
+	@Override
 	public String getTitle() {
 		return "Commande N°" + item.getNumber();
 	}
@@ -40,7 +46,7 @@ public class OrderInformation extends BaseInformation<Order> {
 		orderDetails.setPreferredSize(new Dimension(500, 0));
 		orderDetails.setLayout(new BoxLayout(orderDetails, BoxLayout.Y_AXIS));
 		
-		var titleSupplierInformation = new JLabel("Commande :");
+		var titleSupplierInformation = new JLabel(getTitle());
 		titleSupplierInformation.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		titleSupplierInformation.setFont(AppAppereance.TITLE_FONT);
 		orderDetails.add(titleSupplierInformation);
@@ -79,6 +85,9 @@ public class OrderInformation extends BaseInformation<Order> {
 		this.mainControl.getMainPane().setSelectedComponent(this.mainControl.getOrderDirectory());
 	}
 
+	/**
+	 * Table representation of all items contained in this order
+	 */
 	public void addOrderItemTable() {
 		var tableModel = new DefaultTableModel();
 		var table = new JTable(tableModel);
@@ -89,7 +98,7 @@ public class OrderInformation extends BaseInformation<Order> {
 			new Object[] { "Code d'Article", "Nom d'Article", "Prix d'achat", "Quantité" }
 		);
 
-		
+		// Build table rows from all order lines associated with order
 		item.getOrdersArticles().forEach(oa->{
 			tableModel.addRow(new Object[] {
 				oa.getArticle().getCode(),

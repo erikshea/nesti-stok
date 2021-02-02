@@ -8,16 +8,16 @@ import com.nesti.stock_manager.dao.UtensilDao;
 
 
 /**
- * The persistent class for the utensil database table.
+ * Persistent entity class corresponding to the utensil table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @PrimaryKeyJoinColumn(name = "id_product")
 @NamedQuery(name="Utensil.findAll", query="SELECT u FROM Utensil u")
-public class Utensil extends Product {
+public class Utensil extends Product{
 	private static final long serialVersionUID = 1L;
 	
-	private String flag;
 	private static UtensilDao dao;
 	
 	public Utensil() {
@@ -34,14 +34,7 @@ public class Utensil extends Product {
 		super(r,n);
 	}
 
-	public String getFlag() {
-		return this.flag;
-	}
 
-	public void setFlag(String flag) {
-		this.flag = flag;
-	}
-	
 	public Utensil duplicate() {
 		return (Utensil) super.duplicate();
 	}

@@ -18,15 +18,20 @@ import com.nesti.stock_manager.dao.ArticleDao;
 import com.nesti.stock_manager.dao.SupplierDao;
 
 /**
- * The persistent class for the offers database table.
+ * Persistent entity class corresponding to the offers table.
  * 
+ * @author Emmanuelle Gay, Erik Shea
  */
 @Entity
 @Table(name = "offers")
 @NamedQuery(name = "Offer.findAll", query = "SELECT o FROM Offer o")
 public class Offer implements Serializable {
 	private static final long serialVersionUID = 1L;
-   @PrePersist
+	
+   /**
+	 * Need to generate a composite PK at initiation of a persisted item to be able to fetch and set associations in memory
+	 */
+	@PrePersist
    private void prePersist() {
        if (getId() == null) {
     	   var pk = new OfferPK();
@@ -56,8 +61,61 @@ public class Offer implements Serializable {
 	@JoinColumn(name = "id_supplier", insertable = false, updatable = false)
 	private Supplier supplier;
 
+	/**
+	 *	Persistent entities need to override equals for consistent behavior. Uses unique field for comparison.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Offer))
+            return false;
+ 
+        var other = (Offer) o;
+ 
+        return  getId() != null &&
+        		getId().equals(other.getId());
+    }
+	 
+	/**
+	 * Generate hashCode using unique field as base. Used in Hash-based collections.
+	 */
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hashCode(getId());
+	}
+	
+	/**
+	 * Set associated supplier for a name
+	 * @param n name of supplier to associate
+	 */
+	public void setSupplierFromName(String n) {
+		var supplierDao = new SupplierDao();
+		var supplier = supplierDao.findOneBy("name", n);
+		setSupplier(supplier);
+	}
+	
+	/**
+	 * Set associated article from a name
+	 * @param c code of article to associate
+	 */
+	public void setArticleFromCode(String c) {
+		var articleDao = new ArticleDao();
+		var article = articleDao.findOneBy("code", c);
+		setArticle(article);
+	}
+
+	/**
+	 * if offer valid?
+	 * @return true if valid, false otherwise
+	 */
+	public Boolean isValid() {
+		return this.getPrice() == null;
+	}
+	
+
 	public Offer() {
-		this.setStartDate(new Date());
+		this.setStartDate(new Date()); // initialize date parameter in constructor for in-memory operations
 	}
 
 	public Offer(Double p) {
@@ -105,38 +163,8 @@ public class Offer implements Serializable {
 		this.supplier = supplier;
 	}
 	
-	public void setSupplierFromName(String n) {
-		var supplierDao = new SupplierDao();
-		var supplier = supplierDao.findOneBy("name", n);
-		setSupplier(supplier);
-	}
-	
-	public void setArticleFromCode(String c) {
-		var articleDao = new ArticleDao();
-		var article = articleDao.findOneBy("code", c);
-		setArticle(article);
-	}
 
-	public Boolean isValid() {
-		return this.getPrice() == null;
-	}
 	
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
- 
-        if (!(o instanceof Offer))
-            return false;
- 
-        var other = (Offer) o;
- 
-        return  getId() != null &&
-        		getId().equals(other.getId());
-    }
-	 
-	@Override
-	public int hashCode() {
-		return java.util.Objects.hashCode(getId());
-	}
+
 
 }
