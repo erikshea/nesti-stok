@@ -33,7 +33,7 @@ public class HibernateUtil {
 
     	if (!sessionFactories.containsKey(environment)) {
     		// Load configuration that corresponds to environment (ie "hibernate_dev.cfg.xml")
-    		Configuration configuration = new Configuration().configure("META-INF/hibernate_" + environment + ".cfg.xml");
+    		Configuration configuration = new Configuration().configure("file:/" + System.getProperty("user.dir") + "/database_config/hibernate_" + environment + ".cfg.xml");
     		
     		// set with environment as key, session facory as value
     		sessionFactories.put(environment,configuration.buildSessionFactory());

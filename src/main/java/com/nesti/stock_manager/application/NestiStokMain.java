@@ -1,7 +1,5 @@
 package com.nesti.stock_manager.application;
 
-import java.awt.Dimension;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -21,8 +19,6 @@ public class NestiStokMain {
         //Create and set up the window.
         frame = new JFrame("Nesti Stok");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setMinimumSize(new Dimension(1250, 800)); 
-		frame.setMaximumSize(new Dimension(Short.MAX_VALUE, 800));
         AppAppereance.setDefault();
 	   	HibernateUtil.setCurrentEnvironment("dev"); // Database environment for app
 		changeFrameContent(new ConnectionForm());	// Show connection form (which may immediately redirect to main controller if user has already logged in)
@@ -49,4 +45,7 @@ public class NestiStokMain {
 		SwingUtil.centerFrame(frame);
 	}
 
+	public static JFrame getFrame() {
+		return frame;
+	}
 }

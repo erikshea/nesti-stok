@@ -38,6 +38,11 @@ public class MainWindowControl extends JPanel {
 	private CloseableTabbedPane mainPane;
 
 	public MainWindowControl() {
+		
+		var frame = NestiStokMain.getFrame();
+		frame.setMinimumSize(new Dimension(1250, 800)); 
+		frame.setMaximumSize(new Dimension(Short.MAX_VALUE, 800));
+		
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBackground(AppAppereance.LIGHT_COLOR);
 		
@@ -117,6 +122,7 @@ public class MainWindowControl extends JPanel {
 	 */
 	public User getConnectedUser() {
 		var userDao = new UserDao();
+		
 		// User has already been authenticated so no need to check password
 		return userDao.findOneBy("login", ApplicationSettings.get("login"));
 	}
