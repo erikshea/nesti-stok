@@ -33,8 +33,10 @@ public class ConnectionForm extends JPanel {
 
 	public ConnectionForm() {
 		super();
-		
+		var frame = NestiStokMain.getFrame();
+
 		this.setPreferredSize(new Dimension(450, 250));
+		frame.setMinimumSize(this.getPreferredSize());
 		// this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		// If no valid user from previous session, show form

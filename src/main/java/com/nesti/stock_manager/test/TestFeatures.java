@@ -1,23 +1,26 @@
 package com.nesti.stock_manager.test;
 
-import com.nesti.stock_manager.dao.ArticleDao;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class TestFeatures {
-	public static void main(String[] args) {
-		var article = (new ArticleDao()).findOneBy("code","OEUF6");
-//		var supplier = (new SupplierDao()).findById(56);
-//		//System.out.println((new ArticleDao()).findAll().size());
-//		//System.out.println((new ArticleDao()).findAll("a").size());
-//		var date = new Date();
-//		date.setDate(24);
-//		date.setMonth(0);
-//		date.setHours(19);
-//		date.setYear(121);
-//		
-//		var offer = article.getOfferAt(date, supplier);
-//		System.out.println(offer.getPrice());
-		
-		
-		System.out.println(article.getCurrentOffers());
-	}
+	
+	private static Map<String,String> settings = new HashMap<>();
+	
+    public static void main(String[] args) 
+    {
+    	String currentWorkingDir = System.getProperty("user.dir");
+        System.out.println(currentWorkingDir);
+    }
+ 
+
+    
 }
