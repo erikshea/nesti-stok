@@ -69,11 +69,11 @@ public class Article extends BaseEntity implements Serializable,Flagged {
 	private Unit unit;
 
 	// bi-directional many-to-one association to Offer
-	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL) // updates to article in data source propate to offers
+	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL) // updates to article in data source propagates to offers
 	private List<Offer> offers;
 
 	// bi-directional many-to-one association to OrdersArticle
-	@OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE) // updates to article in data source propate to order items
+	@OneToMany(mappedBy = "article") // updates to article in data source propagates to order items
 	private List<OrdersArticle> ordersArticles;
 
 	//bi-directional many-to-one association to Supplier
