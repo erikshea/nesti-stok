@@ -90,7 +90,13 @@ public class OrderInformation extends BaseInformation<Order> {
 	 * Table representation of all items contained in this order
 	 */
 	public void addOrderItemTable() {
-		var tableModel = new DefaultTableModel();
+		var tableModel = new DefaultTableModel(){
+	        @Override
+	        public boolean isCellEditable(int row, int column)
+	        {
+	        	return false;
+	        }
+		};
 		var table = new JTable(tableModel);
 		table.setFillsViewportHeight(true);
 
