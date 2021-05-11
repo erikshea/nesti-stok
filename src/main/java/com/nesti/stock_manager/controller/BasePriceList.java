@@ -108,14 +108,30 @@ public abstract class BasePriceList<E> extends JPanel {
 		getPriceListTableModel().setRowCount(0);
 		// Rest to be implemented in subclasses
 	}
-
+	
+	/**
+	 *	Determines which cells of the directory listing are editable
+	 */
+	protected  boolean isCellEditable(DefaultTableModel model, int row, int column) {
+		var name = model.getColumnName(column);
+		return name == "Par défaut"
+			|| name == "Suppression";
+	}
 	
 	/**
 	 * Builds and adds price list table and its container
 	 */
 	@SuppressWarnings("serial")
 	public void addPriceTableContainer() {
-		var tableModel = new DefaultTableModel();
+		var me = this;
+		
+		var tableModel = new DefaultTableModel() {
+	        @Override
+	        public boolean isCellEditable(int row, int column)
+	        {
+	        	return me.isCellEditable(this, row, column);
+	        }
+		};
 		tableModel.setColumnIdentifiers(getTableModelColumns());
 
 		this.table = new JTable(tableModel) {

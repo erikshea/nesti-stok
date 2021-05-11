@@ -109,8 +109,25 @@ public abstract class BaseDirectory<E> extends JPanel implements Tab {
 	 */
 	public abstract String getTitle();
 
+	
+	/**
+	 *	Determines which cells of the directory listing are editable
+	 */
+	protected boolean isCellEditable(DefaultTableModel model, int row, int column) {
+		return false;
+	}
+	
+	
 	public void createTable() {
-		this.tableModel = new DefaultTableModel();
+		var me = this;
+		
+		this.tableModel = new DefaultTableModel() {
+	        @Override
+	        public boolean isCellEditable(int row, int column)
+	        {
+	            return me.isCellEditable(this, row, column);
+	        }
+		};
 		tableModel.setColumnIdentifiers(getTableModelColumnNames());
 		table = new JTable(tableModel);
 				

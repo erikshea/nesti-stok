@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import com.nesti.stock_manager.cells.ComboBoxCellEditor;
 import com.nesti.stock_manager.cells.ComboBoxCellRenderer;
@@ -125,7 +126,15 @@ public class ShoppingCartDirectory extends BaseDirectory<OrdersArticle> {
 	@Override
 	public void addButtonBar() {
 	}
-
+	
+	@Override
+	protected  boolean isCellEditable(DefaultTableModel model, int row, int column) {
+		var name = model.getColumnName(column);
+		return name == "Quantité"
+			|| name == "Fournisseur"
+			|| name == "Suppression";
+	}
+	
 	@Override
 	public void addRow(OrdersArticle orderLine) {
 		// Combobox holds a list of all suppliers that offer this article
