@@ -21,6 +21,7 @@ import com.nesti.stock_manager.form.EditableListFieldContainer;
 import com.nesti.stock_manager.form.FieldContainer;
 import com.nesti.stock_manager.form.ListFieldContainer;
 import com.nesti.stock_manager.util.AppAppereance;
+import com.nesti.stock_manager.util.HibernateUtil;
 
 /**
  * Allows seeing/changing an article's fields, and select associated packaging and unit
@@ -139,7 +140,15 @@ public class ArticleInformation extends BaseInformation<Article> {
 		this.add(articleForm, BorderLayout.WEST);
 		
 	}
-	
+
+	@Override
+	public void saveCurrentEntity() {
+		if (item.containsUtensil()) {
+			item.getProduct().setName(item.getName());
+			item.getProduct().setReference(item.getCode());
+		}
+		super.saveCurrentEntity();
+	}
 	
 	@Override
 	public void closeTab() {

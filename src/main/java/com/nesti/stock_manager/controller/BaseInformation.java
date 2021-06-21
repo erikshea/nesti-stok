@@ -113,15 +113,24 @@ public abstract class BaseInformation<E extends BaseEntity> extends JPanel imple
 		// validate button action
 		this.buttonValidate.addActionListener( e->{
 			try{
-				HibernateUtil.getSession().clear();
-				HibernateUtil.getSession().saveOrUpdate(item); 			// Item is back in session cache
-				HibernateUtil.getSession().getTransaction().commit(); 	// Save to data source
+				saveCurrentEntity();
 				closeTab();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		});
 	}
+	
+	/**
+	 * Saves current entity to data source
+	 * @param fieldContainer
+	 */
+	public void saveCurrentEntity() {
+		HibernateUtil.getSession().clear();
+		HibernateUtil.getSession().saveOrUpdate(item); 			// Item is back in session cache
+		HibernateUtil.getSession().getTransaction().commit(); 	// Save to data source
+	}
+	
 	
 	/**
 	 * Adds a field container to the list of validated field (for submit buttona ctivation/disactivation)
