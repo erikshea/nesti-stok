@@ -28,4 +28,3 @@ local.properties
 *.launch
 /bin/
 /target/
-/database_config/

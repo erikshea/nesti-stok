@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory>
+  <property name ="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+  <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/nesti_stok</property>
+  <property name="hibernate.connection.username">root</property>
+  <property name="hibernate.current_session_context_class">thread</property>
+  <mapping class="com.nesti.stock_manager.entity.Article"/>
+  <mapping class="com.nesti.stock_manager.entity.Ingredient"/>
+  <mapping class="com.nesti.stock_manager.entity.Offer"/>
+  <mapping class="com.nesti.stock_manager.entity.Order"/>
+  <mapping class="com.nesti.stock_manager.entity.OrdersArticle"/>
+  <mapping class="com.nesti.stock_manager.entity.Packaging"/>
+  <mapping class="com.nesti.stock_manager.entity.Supplier"/>
+  <mapping class="com.nesti.stock_manager.entity.Unit"/>
+  <mapping class="com.nesti.stock_manager.entity.User"/>
+  <mapping class="com.nesti.stock_manager.entity.Utensil"/>
+ </session-factory>
+</hibernate-configuration>
